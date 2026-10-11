@@ -8,28 +8,28 @@
 namespace HistEdit
 {
 
-// vynulování bufferu historie
+// vynulovÃ¡nÃ­ bufferu historie
 	void DelAll();
 
-// zrušení jedné poloky z bufferu
+// zruÅ¡enÃ­ jednÃ© poloÅ¾ky z bufferu
 	void Del(int index);
 
-// zrušení poloek v bufferu (vèetnì editované) podle dat (pro sprajt pic=-1 všechny obrázky)
-// pøi chybì pamìti vrací FALSE
+// zruÅ¡enÃ­ poloÅ¾ek v bufferu (vÄetnÄ› editovanÃ©) podle dat (pro sprajt pic=-1 vÅ¡echny obrÃ¡zky)
+// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE
 	bool Del(int bufID, int index, int sprite, int pic);
 
 // aktualizace voleb pro obsluhu historie
 	void Update();
 
-// uloení editovaného prvku do bufferu historie
+// uloÅ¾enÃ­ editovanÃ©ho prvku do bufferu historie
 	void Push();
 
-// návrat editovaného prvku z bufferu historie (z aktivního ukazatele)
+// nÃ¡vrat editovanÃ©ho prvku z bufferu historie (z aktivnÃ­ho ukazatele)
 	void Pop();
 
-// pøedešlá historie
+// pÅ™edeÅ¡lÃ¡ historie
 	void OnPrev();
 
-// následující historie
+// nÃ¡sledujÃ­cÃ­ historie
 	void OnNext();
 }

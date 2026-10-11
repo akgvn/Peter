@@ -1,13 +1,13 @@
 
 /***************************************************************************\
 *																			*
-*							Provádìní programu - ikona						*
+*							ProvÃ¡dÄ›nÃ­ programu - ikona						*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inline volání pøíkazu - ikona
+// inline volÃ¡nÃ­ pÅ™Ã­kazu - ikona
 
 inline void FIcon(CIcon& icon)
 {
@@ -16,26 +16,26 @@ inline void FIcon(CIcon& icon)
 }
 
 
-void _fastcall FIconGet(CIcon& icon);		// naètení ikony z plochy
+void _fastcall FIconGet(CIcon& icon);		// naÄtenÃ­ ikony z plochy
 
 // funkce
-void _fastcall FIconFunc(CIcon& icon);		// funkce s návratem ikony
+void _fastcall FIconFunc(CIcon& icon);		// funkce s nÃ¡vratem ikony
 
-// promìnné
-void _fastcall FIconEmpty(CIcon& icon);		// prázdná ikona
-void _fastcall FIconObj(CIcon& icon);		// globální ikona (Data = index)
-void _fastcall FIconObjList(CIcon& icon);	// globalní ikona v seznamu (Data = index, List = seznam)
-void _fastcall FIconLoc(CIcon& icon);		// lokální ikona (Data = index)
-void _fastcall FIconLocList(CIcon& icon);	// lokální ikona v seznamu (Data = index, List = seznam)
+// promÄ›nnÃ©
+void _fastcall FIconEmpty(CIcon& icon);		// prÃ¡zdnÃ¡ ikona
+void _fastcall FIconObj(CIcon& icon);		// globÃ¡lnÃ­ ikona (Data = index)
+void _fastcall FIconObjList(CIcon& icon);	// globalnÃ­ ikona v seznamu (Data = index, List = seznam)
+void _fastcall FIconLoc(CIcon& icon);		// lokÃ¡lnÃ­ ikona (Data = index)
+void _fastcall FIconLocList(CIcon& icon);	// lokÃ¡lnÃ­ ikona v seznamu (Data = index, List = seznam)
 
 // obsluha Petra a Petry
-void _fastcall FPredmet(CIcon& icon);		// naètení pøedmìtu pøed Petrem
-void _fastcall FPredmet2(CIcon& icon);		// naètení pøedmìtu pøed Petrou
-void _fastcall FPredmetPoz(CIcon& icon);	// naètení pøedmìtu pod Petrem
-void _fastcall FPredmet2Poz(CIcon& icon);	// naètení pøedmìtu pod Petrou
+void _fastcall FPredmet(CIcon& icon);		// naÄtenÃ­ pÅ™edmÄ›tu pÅ™ed Petrem
+void _fastcall FPredmet2(CIcon& icon);		// naÄtenÃ­ pÅ™edmÄ›tu pÅ™ed Petrou
+void _fastcall FPredmetPoz(CIcon& icon);	// naÄtenÃ­ pÅ™edmÄ›tu pod Petrem
+void _fastcall FPredmet2Poz(CIcon& icon);	// naÄtenÃ­ pÅ™edmÄ›tu pod Petrou
 
-void _fastcall FGetMapIcon(CIcon& icon);	// naètení pøedmìtu z plochy
+void _fastcall FGetMapIcon(CIcon& icon);	// naÄtenÃ­ pÅ™edmÄ›tu z plochy
 
-void _fastcall FGetWindowIcon(CIcon& icon);	// naètení ikony okna
+void _fastcall FGetWindowIcon(CIcon& icon);	// naÄtenÃ­ ikony okna
 
-void _fastcall FGetFileIcon(CIcon& icon);	// naètení ikony ze souboru
+void _fastcall FGetFileIcon(CIcon& icon);	// naÄtenÃ­ ikony ze souboru

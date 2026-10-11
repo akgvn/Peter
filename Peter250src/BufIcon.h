@@ -1,51 +1,51 @@
 
 /***************************************************************************\
 *																			*
-*								Ikonové promìnné							*
+*								IkonovÃ© promÄ›nnÃ©							*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// struktura záhlaví ikony - 16 bajtù
-// Pøi komprimaci udává první dvojslovo dat délku komprimovanıch dat
-// Dekomprimace i komprimace se provádí s daty spoleènımi pro všechny ikony,
-// je proto nutno v pøípadì potøeby zajistit vlastnictví ikony!
-// Komprimace se provádí pouze u ikon 32x32!
+// struktura zÃ¡hlavÃ­ ikony - 16 bajtÅ¯
+// PÅ™i komprimaci udÃ¡vÃ¡ prvnÃ­ dvojslovo dat dÃ©lku komprimovanÃ½ch dat
+// Dekomprimace i komprimace se provÃ¡dÃ­ s daty spoleÄnÃ½mi pro vÅ¡echny ikony,
+// je proto nutno v pÅ™Ã­padÄ› potÅ™eby zajistit vlastnictvÃ­ ikony!
+// Komprimace se provÃ¡dÃ­ pouze u ikon 32x32!
 
 typedef struct ICONDATA_
 {
-	long	Refer;					// (4) èítaè referencí na ikonu
-	long	Param;					// (4) parametry (prùhlednost, komprese)
-	long	Size;					// (4) velikost nezkomprimovanıch dat ikony (typicky 32x32 = 1024)
+	long	Refer;					// (4) ÄÃ­taÄ referencÃ­ na ikonu
+	long	Param;					// (4) parametry (prÅ¯hlednost, komprese)
+	long	Size;					// (4) velikost nezkomprimovanÃ½ch dat ikony (typicky 32x32 = 1024)
 	BYTE*	Data;					// (4) ukazatel na data ikony
 } ICONDATA;
 
 //////////////////////////////////////////////////////////////////////////////
-// pøíznaky typu ikony a obrázku
+// pÅ™Ã­znaky typu ikony a obrÃ¡zku
 //enum PICPARAM {
-//	PicParamPic,			// pouze obrázek bez pozadí
-//	PicParamMix,			// obrázek mixovanı s pozadím
-//	PicParamBack,			// pouze pozadí (prázdnı obrázek)
-//	PicParamNone,			// neznámı obsah
-//	PicParamComp,			// komprimovaná data
+//	PicParamPic,			// pouze obrÃ¡zek bez pozadÃ­
+//	PicParamMix,			// obrÃ¡zek mixovanÃ½ s pozadÃ­m
+//	PicParamBack,			// pouze pozadÃ­ (prÃ¡zdnÃ½ obrÃ¡zek)
+//	PicParamNone,			// neznÃ¡mÃ½ obsah
+//	PicParamComp,			// komprimovanÃ¡ data
 //};
 
-#define SIZEOFICONDATA	(3*sizeof(long) + sizeof(BYTE*)) // velikost záhlaví
+#define SIZEOFICONDATA	(3*sizeof(long) + sizeof(BYTE*)) // velikost zÃ¡hlavÃ­
 
-extern ICONDATA EmptyIconData;				// data prázdné ikony
-extern	const CIcon		EmptyIcon;			// prázdná ikona
+extern ICONDATA EmptyIconData;				// data prÃ¡zdnÃ© ikony
+extern	const CIcon		EmptyIcon;			// prÃ¡zdnÃ¡ ikona
 
 /////////////////////////////////////////////////////////////////////////////
-// statické funkce
+// statickÃ© funkce
 
-// statická inicializace ikon (pøi chybì pamìti vrací FALSE)
+// statickÃ¡ inicializace ikon (pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE)
 bool InitIcon();
 
-// vytvoøení dat ikony (pøi chybì pamìti vrací NULL)
+// vytvoÅ™enÃ­ dat ikony (pÅ™i chybÄ› pamÄ›ti vracÃ­ NULL)
 ICONDATA* _fastcall NewIconData(int size);
 
-// zrušení dat ikony (oddìleno kvùli lepší optimalizaci)
+// zruÅ¡enÃ­ dat ikony (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 void _fastcall DelIconData(ICONDATA* data);
 
 
@@ -55,14 +55,14 @@ void _fastcall DelIconData(ICONDATA* data);
 class CIcon
 {
 
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
-	ICONDATA*		pData;			// ukazatel na záhlaví ikony (NULL=není nic)
+// promÄ›nnÃ©
+	ICONDATA*		pData;			// ukazatel na zÃ¡hlavÃ­ ikony (NULL=nenÃ­ nic)
 
-// pøipojení dat ikony
+// pÅ™ipojenÃ­ dat ikony
 	inline void attach(ICONDATA* data)
 	{
 		ASSERT(data != NULL);
@@ -71,7 +71,7 @@ private:
 		LongIncrement(&(data->Refer));
 	}
 
-// odpojení (a zrušení) dat ikony
+// odpojenÃ­ (a zruÅ¡enÃ­) dat ikony
 	inline void detach(ICONDATA* data)
 	{
 		ASSERT(data != NULL);
@@ -84,59 +84,59 @@ private:
 	}
 
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
 // konstruktor a destruktor
-	CIcon();					// prázdná ikona o velikosti ICONSIZE
+	CIcon();					// prÃ¡zdnÃ¡ ikona o velikosti ICONSIZE
 	CIcon(const CIcon& src);
 	CIcon(ICONDATA* data);
 	~CIcon();
 
-// statickı konstruktor a destruktor
-	void Init();				// prázdná ikona o velikosti ICONSIZE
+// statickÃ½ konstruktor a destruktor
+	void Init();				// prÃ¡zdnÃ¡ ikona o velikosti ICONSIZE
 	void _fastcall Init(const CIcon& src);
 	void _fastcall Init(ICONDATA* data);
-	bool _fastcall Init(int size);	// pøi chybì pamìti vrací FALSE, ikona není vytvoøena
+	bool _fastcall Init(int size);	// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, ikona nenÃ­ vytvoÅ™ena
 	void Term();
 
-// poskytnutí ukazatele na data
+// poskytnutÃ­ ukazatele na data
 	inline ICONDATA* Data() const { return pData; };
 	inline BYTE* DataData() const { return pData->Data; };
 
-// poskytnutí velikosti nezkomprimovanıch dat ikony
+// poskytnutÃ­ velikosti nezkomprimovanÃ½ch dat ikony
 	inline int Size() const { return pData->Size; };
 
-// poskytnutí/nastavení parametrù ikony
+// poskytnutÃ­/nastavenÃ­ parametrÅ¯ ikony
 	inline int Param() const { return pData->Param; };
 	inline void Param(int param) { pData->Param = param; };
 
-// vyprázdnìní (uvolnìní dat) - pøipojí se standardní prázdná ikona ICONSIZE
+// vyprÃ¡zdnÄ›nÃ­ (uvolnÄ›nÃ­ dat) - pÅ™ipojÃ­ se standardnÃ­ prÃ¡zdnÃ¡ ikona ICONSIZE
 	void Empty();
 
-// test, zda je ikona prázdná (zda ukazuje na standardní prázdnou ikonu ICONSIZE)
+// test, zda je ikona prÃ¡zdnÃ¡ (zda ukazuje na standardnÃ­ prÃ¡zdnou ikonu ICONSIZE)
 	inline BOOL IsEmpty() { return ((DWORD)pData == (DWORD)&EmptyIconData); };
 	inline BOOL IsNotEmpty() { return ((DWORD)pData != (DWORD)&EmptyIconData); };
 
-// vymazání obsahu ikony (naplnìní prùhlednou barvou), zajistí pøivlastnìní (a dekomprimaci) bufferu,
-// pøi chybì pamìti vrací FALSE, pùvodní obsah nezmìnìn
+// vymazÃ¡nÃ­ obsahu ikony (naplnÄ›nÃ­ prÅ¯hlednou barvou), zajistÃ­ pÅ™ivlastnÄ›nÃ­ (a dekomprimaci) bufferu,
+// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, pÅ¯vodnÃ­ obsah nezmÄ›nÄ›n
 	bool Clear();
 
-// vymazání obsahu ikony s nastavením velikosti (naplnìní prùhlednou barvou), 
-// zajistí pøivlastnìní (a dekomprimaci) bufferu, pøi chybì pamìti vrací FALSE, pùvodní obsah nezmìnìn
+// vymazÃ¡nÃ­ obsahu ikony s nastavenÃ­m velikosti (naplnÄ›nÃ­ prÅ¯hlednou barvou), 
+// zajistÃ­ pÅ™ivlastnÄ›nÃ­ (a dekomprimaci) bufferu, pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, pÅ¯vodnÃ­ obsah nezmÄ›nÄ›n
 	bool _fastcall Clear(int size);
 
-// kopie do vlastního bufferu pøed modifikací (komprimovaná data zùstanou komprimovaná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­ (komprimovanÃ¡ data zÅ¯stanou komprimovanÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool CopyWrite();
 
-// vytvoøení nové ikony se stejnou velikostí (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ© ikony se stejnou velikostÃ­ (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool New();
 
-// vytvoøení nové ikony (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ© ikony (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool _fastcall New(int size);
 
 // kontrola platnosti offsetu bodu
@@ -146,8 +146,8 @@ public:
 	inline BOOL IsNotValid(const int off) const 
 		{ return ((DWORD)off >= (DWORD)pData->Size); };
 
-// poskytnutí pøístupu k bodu ikony (bez kontroly offsetu) - ikona nesmí bıt komprimovaná!
-// v pøípadì zápisu musí bıt zajištìno pøivlastnìní bufferu!
+// poskytnutÃ­ pÅ™Ã­stupu k bodu ikony (bez kontroly offsetu) - ikona nesmÃ­ bÃ½t komprimovanÃ¡!
+// v pÅ™Ã­padÄ› zÃ¡pisu musÃ­ bÃ½t zajiÅ¡tÄ›no pÅ™ivlastnÄ›nÃ­ bufferu!
 	inline BYTE& operator[] (const int off) 
 		{ ASSERT(IsValid(off)); return pData->Data[off]; }
 
@@ -160,50 +160,50 @@ public:
 	inline const BYTE& At(const int off) const
 		{ ASSERT(IsValid(off)); return pData->Data[off]; }
 
-// poskytnutí bodu (s kontrolou platnosti offsetu) - ikona nesmí bıt komprimovaná!
-// pro neplatnı offset vrací barvu pozadí
+// poskytnutÃ­ bodu (s kontrolou platnosti offsetu) - ikona nesmÃ­ bÃ½t komprimovanÃ¡!
+// pro neplatnÃ½ offset vracÃ­ barvu pozadÃ­
 	BYTE _fastcall Get(const int off) const;
 
-// nastavení bodu (s kontrolou platnosti offsetu) - ikona nesmí bıt komprimovaná!
-// pøed zápisem je nutno zajistit pøivlastnìní bufferu!
+// nastavenÃ­ bodu (s kontrolou platnosti offsetu) - ikona nesmÃ­ bÃ½t komprimovanÃ¡!
+// pÅ™ed zÃ¡pisem je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu!
 	void _fastcall Set(const int off, const BYTE data);
 
-// komprese dat ikony 32*32, vrací velikost dat (pøi chybì pamìti vrací <0, data jsou nezmìnìna)
-// komprese se provádí ve spoleèném bufferu pro všechny promìnné!
-// (v pøípadì potøeby je nutno zajistit pøivlastnìní bufferu)
-// pùvodní buffer s daty je zrušen
-// (velikost komprimovanıch dat je udávána bez dvojslova s velikostí, buffer s daty
-// je tedy o 4 vìtší, data zaèínají na offsetu 4 v bufferu)
+// komprese dat ikony 32*32, vracÃ­ velikost dat (pÅ™i chybÄ› pamÄ›ti vracÃ­ <0, data jsou nezmÄ›nÄ›na)
+// komprese se provÃ¡dÃ­ ve spoleÄnÃ©m bufferu pro vÅ¡echny promÄ›nnÃ©!
+// (v pÅ™Ã­padÄ› potÅ™eby je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu)
+// pÅ¯vodnÃ­ buffer s daty je zruÅ¡en
+// (velikost komprimovanÃ½ch dat je udÃ¡vÃ¡na bez dvojslova s velikostÃ­, buffer s daty
+// je tedy o 4 vÄ›tÅ¡Ã­, data zaÄÃ­najÃ­ na offsetu 4 v bufferu)
 	int Comp() const;
 
-// dekomprimace dat ikony 32*32 (jsou-li komprimována), pøi chybì vrací FALSE, data jsou nezmìnìna
-// dekomprese se provádí ve spoleèném bufferu pro všechny promìnné
-// (v pøípadì potøeby je nutno zajistit pøivlastnìní bufferu)
-// pùvodní buffer s komprimovanımi daty je zrušen
+// dekomprimace dat ikony 32*32 (jsou-li komprimovÃ¡na), pÅ™i chybÄ› vracÃ­ FALSE, data jsou nezmÄ›nÄ›na
+// dekomprese se provÃ¡dÃ­ ve spoleÄnÃ©m bufferu pro vÅ¡echny promÄ›nnÃ©
+// (v pÅ™Ã­padÄ› potÅ™eby je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu)
+// pÅ¯vodnÃ­ buffer s komprimovanÃ½mi daty je zruÅ¡en
 	bool DeComp() const;
 
-// kopie novıch dat ikony (rozmìry zùstanou nezmìnìny) - zajistí pøivlastnìní (a dekomprimaci) bufferu,
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie novÃ½ch dat ikony (rozmÄ›ry zÅ¯stanou nezmÄ›nÄ›ny) - zajistÃ­ pÅ™ivlastnÄ›nÃ­ (a dekomprimaci) bufferu,
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool CopyData(BYTE* src);
 
-// kopie komprimovanıch novıch dat ikony (rozmìry zùstanou nezmìnìny) - zajistí odpojení dat
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie komprimovanÃ½ch novÃ½ch dat ikony (rozmÄ›ry zÅ¯stanou nezmÄ›nÄ›ny) - zajistÃ­ odpojenÃ­ dat
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool CompCopy(BYTE* src);
 
-// kopie novıch dat ikony s konverzí (rozmìry zùstanou nezmìnìny) - zajistí odpojení dat
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie novÃ½ch dat ikony s konverzÃ­ (rozmÄ›ry zÅ¯stanou nezmÄ›nÄ›ny) - zajistÃ­ odpojenÃ­ dat
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool CopyKonvData(BYTE* src);
 
-// extrakt ikony ze souboru formátu PET (pøi chybì vrátí FALSE, obsah nezmìnìn)
+// extrakt ikony ze souboru formÃ¡tu PET (pÅ™i chybÄ› vrÃ¡tÃ­ FALSE, obsah nezmÄ›nÄ›n)
 	bool Extract(CText jmeno);
 
-// naètení ikony ze souboru formátu ICO (FALSE=chyba, obsah nezmìnìn)
+// naÄtenÃ­ ikony ze souboru formÃ¡tu ICO (FALSE=chyba, obsah nezmÄ›nÄ›n)
 	bool LoadFile(CText jmeno);
 
-// uloení ikony do souboru formátu ICO (komprimovanou ikonu dekomprimuje) (FALSE=chyba)
+// uloÅ¾enÃ­ ikony do souboru formÃ¡tu ICO (komprimovanou ikonu dekomprimuje) (FALSE=chyba)
 	bool SaveFile(CText jmeno) const;
 
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 	const CIcon& operator= (const CIcon& src);
 	const CIcon& operator= (ICONDATA* src);
 };
@@ -218,54 +218,54 @@ public:
 class CBufIcon : public CBuffer<CIcon>
 {
 
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
-	int			m_Width;		// šíøka jedné ikony
-	int			m_Height;		// vıška jedné ikony
-	int			m_WidthByte;	// délka jedné linky v bajtech
+// promÄ›nnÃ©
+	int			m_Width;		// Å¡Ã­Å™ka jednÃ© ikony
+	int			m_Height;		// vÃ½Å¡ka jednÃ© ikony
+	int			m_WidthByte;	// dÃ©lka jednÃ© linky v bajtech
 	int			m_IconSize;		// velikost ikony v bajtech
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
 // konstruktor
 	CBufIcon();
 
-// statickı konstruktor
+// statickÃ½ konstruktor
 	void Init();
 
-// poskytnutí šíøky ikony
+// poskytnutÃ­ Å¡Ã­Å™ky ikony
 	inline int Width() const { return m_Width; };
 
-// poskytnutí vıšky ikony
+// poskytnutÃ­ vÃ½Å¡ky ikony
 	inline int Height() const { return m_Height; };
 
-// poskytnutí/nastavení velikosti ikony (pøípadné existující ikony zruší!)
+// poskytnutÃ­/nastavenÃ­ velikosti ikony (pÅ™Ã­padnÃ© existujÃ­cÃ­ ikony zruÅ¡Ã­!)
 	void _fastcall IconSize(const int width, const int height);
 	inline int IconSize() { return m_IconSize; };
 
-// pøidání poloky (vrací index poloky, <0 = chyba)
-// provádí záznam do UNDO bufferu
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky, <0 = chyba)
+// provÃ¡dÃ­ zÃ¡znam do UNDO bufferu
 	inline int _fastcall Add(const CIcon& icon) { return CBuffer<CIcon>::Add(icon); }
 	int _fastcall Add(ICONDATA* data);
 
-// naètení ikon z resource (vynulovat buffer, aby bylo ukládáno po øadì!), vrací TRUE=operace OK
+// naÄtenÃ­ ikon z resource (vynulovat buffer, aby bylo uklÃ¡dÃ¡no po Å™adÄ›!), vracÃ­ TRUE=operace OK
 	bool Load(const int nID, int num);
 
-// vygenerování dat bitmapy (vrací ukazatel na buffer s rezervou 8 bajtù na konci, pøi chybì vrací NULL)
+// vygenerovÃ¡nÃ­ dat bitmapy (vracÃ­ ukazatel na buffer s rezervou 8 bajtÅ¯ na konci, pÅ™i chybÄ› vracÃ­ NULL)
 	BYTE* GenerBitmap(SMALLICON smallicon);
 
-// vygenerování masky ikon z dat barevné bitmapy (smallicon = polovièní velikost)
-// barevná bitmapa musí mít na konci rezervu pro zarovnání linky na 8 bajtù !
-// vrací adresu na buffer, pøi chybì vrací NULL
+// vygenerovÃ¡nÃ­ masky ikon z dat barevnÃ© bitmapy (smallicon = poloviÄnÃ­ velikost)
+// barevnÃ¡ bitmapa musÃ­ mÃ­t na konci rezervu pro zarovnÃ¡nÃ­ linky na 8 bajtÅ¯ !
+// vracÃ­ adresu na buffer, pÅ™i chybÄ› vracÃ­ NULL
 	BYTE* GenerMask(BYTE* bitmapa, SMALLICON smallicon);
 
-// vygenerování seznamu ikon (drag = taení, smallicon = polovièní velikost,
-//		himg = pouitı seznam, pro himg=NULL vytvoøí novı seznam)
-// pøi chybì vrací NULL, pùvodní seznam ikon pøitom zùstává nezmìnìn
+// vygenerovÃ¡nÃ­ seznamu ikon (drag = taÅ¾enÃ­, smallicon = poloviÄnÃ­ velikost,
+//		himg = pouÅ¾itÃ½ seznam, pro himg=NULL vytvoÅ™Ã­ novÃ½ seznam)
+// pÅ™i chybÄ› vracÃ­ NULL, pÅ¯vodnÃ­ seznam ikon pÅ™itom zÅ¯stÃ¡vÃ¡ nezmÄ›nÄ›n
 	HIMAGELIST GenerList(bool drag, SMALLICON smallicon, HIMAGELIST himg = NULL);
 };

@@ -1,7 +1,7 @@
 
 /***************************************************************************\
 *																			*
-*							3D rozhraní - nulové							*
+*							3D rozhranÃ­ - nulovÃ©							*
 *																			*
 \***************************************************************************/
 
@@ -11,157 +11,157 @@
 void D3No();
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace obsluhy videomódù (vrací TRUE=OK)
+// inicializace obsluhy videomÃ³dÅ¯ (vracÃ­ TRUE=OK)
 
 bool D3NoInitVideoModes();
 
 /////////////////////////////////////////////////////////////////////////////
-// start videomódu (vrací TRUE=OK)
+// start videomÃ³du (vracÃ­ TRUE=OK)
 
 bool D3NoStartVMode(VIDEOMODEITEM* item);
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení videomódu
+// ukonÄenÃ­ videomÃ³du
 
 inline void D3NoStopVMode() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// vymazání renderovací plochy
+// vymazÃ¡nÃ­ renderovacÃ­ plochy
 
 inline void D3NoClear() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení renderovacího bufferu
+// zobrazenÃ­ renderovacÃ­ho bufferu
 
 inline void D3NoDisp() { D3No(); }
 	
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace viewportu po zmìnì velikosti
+// aktualizace viewportu po zmÄ›nÄ› velikosti
 
 inline void D3NoSizeView() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace viewportu po pøesunu
+// aktualizace viewportu po pÅ™esunu
 
 inline void D3NoMoveView() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení funkce zaøízení
+// ukonÄenÃ­ funkce zaÅ™Ã­zenÃ­
 
 inline void D3NoStop() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace projekèní matice
+// aktualizace projekÄnÃ­ matice
 
 inline void D3NoAktProj() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace pohledové matice
+// aktualizace pohledovÃ© matice
 
 inline void D3NoAktView() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení renderování scény
+// zahÃ¡jenÃ­ renderovÃ¡nÃ­ scÃ©ny
 
 inline void D3NoBegin() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení renderování scény
+// ukonÄenÃ­ renderovÃ¡nÃ­ scÃ©ny
 
 inline void D3NoEnd() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyrenderování jednoho objektu
+// vyrenderovÃ¡nÃ­ jednoho objektu
 
 void D3NoRender(D3DFITEM* item);
 
 /////////////////////////////////////////////////////////////////////////////
-// resetování objektu pøed ukonèením ovladaèe
+// resetovÃ¡nÃ­ objektu pÅ™ed ukonÄenÃ­m ovladaÄe
 
 inline void D3NoReset(D3DFITEM* item) { D3NoRender(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// resetování stínu objektu pøed ukonèením ovladaèe
+// resetovÃ¡nÃ­ stÃ­nu objektu pÅ™ed ukonÄenÃ­m ovladaÄe
 
 inline void D3NoSReset(D3DFITEM* item) { D3NoRender(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizovat pøepínaè vyplòování ploch
+// aktualizovat pÅ™epÃ­naÄ vyplÅˆovÃ¡nÃ­ ploch
 
 inline void D3NoAktWireframe() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizovat pøepínaè osvìtlení
+// aktualizovat pÅ™epÃ­naÄ osvÄ›tlenÃ­
 
 inline void D3NoAktLightOn() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizovat pøepínaè plynulého stinování
+// aktualizovat pÅ™epÃ­naÄ plynulÃ©ho stinovÃ¡nÃ­
 
 inline void D3NoAktShades() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizovat pøepínaè odstraòování ploch
+// aktualizovat pÅ™epÃ­naÄ odstraÅˆovÃ¡nÃ­ ploch
 
 inline void D3NoAktCulling() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizovat pøepínaè filtrace zvìtšenıch textur
+// aktualizovat pÅ™epÃ­naÄ filtrace zvÄ›tÅ¡enÃ½ch textur
 
 void D3NoAktMagFilter(int stage);
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizovat pøepínaè filtrace zmenšenıch a vzdálenıch textur
+// aktualizovat pÅ™epÃ­naÄ filtrace zmenÅ¡enÃ½ch a vzdÃ¡lenÃ½ch textur
 
 inline void D3NoAktMinMipFilter(int stage) { D3NoAktMagFilter(stage); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace poloky svìtla
+// aktualizace poloÅ¾ky svÄ›tla
 
 void D3NoAktLight(int inx, D3DLITEM* item);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení materiálu
+// nastavenÃ­ materiÃ¡lu
 
 void D3NoSetMaterial(D3DMITEM* item);
 
 /////////////////////////////////////////////////////////////////////////////
-// resetování poloky textury pøed ukonèením ovladaèe
+// resetovÃ¡nÃ­ poloÅ¾ky textury pÅ™ed ukonÄenÃ­m ovladaÄe
 
 void D3NoTextureRes(D3DTITEM* item);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení a zapnutí textury
+// nastavenÃ­ a zapnutÃ­ textury
 
 void D3NoTextureSet(D3DTITEM* item, int stage);
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí pùvodní textury
+// zapnutÃ­ pÅ¯vodnÃ­ textury
 
 inline void D3NoTextureOn(D3DTITEM* item, int stage) { D3NoTextureSet(item, stage); }
 
 /////////////////////////////////////////////////////////////////////////////
-// vypnutí textury
+// vypnutÃ­ textury
 
 inline void D3NoTextureOff(int stage) { D3NoAktMagFilter(stage); }
 
 /////////////////////////////////////////////////////////////////////////////
-// resetování poloky materiálu
+// resetovÃ¡nÃ­ poloÅ¾ky materiÃ¡lu
 
 inline void D3NoMatReset(D3DMITEM* item) { D3NoSetMaterial(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// resetování poloky svìtla
+// resetovÃ¡nÃ­ poloÅ¾ky svÄ›tla
 
 inline void D3NoLightReset(int inx, D3DLITEM* item) { D3NoAktLight(inx, item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace ambient osvìtlení
+// aktualizace ambient osvÄ›tlenÃ­
 
 inline void D3NoAktAmbient() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// volná videopamì
+// volnÃ¡ videopamÄ›Å¥
 
 int D3NoFree();
 
@@ -171,7 +171,7 @@ int D3NoFree();
 inline void D3NoAktFog() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí mlhy
+// zapnutÃ­ mlhy
 
 inline void D3NoFogOn(BOOL on) { D3NoAktMagFilter(on); }
 
@@ -181,88 +181,88 @@ inline void D3NoFogOn(BOOL on) { D3NoAktMagFilter(on); }
 inline void D3NoAktState() { D3No(); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace blending operací objektu
+// aktualizace blending operacÃ­ objektu
 
 inline void D3NoAktBlend(D3DFITEM* item) { D3NoRender(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace referenèní úrovnì alfa
+// aktualizace referenÄnÃ­ ÃºrovnÄ› alfa
 
 inline void D3NoAktAlfa(D3DFITEM* item) { D3NoRender(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení operace barev
+// nastavenÃ­ operace barev
 
 void D3NoSetColorOp(int op, int arg1, int arg2, int stage);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení operace alfa
+// nastavenÃ­ operace alfa
 
 inline void D3NoSetAlphaOp(int op, int arg1, int arg2, int stage) { D3NoSetColorOp(op, arg1, arg2, stage); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení adresování textur
+// nastavenÃ­ adresovÃ¡nÃ­ textur
 
 void D3NoSetAddress(int adru, int adrv, int stage);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy okolí textur
+// nastavenÃ­ barvy okolÃ­ textur
 
 //void D3NoSetBorder(D3DFITEM* item, int stage);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zjemnìní vzdálenıch textur
+// nastavenÃ­ zjemnÄ›nÃ­ vzdÃ¡lenÃ½ch textur
 
 void D3NoSetBias(float bias, int stage);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy faktoru textur
+// nastavenÃ­ barvy faktoru textur
 
 inline void D3NoSetTFactor(D3DFITEM* item) { D3NoRender(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení Z funkce (1 a 8, v kódu DirectX, 0=vypnuto)
+// nastavenÃ­ Z funkce (1 aÅ¾ 8, v kÃ³du DirectX, 0=vypnuto)
 
 inline void D3NoSetZFunc(int func) { D3NoAktMagFilter(func); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení Z zápisu
+// nastavenÃ­ Z zÃ¡pisu
 
 inline void D3NoSetZWrite(BOOL write)  { D3NoAktMagFilter(write); }
 
 /////////////////////////////////////////////////////////////////////////////
-// povolení stencil operací
+// povolenÃ­ stencil operacÃ­
 
 inline void D3NoSEnable(BOOL enable) { D3NoAktMagFilter(enable); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stencil operací
+// nastavenÃ­ stencil operacÃ­
 
 inline void D3NoSetSOp(int fail, int zfail, int zpass) { D3NoSetAddress(fail, zfail, zpass); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stencil testu
+// nastavenÃ­ stencil testu
 
 inline void D3NoSetSFunc(int func, int ref, DWORD mask) { D3NoSetAddress(func, ref, mask); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zápisové masky do stencil bufferu
+// nastavenÃ­ zÃ¡pisovÃ© masky do stencil bufferu
 
 inline void D3NoSetSMask(DWORD mask) { D3NoAktMagFilter(mask); }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyrenderování stínu jednoho objektu
+// vyrenderovÃ¡nÃ­ stÃ­nu jednoho objektu
 
 inline void D3NoShadow(D3DFITEM* item) { D3NoRender(item); }
 
 /////////////////////////////////////////////////////////////////////////////
-// vykreslení stínù
+// vykreslenÃ­ stÃ­nÅ¯
 
 inline void D3NoShadows() { D3No(); }
 
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 
 /////////////////////////////////////////////////////////////////////////////

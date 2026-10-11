@@ -1,10 +1,10 @@
 
 //////////////////////////////////////////////////////////////////////////////
-// pøepínaèe preprocesoru:
+// pÅ™epÃ­naÄe preprocesoru:
 //	_DEBUG ............. je debugger
 //	_OPTIM ............. je optimalizace
-//	_MT ................ vícetokovı reim
-//	_UNICODE ........... kódování znakù UNICODE
+//	_MT ................ vÃ­cetokovÃ½ reÅ¾im
+//	_UNICODE ........... kÃ³dovÃ¡nÃ­ znakÅ¯ UNICODE
 //
 //	_M_IX86 ............ procesor Intel 86
 //	_M_ALPHA ........... procesor DEC Alpha
@@ -14,19 +14,19 @@
 
 //#define _MT
 
-// Pro pøekladaè nastavit úroveò varování 4 (pøepínaè /W4)
-// pro inline funkce nepouívat "bool" ale radìji "BOOL" - lépe optimalizováno
+// Pro pÅ™ekladaÄ nastavit ÃºroveÅˆ varovÃ¡nÃ­ 4 (pÅ™epÃ­naÄ /W4)
+// pro inline funkce nepouÅ¾Ã­vat "bool" ale radÄ›ji "BOOL" - lÃ©pe optimalizovÃ¡no
 
 
-#define VerzeMaj		2			// verze - hlavní èíslice (jednotky)
-#define VerzeMin		5			// verze - vedlejší èíslice (desetiny)
-#define VerzeRel		0			// verze - èíslice vydání (setiny)
-#define VerzeCom		0			// verze - èíslice kompilace (tisíciny)
-#define VerzeFileTxt	_T("250")	// verze ve jménu souboru
+#define VerzeMaj		2			// verze - hlavnÃ­ ÄÃ­slice (jednotky)
+#define VerzeMin		5			// verze - vedlejÅ¡Ã­ ÄÃ­slice (desetiny)
+#define VerzeRel		0			// verze - ÄÃ­slice vydÃ¡nÃ­ (setiny)
+#define VerzeCom		0			// verze - ÄÃ­slice kompilace (tisÃ­ciny)
+#define VerzeFileTxt	_T("250")	// verze ve jmÃ©nu souboru
 #define VerzeTxt		_T("2.50")	// verze - text
 
 
-#define COMPACT			// kompaktní instalaèní balík
+#define COMPACT			// kompaktnÃ­ instalaÄnÃ­ balÃ­k
 
 //////////////////////////////////////////////////////////////////////////////
 // obsluha debuggeru
@@ -56,15 +56,15 @@
 #endif	// _UNICODE
 
 //////////////////////////////////////////////////////////////////////////////
-// standardní vnoøené sekce
+// standardnÃ­ vnoÅ™enÃ© sekce
 
-#pragma warning ( disable: 4201)		// hlášení - nepojmenovaná struktura
+#pragma warning ( disable: 4201)		// hlÃ¡Å¡enÃ­ - nepojmenovanÃ¡ struktura
 
-#include <windows.h>					// základní definice WINDOWS
-#include <math.h>						// matematické operace
-//#include <alphaops.h>					// matematické konstanty
-#include <tchar.h>						// obsluha znakù UNICODE/MB
-#include <commctrl.h>					// doplòkové ovládací prvky
+#include <windows.h>					// zÃ¡kladnÃ­ definice WINDOWS
+#include <math.h>						// matematickÃ© operace
+//#include <alphaops.h>					// matematickÃ© konstanty
+#include <tchar.h>						// obsluha znakÅ¯ UNICODE/MB
+#include <commctrl.h>					// doplÅˆkovÃ© ovlÃ¡dacÃ­ prvky
 #include <richedit.h>					// RichEdit
 #include <shlobj.h>
 #include <objbase.h>
@@ -72,149 +72,149 @@
 
 #define DOUBLE_INFINITY_VALUE       ((ULONGLONG)0x7ff0000000000000)
 
-#pragma warning ( default: 4201)		// hlášení - nepojmenovaná struktura
+#pragma warning ( default: 4201)		// hlÃ¡Å¡enÃ­ - nepojmenovanÃ¡ struktura
 
-#pragma warning ( disable: 4100)		// hlášení - nepouitı formální parametr
-#pragma warning ( disable: 4710)		// hlášení - funkce není inline
+#pragma warning ( disable: 4100)		// hlÃ¡Å¡enÃ­ - nepouÅ¾itÃ½ formÃ¡lnÃ­ parametr
+#pragma warning ( disable: 4710)		// hlÃ¡Å¡enÃ­ - funkce nenÃ­ inline
 
 //////////////////////////////////////////////////////////////////////////////
-// pøeddefinice tøíd
+// pÅ™eddefinice tÅ™Ã­d
 
 class CText; class CPicture;
 
 
 //////////////////////////////////////////////////////////////////////////////
-// globální promìnné
+// globÃ¡lnÃ­ promÄ›nnÃ©
 
-extern	TCHAR*		CommandLine;		// pøíkazovı øádek
-extern	int			VerzeOS;			// verze systému
+extern	TCHAR*		CommandLine;		// pÅ™Ã­kazovÃ½ Å™Ã¡dek
+extern	int			VerzeOS;			// verze systÃ©mu
 extern	HINSTANCE	hInstance;			// instance programu
-extern	int			ScreenWidth;		// šíøka klientské oblasti displeje
-extern	int			ScreenHeight;		// vıška klientské oblasti displeje
+extern	int			ScreenWidth;		// Å¡Ã­Å™ka klientskÃ© oblasti displeje
+extern	int			ScreenHeight;		// vÃ½Å¡ka klientskÃ© oblasti displeje
 
 extern	BOOL		Dither;
-extern	HWND		MainFrame;			// hlavní okno aplikace
+extern	HWND		MainFrame;			// hlavnÃ­ okno aplikace
 
-extern	int			Waiting;			// pøíznak zobrazení kurzoru èekání
+extern	int			Waiting;			// pÅ™Ã­znak zobrazenÃ­ kurzoru ÄekÃ¡nÃ­
 
 #ifdef _UNICODE
 typedef	BOOL (WINAPI *GETDISKFREESPACEEX) (LPCWSTR, __int64*, __int64*, __int64*);
 #else
 typedef	BOOL (WINAPI *GETDISKFREESPACEEX) (LPCSTR, __int64*, __int64*, __int64*);
 #endif
-extern GETDISKFREESPACEEX	pGetDiskFreeSpaceEx; // funkce GetDiskFreeSpaceEx (NULL=není)
+extern GETDISKFREESPACEEX	pGetDiskFreeSpaceEx; // funkce GetDiskFreeSpaceEx (NULL=nenÃ­)
 extern	__int64	DiskSize;			// velikost disku (z funkce GetDiskSpace)
-extern	__int64	DiskFree;			// volné místo disku (z funkce GetDiskSpace)
-extern	__int64	DiskFreeUser;		// volné místo uivatele (z funkce GetDiskSpace)
+extern	__int64	DiskFree;			// volnÃ© mÃ­sto disku (z funkce GetDiskSpace)
+extern	__int64	DiskFreeUser;		// volnÃ© mÃ­sto uÅ¾ivatele (z funkce GetDiskSpace)
 
 //////////////////////////////////////////////////////////////////////////////
-// pomocné konstanty
+// pomocnÃ© konstanty
 
-#define ICONWIDTH 32								// šíøka ikon
-#define ICONHEIGHT 32								// vıška ikon
+#define ICONWIDTH 32								// Å¡Ã­Å™ka ikon
+#define ICONHEIGHT 32								// vÃ½Å¡ka ikon
 #define ICONSIZE (ICONWIDTH*ICONHEIGHT)				// velikost ikon v bajtech
 
-#define		BackCol 231							// barva pozadí (prùhledná)
-#define		ShadCol 216							// barva stínu
-#define		DarkCol 219							// tmavá barva blokování voleb
-#define		LightCol 214						// svìtlá barva
-#define		WhiteCol 212						// bílá barva
+#define		BackCol 231							// barva pozadÃ­ (prÅ¯hlednÃ¡)
+#define		ShadCol 216							// barva stÃ­nu
+#define		DarkCol 219							// tmavÃ¡ barva blokovÃ¡nÃ­ voleb
+#define		LightCol 214						// svÄ›tlÃ¡ barva
+#define		WhiteCol 212						// bÃ­lÃ¡ barva
 
-#define		GemtreeN 90							// poèet obrázkù znaku Gemtree
-//#define		GemtreeX1 110						// souøadnice znaku X pro volbu Instal
-#define		GemtreeX2 118						// souøadnice znaku X pro ostatní volby
-#define		GemtreeY 190						// souøadnice znaku Y
+#define		GemtreeN 90							// poÄet obrÃ¡zkÅ¯ znaku Gemtree
+//#define		GemtreeX1 110						// souÅ™adnice znaku X pro volbu Instal
+#define		GemtreeX2 118						// souÅ™adnice znaku X pro ostatnÃ­ volby
+#define		GemtreeY 190						// souÅ™adnice znaku Y
 
-#define MOUSEINV -100000							// neplatná souøadnice myši
+#define MOUSEINV -100000							// neplatnÃ¡ souÅ™adnice myÅ¡i
 
-#define MENUTOP 176									// poèáteèní souøadnice Y voleb menu
-#define MENUHEIGHT 50								// vıška jedné volby menu
+#define MENUTOP 176									// poÄÃ¡teÄnÃ­ souÅ™adnice Y voleb menu
+#define MENUHEIGHT 50								// vÃ½Å¡ka jednÃ© volby menu
 
 #define KonvCopy MemCopy
 
 //////////////////////////////////////////////////////////////////////////////
-// struktura instalaèních dat
+// struktura instalaÄnÃ­ch dat
 
 #ifdef MINI
-#define GROUPSNUM 3							// poèet skupin
+#define GROUPSNUM 3							// poÄet skupin
 #else
-#define GROUPSNUM 9							// poèet skupin
+#define GROUPSNUM 9							// poÄet skupin
 #endif
 
 // definice jednoho souboru v seznamu (9 B + text)
 typedef struct INSTFILE_ {
 	long			Size;					// (4) velikost souboru v bajtech (po dekompresi)
-	long			Check;					// (4) kontrolní souèet dat souboru (vıchozí 0, pøièten bajt, rotace vlevo s pøenosem)
-	BYTE			NameN;					// (1) délka jména souboru vèetnì podcesty - ve znacích
-	char			Name[1];				// (n) jméno souboru (vèetnì podcesty)
+	long			Check;					// (4) kontrolnÃ­ souÄet dat souboru (vÃ½chozÃ­ 0, pÅ™iÄten bajt, rotace vlevo s pÅ™enosem)
+	BYTE			NameN;					// (1) dÃ©lka jmÃ©na souboru vÄetnÄ› podcesty - ve znacÃ­ch
+	char			Name[1];				// (n) jmÃ©no souboru (vÄetnÄ› podcesty)
 } INSTFILE;
 
-// definice jedné skupiny (16 B)
+// definice jednÃ© skupiny (16 B)
 typedef struct INSTGROUP_ {
-	long			Files;					// (4) poèet souborù ve skupinì
-	long			Size;					// (4) velikost skupiny v KB (po nainstalování) - soubory zaokrouhleny na alokaèní bloky 8 KB
-	long			SizeFiles;				// (4) velikost seznamu souborù (bajtù)
-	long			SizeGroup;				// (4) velikost komprimovanıch dat (bajtù)
+	long			Files;					// (4) poÄet souborÅ¯ ve skupinÄ›
+	long			Size;					// (4) velikost skupiny v KB (po nainstalovÃ¡nÃ­) - soubory zaokrouhleny na alokaÄnÃ­ bloky 8 KB
+	long			SizeFiles;				// (4) velikost seznamu souborÅ¯ (bajtÅ¯)
+	long			SizeGroup;				// (4) velikost komprimovanÃ½ch dat (bajtÅ¯)
 } INSTGROUP;
 
-// záhlaví instalaèních dat (16 B + skupiny)
+// zÃ¡hlavÃ­ instalaÄnÃ­ch dat (16 B + skupiny)
 typedef struct INSTHEAD_ {
-	char			Ident[4];				// (4) identifikace (text "SET" + bínárnì poèet sekcí)
-	long			Check;					// (4) kontrolní souèet zbytku záhlaví vèetnì seznamu souborù
-	FILETIME		DateTime;				// (8) lokální (!) datum a èas souborù
+	char			Ident[4];				// (4) identifikace (text "SET" + bÃ­nÃ¡rnÄ› poÄet sekcÃ­)
+	long			Check;					// (4) kontrolnÃ­ souÄet zbytku zÃ¡hlavÃ­ vÄetnÄ› seznamu souborÅ¯
+	FILETIME		DateTime;				// (8) lokÃ¡lnÃ­ (!) datum a Äas souborÅ¯
 	INSTGROUP		Groups[GROUPSNUM];		// definice skupin
 } INSTHEAD;
 
 
 //////////////////////////////////////////////////////////////////////////////
-// pøíznaky typu ikony a obrázku
+// pÅ™Ã­znaky typu ikony a obrÃ¡zku
 enum PICPARAM {
-	PicParamPic,			// pouze obrázek bez pozadí
-	PicParamMix,			// obrázek mixovanı s pozadím
-	PicParamBack,			// pouze pozadí (prázdnı obrázek)
-	PicParamNone,			// neznámı obsah
-	PicParamComp,			// komprimovaná data
+	PicParamPic,			// pouze obrÃ¡zek bez pozadÃ­
+	PicParamMix,			// obrÃ¡zek mixovanÃ½ s pozadÃ­m
+	PicParamBack,			// pouze pozadÃ­ (prÃ¡zdnÃ½ obrÃ¡zek)
+	PicParamNone,			// neznÃ¡mÃ½ obsah
+	PicParamComp,			// komprimovanÃ¡ data
 };
 
 //////////////////////////////////////////////////////////////////////////////
-// stránky instalátoru
+// strÃ¡nky instalÃ¡toru
 
-extern	int			AktPage;		// aktivní stránka instalátoru
+extern	int			AktPage;		// aktivnÃ­ strÃ¡nka instalÃ¡toru
 
 enum PAGES {
-	PAGELANG,						// stránka volby jazyku
-	PAGEMAIN,						// hlavní stránka instalátoru
-	PAGESELECT,						// stránka vıbìru prvkù k instalaci
-	PAGEINSTAL,						// stránka probíhající instalace
-	PAGEDINSTAL,					// stránka probíhající odinstalace
-	PAGEOK,							// instalace ukonèena OK
-	PAGEDINSTOK,					// odinstalace ukonèena OK
-	PAGEISDINST,					// potvrzení odinstalování
+	PAGELANG,						// strÃ¡nka volby jazyku
+	PAGEMAIN,						// hlavnÃ­ strÃ¡nka instalÃ¡toru
+	PAGESELECT,						// strÃ¡nka vÃ½bÄ›ru prvkÅ¯ k instalaci
+	PAGEINSTAL,						// strÃ¡nka probÃ­hajÃ­cÃ­ instalace
+	PAGEDINSTAL,					// strÃ¡nka probÃ­hajÃ­cÃ­ odinstalace
+	PAGEOK,							// instalace ukonÄena OK
+	PAGEDINSTOK,					// odinstalace ukonÄena OK
+	PAGEISDINST,					// potvrzenÃ­ odinstalovÃ¡nÃ­
 };
 
 //////////////////////////////////////////////////////////////////////////////
-// ukonèení aplikace
+// ukonÄenÃ­ aplikace
 
-void	Exit();						// ukonèení programu
+void	Exit();						// ukonÄenÃ­ programu
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha zprávy pøed rozesláním do oken (TRUE = zpráva zpracována)
+// obsluha zprÃ¡vy pÅ™ed rozeslÃ¡nÃ­m do oken (TRUE = zprÃ¡va zpracovÃ¡na)
 
 BOOL PreTranslateMessage(MSG* msg);
 
 //////////////////////////////////////////////////////////////////////////////
-// spuštìní programu
+// spuÅ¡tÄ›nÃ­ programu
 
 int Exec(CText command, CText aktdir, BOOL wait);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stránky instalátoru
+// nastavenÃ­ strÃ¡nky instalÃ¡toru
 
 void SetPage(int page);
 
 /////////////////////////////////////////////////////////////////////////////
-// pøekreslení okna
+// pÅ™ekreslenÃ­ okna
 
 void RePaint();
 void RePaintOK();
@@ -223,47 +223,47 @@ void RePaintDInst();
 void RePaintGemtree();
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení registru
+// naÄtenÃ­ registru
 
 CText GetReg(CText key, CText name);
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení registru
+// nastavenÃ­ registru
 
 void SetReg(CText key, CText name, CText data);
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení klíèe
+// zruÅ¡enÃ­ klÃ­Äe
 
 void DelReg(CText key, CText name);
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení hlavního okna aplikace
+// vytvoÅ™enÃ­ hlavnÃ­ho okna aplikace
 
 bool MainFrameCreate();
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení kurzoru èekání (zahájení a ukonèení musí bıt do páru!)
+// zobrazenÃ­ kurzoru ÄekÃ¡nÃ­ (zahÃ¡jenÃ­ a ukonÄenÃ­ musÃ­ bÃ½t do pÃ¡ru!)
 
 void BeginWaitCursor();
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení informací o souborech (vrací FALSE=pøerušit)
+// naÄtenÃ­ informacÃ­ o souborech (vracÃ­ FALSE=pÅ™eruÅ¡it)
 
 BOOL OpenSetup();
 
 /////////////////////////////////////////////////////////////////////////////
-// vypnutí kurzoru èekání (zahájení a ukonèení musí bıt do páru!)
+// vypnutÃ­ kurzoru ÄekÃ¡nÃ­ (zahÃ¡jenÃ­ a ukonÄenÃ­ musÃ­ bÃ½t do pÃ¡ru!)
 
 void EndWaitCursor();
 
 //////////////////////////////////////////////////////////////////////////////
-// vlastní vnoøené sekce
+// vlastnÃ­ vnoÅ™enÃ© sekce
 
-#include "Memory.h"						// obsluha pamìti
-#include "BufText.h"					// buffer textù, textové øetìzce
+#include "Memory.h"						// obsluha pamÄ›ti
+#include "BufText.h"					// buffer textÅ¯, textovÃ© Å™etÄ›zce
 #include "File.h"						// soubory, buffery a resource
-#include "Bitmap.h"						// obrázky
-#include "BufPic.h"						// buffer obrázkù
+#include "Bitmap.h"						// obrÃ¡zky
+#include "BufPic.h"						// buffer obrÃ¡zkÅ¯
 #include "Compress.h"					// komprese
 

@@ -1,47 +1,47 @@
 
 /***************************************************************************\
 *																			*
-*							Provádìní programu - zvuk						*
+*							ProvÃ¡dÄ›nÃ­ programu - zvuk						*
 *																			*
 \***************************************************************************/
 
-#define MAXSOUNDKANALU	1024		// maximální poèet zvukovıch kanálù
-#define SOUNDBUFFERU	3			// poèet zvukovıch bufferù
-#define SOUNDOUTRATE	22050		// vıstupní vzorkovací kmitoèet
-#define SOUNDBUFSIZE	(0x1000*4)	// velikost bufferu (dìlitelnı 4 !!!)
-#define SOUNDERRORWAIT	(2*18)		// èekání na novı pokus o otevøení zvuku
+#define MAXSOUNDKANALU	1024		// maximÃ¡lnÃ­ poÄet zvukovÃ½ch kanÃ¡lÅ¯
+#define SOUNDBUFFERU	3			// poÄet zvukovÃ½ch bufferÅ¯
+#define SOUNDOUTRATE	22050		// vÃ½stupnÃ­ vzorkovacÃ­ kmitoÄet
+#define SOUNDBUFSIZE	(0x1000*4)	// velikost bufferu (dÄ›litelnÃ½ 4 !!!)
+#define SOUNDERRORWAIT	(2*18)		// ÄekÃ¡nÃ­ na novÃ½ pokus o otevÅ™enÃ­ zvuku
 
-// obsluha pøehrávání zvuku
+// obsluha pÅ™ehrÃ¡vÃ¡nÃ­ zvuku
 typedef struct SOUNDCHAN_ {
-	int		Num;					// (4) poèet bajtù v bufferu (0=volnı)
+	int		Num;					// (4) poÄet bajtÅ¯ v bufferu (0=volnÃ½)
 	BYTE*	Data;					// (4) adresa bufferu dat
-	double	Left;					// (8) hlasitost levého kanálu
-	double	Right;					// (8) hlasitost pravého kanálu
+	double	Left;					// (8) hlasitost levÃ©ho kanÃ¡lu
+	double	Right;					// (8) hlasitost pravÃ©ho kanÃ¡lu
 	double	Offset;					// (8) ukazatel dat (v bajtech)
-	double	SpeedB;					// (8) pøírustek ukazatele dat (v bajtech)
-	int		Loop;					// (4) èítaè opakování zvuku (BigInt = nekoneènı)
-	CSound	Sound;					// (4) promìnná se zvukem
+	double	SpeedB;					// (8) pÅ™Ã­rustek ukazatele dat (v bajtech)
+	int		Loop;					// (4) ÄÃ­taÄ opakovÃ¡nÃ­ zvuku (BigInt = nekoneÄnÃ½)
+	CSound	Sound;					// (4) promÄ›nnÃ¡ se zvukem
 	IDirectSoundBuffer* DSBuffer;	// (4) DirectSound buffer
 	int		DSFreq;					// (4) frekvence pro DirectSound
 	short	DSVolume;				// (2) hlasitost pro DirectSound
-	short	DSBalance;				// (2) vyváení pro DirectSound
-	WORD	SoundID;				// (2) rozlišovací kód zvuku
-	short	res;					// (2) .. pro zarovnání
+	short	DSBalance;				// (2) vyvÃ¡Å¾enÃ­ pro DirectSound
+	WORD	SoundID;				// (2) rozliÅ¡ovacÃ­ kÃ³d zvuku
+	short	res;					// (2) .. pro zarovnÃ¡nÃ­
 } SOUNDCHAN;
 
-extern	HWAVEOUT	WaveOut;						// handle vıstupního zaøízení (NULL=není otevøeno)
-extern	WAVEHDR		WaveHeader[SOUNDBUFFERU];		// popisovaèe dat
-extern	BYTE*		SoundBuf[SOUNDBUFFERU];			// zvukové buffery
-extern	int			SoundKanalu;					// poèet aktivních zvukovıch kanálù
-extern	SOUNDCHAN*	SoundChan;						// buffer zvukovıch kanálù
-extern	int			SoundError;						// povolení opakovaného otevøení zvuku (pøi < 0)
-extern	bool		WaveFormatPCM;					// je pøehráván formát PCM (vlastní obsluha)
-extern	char*		WaveData2;						// ukazatel dat pro nestandardní formát
-extern	int			WaveSize2;						// èítaè dat pro nestandardní formát
-extern	int			WaveLoop;						// èítaè opakování pro nestandardní formát
-extern	CSound		Sound2;							// pøehrávanı nestandardní zvuk, naposledy zadanı zvuk
-extern	bool		SoundPausing;					// pøíznak pauzy zvuku
-extern	WORD		SoundID;						// rozlišovací kód zvuku
+extern	HWAVEOUT	WaveOut;						// handle vÃ½stupnÃ­ho zaÅ™Ã­zenÃ­ (NULL=nenÃ­ otevÅ™eno)
+extern	WAVEHDR		WaveHeader[SOUNDBUFFERU];		// popisovaÄe dat
+extern	BYTE*		SoundBuf[SOUNDBUFFERU];			// zvukovÃ© buffery
+extern	int			SoundKanalu;					// poÄet aktivnÃ­ch zvukovÃ½ch kanÃ¡lÅ¯
+extern	SOUNDCHAN*	SoundChan;						// buffer zvukovÃ½ch kanÃ¡lÅ¯
+extern	int			SoundError;						// povolenÃ­ opakovanÃ©ho otevÅ™enÃ­ zvuku (pÅ™i < 0)
+extern	bool		WaveFormatPCM;					// je pÅ™ehrÃ¡vÃ¡n formÃ¡t PCM (vlastnÃ­ obsluha)
+extern	char*		WaveData2;						// ukazatel dat pro nestandardnÃ­ formÃ¡t
+extern	int			WaveSize2;						// ÄÃ­taÄ dat pro nestandardnÃ­ formÃ¡t
+extern	int			WaveLoop;						// ÄÃ­taÄ opakovÃ¡nÃ­ pro nestandardnÃ­ formÃ¡t
+extern	CSound		Sound2;							// pÅ™ehrÃ¡vanÃ½ nestandardnÃ­ zvuk, naposledy zadanÃ½ zvuk
+extern	bool		SoundPausing;					// pÅ™Ã­znak pauzy zvuku
+extern	WORD		SoundID;						// rozliÅ¡ovacÃ­ kÃ³d zvuku
 
 /////////////////////////////////////////////////////////////////////////////
 // funkce pro inicializaci DirectSound
@@ -56,18 +56,18 @@ void TermDirectSound();
 /////////////////////////////////////////////////////////////////////////////
 // obsluha zvuku
 
-void PlaySoundOpen(CSound sound, int loop,	// otevøení zvukového kanálu
+void PlaySoundOpen(CSound sound, int loop,	// otevÅ™enÃ­ zvukovÃ©ho kanÃ¡lu
 		bool stop, double volume, double balance, double speed);
-void PlaySoundClose(CSound sound);	// uzavøení zvukového kanálu
-void PlaySoundStop();				// zastavení pøehrávání zvukù
-void PlaySoundBack();				// obsluha pøehrávání zvuku na pozadí
-void SetSoundPos(double pos);		// nastavení pozice pøehrávání zvuku (v sekundách)
-double GetSoundPos();				// zjištìní pozice pøehrávání zvuku (v sekundách)
-void SoundPause(bool pause);		// pauza pøehrávání zvuku
+void PlaySoundClose(CSound sound);	// uzavÅ™enÃ­ zvukovÃ©ho kanÃ¡lu
+void PlaySoundStop();				// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ zvukÅ¯
+void PlaySoundBack();				// obsluha pÅ™ehrÃ¡vÃ¡nÃ­ zvuku na pozadÃ­
+void SetSoundPos(double pos);		// nastavenÃ­ pozice pÅ™ehrÃ¡vÃ¡nÃ­ zvuku (v sekundÃ¡ch)
+double GetSoundPos();				// zjiÅ¡tÄ›nÃ­ pozice pÅ™ehrÃ¡vÃ¡nÃ­ zvuku (v sekundÃ¡ch)
+void SoundPause(bool pause);		// pauza pÅ™ehrÃ¡vÃ¡nÃ­ zvuku
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inline volání pøíkazu - zvuk
+// inline volÃ¡nÃ­ pÅ™Ã­kazu - zvuk
 
 inline void FSound(CSound& sound)
 {
@@ -77,29 +77,29 @@ inline void FSound(CSound& sound)
 
 
 // funkce
-void _fastcall FSoundFunc(CSound& sound);		// funkce s návratem zvuku
+void _fastcall FSoundFunc(CSound& sound);		// funkce s nÃ¡vratem zvuku
 
-// promìnné
-void _fastcall FSoundEmpty(CSound& sound);		// prázdnı zvuk
-void _fastcall FSoundObj(CSound& sound);		// globální zvuk (Data = index)
-void _fastcall FSoundObjList(CSound& sound);	// globalní zvuk v seznamu (Data = index, List = seznam)
-void _fastcall FSoundLoc(CSound& sound);		// lokální zvuk (Data = index)
-void _fastcall FSoundLocList(CSound& sound);	// lokální zvuk v seznamu (Data = index, List = seznam)
+// promÄ›nnÃ©
+void _fastcall FSoundEmpty(CSound& sound);		// prÃ¡zdnÃ½ zvuk
+void _fastcall FSoundObj(CSound& sound);		// globÃ¡lnÃ­ zvuk (Data = index)
+void _fastcall FSoundObjList(CSound& sound);	// globalnÃ­ zvuk v seznamu (Data = index, List = seznam)
+void _fastcall FSoundLoc(CSound& sound);		// lokÃ¡lnÃ­ zvuk (Data = index)
+void _fastcall FSoundLocList(CSound& sound);	// lokÃ¡lnÃ­ zvuk v seznamu (Data = index, List = seznam)
 
 // konverze
-void _fastcall FSoundConv8Bit(CSound& sound);	// konverze na 8 bitù
-void _fastcall FSoundConv16Bit(CSound& sound);	// konverze na 16 bitù
+void _fastcall FSoundConv8Bit(CSound& sound);	// konverze na 8 bitÅ¯
+void _fastcall FSoundConv16Bit(CSound& sound);	// konverze na 16 bitÅ¯
 void _fastcall FSoundConvStereo(CSound& sound);	// konverze na stereo
 void _fastcall FSoundConvMono(CSound& sound);	// konverze na mono
 void _fastcall FSoundConv11025(CSound& sound);	// konverze na frekvenci 11025
 void _fastcall FSoundConv22050(CSound& sound);	// konverze na frekvenci 22050
 void _fastcall FSoundConv44100(CSound& sound);	// konverze na frekvenci 44100
 void _fastcall FSoundConvCopy(CSound& sound);	// duplikace zvuku
-void _fastcall FSoundAdd1(CSound& sound);		// souèet jednoho zvuku - ponechá se beze zmìny
-void _fastcall FSoundAdd(CSound& sound);		// souèet zvukù (Data = poèet zvukù - 1)
+void _fastcall FSoundAdd1(CSound& sound);		// souÄet jednoho zvuku - ponechÃ¡ se beze zmÄ›ny
+void _fastcall FSoundAdd(CSound& sound);		// souÄet zvukÅ¯ (Data = poÄet zvukÅ¯ - 1)
 void _fastcall FSoundSpeed(CSound& sound);		// konverze rychlosti zvuku
-void _fastcall FTonGen(CSound& sound);			// tónovı generátor
+void _fastcall FTonGen(CSound& sound);			// tÃ³novÃ½ generÃ¡tor
 
-void _fastcall FGetFileSound(CSound& sound);	// naètení zvuku ze souboru
+void _fastcall FGetFileSound(CSound& sound);	// naÄtenÃ­ zvuku ze souboru
 
 void _fastcall FSoundConvPCM(CSound& sound);	// dekomprimace zvuku

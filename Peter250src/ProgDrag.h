@@ -1,36 +1,36 @@
 
 /***************************************************************************\
 *																			*
-*							Obsluha taûenÌ ikon								*
+*							Obsluha ta≈æen√≠ ikon								*
 *																			*
 \***************************************************************************/
 
-// parametry taûenÌ
-extern	BOOL		Draging;			// p¯Ìznak probÌhajÌcÌho taûenÌ
-extern	int			DragIconWidth;		// öÌ¯ka taûenÈ ikony
-extern	int			DragIconHeight;		// v˝öka taûenÈ ikony
-extern	int			DragHotSpotX;		// bod uchycenÌ prvku X
-extern	int			DragHotSpotY;		// bod uchycenÌ prvku Y
+// parametry ta≈æen√≠
+extern	BOOL		Draging;			// p≈ô√≠znak prob√≠haj√≠c√≠ho ta≈æen√≠
+extern	int			DragIconWidth;		// ≈°√≠≈ôka ta≈æen√© ikony
+extern	int			DragIconHeight;		// v√Ω≈°ka ta≈æen√© ikony
+extern	int			DragHotSpotX;		// bod uchycen√≠ prvku X
+extern	int			DragHotSpotY;		// bod uchycen√≠ prvku Y
 
 /////////////////////////////////////////////////////////////////////////////
-// zah·jenÌ taûeni
+// zah√°jen√≠ ta≈æeni
 
 void ProgOnBeginDrag(HWND hWnd, TV_ITEM* tvi, int x, int y, BOOL right);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// posun myöi p¯i taûenÌ
+// posun my≈°i p≈ôi ta≈æen√≠
 
 void ProgOnMoveDrag(UINT flags, int x, int y);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonËenÌ taûenÌ
+// ukonƒçen√≠ ta≈æen√≠
 
 void ProgOnEndDrag();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// p¯eruöenÌ taûenÌ
+// p≈ôeru≈°en√≠ ta≈æen√≠
 
 void BreakDrag();

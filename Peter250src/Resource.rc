@@ -782,7 +782,7 @@ BEGIN
             VALUE "FileDescription", "Peter\0"
             VALUE "FileVersion", "2, 5, 0, 0\0"
             VALUE "InternalName", "Peter\0"
-            VALUE "LegalCopyright", "Copyright © GemTree Software 2012, Copyright © Miroslav Nemecek 2012\0"
+            VALUE "LegalCopyright", "Copyright Â© GemTree Software 2012, Copyright Â© Miroslav Nemecek 2012\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "Peter.exe\0"
             VALUE "PrivateBuild", "\0"

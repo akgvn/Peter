@@ -9,29 +9,29 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaèní prázdná plocha (modifikuje se poèet referencí!)
-// Prázdná plocha ukazuje na prázdnou ikonu 0!
+// inicializaÄnÃ­ prÃ¡zdnÃ¡ plocha (modifikuje se poÄet referencÃ­!)
+// PrÃ¡zdnÃ¡ plocha ukazuje na prÃ¡zdnou ikonu 0!
 
 MAPDATA	EmptyMapData		= { 1, 1, 1, 0, 0 };
-const CMap		EmptyMap;			// prázdná plocha
+const CMap		EmptyMap;			// prÃ¡zdnÃ¡ plocha
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení dat plochy (pøi chybì pamìti vrací NULL)
+// vytvoÅ™enÃ­ dat plochy (pÅ™i chybÄ› pamÄ›ti vracÃ­ NULL)
 
 MAPDATA* _fastcall NewMapData(int width, int height)
 {
 	ASSERT((width > 0) && (height > 0));
 
-// vytvoøení dat plochy
+// vytvoÅ™enÃ­ dat plochy
 	MAPDATA* data = (MAPDATA*)MemGet(SIZEOFMAPDATA + width*height*SIZEOFMAPITEM);
 	if (data != NULL)
 	{
 
-// nastavení parametrù plochy
-		data->Refer = 1;				// poèet referencí
-		data->Width = width;			// šíøka
-		data->Height = height;			// vıška
+// nastavenÃ­ parametrÅ¯ plochy
+		data->Refer = 1;				// poÄet referencÃ­
+		data->Width = width;			// Å¡Ã­Å™ka
+		data->Height = height;			// vÃ½Å¡ka
 	}
 
 	return data;
@@ -39,7 +39,7 @@ MAPDATA* _fastcall NewMapData(int width, int height)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení dat plochy (oddìleno kvùli lepší optimalizaci)
+// zruÅ¡enÃ­ dat plochy (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 
 void _fastcall DelMapData(MAPDATA* data)
 {
@@ -74,7 +74,7 @@ CMap::~CMap()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CMap::Init()
 { 
@@ -91,7 +91,7 @@ void _fastcall CMap::Init(MAPDATA* data)
 	attach(data); 
 };
 
-bool _fastcall CMap::Init(int width, int height)	// pøi chybì pamìti vrátí FALSE, plocha není vytvoøena
+bool _fastcall CMap::Init(int width, int height)	// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, plocha nenÃ­ vytvoÅ™ena
 {
 	pData = NewMapData(width, height);
 	return (pData != NULL);
@@ -104,7 +104,7 @@ void CMap::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní plochy (uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ plochy (uvolnÄ›nÃ­ dat)
 
 void CMap::Empty()
 { 
@@ -114,60 +114,60 @@ void CMap::Empty()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vymazání obsahu plochy (naplnìní ikonami 0, vynulované parametry), zajistí pøivlastnìní bufferu,
-// pøi chybì pamìti vrací FALSE, pùvodní obsah nezmìnìn
+// vymazÃ¡nÃ­ obsahu plochy (naplnÄ›nÃ­ ikonami 0, vynulovanÃ© parametry), zajistÃ­ pÅ™ivlastnÄ›nÃ­ bufferu,
+// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, pÅ¯vodnÃ­ obsah nezmÄ›nÄ›n
 
 bool CMap::Clear()
 {
-// vytvoøení nového bufferu, je-li potøeba
+// vytvoÅ™enÃ­ novÃ©ho bufferu, je-li potÅ™eba
 	if (!New()) return false;
 
-// vymazání bufferu
+// vymazÃ¡nÃ­ bufferu
 	MemFill(pData->Data, pData->Width * pData->Height * SIZEOFMAPITEM, 0);
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vymazání obsahu plochy s nastavením velikosti (naplnìní ikonami 0, vynulované parametry),
-// zajistí pøivlastnìní bufferu, pøi chybì pamìti vrací FALSE, pùvodní obsah nezmìnìn
+// vymazÃ¡nÃ­ obsahu plochy s nastavenÃ­m velikosti (naplnÄ›nÃ­ ikonami 0, vynulovanÃ© parametry),
+// zajistÃ­ pÅ™ivlastnÄ›nÃ­ bufferu, pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, pÅ¯vodnÃ­ obsah nezmÄ›nÄ›n
 
 bool _fastcall CMap::Clear(int width, int height)
 {
-// vytvoøení nového bufferu, je-li potøeba
+// vytvoÅ™enÃ­ novÃ©ho bufferu, je-li potÅ™eba
 	if (!New(width, height)) return false;
 
-// vymazání bufferu
+// vymazÃ¡nÃ­ bufferu
 	MemFill(pData->Data, pData->Width * pData->Height * SIZEOFMAPITEM, 0);
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie do vlastního bufferu pøed modifikací
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CMap::CopyWrite()
 {
-// úschova ukazatelù
-	MAPDATA* olddata = pData;		// adresa starıch dat
-	long* refer = &(olddata->Refer);// poèet referencí
+// Ãºschova ukazatelÅ¯
+	MAPDATA* olddata = pData;		// adresa starÃ½ch dat
+	long* refer = &(olddata->Refer);// poÄet referencÃ­
 
-// test, zda je nutné pøivlastnìní
-	if (*refer > 1)					// je nìjakı jinı majitel?
+// test, zda je nutnÃ© pÅ™ivlastnÄ›nÃ­
+	if (*refer > 1)					// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		MAPDATA* newdata = NewMapData(olddata->Width, olddata->Height);
 		if (newdata == NULL) return false;
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 		MemCopy(newdata->Data, olddata->Data, olddata->Width * olddata->Height * SIZEOFMAPITEM);
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -177,26 +177,26 @@ bool CMap::CopyWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nové plochy se stejnou velikostí (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ© plochy se stejnou velikostÃ­ (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CMap::New()
 {
-// ukazatel na stará data
+// ukazatel na starÃ¡ data
 	MAPDATA* olddata = pData;
 
-// test, zda je nutné vytvoøení nového bufferu
-	if (olddata->Refer > 1)			// na buffer je více referencí
+// test, zda je nutnÃ© vytvoÅ™enÃ­ novÃ©ho bufferu
+	if (olddata->Refer > 1)			// na buffer je vÃ­ce referencÃ­
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		MAPDATA* newdata = NewMapData(pData->Width, pData->Height);
 		if (newdata == NULL) return false;
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -205,28 +205,28 @@ bool CMap::New()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nové plochy (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ© plochy (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool _fastcall CMap::New(int width, int height)
 {
-// ukazatel na stará data
+// ukazatel na starÃ¡ data
 	MAPDATA* olddata = pData;
 
-// test, zda je nutné vytvoøení nového bufferu
-	if ((olddata->Refer > 1) ||			// na buffer je více referencí
-		(olddata->Width != width) ||	// nesouhlasí šíøka
-		(olddata->Height != height))	// nesouhlasí vıška
+// test, zda je nutnÃ© vytvoÅ™enÃ­ novÃ©ho bufferu
+	if ((olddata->Refer > 1) ||			// na buffer je vÃ­ce referencÃ­
+		(olddata->Width != width) ||	// nesouhlasÃ­ Å¡Ã­Å™ka
+		(olddata->Height != height))	// nesouhlasÃ­ vÃ½Å¡ka
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		MAPDATA* newdata = NewMapData(width, height);
 		if (newdata == NULL) return false;
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -236,44 +236,44 @@ bool _fastcall CMap::New(int width, int height)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zmìna velikosti plochy
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// zmÄ›na velikosti plochy
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CMap::Resize(int width, int height)
 {
-// úschova starıch rozmìrù
+// Ãºschova starÃ½ch rozmÄ›rÅ¯
 	int oldwidth = pData->Width;
 	int oldheight = pData->Height;
 
-// test, zda je potøeba velikost plochy mìnit
+// test, zda je potÅ™eba velikost plochy mÄ›nit
 	if ((width != oldwidth) || (height != oldheight))
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		MAPDATA* olddata = pData;
 		MAPDATA* newdata = NewMapData(width, height);
 		if (newdata == NULL) return false;
 
-// pøíprava poètu øádkù ke kopii
+// pÅ™Ã­prava poÄtu Å™Ã¡dkÅ¯ ke kopii
 		int i = height;
 		if (oldheight < i) i = oldheight;
 
-// pøíprava délky øádku ke kopii
+// pÅ™Ã­prava dÃ©lky Å™Ã¡dku ke kopii
 		int j = width;
 		if (oldwidth < j) j = oldwidth;
 
-// pøíprava zbytku øádku k vymazání
+// pÅ™Ã­prava zbytku Å™Ã¡dku k vymazÃ¡nÃ­
 		int k = width - j;
 
-// pøírustek zdrojové a cílové adresy
+// pÅ™Ã­rustek zdrojovÃ© a cÃ­lovÃ© adresy
 		int srcinc = oldwidth * SIZEOFMAPITEM;
 		int dstinc = width * SIZEOFMAPITEM;
 
-// pøíprava zdrojové a cílové adresy
+// pÅ™Ã­prava zdrojovÃ© a cÃ­lovÃ© adresy
 		BYTE* src = (BYTE*)(olddata->Data);
 		BYTE* dst = (BYTE*)(newdata->Data);
 
-// kopie platnıch øádkù pøi shodné délce øádkù
+// kopie platnÃ½ch Å™Ã¡dkÅ¯ pÅ™i shodnÃ© dÃ©lce Å™Ã¡dkÅ¯
 		if (width == oldwidth)
 		{
 			i *= dstinc;
@@ -282,7 +282,7 @@ bool CMap::Resize(int width, int height)
 			src += i;
 		}
 
-// kopie platnıch øádkù pøi rozdílné délce øádkù
+// kopie platnÃ½ch Å™Ã¡dkÅ¯ pÅ™i rozdÃ­lnÃ© dÃ©lce Å™Ã¡dkÅ¯
 		else
 		{
 			j *= SIZEOFMAPITEM;
@@ -311,17 +311,17 @@ bool CMap::Resize(int width, int height)
 			}
 		}
 
-// vymazání zbylıch øádkù
+// vymazÃ¡nÃ­ zbylÃ½ch Å™Ã¡dkÅ¯
 		i = height - oldheight;
 		if (i > 0)
 		{
 			MemFill(dst, i*dstinc, 0);
 		}
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -331,35 +331,35 @@ bool CMap::Resize(int width, int height)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// poskytnutí prvku (s kontrolou platnosti offsetu/indexu)
-// pro neplatnı prvek vrací pøístup na prvek prázdné plochy
+// poskytnutÃ­ prvku (s kontrolou platnosti offsetu/indexu)
+// pro neplatnÃ½ prvek vracÃ­ pÅ™Ã­stup na prvek prÃ¡zdnÃ© plochy
 
 const MAPITEM& _fastcall CMap::Get(const int off) const
 {
-	if (IsValid(off))				// je offset platnı?
+	if (IsValid(off))				// je offset platnÃ½?
 	{
-		return pData->Data[off];	// prvek na daném offsetu
+		return pData->Data[off];	// prvek na danÃ©m offsetu
 	}
-	return EmptyMapData.Data[0];	// neplatnı offset
+	return EmptyMapData.Data[0];	// neplatnÃ½ offset
 }
 
 const MAPITEM& _fastcall CMap::Get(const int x, const int y) const
 {
-	if (IsValid(x, y))				// je index platnı?
+	if (IsValid(x, y))				// je index platnÃ½?
 	{
 		return pData->Data[x + y*pData->Width];	// prvek
 	}
-	return EmptyMapData.Data[0];	// neplatnı offset
+	return EmptyMapData.Data[0];	// neplatnÃ½ offset
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavení prvku (s kontrolou platnosti offsetu/indexu)
-// pøed zápisem je nutno zajistit pøivlastnìní bufferu!
+// nastavenÃ­ prvku (s kontrolou platnosti offsetu/indexu)
+// pÅ™ed zÃ¡pisem je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu!
 
 void _fastcall CMap::Set(const int off, const MAPITEM& data)
 {
-	if (IsValid(off))				// je offset platnı?
+	if (IsValid(off))				// je offset platnÃ½?
 	{
 		pData->Data[off] = data;
 	}
@@ -367,7 +367,7 @@ void _fastcall CMap::Set(const int off, const MAPITEM& data)
 
 void _fastcall CMap::Set(const int x, const int y, const MAPITEM& data)
 {
-	if (IsValid(x, y))				// je index platnı?
+	if (IsValid(x, y))				// je index platnÃ½?
 	{
 		pData->Data[x + y*pData->Width] = data;
 	}
@@ -375,11 +375,11 @@ void _fastcall CMap::Set(const int x, const int y, const MAPITEM& data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zvıšení reference na ikonu (v bufferu globálních a lokálních objektù)
+// zvÃ½Å¡enÃ­ reference na ikonu (v bufferu globÃ¡lnÃ­ch a lokÃ¡lnÃ­ch objektÅ¯)
 
 void _fastcall RefIconInc(const int icon)
 {
-// nalezení ikony v bufferu globálních objektù
+// nalezenÃ­ ikony v bufferu globÃ¡lnÃ­ch objektÅ¯
 	int index = BufObj.SrcDat(BufIcoID, icon);
 	if (index >= 0)
 	{
@@ -387,7 +387,7 @@ void _fastcall RefIconInc(const int icon)
 		return;
 	}
 
-// nalezení ikony v bufferu lokálních objektù
+// nalezenÃ­ ikony v bufferu lokÃ¡lnÃ­ch objektÅ¯
 	index = BufLoc.SrcDat(BufIcoID, icon);
 	if (index >= 0)
 	{
@@ -401,7 +401,7 @@ void _fastcall RefIconInc(const int icon)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zvıšení reference na všechny ikony v ploše
+// zvÃ½Å¡enÃ­ reference na vÅ¡echny ikony v ploÅ¡e
 
 void CMap::RefInc()
 {
@@ -416,11 +416,11 @@ void CMap::RefInc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// sníení reference na ikonu (v bufferu globálních a lokálních objektù)
+// snÃ­Å¾enÃ­ reference na ikonu (v bufferu globÃ¡lnÃ­ch a lokÃ¡lnÃ­ch objektÅ¯)
 
 void _fastcall RefIconDec(const int icon)
 {
-// nalezení ikony v bufferu globálních objektù
+// nalezenÃ­ ikony v bufferu globÃ¡lnÃ­ch objektÅ¯
 	int index = BufObj.SrcDat(BufIcoID, icon);
 	if (index >= 0)
 	{
@@ -428,7 +428,7 @@ void _fastcall RefIconDec(const int icon)
 		return;
 	}
 
-// nalezení ikony v bufferu lokálních objektù
+// nalezenÃ­ ikony v bufferu lokÃ¡lnÃ­ch objektÅ¯
 	index = BufLoc.SrcDat(BufIcoID, icon);
 	if (index >= 0)
 	{
@@ -442,7 +442,7 @@ void _fastcall RefIconDec(const int icon)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// sníení reference na všechny ikony v ploše
+// snÃ­Å¾enÃ­ reference na vÅ¡echny ikony v ploÅ¡e
 
 void CMap::RefDec()
 {
@@ -456,33 +456,33 @@ void CMap::RefDec()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení pouití ikony v ploše (index = index plochy v seznamu) - nahradí ikonou 0
-// ignoruje pøípadnou chybu pamìti!
+// zruÅ¡enÃ­ pouÅ¾itÃ­ ikony v ploÅ¡e (index = index plochy v seznamu) - nahradÃ­ ikonou 0
+// ignoruje pÅ™Ã­padnou chybu pamÄ›ti!
 
 void _fastcall CMap::DelIcon(int icon, int index, bool undo)
 {
-// nesmí to bıt ikona 0 (=základní ikona)
+// nesmÃ­ to bÃ½t ikona 0 (=zÃ¡kladnÃ­ ikona)
 	ASSERT(icon > 0);
 	if (icon <= 0) return;
 
-// ukazatel poloek
+// ukazatel poloÅ¾ek
 	MAPITEM* item = DataData();
 
-// ukazatel indexu poloky v ploše
+// ukazatel indexu poloÅ¾ky v ploÅ¡e
 	int off = 0;
 
-// pøíznak provedení kopie bufferu
+// pÅ™Ã­znak provedenÃ­ kopie bufferu
 	bool copy = false;
 
-// cyklus pøes všechny poloky plochy
+// cyklus pÅ™es vÅ¡echny poloÅ¾ky plochy
 	for (int i = pData->Height*pData->Width; i > 0; i--)
 	{
 
-// je to hledaná ikona?
+// je to hledanÃ¡ ikona?
 		if (item->Icon == icon)
 		{
 
-// zajištìní pøivlastnìní bufferu
+// zajiÅ¡tÄ›nÃ­ pÅ™ivlastnÄ›nÃ­ bufferu
 			if (!copy)
 			{
 				if (!CopyWrite()) return;
@@ -490,10 +490,10 @@ void _fastcall CMap::DelIcon(int icon, int index, bool undo)
 				copy = true;
 			}
 
-// sníení reference na ikonu z bufferù
+// snÃ­Å¾enÃ­ reference na ikonu z bufferÅ¯
 			RefIconDec(icon);
 
-// záznam o zrušení ikony do UNDO bufferu
+// zÃ¡znam o zruÅ¡enÃ­ ikony do UNDO bufferu
 			if (undo)
 			{
 				if (!Undo.AddMapIcoSet(index, off, icon))
@@ -502,14 +502,14 @@ void _fastcall CMap::DelIcon(int icon, int index, bool undo)
 				}
 			}
 
-// nastavení nové ikony
+// nastavenÃ­ novÃ© ikony
 			item->Icon = 0;
 
-// zvıšení reference na novou ikonu
+// zvÃ½Å¡enÃ­ reference na novou ikonu
 			RefIconInc(0);
 		}
 
-// zvıšení ukazatele poloek
+// zvÃ½Å¡enÃ­ ukazatele poloÅ¾ek
 		item++;
 		off++;
 	}
@@ -517,11 +517,11 @@ void _fastcall CMap::DelIcon(int icon, int index, bool undo)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení plochy ze souboru (TRUE=operace OK, pøi chybì obsah nezmìnìn)
+// naÄtenÃ­ plochy ze souboru (TRUE=operace OK, pÅ™i chybÄ› obsah nezmÄ›nÄ›n)
 
 bool CMap::LoadFile(CText jmeno)
 {
-// otevøení souboru mapovaného do pamìti (uzavøen pøi destrukci!)
+// otevÅ™enÃ­ souboru mapovanÃ©ho do pamÄ›ti (uzavÅ™en pÅ™i destrukci!)
 	CFileMap file;
 	if (!file.Open(jmeno)) return false;
 
@@ -529,14 +529,14 @@ bool CMap::LoadFile(CText jmeno)
 	int size = file.Size();
 	if (size < 100) return false;
 
-// naètení základních parametrù
+// naÄtenÃ­ zÃ¡kladnÃ­ch parametrÅ¯
 	MAPFILE* map = (MAPFILE*)file.Adr();
 	int verze = map->Verze;			// verze souboru
-	int jazyku = map->Jazyku;		// poèet jazykù
+	int jazyku = map->Jazyku;		// poÄet jazykÅ¯
 	if (verze < 1) jazyku = 1;		// pro verzi 0 bude 1 jazyk
-	int width = map->Width;			// šíøka plochy
-	int height = map->Height;		// vıška plochy
-	int pals = map->Colors;			// poèet palet
+	int width = map->Width;			// Å¡Ã­Å™ka plochy
+	int height = map->Height;		// vÃ½Å¡ka plochy
+	int pals = map->Colors;			// poÄet palet
 
 // kontrola platnosti souboru
 	if ((map->Ident[0] != 'P') ||
@@ -554,52 +554,52 @@ bool CMap::LoadFile(CText jmeno)
 		return false;
 	}
 
-// pøíprava konverzní tabulky palet
+// pÅ™Ã­prava konverznÃ­ tabulky palet
 	BITMAPINFO* bmp = (BITMAPINFO*)MemGet(sizeof(BITMAPINFO) + pals*4 + 200);
 	if (bmp == NULL) return false;
 	bmp->bmiHeader.biClrUsed = pals;
 	bmp->bmiHeader.biBitCount = 8;
 	MemCopy(bmp->bmiColors, map->ColorTab, pals*4);
 
-// barva 0 bude jako pozadí
+// barva 0 bude jako pozadÃ­
 	bmp->bmiColors[0] = StdBitmapInfo->bmiColors[0];
 
-// barva 1 bude jako stín
+// barva 1 bude jako stÃ­n
 	bmp->bmiColors[1] = StdBitmapInfo->bmiColors[1];
 
 	GenKonvPal(bmp);
 	MemFree(bmp);
 
-// pøíprava poètu referencí
+// pÅ™Ã­prava poÄtu referencÃ­
 	BYTE* src = file.Adr() + SIZEOFMAPFILE + pals*4;
 	int refs = *(int*)src;
 	src += 4;
 	size -= SIZEOFMAPFILE + pals*4 + 4;
 
-// kontrola poètu referencí
+// kontrola poÄtu referencÃ­
 	if ((refs < 1) || (refs > width*height)) return false;
 
-// vytvoøení bufferu referencí
+// vytvoÅ™enÃ­ bufferu referencÃ­
 	CBufIndex inx;
 	if (!inx.NumClear(refs)) return false;
 
-// záloha aktuální plochy (zrušeno destruktorem pøi ukonèení funkce)
+// zÃ¡loha aktuÃ¡lnÃ­ plochy (zruÅ¡eno destruktorem pÅ™i ukonÄenÃ­ funkce)
 	CMap backup(pData);
 
-// vytvoøení nové plochy (vymazání na ikony 0)
+// vytvoÅ™enÃ­ novÃ© plochy (vymazÃ¡nÃ­ na ikony 0)
 	if (!Clear(width, height)) return false;
 
-// naètení referencí
+// naÄtenÃ­ referencÃ­
 	CMultiText txt;					// text reference
 	CText txt0;
-	CIcon icon;						// ikona, rozmìry ICONSIZE
+	CIcon icon;						// ikona, rozmÄ›ry ICONSIZE
 
-// cyklus pøes všechny ikony
+// cyklus pÅ™es vÅ¡echny ikony
 	for (int i = 0; i < refs; i++)
 	{
 		txt.Empty();
 
-// cyklus pøes všechny jazyky
+// cyklus pÅ™es vÅ¡echny jazyky
 		for (int j = 0; j < jazyku; j++)
 		{
 
@@ -610,31 +610,31 @@ bool CMap::LoadFile(CText jmeno)
 				return false;
 			}
 
-// naètení parametrù textu
+// naÄtenÃ­ parametrÅ¯ textu
 			int id = JazykInfo[JazykDef].LangID & 0xff;
 			int cp = 0;
 
 			if (verze >= 1)
 			{
-				id = *(long*)src & 0xff;	// identifikátor jazyku
+				id = *(long*)src & 0xff;	// identifikÃ¡tor jazyku
 				src += 4;
 				size -= 4;
 				if (id == 0) id = (JazykInfo[JazykDef].LangID & 0xff);
 
-				cp = *(long*)src;			// kódová stránka
+				cp = *(long*)src;			// kÃ³dovÃ¡ strÃ¡nka
 				src += 4;
 				size -= 4;
 			}
 
-// naètení délky textu
-			int len = *(long*)src;			// délka textu ve znacích
+// naÄtenÃ­ dÃ©lky textu
+			int len = *(long*)src;			// dÃ©lka textu ve znacÃ­ch
 			if (len < 0) len = 0;
-			src += 4;						// posun zdrojové adresy
-			size -= 4;						// sníení zbıvajících dat
-			int len0 = len;					// délka textu v bajtech
-			if (cp == 0) len0 = 2*len;		// délka textu v bajtech pro UNICODE
+			src += 4;						// posun zdrojovÃ© adresy
+			size -= 4;						// snÃ­Å¾enÃ­ zbÃ½vajÃ­cÃ­ch dat
+			int len0 = len;					// dÃ©lka textu v bajtech
+			if (cp == 0) len0 = 2*len;		// dÃ©lka textu v bajtech pro UNICODE
 
-// kontrola délky textu a ikony
+// kontrola dÃ©lky textu a ikony
 			if (((DWORD)len > 1000000) ||
 				(len0 + ICONSIZE > size) ||
 				(size <= 0))
@@ -643,7 +643,7 @@ bool CMap::LoadFile(CText jmeno)
 				return false;
 			}
 
-// naètení textu
+// naÄtenÃ­ textu
 			if (cp == 0)
 			{
 				if (!txt0.Set((WCHAR*)src, len))
@@ -664,7 +664,7 @@ bool CMap::LoadFile(CText jmeno)
 			src += len0;
 			size -= len0;
 
-// vyhledání ID jazyku
+// vyhledÃ¡nÃ­ ID jazyku
 			for (int lan = 0; lan < JAZYKNUM; lan++)
 			{
 				if (lan != JAZYK000)
@@ -678,7 +678,7 @@ bool CMap::LoadFile(CText jmeno)
 			}
 		}
 
-// naètení ikony
+// naÄtenÃ­ ikony
 		if (!icon.CopyKonvData(src))
 		{
 			*this = backup;
@@ -687,24 +687,24 @@ bool CMap::LoadFile(CText jmeno)
 		src += ICONSIZE;
 		size -= ICONSIZE;
 
-// nalezení objektu v nìkterém z bufferù
+// nalezenÃ­ objektu v nÄ›kterÃ©m z bufferÅ¯
 		int reffrst = -1;
 		int refnext = -1;
-		CBufProg* bf = &BufObj;				// bude se hledat v globálním bufferu
-		int index = bf->FindObj(txt, -1, -1, -1); // nalezení reference
+		CBufProg* bf = &BufObj;				// bude se hledat v globÃ¡lnÃ­m bufferu
+		int index = bf->FindObj(txt, -1, -1, -1); // nalezenÃ­ reference
 
-		if (index < 0)					// nebyla poloka nalezena?
+		if (index < 0)					// nebyla poloÅ¾ka nalezena?
 		{
-			bf = &BufLoc;				// bude se hledat v lokálním bufferu
-			reffrst = bf->Disp();		// hledaná první lokální poloka
-			if (bf->IsValid(reffrst))	// je lokální poloka platná?
+			bf = &BufLoc;				// bude se hledat v lokÃ¡lnÃ­m bufferu
+			reffrst = bf->Disp();		// hledanÃ¡ prvnÃ­ lokÃ¡lnÃ­ poloÅ¾ka
+			if (bf->IsValid(reffrst))	// je lokÃ¡lnÃ­ poloÅ¾ka platnÃ¡?
 			{
-				refnext = bf->At(reffrst).Next;	// poslední hledaná poloka
+				refnext = bf->At(reffrst).Next;	// poslednÃ­ hledanÃ¡ poloÅ¾ka
 			}
 			index = bf->FindObj(txt, -1, reffrst, refnext);
 		}
 
-// pokus o nalezení objektu správného typu
+// pokus o nalezenÃ­ objektu sprÃ¡vnÃ©ho typu
 		int nn = 1;
 		while (bf->IsValid(index) && (bf->At(index).Func != IDF_ICON)
 				&& (bf->At(index).Func != IDF_NONE))
@@ -714,7 +714,7 @@ bool CMap::LoadFile(CText jmeno)
 			index = bf->FindObj(txt, -1, reffrst, refnext);
 		}
 		
-// objekt nenalezen - bude se vytváøet (v globálním bufferu)
+// objekt nenalezen - bude se vytvÃ¡Å™et (v globÃ¡lnÃ­m bufferu)
 		if (bf->IsNotValid(index))
 		{
 			bf = &BufObj;
@@ -739,7 +739,7 @@ bool CMap::LoadFile(CText jmeno)
 			if (bf->IsValid(index))
 			{
 
-// nastavení ikony
+// nastavenÃ­ ikony
 				ASSERT(bf->At(index).Func == IDF_ICON);
 				if (bf->At(index).Icon >= 0)
 				{
@@ -750,12 +750,12 @@ bool CMap::LoadFile(CText jmeno)
 				bf->At(index).DatIndex = bf->At(index).Icon;
 				bf->At(index).DatBlok = BufIcoID;
 
-// zajištìní jedineènosti jména nové ikony
-				reffrst = BufLoc.Disp();		// hledaná první lokální poloka
+// zajiÅ¡tÄ›nÃ­ jedineÄnosti jmÃ©na novÃ© ikony
+				reffrst = BufLoc.Disp();		// hledanÃ¡ prvnÃ­ lokÃ¡lnÃ­ poloÅ¾ka
 				refnext = -1;
-				if (BufLoc.IsValid(reffrst))	// je lokální poloka platná?
+				if (BufLoc.IsValid(reffrst))	// je lokÃ¡lnÃ­ poloÅ¾ka platnÃ¡?
 				{
-					refnext = BufLoc.At(reffrst).Next;	// poslední hledaná poloka
+					refnext = BufLoc.At(reffrst).Next;	// poslednÃ­ hledanÃ¡ poloÅ¾ka
 				}
 
 				nn = 0;
@@ -766,7 +766,7 @@ bool CMap::LoadFile(CText jmeno)
 					txt.SetNumObj(nn);
 				}
 
-// nastavení jména nového objektu
+// nastavenÃ­ jmÃ©na novÃ©ho objektu
 				bf->At(index).Name = tx;
 
 				if (bf->At(index).HTree)
@@ -787,12 +787,12 @@ bool CMap::LoadFile(CText jmeno)
 			}
 		}
 
-// úschova indexu ikony
+// Ãºschova indexu ikony
 		inx[i] = bf->GetIcon(index);
 		if (inx[i] < 0) inx[i] = 0;
 	}
 
-// pøenesení ikon
+// pÅ™enesenÃ­ ikon
 	for (i = 0; i < width*height; i++)
 	{
 		if (size < 8) break;
@@ -812,22 +812,22 @@ bool CMap::LoadFile(CText jmeno)
 		size -= 8;
 	}
 
-// pøíznak - naèteno OK
+// pÅ™Ã­znak - naÄteno OK
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení do souboru (FALSE=chyba)
+// uloÅ¾enÃ­ do souboru (FALSE=chyba)
 
 bool CMap::SaveFile(CText jmeno) const
 {
-// vytvoøení souboru
+// vytvoÅ™enÃ­ souboru
 	CFile file;
 	file.Name(jmeno);
 	if (!file.Create()) return false;
 
-// pøíprava bufferu záhlaví
+// pÅ™Ã­prava bufferu zÃ¡hlavÃ­
 	int bufsize = SIZEOFMAPFILE + StdColors*4 + 4 + 10000;
 	BYTE* buf = (BYTE*)MemGet(bufsize);
 	if (buf == NULL)
@@ -837,7 +837,7 @@ bool CMap::SaveFile(CText jmeno) const
 		return false;
 	}
 	
-// vyplnìní záhlaví souboru
+// vyplnÄ›nÃ­ zÃ¡hlavÃ­ souboru
 	MAPFILE* map = (MAPFILE*)buf;
 	map->Ident[0] = 'P';
 	map->Ident[1] = 'M';
@@ -850,17 +850,17 @@ bool CMap::SaveFile(CText jmeno) const
 	map->Height = pData->Height;
 	map->Colors = StdColors;
 
-// pøenesení palet
+// pÅ™enesenÃ­ palet
 	MemCopy(map->ColorTab, StdBitmapInfo->bmiColors, StdColors*4);
 
-// offset èítaèe ikon
+// offset ÄÃ­taÄe ikon
 	int iconn = SIZEOFMAPFILE + StdColors*4;
 	*(long*)(buf + iconn) = 0;
 
-// pøíprava k uloení definic ikon
-	int size = SIZEOFMAPFILE + StdColors*4 + 4;	// poèet bajtù v bufferu
+// pÅ™Ã­prava k uloÅ¾enÃ­ definic ikon
+	int size = SIZEOFMAPFILE + StdColors*4 + 4;	// poÄet bajtÅ¯ v bufferu
 
-	CBufIndex inx;					// buffer mapování indexù ikon
+	CBufIndex inx;					// buffer mapovÃ¡nÃ­ indexÅ¯ ikon
 	if (!inx.NumClear(Icon.Max()))
 	{
 		MemFree(buf);
@@ -869,11 +869,11 @@ bool CMap::SaveFile(CText jmeno) const
 		return false;
 	}
 
-	int icons = pData->Width * pData->Height;	// poèet ikon v ploše celkem
-	CMultiText txt;								// jméno ikony
+	int icons = pData->Width * pData->Height;	// poÄet ikon v ploÅ¡e celkem
+	CMultiText txt;								// jmÃ©no ikony
 	CText txt0;
 
-// cyklus pøes všechny ikony plochy
+// cyklus pÅ™es vÅ¡echny ikony plochy
 	for (int i = 0; i < icons; i++)
 	{
 
@@ -882,15 +882,15 @@ bool CMap::SaveFile(CText jmeno) const
 		ASSERT(Icon.IsValid(icon));
 		if (Icon.IsNotValid(icon)) icon = 0;
 
-// kontrola, zda je ikona ji mapovaná
+// kontrola, zda je ikona jiÅ¾ mapovanÃ¡
 		if (inx[icon] < 0)
 		{
 
-// index mapované ikony
+// index mapovanÃ© ikony
 			inx[icon] = *(long*)(buf + iconn);
 			(*(long*)(buf + iconn))++;
 
-// nalezení reference na ikonu
+// nalezenÃ­ reference na ikonu
 			CBufProg* bf = &BufObj;
 			int ref = bf->SrcDat(BufIcoID, icon);
 
@@ -901,10 +901,10 @@ bool CMap::SaveFile(CText jmeno) const
 			}
 			ASSERT(ref >= 0);
 
-// pøíprava jména ikony (pro neplatnou ikonu vrátí prázdnı øetìzec)
+// pÅ™Ã­prava jmÃ©na ikony (pro neplatnou ikonu vrÃ¡tÃ­ prÃ¡zdnÃ½ Å™etÄ›zec)
 			txt = Text.Get(bf->GetText(ref));
 
-// cyklus pøes všechny jazyky
+// cyklus pÅ™es vÅ¡echny jazyky
 			for (int lan = 0; lan < JAZYKNUM; lan++)
 			{
 				if (lan != JAZYK000)
@@ -912,7 +912,7 @@ bool CMap::SaveFile(CText jmeno) const
 					txt0 = txt.MultiText(lan);
 					int len = txt0.Length();
 
-// zvıšení velikosti bufferu
+// zvÃ½Å¡enÃ­ velikosti bufferu
 					if (bufsize < size + 3*4 + len + ICONSIZE)
 					{
 						bufsize = size + 3*4 + len + ICONSIZE + 10000;
@@ -927,7 +927,7 @@ bool CMap::SaveFile(CText jmeno) const
 						buf = buf2;
 					}
 
-// uloení parametrù a textu jména ikony
+// uloÅ¾enÃ­ parametrÅ¯ a textu jmÃ©na ikony
 					*(long*)(buf + size) = JazykInfo[lan].LangID;
 					size += 4;
 					*(long*)(buf + size) = JazykInfo[lan].CodePage;
@@ -939,14 +939,14 @@ bool CMap::SaveFile(CText jmeno) const
 				}
 			}
 
-// uloení ikony (pro neplatnou ikonu uloí prázdnou ikonu)
+// uloÅ¾enÃ­ ikony (pro neplatnou ikonu uloÅ¾Ã­ prÃ¡zdnou ikonu)
 			Icon.Get(bf->GetIcon(ref)).DeComp();
 			MemCopy(buf + size, Icon.Get(bf->GetIcon(ref)).DataData(), ICONSIZE);
 			size += ICONSIZE;
 		}
 	}
 
-// zvıšení velikosti bufferu pro data plochy
+// zvÃ½Å¡enÃ­ velikosti bufferu pro data plochy
 	if (bufsize < size + 8*icons)
 	{
 		bufsize = size + 8*icons;
@@ -961,7 +961,7 @@ bool CMap::SaveFile(CText jmeno) const
 		buf = buf2;
 	}
 
-// uloení plochy
+// uloÅ¾enÃ­ plochy
 	for (i = 0; i < icons; i++)
 	{
 		int icon = pData->Data[i].Icon;
@@ -972,41 +972,41 @@ bool CMap::SaveFile(CText jmeno) const
 		size += 4;
 	}
 
-// uloení souboru
+// uloÅ¾enÃ­ souboru
 	BOOL result = file.Write(buf, size);
 
-// uzavøení souboru
+// uzavÅ™enÃ­ souboru
 	file.Close();
 
-// zrušení bufferu
+// zruÅ¡enÃ­ bufferu
 	MemFree(buf);
 
-// pøi chybì zápisu zrušení souboru
+// pÅ™i chybÄ› zÃ¡pisu zruÅ¡enÃ­ souboru
 	if (!result)
 	{
 		file.Delete();
 		return false;
 	}
 
-// pøíznak - uloeno OK
+// pÅ™Ã­znak - uloÅ¾eno OK
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CMap& CMap::operator= (const CMap& src)
 {
-	detach(pData);				// zrušení starıch dat
-	attach(src.pData);			// pøiøazení novıch dat
+	detach(pData);				// zruÅ¡enÃ­ starÃ½ch dat
+	attach(src.pData);			// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
 const CMap& CMap::operator= (MAPDATA* src)
 {
-	detach(pData);				// zrušení starıch dat
-	attach(src);				// pøiøazení novıch dat
+	detach(pData);				// zruÅ¡enÃ­ starÃ½ch dat
+	attach(src);				// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
@@ -1018,7 +1018,7 @@ const CMap& CMap::operator= (MAPDATA* src)
 \***************************************************************************/
 
 ////////////////////////////////////////////////////////////////////
-// pøidání záznamu o vloení poloky do UNDO bufferu
+// pÅ™idÃ¡nÃ­ zÃ¡znamu o vloÅ¾enÃ­ poloÅ¾ky do UNDO bufferu
 
 template <> bool CBuffer<CMap>::UndoAddIns(int index)
 {
@@ -1026,12 +1026,12 @@ template <> bool CBuffer<CMap>::UndoAddIns(int index)
 }
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení nové plochy (vrací index poloky, <0 = chyba)
-// provádí záznam do UNDO bufferu
+// vytvoÅ™enÃ­ novÃ© plochy (vracÃ­ index poloÅ¾ky, <0 = chyba)
+// provÃ¡dÃ­ zÃ¡znam do UNDO bufferu
 
 int _fastcall CBufMap::New(int width, int height)
 {
-// vytvoøení nové poloky
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 	int result = New();
 	if (result >= 0)
 	{
@@ -1045,24 +1045,24 @@ int _fastcall CBufMap::New(int width, int height)
 		}
 	}
 
-// index nové poloky (nebo <0 = chyba)
+// index novÃ© poloÅ¾ky (nebo <0 = chyba)
 	return result;
 }
 
 ////////////////////////////////////////////////////////////////////
-// pøidání poloky (vrací index poloky, <0 = chyba)
-// provádí záznam do UNDO bufferu
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky, <0 = chyba)
+// provÃ¡dÃ­ zÃ¡znam do UNDO bufferu
 
 int _fastcall CBufMap::Add(MAPDATA* data)
 {
 	CMap map(data);
-	int result = Add(map);			// result musí bıt oddìlen, pro inline by se špatnì volal destruktor
+	int result = Add(map);			// result musÃ­ bÃ½t oddÄ›len, pro inline by se Å¡patnÄ› volal destruktor
 	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení pouití ikony ze všech ploch - nahradí ikonou 0
-// ignoruje pøípadnou chybu pamìti!!!
+// zruÅ¡enÃ­ pouÅ¾itÃ­ ikony ze vÅ¡ech ploch - nahradÃ­ ikonou 0
+// ignoruje pÅ™Ã­padnou chybu pamÄ›ti!!!
 
 void _fastcall CBufMap::DelIcon(int icon)
 {

@@ -3,7 +3,7 @@
 
 /***************************************************************************\
 *																			*
-*								Buffer celıch èísel							*
+*								Buffer celÃ½ch ÄÃ­sel							*
 *																			*
 \***************************************************************************/
 
@@ -13,53 +13,53 @@
 
 CBufInt::CBufInt()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 CBufInt::CBufInt(int num)
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
-	Num(num);				// vytvoøení bufferu indexù
-	Clear(-1);				// vymazání bufferu
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
+	Num(num);				// vytvoÅ™enÃ­ bufferu indexÅ¯
+	Clear(-1);				// vymazÃ¡nÃ­ bufferu
 }
 
 CBufInt::~CBufInt()
 {
-	DelAll();				// zrušení bufferu
+	DelAll();				// zruÅ¡enÃ­ bufferu
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CBufInt::Init()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 void CBufInt::Init(int num)
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
-	Num(num);				// vytvoøení bufferu indexù
-	Clear(-1);				// vymazání bufferu
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
+	Num(num);				// vytvoÅ™enÃ­ bufferu indexÅ¯
+	Clear(-1);				// vymazÃ¡nÃ­ bufferu
 }
 
 void CBufInt::Term()
 {
-	DelAll();				// zrušení bufferu
+	DelAll();				// zruÅ¡enÃ­ bufferu
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 
 void CBufInt::NewData()
 {
@@ -71,18 +71,18 @@ void CBufInt::NewData()
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 
 void CBufInt::DelAll()
 {
-	MemBuf(m_Data, 0);		// zrušení bufferu dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není ádná poloka v bufferu
+	MemBuf(m_Data, 0);		// zruÅ¡enÃ­ bufferu dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ poloÅ¾ka v bufferu
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poètu poloek v bufferu (nové poloky neinicializované)
+// nastavenÃ­ poÄtu poloÅ¾ek v bufferu (novÃ© poloÅ¾ky neinicializovanÃ©)
 
 void _fastcall CBufInt::Num(int num)
 {
@@ -98,7 +98,7 @@ void _fastcall CBufInt::Num(int num)
 
 
 ////////////////////////////////////////////////////////////////////
-// vymazání všech poloek v bufferu zadanou hodnotou
+// vymazÃ¡nÃ­ vÅ¡ech poloÅ¾ek v bufferu zadanou hodnotou
 
 void _fastcall CBufInt::Clear(const int clear)
 {
@@ -112,11 +112,11 @@ void _fastcall CBufInt::Clear(const int clear)
 
 
 ////////////////////////////////////////////////////////////////////
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 int _fastcall CBufInt::Get(const int index) const
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		return m_Data[index];
 	}
@@ -125,11 +125,11 @@ int _fastcall CBufInt::Get(const int index) const
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 void _fastcall CBufInt::Set(const int index, const int data)
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		m_Data[index] = data;
 	}
@@ -137,11 +137,11 @@ void _fastcall CBufInt::Set(const int index, const int data)
 
 
 ////////////////////////////////////////////////////////////////////
-// vloení poloky do bufferu na poadovanou pozici (omezí index)
+// vloÅ¾enÃ­ poloÅ¾ky do bufferu na poÅ¾adovanou pozici (omezÃ­ index)
 
 void _fastcall CBufInt::Insert(int index, const int data)
 {
-// omezení indexu
+// omezenÃ­ indexu
 	if ((DWORD)index > (DWORD)m_Num)
 	{
 		if (index < 0) 
@@ -154,25 +154,25 @@ void _fastcall CBufInt::Insert(int index, const int data)
 		}
 	}
 
-// poèet poloek k odsunu
+// poÄet poloÅ¾ek k odsunu
 	int num = m_Num - index;
 
-// zvıšení poètu poloek v bufferu
+// zvÃ½Å¡enÃ­ poÄtu poloÅ¾ek v bufferu
 	Num(m_Num + 1);
 
-// odsun poloek
+// odsun poloÅ¾ek
 	if (num > 0)
 	{
 		MemMove(m_Data + index + 1, m_Data + index, num*sizeof(int));
 	}
 
-// nastavení poloky
+// nastavenÃ­ poloÅ¾ky
 	m_Data[index] = data;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 
 void _fastcall CBufInt::Del(int num)
 {
@@ -186,11 +186,11 @@ void _fastcall CBufInt::Del(int num)
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení poloky z bufferu (ostatní poloky se pøisunou)
+// zruÅ¡enÃ­ poloÅ¾ky z bufferu (ostatnÃ­ poloÅ¾ky se pÅ™isunou)
 
 void _fastcall CBufInt::DelItem(const int index)
 {
-	if (IsValid(index))					// je poloka platná?
+	if (IsValid(index))					// je poloÅ¾ka platnÃ¡?
 	{
 		m_Num--;
 		if (index < m_Num)
@@ -202,54 +202,54 @@ void _fastcall CBufInt::DelItem(const int index)
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení poloky (vrací index poloky)
+// vytvoÅ™enÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int CBufInt::New()
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result] = 0;			// inicializace poloky (musí bıt 0 == FALSE)
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result] = 0;			// inicializace poloÅ¾ky (musÃ­ bÃ½t 0 == FALSE)
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int _fastcall CBufInt::Add(const int data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result] = data;		// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result] = data;		// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 
 int _fastcall CBufInt::Dup(const int index)
 {
-	int result = NewItem();				// vytvoøení nové poloky
+	int result = NewItem();				// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
-		m_Data[result] = m_Data[index];	// kopie poloky
+		m_Data[result] = m_Data[index];	// kopie poloÅ¾ky
 	}
 	else
 	{
-		m_Data[result] = 0;				// inicializace neplatné poloky
+		m_Data[result] = 0;				// inicializace neplatnÃ© poloÅ¾ky
 	}
 	return result;
 }
 
 int _fastcall CBufInt::Dup(const int index, int num)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		int data = m_Data[index];
 
-		m_Data[result] = data;		// kopie poloky
+		m_Data[result] = data;		// kopie poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -258,7 +258,7 @@ int _fastcall CBufInt::Dup(const int index, int num)
 	}
 	else
 	{
-		m_Data[result] = 0;		// inicializace neplatné poloky
+		m_Data[result] = 0;		// inicializace neplatnÃ© poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -270,18 +270,18 @@ int _fastcall CBufInt::Dup(const int index, int num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CBufInt& CBufInt::operator= (const CBufInt& src)
 {
-	m_Num = 0;					// zrušení starıch dat
-	int index = 0;				// index naèítané poloky
-	int i = src.m_Num;			// velikost zdrojového bufferu
+	m_Num = 0;					// zruÅ¡enÃ­ starÃ½ch dat
+	int index = 0;				// index naÄÃ­tanÃ© poloÅ¾ky
+	int i = src.m_Num;			// velikost zdrojovÃ©ho bufferu
 
-	for (; i > 0; i--)			// pro všechny poloky v bufferu
+	for (; i > 0; i--)			// pro vÅ¡echny poloÅ¾ky v bufferu
 	{
-		Add(src[index]);	// kopie poloky
-		index++;				// inkrementace ètecího indexu
+		Add(src[index]);	// kopie poloÅ¾ky
+		index++;				// inkrementace ÄtecÃ­ho indexu
 	}
 	ASSERT(m_Num == src.m_Num);
 	return *this;
@@ -290,7 +290,7 @@ const CBufInt& CBufInt::operator= (const CBufInt& src)
 
 /***************************************************************************\
 *																			*
-*							Buffer logickıch promìnnıch						*
+*							Buffer logickÃ½ch promÄ›nnÃ½ch						*
 *																			*
 \***************************************************************************/
 
@@ -299,44 +299,44 @@ const CBufInt& CBufInt::operator= (const CBufInt& src)
 
 CBufBool::CBufBool()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 CBufBool::CBufBool(int num)
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
-	Num(num);				// vytvoøení bufferu
-	Clear(false);			// vymazání bufferu
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
+	Num(num);				// vytvoÅ™enÃ­ bufferu
+	Clear(false);			// vymazÃ¡nÃ­ bufferu
 }
 
 CBufBool::~CBufBool()
 {
-	DelAll();				// zrušení bufferu
+	DelAll();				// zruÅ¡enÃ­ bufferu
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CBufBool::Init()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 void CBufBool::Term()
 {
-	DelAll();				// zrušení bufferu
+	DelAll();				// zruÅ¡enÃ­ bufferu
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 
 void CBufBool::NewData()
 {
@@ -348,17 +348,17 @@ void CBufBool::NewData()
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 
 void CBufBool::DelAll()
 {
-	MemBuf(m_Data, 0);		// zrušení bufferu dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není ádná poloka v bufferu
+	MemBuf(m_Data, 0);		// zruÅ¡enÃ­ bufferu dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ poloÅ¾ka v bufferu
 }
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poètu poloek v bufferu (nové poloky neinicializované)
+// nastavenÃ­ poÄtu poloÅ¾ek v bufferu (novÃ© poloÅ¾ky neinicializovanÃ©)
 
 void _fastcall CBufBool::Num(int num)
 {
@@ -374,7 +374,7 @@ void _fastcall CBufBool::Num(int num)
 
 
 ////////////////////////////////////////////////////////////////////
-// vymazání všech poloek v bufferu zadanou hodnotou
+// vymazÃ¡nÃ­ vÅ¡ech poloÅ¾ek v bufferu zadanou hodnotou
 
 void _fastcall CBufBool::Clear(const bool clear)
 {
@@ -387,11 +387,11 @@ void _fastcall CBufBool::Clear(const bool clear)
 }
 
 ////////////////////////////////////////////////////////////////////
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 bool _fastcall CBufBool::Get(const int index) const
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		return m_Data[index];
 	}
@@ -400,11 +400,11 @@ bool _fastcall CBufBool::Get(const int index) const
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 void _fastcall CBufBool::Set(const int index, const bool data)
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		m_Data[index] = data;
 	}
@@ -412,7 +412,7 @@ void _fastcall CBufBool::Set(const int index, const bool data)
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 
 void _fastcall CBufBool::Del(int num)
 {
@@ -426,54 +426,54 @@ void _fastcall CBufBool::Del(int num)
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení poloky (vrací index poloky)
+// vytvoÅ™enÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int CBufBool::New()
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result] = false;		// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result] = false;		// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int _fastcall CBufBool::Add(const bool data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result] = data;		// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result] = data;		// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 
 int _fastcall CBufBool::Dup(const int index)
 {
-	int result = NewItem();				// vytvoøení nové poloky
+	int result = NewItem();				// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
-		m_Data[result] = m_Data[index];	// kopie poloky
+		m_Data[result] = m_Data[index];	// kopie poloÅ¾ky
 	}
 	else
 	{
-		m_Data[result] = false;			// inicializace neplatné poloky
+		m_Data[result] = false;			// inicializace neplatnÃ© poloÅ¾ky
 	}
 	return result;
 }
 
 int _fastcall CBufBool::Dup(const int index, int num)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		bool data = m_Data[index];
 
-		m_Data[result] = data;		// kopie poloky
+		m_Data[result] = data;		// kopie poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -482,7 +482,7 @@ int _fastcall CBufBool::Dup(const int index, int num)
 	}
 	else
 	{
-		m_Data[result] = false;		// inicializace neplatné poloky
+		m_Data[result] = false;		// inicializace neplatnÃ© poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -494,18 +494,18 @@ int _fastcall CBufBool::Dup(const int index, int num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CBufBool& CBufBool::operator= (const CBufBool& src)
 {
-	m_Num = 0;					// zrušení starıch dat
-	int index = 0;				// index naèítané poloky
-	int i = src.m_Num;			// velikost zdrojového bufferu
+	m_Num = 0;					// zruÅ¡enÃ­ starÃ½ch dat
+	int index = 0;				// index naÄÃ­tanÃ© poloÅ¾ky
+	int i = src.m_Num;			// velikost zdrojovÃ©ho bufferu
 
-	for (; i > 0; i--)			// pro všechny poloky v bufferu
+	for (; i > 0; i--)			// pro vÅ¡echny poloÅ¾ky v bufferu
 	{
-		Add(src[index]);	// kopie poloky
-		index++;				// inkrementace ètecího indexu
+		Add(src[index]);	// kopie poloÅ¾ky
+		index++;				// inkrementace ÄtecÃ­ho indexu
 	}
 	ASSERT(m_Num == src.m_Num);
 	return *this;
@@ -513,29 +513,29 @@ const CBufBool& CBufBool::operator= (const CBufBool& src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení logické hodnoty ze souboru (naèítá do promìnné, TRUE=operace OK)
+// naÄtenÃ­ logickÃ© hodnoty ze souboru (naÄÃ­tÃ¡ do promÄ›nnÃ©, TRUE=operace OK)
 /*
 bool CBufBool::LoadFile(bool& data, CString jmeno)
 {
-// naètení textového souboru
+// naÄtenÃ­ textovÃ©ho souboru
 	CString txt;
 	if (!txt.LoadFile(jmeno)) return false;
 
-// odstranìní mezer a jinıch oddìlovaèù
+// odstranÄ›nÃ­ mezer a jinÃ½ch oddÄ›lovaÄÅ¯
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// konverze na velká písmena
+// konverze na velkÃ¡ pÃ­smena
 	txt.UpperCase();
 
-// prázdnı text je jako FALSE
+// prÃ¡zdnÃ½ text je jako FALSE
 	if (txt.IsEmpty())
 	{
 		data = false;
 		return true;
 	}
 
-// nastavení dat podle prvního písmene
+// nastavenÃ­ dat podle prvnÃ­ho pÃ­smene
 	TCHAR znak = txt[0];
 	data = ((znak == 'T') ||
 			(znak == 'Y') ||
@@ -549,11 +549,11 @@ bool CBufBool::LoadFile(bool& data, CString jmeno)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení logické hodnoty do souboru formátu LOG (FALSE=chyba)
+// uloÅ¾enÃ­ logickÃ© hodnoty do souboru formÃ¡tu LOG (FALSE=chyba)
 
 bool CBufBool::SaveFile(bool data, CString jmeno) const
 {
-// pøíprava textu
+// pÅ™Ã­prava textu
 	CString txt;
 	if (data)
 	{
@@ -564,7 +564,7 @@ bool CBufBool::SaveFile(bool data, CString jmeno) const
 		txt = _T("false");
 	}
 
-// uloení textu do souboru
+// uloÅ¾enÃ­ textu do souboru
 	return txt.SaveFile(jmeno);
 }
 */

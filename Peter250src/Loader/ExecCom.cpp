@@ -3,55 +3,55 @@
 
 /***************************************************************************\
 *																			*
-*						Provádìní programu - pøíkaz							*
+*						ProvÃ¡dÄ›nÃ­ programu - pÅ™Ã­kaz							*
 *																			*
 \***************************************************************************/
 
-#pragma optimize("t", on)			// optimalizace na maximální rychlost
+#pragma optimize("t", on)			// optimalizace na maximÃ¡lnÃ­ rychlost
 
 
-// oblasti kurzoru myši
-MOUSEREG*	MouseReg = NULL;		// regiony kurzoru myši
-int			MouseRegNum = 0;		// poèet regionù kurzoru myši
-int			MouseRegMax = 0;		// velikost bufferu regionù kurzoru myši
+// oblasti kurzoru myÅ¡i
+MOUSEREG*	MouseReg = NULL;		// regiony kurzoru myÅ¡i
+int			MouseRegNum = 0;		// poÄet regionÅ¯ kurzoru myÅ¡i
+int			MouseRegMax = 0;		// velikost bufferu regionÅ¯ kurzoru myÅ¡i
 
 
 /***************************************************************************\
 *																			*
-*								vìtvení CASE								*
+*								vÄ›tvenÃ­ CASE								*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// CASE s èíslem
+// CASE s ÄÃ­slem
 
 void FCaseReal()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	double vyraz = FNum();
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		if (FNum() == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -59,35 +59,35 @@ void FCaseReal()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CASE s logickım vırazem
+// CASE s logickÃ½m vÃ½razem
 
 void FCaseBool()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	bool vyraz = FBool();
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		if (FBool() == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -99,34 +99,34 @@ void FCaseBool()
 
 void FCaseIcon()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CIcon vyraz;
 	CIcon vyraz2;
 	FIcon(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FIcon(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -138,34 +138,34 @@ void FCaseIcon()
 
 void FCaseSprite()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CSprite vyraz;
 	CSprite vyraz2;
 	FSprite(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FSprite(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -177,34 +177,34 @@ void FCaseSprite()
 
 void FCaseMap()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CMap vyraz;
 	CMap vyraz2;
 	FMap(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FMap(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -216,34 +216,34 @@ void FCaseMap()
 
 void FCaseMusic()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CMusic vyraz;
 	CMusic vyraz2;
 	FMusic(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FMusic(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -255,34 +255,34 @@ void FCaseMusic()
 
 void FCaseText()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CString vyraz;
 	CString vyraz2;
 	FText(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FText(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -294,34 +294,34 @@ void FCaseText()
 
 void FCaseSound()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CSound vyraz;
 	CSound vyraz2;
 	FSound(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FSound(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -329,38 +329,38 @@ void FCaseSound()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CASE s obrázkem
+// CASE s obrÃ¡zkem
 
 void FCasePicture()
 {
-// poèet testovanıch poloek
+// poÄet testovanÃ½ch poloÅ¾ek
 	int num = ExecItem[-1].Data;
 
-// naètení testovaného vırazu
+// naÄtenÃ­ testovanÃ©ho vÃ½razu
 	CPicture vyraz;
 	CPicture vyraz2;
 	FPicture(vyraz);
 
-// uschovanı zaèátek obsluhy
+// uschovanÃ½ zaÄÃ¡tek obsluhy
 	EXECITEM* item;
 
-// cyklus pøes všechny testované vìtve
+// cyklus pÅ™es vÅ¡echny testovanÃ© vÄ›tve
 	for (; num > 0; num--)
 	{
 		item = ExecItem;
 
-// test jedné vìtve
+// test jednÃ© vÄ›tve
 		FPicture(vyraz2);
 		if (vyraz2 == vyraz)
 		{
 
-// podmínka splnìna - provede se obsluha
+// podmÃ­nka splnÄ›na - provede se obsluha
 			ExecItem = item + item->Jump;
 			break;
 		}
 	}
 
-// provedení obsluhy
+// provedenÃ­ obsluhy
 	item = ExecItem;
 	FCommand();
 	ExecItem = item + item->Jump;
@@ -374,150 +374,150 @@ void FCasePicture()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// funkce s lokálními promìnnımi
+// funkce s lokÃ¡lnÃ­mi promÄ›nnÃ½mi
 
 void FFunc()
 {
-// úschova indexu volané funkce
+// Ãºschova indexu volanÃ© funkce
 	int data = ExecItem[-1].Data;
 
-// inicializace lokálních promìnnıch
+// inicializace lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 	FCommand();
 
-// úschova ukazatele programu
+// Ãºschova ukazatele programu
 	EXECITEM* oldexe = ExecItem;
 
-// nová adresa programu
+// novÃ¡ adresa programu
 	ExecItem = ProgBuf + data;
 
-// kontrola hloubky vnoøení
+// kontrola hloubky vnoÅ™enÃ­
 	Hloubka--;
 	if (Hloubka >= 0)
 	{
 
-// vyvolání funkce
+// vyvolÃ¡nÃ­ funkce
 		FCommand();
 	}
 	Hloubka++;
 
-// návrat adresy programu
+// nÃ¡vrat adresy programu
 	ExecItem = oldexe;
 
-// zrušení poadavku o pøerušení
+// zruÅ¡enÃ­ poÅ¾adavku o pÅ™eruÅ¡enÃ­
 	Break &= ~(BREAKFUNC | BREAKWHILE);
 
-// zrušení lokálních promìnnıch
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 	FCommand();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// funkce bez lokálních promìnnıch
+// funkce bez lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 
 void FFunc0()
 {
-// úschova ukazatele programu
+// Ãºschova ukazatele programu
 	EXECITEM* oldexe = ExecItem;
 
-// nová adresa programu
+// novÃ¡ adresa programu
 	ExecItem = ProgBuf + oldexe[-1].Data;
 
-// kontrola hloubky vnoøení
+// kontrola hloubky vnoÅ™enÃ­
 	Hloubka--;
 	if (Hloubka >= 0)
 	{
 
-// vyvolání funkce
+// vyvolÃ¡nÃ­ funkce
 		FCommand();
 	}
 	Hloubka++;
 
-// návrat adresy programu
+// nÃ¡vrat adresy programu
 	ExecItem = oldexe;
 
-// zrušení poadavku o pøerušení
+// zruÅ¡enÃ­ poÅ¾adavku o pÅ™eruÅ¡enÃ­
 	Break &= ~(BREAKFUNC | BREAKWHILE);
 }
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokálního seznamu duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ho seznamu duplikacÃ­ (Data = index vzoru)
 
 void FDupList() { List.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálního seznamu (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ho seznamu (Data = poÄet)
 
 void FDelList() { List.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální èíselné promìnné duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ ÄÃ­selnÃ© promÄ›nnÃ© duplikacÃ­ (Data = index vzoru)
 
 void FDupReal() { Real.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální èíselné promìnné seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ ÄÃ­selnÃ© promÄ›nnÃ© seznamu (Data = index vzoru, List = poÄet)
 
 void FDupRealList() { Real.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální èíselné promìnné s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ ÄÃ­selnÃ© promÄ›nnÃ© s inicializacÃ­
 
 void FNewReal() { Real.Add(FNum()); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních èíselnıch promìnnıch (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch ÄÃ­selnÃ½ch promÄ›nnÃ½ch (Data = poÄet)
 
 void FDelReal() { Real.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální logické promìnné duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ logickÃ© promÄ›nnÃ© duplikacÃ­ (Data = index vzoru)
 
 void FDupBool() { Bool.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální logické promìnné seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ logickÃ© promÄ›nnÃ© seznamu (Data = index vzoru, List = poÄet)
 
 void FDupBoolList() { Bool.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální logické promìnné s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ logickÃ© promÄ›nnÃ© s inicializacÃ­
 
 void FNewBool() { Bool.Add(FBool()); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních logickıch promìnnıch (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch logickÃ½ch promÄ›nnÃ½ch (Data = poÄet)
 
 void FDelBool() { Bool.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné ikony duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© ikony duplikacÃ­ (Data = index vzoru)
 
 void FDupIcon() { Icon.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné ikony seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© ikony seznamu (Data = index vzoru, List = poÄet)
 
 void FDupIconList() { Icon.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné ikony s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© ikony s inicializacÃ­
 
 void FNewIcon() 
 { 
@@ -528,26 +528,26 @@ void FNewIcon()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch ikon (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch ikon (Data = poÄet)
 
 void FDelIcon() { Icon.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné sprajtu duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© sprajtu duplikacÃ­ (Data = index vzoru)
 
 void FDupSprite() { Sprite.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné sprajtu seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© sprajtu seznamu (Data = index vzoru, List = poÄet)
 
 void FDupSpriteList() { Sprite.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné sprajtu s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© sprajtu s inicializacÃ­
 
 void FNewSprite() 
 { 
@@ -558,26 +558,26 @@ void FNewSprite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch sprajtù (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch sprajtÅ¯ (Data = poÄet)
 
 void FDelSprite() { Sprite.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné plochy duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© plochy duplikacÃ­ (Data = index vzoru)
 
 void FDupMap() { Map.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné plochy seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© plochy seznamu (Data = index vzoru, List = poÄet)
 
 void FDupMapList() { Map.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné plochy s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© plochy s inicializacÃ­
 
 void FNewMap() 
 { 
@@ -588,26 +588,26 @@ void FNewMap()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch ploch (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch ploch (Data = poÄet)
 
 void FDelMap() { Map.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné textu duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© textu duplikacÃ­ (Data = index vzoru)
 
 void FDupText() { Text.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné textu seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© textu seznamu (Data = index vzoru, List = poÄet)
 
 void FDupTextList() { Text.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné textu s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© textu s inicializacÃ­
 
 void FNewText() 
 { 
@@ -618,26 +618,26 @@ void FNewText()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch textù (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch textÅ¯ (Data = poÄet)
 
 void FDelText() { Text.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné zvuku duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© zvuku duplikacÃ­ (Data = index vzoru)
 
 void FDupSound() { Sound.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné zvuku seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© zvuku seznamu (Data = index vzoru, List = poÄet)
 
 void FDupSoundList() { Sound.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné zvuku s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© zvuku s inicializacÃ­
 
 void FNewSound() 
 { 
@@ -648,26 +648,26 @@ void FNewSound()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch zvukù (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch zvukÅ¯ (Data = poÄet)
 
 void FDelSound() { Sound.Del(ExecItem[-1].Data); };
 
 
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné obrázku duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© obrÃ¡zku duplikacÃ­ (Data = index vzoru)
 
 void FDupPicture() { Picture.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné obrázku seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© obrÃ¡zku seznamu (Data = index vzoru, List = poÄet)
 
 void FDupPictureList() { Picture.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné obrázku s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© obrÃ¡zku s inicializacÃ­
 
 void FNewPicture() 
 { 
@@ -678,26 +678,26 @@ void FNewPicture()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch obrázkù (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch obrÃ¡zkÅ¯ (Data = poÄet)
 
 void FDelPicture() { Picture.Del(ExecItem[-1].Data); };
 
  
 // --------------------------
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné hudby duplikací (Data = index vzoru)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© hudby duplikacÃ­ (Data = index vzoru)
 
 void FDupMusic() { Music.Dup(ExecItem[-1].Data); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné hudby seznamu (Data = index vzoru, List = poèet)
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© hudby seznamu (Data = index vzoru, List = poÄet)
 
 void FDupMusicList() { Music.Dup(ExecItem[-1].Data, ExecItem[-1].List); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení lokální promìnné hudby s inicializací
+// vytvoÅ™enÃ­ lokÃ¡lnÃ­ promÄ›nnÃ© hudby s inicializacÃ­
 
 void FNewMusic() 
 { 
@@ -708,130 +708,130 @@ void FNewMusic()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení lokálních promìnnıch hudby (Data = poèet)
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch hudby (Data = poÄet)
 
 void FDelMusic() { Music.Del(ExecItem[-1].Data); };
 
 
 /***************************************************************************\
 *																			*
-*							nastavení promìnnıch							*
+*							nastavenÃ­ promÄ›nnÃ½ch							*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení indexu globálního seznamu
+// nastavenÃ­ indexu globÃ¡lnÃ­ho seznamu
 
 void FSetList()
 {
 // index seznamu
 	int list = ExecItem[-1].List;
 
-// naètení poadovaného indexu
+// naÄtenÃ­ poÅ¾adovanÃ©ho indexu
 	int inx = FIntR();
 
 // velikost seznamu
 	int size = List[list].Size;
 
-// omezení indexu
+// omezenÃ­ indexu
 	if ((DWORD)inx >= (DWORD)size)
 	{
 		while (inx < 0) inx += size;
 		while (inx >= size) inx -= size;
 	}
 
-// nastavení nové hodnoty indexu
+// nastavenÃ­ novÃ© hodnoty indexu
 	List[list].Index = inx;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení indexu lokálního seznamu
+// nastavenÃ­ indexu lokÃ¡lnÃ­ho seznamu
 
 void FSetListLoc()
 {
 // index seznamu
 	int list = List.Num() - ExecItem[-1].List;
 
-// naètení poadovaného indexu
+// naÄtenÃ­ poÅ¾adovanÃ©ho indexu
 	int inx = FIntR();
 
 // velikost seznamu
 	int size = List[list].Size;
 
-// omezení indexu
+// omezenÃ­ indexu
 	if ((DWORD)inx >= (DWORD)size)
 	{
 		while (inx < 0) inx += size;
 		while (inx >= size) inx -= size;
 	}
 
-// nastavení nové hodnoty indexu
+// nastavenÃ­ novÃ© hodnoty indexu
 	List[list].Index = inx;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení inkrementace globálního seznamu
+// nastavenÃ­ inkrementace globÃ¡lnÃ­ho seznamu
 
 void FSetListAuto()
 {
 // index seznamu
 	int list = ExecItem[-1].List;
 
-// naètení poadované inkrementace
+// naÄtenÃ­ poÅ¾adovanÃ© inkrementace
 	int inx = FIntR();
 
 // velikost seznamu
 	int size = List[list].Size;
 
-// omezení inkrementace
+// omezenÃ­ inkrementace
 	if ((DWORD)inx >= (DWORD)size)
 	{
 		while (inx <= -size) inx += size;
 		while (inx >= size) inx -= size;
 	}
 
-// nastavení nové hodnoty inkrementace
+// nastavenÃ­ novÃ© hodnoty inkrementace
 	List[list].Auto = inx;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení inkrementace lokálního seznamu
+// nastavenÃ­ inkrementace lokÃ¡lnÃ­ho seznamu
 
 void FSetListAutoLoc()
 {
 // index seznamu
 	int list = List.Num() - ExecItem[-1].List;
 
-// naètení poadované inkrementace
+// naÄtenÃ­ poÅ¾adovanÃ© inkrementace
 	int inx = FIntR();
 
 // velikost seznamu
 	int size = List[list].Size;
 
-// omezení inkrementace
+// omezenÃ­ inkrementace
 	if ((DWORD)inx >= (DWORD)size)
 	{
 		while (inx <= -size) inx += size;
 		while (inx >= size) inx -= size;
 	}
 
-// nastavení nové hodnoty inkrementace
+// nastavenÃ­ novÃ© hodnoty inkrementace
 	List[list].Auto = inx;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globální ikony (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ ikony (Data = index)
 
 void FSetIcon()
 {
 // index ikony
 	int inx = ExecItem[-1].Data;
 
-// nastavení ikony
+// nastavenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 	Icon[inx] = icon;
@@ -839,7 +839,7 @@ void FSetIcon()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení ikony v seznamu (Data = index, List = seznam)
+// nastavenÃ­ ikony v seznamu (Data = index, List = seznam)
 
 void FSetIconList()
 {
@@ -850,7 +850,7 @@ void FSetIconList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení ikony
+// nastavenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 	Icon[inx] = icon;
@@ -861,14 +861,14 @@ void FSetIconList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální ikony (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ ikony (Data = index)
 
 void FSetIconLoc()
 {
 // index ikony
 	int inx = Icon.Num() - ExecItem[-1].Data;
 
-// nastavení ikony
+// nastavenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 	Icon[inx] = icon;
@@ -876,7 +876,7 @@ void FSetIconLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální ikony v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ ikony v seznamu (Data = index, List = seznam)
 
 void FSetIconLocList()
 {
@@ -887,7 +887,7 @@ void FSetIconLocList()
 	int inx = Icon.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení ikony
+// nastavenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 	Icon[inx] = icon;
@@ -898,31 +898,31 @@ void FSetIconLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globální logické promìnné (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ logickÃ© promÄ›nnÃ© (Data = index)
 
 void FSetLog()
 {
-// index èísla
+// index ÄÃ­sla
 	int inx = ExecItem[-1].Data;
 
-// nastavení logické promìnné
+// nastavenÃ­ logickÃ© promÄ›nnÃ©
 	Bool[inx] = FBool();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení logické promìnné v seznamu (Data = index, List = seznam)
+// nastavenÃ­ logickÃ© promÄ›nnÃ© v seznamu (Data = index, List = seznam)
 
 void FSetLogList()
 {
 // index seznamu
 	int list = ExecItem[-1].List;
 
-// index èísla
+// index ÄÃ­sla
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení logické promìnné
+// nastavenÃ­ logickÃ© promÄ›nnÃ©
 	Bool[inx] = FBool();
 
 // inkrementace indexu seznamu
@@ -931,31 +931,31 @@ void FSetLogList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální logické promìnné (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ logickÃ© promÄ›nnÃ© (Data = index)
 
 void FSetLogLoc()
 {
-// index èísla
+// index ÄÃ­sla
 	int inx = Bool.Num() - ExecItem[-1].Data;
 
-// nastavení logické promìnné
+// nastavenÃ­ logickÃ© promÄ›nnÃ©
 	Bool[inx] = FBool();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální logické promìnné v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ logickÃ© promÄ›nnÃ© v seznamu (Data = index, List = seznam)
 
 void FSetLogLocList()
 {
 // index seznamu
 	int list = List.Num() - ExecItem[-1].List;
 
-// index èísla
+// index ÄÃ­sla
 	int inx = Bool.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení logické promìnné
+// nastavenÃ­ logickÃ© promÄ›nnÃ©
 	Bool[inx] = FBool();
 
 // inkrementace indexu seznamu
@@ -964,45 +964,45 @@ void FSetLogLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globální plochy (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ plochy (Data = index)
 
 void FSetMap()
 {
 // index plochy
 	int inx = ExecItem[-1].Data;
 
-// naètení mapy k nastavení
+// naÄtenÃ­ mapy k nastavenÃ­
 	CMap map;
 	FMap(map);
 
-// nastavení plochy != 0
+// nastavenÃ­ plochy != 0
 	if (inx != 0)
 	{
 		Map[inx] = map;
 	}
 	else
 
-// nastavení hlavní plochy 0
+// nastavenÃ­ hlavnÃ­ plochy 0
 	{
 
-// úschova rozmìrù plochy
+// Ãºschova rozmÄ›rÅ¯ plochy
 		int oldwidth = Width;
 		int oldheight = Height;
 
-// nastavení plochy
+// nastavenÃ­ plochy
 		Map[0] = map;
 
-// pøíprava plochy pro zápis
+// pÅ™Ã­prava plochy pro zÃ¡pis
 		Map[0].CopyWrite();
 
-// inicializace informací o ploše
+// inicializace informacÃ­ o ploÅ¡e
 		ExecInitMap();
 
-// test, zda je potøeba zmìnit velikost okna
+// test, zda je potÅ™eba zmÄ›nit velikost okna
 		if ((oldwidth != Width) || (oldheight != Height))
 		{
 
-// zmìna v reimu DirectDraw
+// zmÄ›na v reÅ¾imu DirectDraw
 			if (FullScreen)
 			{
 				ReSetDisplayMode();
@@ -1010,21 +1010,21 @@ void FSetMap()
 			else
 			{
 
-// naètení parametrù okna
+// naÄtenÃ­ parametrÅ¯ okna
 				WINDOWPLACEMENT wp;
 				wp.length = sizeof(WINDOWPLACEMENT);
 				::GetWindowPlacement(MainFrame, &wp);
 
-// souèasnı støed okna
+// souÄasnÃ½ stÅ™ed okna
 				MainFrameX = (wp.rcNormalPosition.left + wp.rcNormalPosition.right)/2;
 				MainFrameY = (wp.rcNormalPosition.top + wp.rcNormalPosition.bottom)/2;
 
-// nastavení novıch parametrù okna
+// nastavenÃ­ novÃ½ch parametrÅ¯ okna
 				wp.length = sizeof(WINDOWPLACEMENT);
 				AdjustMainFrame(&wp.rcNormalPosition);
 				::SetWindowPlacement(MainFrame, &wp);
 
-// pro normální zobrazení okna aktualizace rozmìrù a pozice
+// pro normÃ¡lnÃ­ zobrazenÃ­ okna aktualizace rozmÄ›rÅ¯ a pozice
 				switch (wp.flags)
 				{
 				case SW_HIDE:
@@ -1045,19 +1045,19 @@ void FSetMap()
 			}
 		}
 
-// pøekreslení okna
-		AktLeft = 0;				// levı okraj k pøekreslení
-		AktTop = 0;					// horní okraj k pøekreslení
-		AktRight = Width;			// pravı okraj k pøekreslení
-		AktBottom = Height;			// spodní okraj k pøekreslení
-		AktAllIcon();				// aktualizovat všechny ikony
-		OnSize(&Win[0]);			// aktualizace údajù s pøekreslením
+// pÅ™ekreslenÃ­ okna
+		AktLeft = 0;				// levÃ½ okraj k pÅ™ekreslenÃ­
+		AktTop = 0;					// hornÃ­ okraj k pÅ™ekreslenÃ­
+		AktRight = Width;			// pravÃ½ okraj k pÅ™ekreslenÃ­
+		AktBottom = Height;			// spodnÃ­ okraj k pÅ™ekreslenÃ­
+		AktAllIcon();				// aktualizovat vÅ¡echny ikony
+		OnSize(&Win[0]);			// aktualizace ÃºdajÅ¯ s pÅ™ekreslenÃ­m
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení plochy v seznamu (Data = index, List = seznam)
+// nastavenÃ­ plochy v seznamu (Data = index, List = seznam)
 
 void FSetMapList()
 {
@@ -1068,7 +1068,7 @@ void FSetMapList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	CMap map;
 	FMap(map);
 	Map[inx] = map;
@@ -1079,14 +1079,14 @@ void FSetMapList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální plochy (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ plochy (Data = index)
 
 void FSetMapLoc()
 {
 // index plochy
 	int inx = Map.Num() - ExecItem[-1].Data;
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	CMap map;
 	FMap(map);
 	Map[inx] = map;
@@ -1094,7 +1094,7 @@ void FSetMapLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální plochy v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ plochy v seznamu (Data = index, List = seznam)
 
 void FSetMapLocList()
 {
@@ -1105,7 +1105,7 @@ void FSetMapLocList()
 	int inx = Map.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	CMap map;
 	FMap(map);
 	Map[inx] = map;
@@ -1116,31 +1116,31 @@ void FSetMapLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globálního èísla (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ho ÄÃ­sla (Data = index)
 
 void FSetNum()
 {
-// index èísla
+// index ÄÃ­sla
 	int inx = ExecItem[-1].Data;
 
-// nastavení èísla
+// nastavenÃ­ ÄÃ­sla
 	Real[inx] = FNum();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èísla v seznamu (Data = index, List = seznam)
+// nastavenÃ­ ÄÃ­sla v seznamu (Data = index, List = seznam)
 
 void FSetNumList()
 {
 // index seznamu
 	int list = ExecItem[-1].List;
 
-// index èísla
+// index ÄÃ­sla
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení èísla
+// nastavenÃ­ ÄÃ­sla
 	Real[inx] = FNum();
 
 // inkrementace indexu seznamu
@@ -1149,31 +1149,31 @@ void FSetNumList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního èísla (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ho ÄÃ­sla (Data = index)
 
 void FSetNumLoc()
 {
-// index èísla
+// index ÄÃ­sla
 	int inx = Real.Num() - ExecItem[-1].Data;
 
-// nastavení èísla
+// nastavenÃ­ ÄÃ­sla
 	Real[inx] = FNum();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního èísla v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ho ÄÃ­sla v seznamu (Data = index, List = seznam)
 
 void FSetNumLocList()
 {
 // index seznamu
 	int list = List.Num() - ExecItem[-1].List;
 
-// index èísla
+// index ÄÃ­sla
 	int inx = Real.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení èísla
+// nastavenÃ­ ÄÃ­sla
 	Real[inx] = FNum();
 
 // inkrementace indexu seznamu
@@ -1182,14 +1182,14 @@ void FSetNumLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globálního obrázku (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ho obrÃ¡zku (Data = index)
 
 void FSetPic()
 {
-// index obrázku
+// index obrÃ¡zku
 	int inx = ExecItem[-1].Data;
 
-// nastavení obrázku
+// nastavenÃ­ obrÃ¡zku
 	CPicture pic;
 	FPicture(pic);
 	Picture[inx] = pic;
@@ -1197,18 +1197,18 @@ void FSetPic()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení obrázku v seznamu (Data = index, List = seznam)
+// nastavenÃ­ obrÃ¡zku v seznamu (Data = index, List = seznam)
 
 void FSetPicList()
 {
 // index seznamu
 	int list = ExecItem[-1].List;
 
-// index obrázku
+// index obrÃ¡zku
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení obrázku
+// nastavenÃ­ obrÃ¡zku
 	CPicture pic;
 	FPicture(pic);
 	Picture[inx] = pic;
@@ -1219,14 +1219,14 @@ void FSetPicList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního obrázku (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ho obrÃ¡zku (Data = index)
 
 void FSetPicLoc()
 {
-// index obrázku
+// index obrÃ¡zku
 	int inx = Picture.Num() - ExecItem[-1].Data;
 
-// nastavení obrázku
+// nastavenÃ­ obrÃ¡zku
 	CPicture pic;
 	FPicture(pic);
 	Picture[inx] = pic;
@@ -1234,18 +1234,18 @@ void FSetPicLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního obrázku v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ho obrÃ¡zku v seznamu (Data = index, List = seznam)
 
 void FSetPicLocList()
 {
 // index seznamu
 	int list = List.Num() - ExecItem[-1].List;
 
-// index obrázku
+// index obrÃ¡zku
 	int inx = Picture.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení obrázku
+// nastavenÃ­ obrÃ¡zku
 	CPicture pic;
 	FPicture(pic);
 	Picture[inx] = pic;
@@ -1256,14 +1256,14 @@ void FSetPicLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globálního zvuku (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ho zvuku (Data = index)
 
 void FSetSound()
 {
 // index zvuku
 	int inx = ExecItem[-1].Data;
 
-// nastavení zvuku
+// nastavenÃ­ zvuku
 	CSound sound;
 	FSound(sound);
 	Sound[inx] = sound;
@@ -1271,7 +1271,7 @@ void FSetSound()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zvuku v seznamu (Data = index, List = seznam)
+// nastavenÃ­ zvuku v seznamu (Data = index, List = seznam)
 
 void FSetSoundList()
 {
@@ -1282,7 +1282,7 @@ void FSetSoundList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení zvuku
+// nastavenÃ­ zvuku
 	CSound sound;
 	FSound(sound);
 	Sound[inx] = sound;
@@ -1293,14 +1293,14 @@ void FSetSoundList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního zvuku (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ho zvuku (Data = index)
 
 void FSetSoundLoc()
 {
 // index zvuku
 	int inx = Sound.Num() - ExecItem[-1].Data;
 
-// nastavení zvuku
+// nastavenÃ­ zvuku
 	CSound sound;
 	FSound(sound);
 	Sound[inx] = sound;
@@ -1308,7 +1308,7 @@ void FSetSoundLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního zvuku v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ho zvuku v seznamu (Data = index, List = seznam)
 
 void FSetSoundLocList()
 {
@@ -1319,7 +1319,7 @@ void FSetSoundLocList()
 	int inx = Sound.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení zvuku
+// nastavenÃ­ zvuku
 	CSound sound;
 	FSound(sound);
 	Sound[inx] = sound;
@@ -1330,14 +1330,14 @@ void FSetSoundLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globální hudby (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ hudby (Data = index)
 
 void FSetMusic()
 {
 // index hudby
 	int inx = ExecItem[-1].Data;
 
-// nastavení hudby
+// nastavenÃ­ hudby
 	CMusic music;
 	FMusic(music);
 	Music[inx] = music;
@@ -1345,7 +1345,7 @@ void FSetMusic()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hudby v seznamu (Data = index, List = seznam)
+// nastavenÃ­ hudby v seznamu (Data = index, List = seznam)
 
 void FSetMusicList()
 {
@@ -1356,7 +1356,7 @@ void FSetMusicList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení hudby
+// nastavenÃ­ hudby
 	CMusic music;
 	FMusic(music);
 	Music[inx] = music;
@@ -1367,14 +1367,14 @@ void FSetMusicList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální hudby (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ hudby (Data = index)
 
 void FSetMusicLoc()
 {
 // index hudby
 	int inx = Music.Num() - ExecItem[-1].Data;
 
-// nastavení hudby
+// nastavenÃ­ hudby
 	CMusic music;
 	FMusic(music);
 	Music[inx] = music;
@@ -1382,7 +1382,7 @@ void FSetMusicLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokální hudby v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ hudby v seznamu (Data = index, List = seznam)
 
 void FSetMusicLocList()
 {
@@ -1393,7 +1393,7 @@ void FSetMusicLocList()
 	int inx = Music.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení hudby
+// nastavenÃ­ hudby
 	CMusic music;
 	FMusic(music);
 	Music[inx] = music;
@@ -1404,14 +1404,14 @@ void FSetMusicLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globálního textu (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ho textu (Data = index)
 
 void FSetText()
 {
 // index zvuku
 	int inx = ExecItem[-1].Data;
 
-// nastavení textu
+// nastavenÃ­ textu
 	CString text;
 	FText(text);
 	Text[inx] = text;
@@ -1419,7 +1419,7 @@ void FSetText()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ textu v seznamu (Data = index, List = seznam)
 
 void FSetTextList()
 {
@@ -1430,7 +1430,7 @@ void FSetTextList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení textu
+// nastavenÃ­ textu
 	CString text;
 	FText(text);
 	Text[inx] = text;
@@ -1441,14 +1441,14 @@ void FSetTextList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního textu (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ho textu (Data = index)
 
 void FSetTextLoc()
 {
 // index textu
 	int inx = Text.Num() - ExecItem[-1].Data;
 
-// nastavení textu
+// nastavenÃ­ textu
 	CString text;
 	FText(text);
 	Text[inx] = text;
@@ -1456,7 +1456,7 @@ void FSetTextLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního textu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ho textu v seznamu (Data = index, List = seznam)
 
 void FSetTextLocList()
 {
@@ -1467,7 +1467,7 @@ void FSetTextLocList()
 	int inx = Text.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení textu
+// nastavenÃ­ textu
 	CString text;
 	FText(text);
 	Text[inx] = text;
@@ -1478,14 +1478,14 @@ void FSetTextLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení globálního sprajtu (Data = index)
+// nastavenÃ­ globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSetSprite()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	CSprite sprite;
 	FSprite(sprite);
 //	Sprite[inx] = sprite;
@@ -1494,7 +1494,7 @@ void FSetSprite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ sprajtu v seznamu (Data = index, List = seznam)
 
 void FSetSpriteList()
 {
@@ -1505,7 +1505,7 @@ void FSetSpriteList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	CSprite sprite;
 	FSprite(sprite);
 	SetSprite(inx, sprite);
@@ -1516,14 +1516,14 @@ void FSetSpriteList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního sprajtu (Data = index)
+// nastavenÃ­ lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSetSpriteLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	CSprite sprite;
 	FSprite(sprite);
 //	Sprite[inx] = sprite;
@@ -1532,7 +1532,7 @@ void FSetSpriteLoc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSetSpriteLocList()
 {
@@ -1543,7 +1543,7 @@ void FSetSpriteLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	CSprite sprite;
 	FSprite(sprite);
 	SetSprite(inx, sprite);
@@ -1554,23 +1554,23 @@ void FSetSpriteLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice X globálního sprajtu (Data = index)
+// nastavenÃ­ souÅ™adnice X globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteX()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice X sprajtu
+// nastavenÃ­ pozice X sprajtu
 	SpriteMove(inx, data, Sprite[inx].CilY());
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice X sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ souÅ™adnice X sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteXList()
 {
@@ -1581,10 +1581,10 @@ void FSpriteXList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice X sprajtu
+// nastavenÃ­ pozice X sprajtu
 	SpriteMove(inx, data, Sprite[inx].CilY());
 
 // inkrementace indexu seznamu
@@ -1593,23 +1593,23 @@ void FSpriteXList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice X lokálního sprajtu (Data = index)
+// nastavenÃ­ souÅ™adnice X lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteXLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice X sprajtu
+// nastavenÃ­ pozice X sprajtu
 	SpriteMove(inx, data, Sprite[inx].CilY());
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice X lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ souÅ™adnice X lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteXLocList()
 {
@@ -1620,10 +1620,10 @@ void FSpriteXLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice X sprajtu
+// nastavenÃ­ pozice X sprajtu
 	SpriteMove(inx, data, Sprite[inx].CilY());
 
 // inkrementace indexu seznamu
@@ -1632,23 +1632,23 @@ void FSpriteXLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice Y globálního sprajtu (Data = index)
+// nastavenÃ­ souÅ™adnice Y globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteY()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice Y sprajtu
+// nastavenÃ­ pozice Y sprajtu
 	SpriteMove(inx, Sprite[inx].CilX(), data);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice Y sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ souÅ™adnice Y sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteYList()
 {
@@ -1659,10 +1659,10 @@ void FSpriteYList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice Y sprajtu
+// nastavenÃ­ pozice Y sprajtu
 	SpriteMove(inx, Sprite[inx].CilX(), data);
 
 // inkrementace indexu seznamu
@@ -1671,23 +1671,23 @@ void FSpriteYList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice Y lokálního sprajtu (Data = index)
+// nastavenÃ­ souÅ™adnice Y lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteYLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice Y sprajtu
+// nastavenÃ­ pozice Y sprajtu
 	SpriteMove(inx, Sprite[inx].CilX(), data);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice Y lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ souÅ™adnice Y lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteYLocList()
 {
@@ -1698,10 +1698,10 @@ void FSpriteYLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení pozice Y sprajtu
+// nastavenÃ­ pozice Y sprajtu
 	SpriteMove(inx, Sprite[inx].CilX(), data);
 
 // inkrementace indexu seznamu
@@ -1710,23 +1710,23 @@ void FSpriteYLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru globálního sprajtu (Data = index)
+// nastavenÃ­ smÄ›ru globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteSmer()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení smìru sprajtu
+// nastavenÃ­ smÄ›ru sprajtu
 	SetSpriteSmer(inx, data);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ smÄ›ru sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteSmerList()
 {
@@ -1737,10 +1737,10 @@ void FSpriteSmerList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení smìru sprajtu
+// nastavenÃ­ smÄ›ru sprajtu
 	SetSpriteSmer(inx, data);
 
 // inkrementace indexu seznamu
@@ -1749,23 +1749,23 @@ void FSpriteSmerList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru lokálního sprajtu (Data = index)
+// nastavenÃ­ smÄ›ru lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteSmerLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení smìru sprajtu
+// nastavenÃ­ smÄ›ru sprajtu
 	SetSpriteSmer(inx, data);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ smÄ›ru lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteSmerLocList()
 {
@@ -1776,10 +1776,10 @@ void FSpriteSmerLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení smìru sprajtu
+// nastavenÃ­ smÄ›ru sprajtu
 	SetSpriteSmer(inx, data);
 
 // inkrementace indexu seznamu
@@ -1788,26 +1788,26 @@ void FSpriteSmerLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fáze globálního sprajtu (Data = index)
+// nastavenÃ­ fÃ¡ze globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteFaze()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	int data = FIntR();
 
-// nastavení fáze sprajtu
+// nastavenÃ­ fÃ¡ze sprajtu
 	Sprite[inx].FazeNext(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 	SpriteClear(inx);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fáze sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ fÃ¡ze sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteFazeList()
 {
@@ -1818,13 +1818,13 @@ void FSpriteFazeList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	int data = FIntR();
 
-// nastavení fáze sprajtu
+// nastavenÃ­ fÃ¡ze sprajtu
 	Sprite[inx].FazeNext(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 	SpriteClear(inx);
 
 // inkrementace indexu seznamu
@@ -1833,26 +1833,26 @@ void FSpriteFazeList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fáze lokálního sprajtu (Data = index)
+// nastavenÃ­ fÃ¡ze lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteFazeLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	int data = FIntR();
 
-// nastavení fáze sprajtu
+// nastavenÃ­ fÃ¡ze sprajtu
 	Sprite[inx].FazeNext(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 	SpriteClear(inx);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fáze lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ fÃ¡ze lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteFazeLocList()
 {
@@ -1863,13 +1863,13 @@ void FSpriteFazeLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	int data = FIntR();
 
-// nastavení fáze sprajtu
+// nastavenÃ­ fÃ¡ze sprajtu
 	Sprite[inx].FazeNext(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 	SpriteClear(inx);
 
 // inkrementace indexu seznamu
@@ -1878,29 +1878,29 @@ void FSpriteFazeLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stavu globálního sprajtu (Data = index)
+// nastavenÃ­ stavu globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteStatus()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení stavu sprajtu
+// nastavenÃ­ stavu sprajtu
 	if (data != Sprite[inx].Status())
 	{
 		Sprite[inx].Status(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 		SpriteClear(inx);
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stavu sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ stavu sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteStatusList()
 {
@@ -1911,15 +1911,15 @@ void FSpriteStatusList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení stavu sprajtu
+// nastavenÃ­ stavu sprajtu
 	if (data != Sprite[inx].Status())
 	{
 		Sprite[inx].Status(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 		SpriteClear(inx);
 	}
 
@@ -1929,29 +1929,29 @@ void FSpriteStatusList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stavu lokálního sprajtu (Data = index)
+// nastavenÃ­ stavu lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteStatusLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení stavu sprajtu
+// nastavenÃ­ stavu sprajtu
 	if (data != Sprite[inx].Status())
 	{
 		Sprite[inx].Status(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 		SpriteClear(inx);
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stavu lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ stavu lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteStatusLocList()
 {
@@ -1962,15 +1962,15 @@ void FSpriteStatusLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double data = FNum();
 
-// nastavení stavu sprajtu
+// nastavenÃ­ stavu sprajtu
 	if (data != Sprite[inx].Status())
 	{
 		Sprite[inx].Status(data);
 
-// zajištìní pøekreslení sprajtu
+// zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­ sprajtu
 		SpriteClear(inx);
 	}
 
@@ -1980,23 +1980,23 @@ void FSpriteStatusLocList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti globálního sprajtu (Data = index)
+// nastavenÃ­ viditelnosti globÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteVis()
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	bool data = FBool();
 
-// nastavení viditelnosti sprajtu
+// nastavenÃ­ viditelnosti sprajtu
 	SetSpriteVisible(inx, data);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ viditelnosti sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteVisList()
 {
@@ -2007,10 +2007,10 @@ void FSpriteVisList()
 	int inx = ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	bool data = FBool();
 
-// nastavení viditelnosti sprajtu
+// nastavenÃ­ viditelnosti sprajtu
 	SetSpriteVisible(inx, data);
 
 // inkrementace indexu seznamu
@@ -2019,23 +2019,23 @@ void FSpriteVisList()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti lokálního sprajtu (Data = index)
+// nastavenÃ­ viditelnosti lokÃ¡lnÃ­ho sprajtu (Data = index)
 
 void FSpriteVisLoc()
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	bool data = FBool();
 
-// nastavení viditelnosti sprajtu
+// nastavenÃ­ viditelnosti sprajtu
 	SetSpriteVisible(inx, data);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti lokálního sprajtu v seznamu (Data = index, List = seznam)
+// nastavenÃ­ viditelnosti lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 void FSpriteVisLocList()
 {
@@ -2046,10 +2046,10 @@ void FSpriteVisLocList()
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.Inx(list);
 
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	bool data = FBool();
 
-// nastavení viditelnosti sprajtu
+// nastavenÃ­ viditelnosti sprajtu
 	SetSpriteVisible(inx, data);
 
 // inkrementace indexu seznamu
@@ -2060,27 +2060,27 @@ void FSpriteVisLocList()
 
 /***************************************************************************\
 *																			*
-*							øídicí pøíkazy									*
+*							Å™Ã­dicÃ­ pÅ™Ã­kazy									*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// podmínka IF
+// podmÃ­nka IF
 
 void FIf()
 {
-// test podmínky
+// test podmÃ­nky
 	if (FBool())
 	{
 
-// provedení pøíkazu pøi splnìní podmínky
+// provedenÃ­ pÅ™Ã­kazu pÅ™i splnÄ›nÃ­ podmÃ­nky
 		FCommand();
 		ExecItem += ExecItem->Jump;
 	}
 	else
 	{
 
-// provedení pøíkazu pøi nesplnìní podmínky
+// provedenÃ­ pÅ™Ã­kazu pÅ™i nesplnÄ›nÃ­ podmÃ­nky
 		ExecItem += ExecItem->Jump;
 		FCommand();
 	}
@@ -2092,37 +2092,37 @@ void FIf()
 
 void FWhile()
 {
-// obsluha pøekreslování s time-out
+// obsluha pÅ™ekreslovÃ¡nÃ­ s time-out
 	int oldredispout = ReDispOut;
 	bool istimer = false;
 
-// úschova ukazatele podmínky
+// Ãºschova ukazatele podmÃ­nky
 	EXECITEM* oldexec = ExecItem;
 
-// dokud je podmínka splnìna
+// dokud je podmÃ­nka splnÄ›na
 	while (FBool())
 	{
 
-// provedení pøíkazu
+// provedenÃ­ pÅ™Ã­kazu
 		FCommand();
 
-// pøi pøerušení konec
+// pÅ™i pÅ™eruÅ¡enÃ­ konec
 		if (Break != 0)
 		{
 			Break &= ~BREAKWHILE;
 			return;
 		}
 
-// èítání obsluhy multitaskingu
+// ÄÃ­tÃ¡nÃ­ obsluhy multitaskingu
 		WhileOut--;
 		if (WhileOut <= 0)
 		{
 			WhileOut = WHILEOUT;
 
-// obsluha èasovaèe
+// obsluha ÄasovaÄe
 			if (TestTimer())
 			{
-				WaitTimer(false);			// obsluha zpráv
+				WaitTimer(false);			// obsluha zprÃ¡v
 
 				while (Pause && (Break == 0))
 				{
@@ -2134,7 +2134,7 @@ void FWhile()
 			}
 		}
 
-// obsluha pøekreslování (trvá-li tato smyèka po 2 èasové impulsy)
+// obsluha pÅ™ekreslovÃ¡nÃ­ (trvÃ¡-li tato smyÄka po 2 ÄasovÃ© impulsy)
 		if (oldredispout != ReDispOut)
 		{
 			if (istimer)
@@ -2146,11 +2146,11 @@ void FWhile()
 			oldredispout = ReDispOut;
 		}
 
-// návrat ukazatele na zaèátek podmínky
+// nÃ¡vrat ukazatele na zaÄÃ¡tek podmÃ­nky
 		ExecItem = oldexec;
 	}
 
-// konec cyklu - pøeskoèení pøíkazu
+// konec cyklu - pÅ™eskoÄenÃ­ pÅ™Ã­kazu
 	ExecItem += ExecItem->Jump;
 }
 
@@ -2160,40 +2160,40 @@ void FWhile()
 
 void FRepeat()
 {
-// obsluha pøekreslování s time-out
+// obsluha pÅ™ekreslovÃ¡nÃ­ s time-out
 	int oldredispout = ReDispOut;
 	bool istimer = false;
 
-// naètení poètu prùchodù
+// naÄtenÃ­ poÄtu prÅ¯chodÅ¯
 	int citac = abs(FIntR());
 
-// úschova ukazatele pøíkazu
+// Ãºschova ukazatele pÅ™Ã­kazu
 	EXECITEM* oldexec = ExecItem;
 
-// opakování cyklu
+// opakovÃ¡nÃ­ cyklu
 	for (; citac > 0; citac--)
 	{
 
-// provedení pøíkazu
+// provedenÃ­ pÅ™Ã­kazu
 		FCommand();
 
-// pøi pøerušení konec
+// pÅ™i pÅ™eruÅ¡enÃ­ konec
 		if (Break != 0)
 		{
 			Break &= ~BREAKWHILE;
 			return;
 		}
 
-// èítání obsluhy multitaskingu
+// ÄÃ­tÃ¡nÃ­ obsluhy multitaskingu
 		WhileOut--;
 		if (WhileOut <= 0)
 		{
 			WhileOut = WHILEOUT;
 
-// obsluha èasovaèe
+// obsluha ÄasovaÄe
 			if (TestTimer())
 			{
-				WaitTimer(false);			// obsluha zpráv
+				WaitTimer(false);			// obsluha zprÃ¡v
 
 				while (Pause && (Break == 0))
 				{
@@ -2205,7 +2205,7 @@ void FRepeat()
 			}
 		}
 
-// obsluha pøekreslování (trvá-li tato smyèka po 2 èasové impulsy)
+// obsluha pÅ™ekreslovÃ¡nÃ­ (trvÃ¡-li tato smyÄka po 2 ÄasovÃ© impulsy)
 		if (oldredispout != ReDispOut)
 		{
 			if (istimer)
@@ -2217,46 +2217,46 @@ void FRepeat()
 			oldredispout = ReDispOut;
 		}
 
-// návrat ukazatele na zaèátek pøíkazu
+// nÃ¡vrat ukazatele na zaÄÃ¡tek pÅ™Ã­kazu
 		ExecItem = oldexec;
 	}
 
-// konec cyklu - pøeskoèení pøíkazu
+// konec cyklu - pÅ™eskoÄenÃ­ pÅ™Ã­kazu
 	ExecItem += ExecItem->Jump;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøerušení cyklu
+// pÅ™eruÅ¡enÃ­ cyklu
 
 void FBreak() { Break |= BREAKWHILE; }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøerušení funkce
+// pÅ™eruÅ¡enÃ­ funkce
 
 void FReturn() { Break |= BREAKFUNC; }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// prázdnı pøíkaz
+// prÃ¡zdnÃ½ pÅ™Ã­kaz
 
 void FCommandExec0() { };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 1 pøíkaz
+// 1 pÅ™Ã­kaz
 
 void FCommandExec1()
 { 
-// pøi pøerušení zrychlené pøeskoèení pøíkazu
+// pÅ™i pÅ™eruÅ¡enÃ­ zrychlenÃ© pÅ™eskoÄenÃ­ pÅ™Ã­kazu
 	if (Break != 0)
 	{
 		ExecItem += ExecItem->Jump;
 	}
 	else
 
-// provedení pøíkazu
+// provedenÃ­ pÅ™Ã­kazu
 	{
 		FCommand();
 	}
@@ -2264,32 +2264,32 @@ void FCommandExec1()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// posloupnost pøíkazù (Data = poèet pøíkazù - 1)
+// posloupnost pÅ™Ã­kazÅ¯ (Data = poÄet pÅ™Ã­kazÅ¯ - 1)
 
 void FCommandExec()
 { 
-// pøíprava poètu pøíkazù
+// pÅ™Ã­prava poÄtu pÅ™Ã­kazÅ¯
 	int i = ExecItem[-1].Data;
 
-// cyklus pøes všechny pøíkazy
+// cyklus pÅ™es vÅ¡echny pÅ™Ã­kazy
 	for (; i >= 0; i--)
 	{
 
-// pøi pøerušení zrychlené pøeskoèení pøíkazu
+// pÅ™i pÅ™eruÅ¡enÃ­ zrychlenÃ© pÅ™eskoÄenÃ­ pÅ™Ã­kazu
 		if (Break != 0)
 		{
 			ExecItem += ExecItem->Jump;
 			return;
 		}
 
-// provedení pøíkazu
+// provedenÃ­ pÅ™Ã­kazu
 		FCommand();
 	}
 };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání - 1 impuls
+// ÄekÃ¡nÃ­ - 1 impuls
 
 void FWait1()
 { 
@@ -2302,7 +2302,7 @@ void FWait1()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání
+// ÄekÃ¡nÃ­
 
 void FWait()
 {
@@ -2332,7 +2332,7 @@ void FWait()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textu stavového øádku
+// nastavenÃ­ textu stavovÃ©ho Å™Ã¡dku
 
 void FSetStatus()
 {
@@ -2344,7 +2344,7 @@ void FSetStatus()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textu nadpisu okna
+// nastavenÃ­ textu nadpisu okna
 
 void FSetCaption()
 {
@@ -2359,7 +2359,7 @@ void FSetCaption()
 
 /***************************************************************************\
 *																			*
-*							obsluha dialogù									*
+*							obsluha dialogÅ¯									*
 *																			*
 \***************************************************************************/
 
@@ -2371,68 +2371,68 @@ void FDialogBox() { FNumDialogBox(); };
 
 /***************************************************************************\
 *																			*
-*							obsluha souborù									*
+*							obsluha souborÅ¯									*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// novı soubor
+// novÃ½ soubor
 
 void FFileNew() { FBoolFileNew(); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// novı adresáø
+// novÃ½ adresÃ¡Å™
 
 void FDirNew() { FBoolDirNew(); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení souboru/adresáøe
+// zruÅ¡enÃ­ souboru/adresÃ¡Å™e
 
 void FFileDelete() { FBoolFileDelete(); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního adresáøe
+// nastavenÃ­ aktivnÃ­ho adresÃ¡Å™e
 
 void FFileAct()
 {
-// naètení poadovaného adresáøe
+// naÄtenÃ­ poÅ¾adovanÃ©ho adresÃ¡Å™e
 	CString text;
 	FText(text);
 
-// nastavení aktivního adresáøe
+// nastavenÃ­ aktivnÃ­ho adresÃ¡Å™e
 	if (!::SetCurrentDirectory(text)) FileError = true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení jmenovky disku
+// nastavenÃ­ jmenovky disku
 
 void FDiskLabel()
 {
-// naètení jména disku
+// naÄtenÃ­ jmÃ©na disku
 	CString text;
 	FText(text);
 
-// nastavení jména disku
+// nastavenÃ­ jmÃ©na disku
 	if (!::SetVolumeLabel(NULL, text)) FileError = true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// soubor pro ètení
+// soubor pro ÄtenÃ­
 
 void FFileRead()
 {
-// uzavøení souborù
+// uzavÅ™enÃ­ souborÅ¯
 	FileClose();
 
-// nulování offsetu	pro ètení
+// nulovÃ¡nÃ­ offsetu	pro ÄtenÃ­
 	FileReadOff = 0;
 
-// naètení jména souboru
+// naÄtenÃ­ jmÃ©na souboru
 	CString text;
 	FText(text);
 	text.TrimLeft();
@@ -2442,17 +2442,17 @@ void FFileRead()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// soubor pro zápis
+// soubor pro zÃ¡pis
 
 void FFileWrite()
 {
-// uzavøení souborù
+// uzavÅ™enÃ­ souborÅ¯
 	FileClose();
 
-// nulování offsetu	pro zápis
+// nulovÃ¡nÃ­ offsetu	pro zÃ¡pis
 	FileWriteOff = 0;
 
-// naètení jména souboru
+// naÄtenÃ­ jmÃ©na souboru
 	CString text;
 	FText(text);
 	text.TrimLeft();
@@ -2462,42 +2462,42 @@ void FFileWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie souborù
+// kopie souborÅ¯
 
 void FFileCopy() { FBoolFileCopy(); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøesun souborù
+// pÅ™esun souborÅ¯
 
 void FFileMove() { FBoolFileMove(); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadovaného atributu
+// nastavenÃ­ poÅ¾adovanÃ©ho atributu
 
 void _fastcall FFileAttrib(DWORD attrib)
 {
-// uzavøení otevøenıch souborù
+// uzavÅ™enÃ­ otevÅ™enÃ½ch souborÅ¯
 	FileClose();
 
-// naètení hodnoty atributu
+// naÄtenÃ­ hodnoty atributu
 	bool atr = FBool();
 
-// musí bıt platné jméno vıstupního souboru
+// musÃ­ bÃ½t platnÃ© jmÃ©no vÃ½stupnÃ­ho souboru
 	if (FileWrite.IsNotEmpty())
 	{
 
-// naètení aktuálních parametrù
+// naÄtenÃ­ aktuÃ¡lnÃ­ch parametrÅ¯
 		DWORD oldatr = ::GetFileAttributes(FileWrite);
 		if ((int)oldatr != -1)
 		{
 
-// pøíprava nového stavu atributù
+// pÅ™Ã­prava novÃ©ho stavu atributÅ¯
 			DWORD newatr = oldatr | attrib;
 			if (!atr) newatr ^= attrib;
 
-// nastavení novıch atributù, pokud jsou zmìnìny
+// nastavenÃ­ novÃ½ch atributÅ¯, pokud jsou zmÄ›nÄ›ny
 			if (oldatr != newatr)
 			{
 				newatr &= ~(FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_COMPRESSED);
@@ -2517,17 +2517,17 @@ void FFileARC() { FFileAttrib(FILE_ATTRIBUTE_ARCHIVE); };	// atribut ARC
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èasu vytvoøení souboru
+// nastavenÃ­ Äasu vytvoÅ™enÃ­ souboru
 
 void FFileCreate()
 {
-// uzavøení otevøenıch souborù
+// uzavÅ™enÃ­ otevÅ™enÃ½ch souborÅ¯
 	FileClose();
 
-// naètení èasu
+// naÄtenÃ­ Äasu
 	__int64 cas = FNumFileTimeUTC();
 
-// nastavení èasu pro soubor
+// nastavenÃ­ Äasu pro soubor
 	if (!FileWriteOpen() ||	!::SetFileTime(FileWriteHandle, (FILETIME*)&cas, NULL, NULL))
 	{
 		FileError = true;
@@ -2536,17 +2536,17 @@ void FFileCreate()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èasu ètení ze souboru
+// nastavenÃ­ Äasu ÄtenÃ­ ze souboru
 
 void FFileOpen()
 {
-// uzavøení otevøenıch souborù
+// uzavÅ™enÃ­ otevÅ™enÃ½ch souborÅ¯
 	FileClose();
 
-// naètení èasu
+// naÄtenÃ­ Äasu
 	__int64 cas = FNumFileTimeUTC();
 
-// nastavení èasu pro soubor
+// nastavenÃ­ Äasu pro soubor
 	if (!FileWriteOpen() ||	!::SetFileTime(FileWriteHandle, NULL, (FILETIME*)&cas, NULL))
 	{
 		FileError = true;
@@ -2555,17 +2555,17 @@ void FFileOpen()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èasu zápisu do souboru
+// nastavenÃ­ Äasu zÃ¡pisu do souboru
 
 void FFileModi()
 {
-// uzavøení otevøenıch souborù
+// uzavÅ™enÃ­ otevÅ™enÃ½ch souborÅ¯
 	FileClose();
 
-// naètení èasu
+// naÄtenÃ­ Äasu
 	__int64 cas = FNumFileTimeUTC();
 
-// nastavení èasu pro soubor
+// nastavenÃ­ Äasu pro soubor
 	if (!FileWriteOpen() ||	!::SetFileTime(FileWriteHandle, NULL, NULL, (FILETIME*)&cas))
 	{
 		FileError = true;
@@ -2574,18 +2574,18 @@ void FFileModi()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení velikosti souboru
+// nastavenÃ­ velikosti souboru
 
 void FFileSize()
 {
-// naètení poadované velikosti souboru
+// naÄtenÃ­ poÅ¾adovanÃ© velikosti souboru
 	int size = FIntR();
 	if (size < 0) size = 0;
 
-// uzavøení souborù
+// uzavÅ™enÃ­ souborÅ¯
 	FileClose();
 
-// otevøení souboru pro zápis a nastavení jeho velikosti
+// otevÅ™enÃ­ souboru pro zÃ¡pis a nastavenÃ­ jeho velikosti
 	if (!FileWriteOpen() ||
 		((int)::SetFilePointer(FileWriteHandle, size, NULL, FILE_BEGIN) == -1) ||
 		!::SetEndOfFile(FileWriteHandle))
@@ -2596,7 +2596,7 @@ void FFileSize()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení offsetu pro ètení
+// nastavenÃ­ offsetu pro ÄtenÃ­
 
 void FFileReadOff()
 {
@@ -2607,7 +2607,7 @@ void FFileReadOff()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení offsetu pro zápis
+// nastavenÃ­ offsetu pro zÃ¡pis
 
 void FFileWriteOff()
 {
@@ -2618,13 +2618,13 @@ void FFileWriteOff()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøíznaku chyby
+// nastavenÃ­ pÅ™Ã­znaku chyby
 
 void FFileError() { FileError = FBool(); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení délky textu s pevnou délkou
+// nastavenÃ­ dÃ©lky textu s pevnou dÃ©lkou
 
 void FFileTextNLen()
 {
@@ -2634,13 +2634,13 @@ void FFileTextNLen()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøíznaku textu UNICODE
+// nastavenÃ­ pÅ™Ã­znaku textu UNICODE
 
 void FFileTextUnicode() { FileTextUnicode = FBool(); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis bajtu se znaménkem
+// zÃ¡pis bajtu se znamÃ©nkem
 
 void FFileByteS()
 { 
@@ -2652,7 +2652,7 @@ void FFileByteS()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis bajtu bez znaménka
+// zÃ¡pis bajtu bez znamÃ©nka
 
 void FFileByteU()
 { 
@@ -2664,7 +2664,7 @@ void FFileByteU()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis slova se znaménkem
+// zÃ¡pis slova se znamÃ©nkem
 
 void FFileWordS()
 { 
@@ -2676,7 +2676,7 @@ void FFileWordS()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis slova bez znaménka
+// zÃ¡pis slova bez znamÃ©nka
 
 void FFileWordU()
 { 
@@ -2688,7 +2688,7 @@ void FFileWordU()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis 3 bajtù se znaménkem
+// zÃ¡pis 3 bajtÅ¯ se znamÃ©nkem
 
 void FFile3ByteS()
 { 
@@ -2701,7 +2701,7 @@ void FFile3ByteS()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis 3 bajtù bez znaménka
+// zÃ¡pis 3 bajtÅ¯ bez znamÃ©nka
 
 void FFile3ByteU()
 { 
@@ -2714,7 +2714,7 @@ void FFile3ByteU()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis dvojslova se znaménkem
+// zÃ¡pis dvojslova se znamÃ©nkem
 
 void FFileDWordS()
 { 
@@ -2724,7 +2724,7 @@ void FFileDWordS()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis dvojslova bez znaménka
+// zÃ¡pis dvojslova bez znamÃ©nka
 
 void FFileDWordU()
 { 
@@ -2735,7 +2735,7 @@ void FFileDWordU()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis èísla FLOAT
+// zÃ¡pis ÄÃ­sla FLOAT
 
 void FFileFloat()
 { 
@@ -2745,7 +2745,7 @@ void FFileFloat()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis èísla DOUBLE
+// zÃ¡pis ÄÃ­sla DOUBLE
 
 void FFileDouble()
 { 
@@ -2756,7 +2756,7 @@ void FFileDouble()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis logické hodnoty
+// zÃ¡pis logickÃ© hodnoty
 
 void FFileLogic()
 { 
@@ -2766,22 +2766,22 @@ void FFileLogic()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis textu (s omezením délky, vrací délku uloeného textu)
+// zÃ¡pis textu (s omezenÃ­m dÃ©lky, vracÃ­ dÃ©lku uloÅ¾enÃ©ho textu)
 
 int _fastcall FFileText(const int max)
 {
-// naètení textu
+// naÄtenÃ­ textu
 	CString text;
 	FText(text);
 
-// pøíprava délky textu
+// pÅ™Ã­prava dÃ©lky textu
 	int len = text.Length();
 	if (len > max) len = max;
 
-// zápis textu
+// zÃ¡pis textu
 	int i = 0;
 
-// zápis v kódu UNICODE
+// zÃ¡pis v kÃ³du UNICODE
 	if (FileTextUnicode)
 	{
 #ifdef _UNICODE
@@ -2802,7 +2802,7 @@ int _fastcall FFileText(const int max)
 #endif
 	}
 
-// zápis v kódu WINDOWS
+// zÃ¡pis v kÃ³du WINDOWS
 	else
 	{
 #ifdef _UNICODE
@@ -2823,20 +2823,20 @@ int _fastcall FFileText(const int max)
 #endif
 	}
 
-// návrat uloené délky textu
+// nÃ¡vrat uloÅ¾enÃ© dÃ©lky textu
 	return i;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis textu zakonèeného nulou
+// zÃ¡pis textu zakonÄenÃ©ho nulou
 
 void FFileText0()
 {
-// zápis textu
+// zÃ¡pis textu
 	FFileText(BigInt);
 
-// zápis koncové nuly
+// zÃ¡pis koncovÃ© nuly
 	if (FileTextUnicode)
 	{
 		FileWriteWord(0);
@@ -2849,14 +2849,14 @@ void FFileText0()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis textu zakonèeného CR/LF
+// zÃ¡pis textu zakonÄenÃ©ho CR/LF
 
 void FFileTextCR()
 {
-// zápis textu
+// zÃ¡pis textu
 	FFileText(BigInt);
 
-// zápis konce øádku
+// zÃ¡pis konce Å™Ã¡dku
 	if (FileTextUnicode)
 	{
 		FileWriteWord(13);
@@ -2871,15 +2871,15 @@ void FFileTextCR()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis textu s pevnou délkou
+// zÃ¡pis textu s pevnou dÃ©lkou
 
 void FFileTextN()
 {
-// zápis textu
+// zÃ¡pis textu
 	int i = FileTextNLen;
 	i = i - FFileText(i);
 
-// zápis zarovnávacích mezer
+// zÃ¡pis zarovnÃ¡vacÃ­ch mezer
 	if (FileTextUnicode)
 	{
 		for (; i > 0; i--)
@@ -2897,7 +2897,7 @@ void FFileTextN()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis ikony
+// zÃ¡pis ikony
 
 void FFileIcon()
 {
@@ -2907,7 +2907,7 @@ void FFileIcon()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis obrázku
+// zÃ¡pis obrÃ¡zku
 
 void FFilePicture()
 {
@@ -2917,7 +2917,7 @@ void FFilePicture()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis zvuku
+// zÃ¡pis zvuku
 
 void FFileSound()
 {
@@ -2927,7 +2927,7 @@ void FFileSound()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis hudby
+// zÃ¡pis hudby
 
 void FFileMusic()
 {
@@ -2937,7 +2937,7 @@ void FFileMusic()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis sprajtu
+// zÃ¡pis sprajtu
 
 void FFileSprite()
 {
@@ -2948,19 +2948,19 @@ void FFileSprite()
 
 /***************************************************************************\
 *																			*
-*							obsluha èasu									*
+*							obsluha Äasu									*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktuálního èasu
+// nastavenÃ­ aktuÃ¡lnÃ­ho Äasu
 
 void FTimeCurrent()
 {
-// naètení èasu
+// naÄtenÃ­ Äasu
 	FNumSysTime();
 
-// nastavení nového èasu
+// nastavenÃ­ novÃ©ho Äasu
 	::SetLocalTime(&SystemTime);
 }
 
@@ -2972,13 +2972,13 @@ void FTimeCurrent()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// pøehrátí CD 
+// pÅ™ehrÃ¡tÃ­ CD 
 
 void FCDPlay() { CDPlay(FIntR()); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení pøehrávání CD
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ CD
 
 void FCDStop() { CDStop(); };
 
@@ -2998,25 +2998,25 @@ void FCDPauseSet()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice CD
+// nastavenÃ­ pozice CD
 
 void FCDSetPos() { CDSetPos(FInt1000()); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stopy CD
+// nastavenÃ­ stopy CD
 
 void FCDSetTrack() { CDSetTrack(FIntR()); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice stopy CD
+// nastavenÃ­ pozice stopy CD
 
 void FCDSetTrackPos() { CDSetTrackPos(FInt1000()); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vysunutí CD
+// vysunutÃ­ CD
 
 void FCDEject() { CDEject(CDDiskValid); }
 void FCDEjectSet() { CDEject(FBool()); }
@@ -3029,35 +3029,35 @@ void FCDEjectSet() { CDEject(FBool()); }
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// pøehrátí hudby
+// pÅ™ehrÃ¡tÃ­ hudby
 
 void FMusicPlay()
 {
-// naètení hudby k pøehrátí
+// naÄtenÃ­ hudby k pÅ™ehrÃ¡tÃ­
 	CMusic mus;
 	FMusic(mus);
 
-// pøehrátí hudby
+// pÅ™ehrÃ¡tÃ­ hudby
 	MusicPlay(mus, false);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// opakované pøehrávání hudby
+// opakovanÃ© pÅ™ehrÃ¡vÃ¡nÃ­ hudby
 
 void FMusicLoop()
 {
-// naètení hudby k pøehrátí
+// naÄtenÃ­ hudby k pÅ™ehrÃ¡tÃ­
 	CMusic mus;
 	FMusic(mus);
 
-// pøehrátí hudby
+// pÅ™ehrÃ¡tÃ­ hudby
 	MusicPlay(mus, true);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení pøehrávání hudby
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ hudby
 
 void FMusicStop() { MusicStop(); MusicPausing = false; };
 
@@ -3075,7 +3075,7 @@ void FMusicPauseSet()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice hudby
+// nastavenÃ­ pozice hudby
 
 void FSetMusicPos() { SetMusicPos(FInt1000()); };
 
@@ -3087,7 +3087,7 @@ void FSetMusicPos() { SetMusicPos(FInt1000()); };
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - èekání na dokonèení pohybu
+// Petr - ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 
 void PeterWait()
 {
@@ -3096,7 +3096,7 @@ void PeterWait()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - èekání na dokonèení pohybu
+// Petra - ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 
 void Peter2Wait()
 {
@@ -3105,20 +3105,20 @@ void Peter2Wait()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - krok vpøed
+// Petr - krok vpÅ™ed
 
 void FKrok()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	PeterWait();
 
-// naètení pøíští souøadnice Petra
+// naÄtenÃ­ pÅ™Ã­Å¡tÃ­ souÅ™adnice Petra
 	int x;
 	int y;
 	if (PetrXYNext(x, y))
 	{
 
-// pøesun na pøíští pozici
+// pÅ™esun na pÅ™Ã­Å¡tÃ­ pozici
 		SpriteMove(0, x, y);
 		PeterWait();
 	}
@@ -3126,20 +3126,20 @@ void FKrok()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - krok vpøed
+// Petra - krok vpÅ™ed
 
 void FKrok2()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	Peter2Wait();
 
-// naètení pøíští souøadnice Petra
+// naÄtenÃ­ pÅ™Ã­Å¡tÃ­ souÅ™adnice Petra
 	int x;
 	int y;
 	if (Petr2XYNext(x, y))
 	{
 
-// pøesun na pøíští pozici
+// pÅ™esun na pÅ™Ã­Å¡tÃ­ pozici
 		SpriteMove(1, x, y);
 	}
 }
@@ -3150,10 +3150,10 @@ void FKrok2()
 
 void FVlevo()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	PeterWait();
 
-// otoèení vlevo
+// otoÄenÃ­ vlevo
 	SetSpriteSmer(0, Sprite[0].SmerR() + uhel90);
 }
 
@@ -3163,10 +3163,10 @@ void FVlevo()
 
 void FVlevo2()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	Peter2Wait();
 
-// otoèení vlevo
+// otoÄenÃ­ vlevo
 	SetSpriteSmer(1, Sprite[1].SmerR() + uhel90);
 }
 
@@ -3176,10 +3176,10 @@ void FVlevo2()
 
 void FVpravo()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	PeterWait();
 
-// otoèení vpravo
+// otoÄenÃ­ vpravo
 	SetSpriteSmer(0, Sprite[0].SmerR() - uhel90);
 }
 
@@ -3189,10 +3189,10 @@ void FVpravo()
 
 void FVpravo2()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	Peter2Wait();
 
-// otoèení vpravo
+// otoÄenÃ­ vpravo
 	SetSpriteSmer(1, Sprite[1].SmerR() - uhel90);
 }
 
@@ -3202,10 +3202,10 @@ void FVpravo2()
 
 void FVzad()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	PeterWait();
 
-// otoèení vzad
+// otoÄenÃ­ vzad
 	SetSpriteSmer(0, Sprite[0].SmerR() + uhel180);
 }
 
@@ -3215,10 +3215,10 @@ void FVzad()
 
 void FVzad2()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	Peter2Wait();
 
-// otoèení vzad
+// otoÄenÃ­ vzad
 	SetSpriteSmer(1, Sprite[1].SmerR() + uhel180);
 }
 
@@ -3228,10 +3228,10 @@ void FVzad2()
 
 void FVisible()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	PeterWait();
 
-// nastavení viditelnosti
+// nastavenÃ­ viditelnosti
 	SetSpriteVisible(0, FBool());
 }
 
@@ -3241,44 +3241,44 @@ void FVisible()
 
 void FVisible2()
 {
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 	Peter2Wait();
 
-// nastavení viditelnosti
+// nastavenÃ­ viditelnosti
 	SetSpriteVisible(1, FBool());
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøedmìtu pøed Petrem
+// nastavenÃ­ pÅ™edmÄ›tu pÅ™ed Petrem
 
 void FSetPredmet()
 {
-// naètení ikony
+// naÄtenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 
-// jen není-li to prázdná ikona
+// jen nenÃ­-li to prÃ¡zdnÃ¡ ikona
 	if (icon.IsNotEmpty())
 	{
 
-// naètení pøíští souøadnice Petra
+// naÄtenÃ­ pÅ™Ã­Å¡tÃ­ souÅ™adnice Petra
 		int x;
 		int y;
 		if (PetrXYNext(x, y))
 		{
 
-// adresa pøedmìtu
+// adresa pÅ™edmÄ›tu
 			MAPITEM* item = &Map[0].At(x, y);
 
-// test, zda je zmìna pøedmìtu
+// test, zda je zmÄ›na pÅ™edmÄ›tu
 			if (item->Icon != icon)
 			{
 
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 				PeterWait();
 
-// nastavení nového pøedmìtu
+// nastavenÃ­ novÃ©ho pÅ™edmÄ›tu
 				item->Icon = icon;
 				SetAktIcon(x, y, true);
 			}
@@ -3288,35 +3288,35 @@ void FSetPredmet()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøedmìtu pøed Petrou
+// nastavenÃ­ pÅ™edmÄ›tu pÅ™ed Petrou
 
 void FSetPredmet2()
 {
-// naètení ikony
+// naÄtenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 
-// jen není-li to prázdná ikona
+// jen nenÃ­-li to prÃ¡zdnÃ¡ ikona
 	if (icon.IsNotEmpty())
 	{
 
-// naètení pøíští souøadnice Petry
+// naÄtenÃ­ pÅ™Ã­Å¡tÃ­ souÅ™adnice Petry
 		int x;
 		int y;
 		if (Petr2XYNext(x, y))
 		{
 
-// adresa pøedmìtu
+// adresa pÅ™edmÄ›tu
 			MAPITEM* item = &Map[0].At(x, y);
 
-// test, zda je zmìna pøedmìtu
+// test, zda je zmÄ›na pÅ™edmÄ›tu
 			if (item->Icon != icon)
 			{
 
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 				Peter2Wait();
 
-// nastavení nového pøedmìtu
+// nastavenÃ­ novÃ©ho pÅ™edmÄ›tu
 				item->Icon = icon;
 				SetAktIcon(x, y, true);
 			}
@@ -3326,35 +3326,35 @@ void FSetPredmet2()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøedmìtu pod Petrem
+// nastavenÃ­ pÅ™edmÄ›tu pod Petrem
 
 void FSetPredmetPoz()
 {
-// naètení ikony
+// naÄtenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 
-// jen není-li to prázdná ikona
+// jen nenÃ­-li to prÃ¡zdnÃ¡ ikona
 	if (icon.IsNotEmpty())
 	{
 
-// naètení souøadnice Petra
+// naÄtenÃ­ souÅ™adnice Petra
 		int x;
 		int y;
 		if (PetrXY(x, y))
 		{
 
-// adresa pøedmìtu
+// adresa pÅ™edmÄ›tu
 			MAPITEM* item = &Map[0].At(x, y);
 
-// test, zda je zmìna pøedmìtu
+// test, zda je zmÄ›na pÅ™edmÄ›tu
 			if (item->Icon != icon)
 			{
 
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 				PeterWait();
 
-// nastavení nového pøedmìtu
+// nastavenÃ­ novÃ©ho pÅ™edmÄ›tu
 				item->Icon = icon;
 				SetAktIcon(x, y, true);
 			}
@@ -3364,35 +3364,35 @@ void FSetPredmetPoz()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøedmìtu pod Petrou
+// nastavenÃ­ pÅ™edmÄ›tu pod Petrou
 
 void FSetPredmet2Poz()
 {
-// naètení ikony
+// naÄtenÃ­ ikony
 	CIcon icon;
 	FIcon(icon);
 
-// jen není-li to prázdná ikona
+// jen nenÃ­-li to prÃ¡zdnÃ¡ ikona
 	if (icon.IsNotEmpty())
 	{
 
-// naètení souøadnice Petry
+// naÄtenÃ­ souÅ™adnice Petry
 		int x;
 		int y;
 		if (Petr2XY(x, y))
 		{
 
-// adresa pøedmìtu
+// adresa pÅ™edmÄ›tu
 			MAPITEM* item = &Map[0].At(x, y);
 
-// test, zda je zmìna pøedmìtu
+// test, zda je zmÄ›na pÅ™edmÄ›tu
 			if (item->Icon != icon)
 			{
 
-// èekání na dokonèení pohybu
+// ÄekÃ¡nÃ­ na dokonÄenÃ­ pohybu
 				Peter2Wait();
 
-// nastavení nového pøedmìtu
+// nastavenÃ­ novÃ©ho pÅ™edmÄ›tu
 				item->Icon = icon;
 				SetAktIcon(x, y, true);
 			}
@@ -3402,19 +3402,19 @@ void FSetPredmet2Poz()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - nastavení smìru
+// Petr - nastavenÃ­ smÄ›ru
 
 void FSetSmer() { PeterWait(); SetSpriteSmer(0, FNum()); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - nastavení smìru
+// Petra - nastavenÃ­ smÄ›ru
 
 void FSetSmer2() { Peter2Wait(); SetSpriteSmer(1, FNum()); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - nastavení souøadnice X
+// Petr - nastavenÃ­ souÅ™adnice X
 
 void FSetPozX() 
 { 
@@ -3424,7 +3424,7 @@ void FSetPozX()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - nastavení souøadnice X
+// Petra - nastavenÃ­ souÅ™adnice X
 
 void FSetPozX2()
 { 
@@ -3434,7 +3434,7 @@ void FSetPozX2()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - nastavení souøadnice Y
+// Petr - nastavenÃ­ souÅ™adnice Y
 
 void FSetPozY()
 { 
@@ -3444,7 +3444,7 @@ void FSetPozY()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - nastavení souøadnice Y
+// Petra - nastavenÃ­ souÅ™adnice Y
 
 void FSetPozY2()
 { 
@@ -3454,17 +3454,17 @@ void FSetPozY2()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - nastavení èísla
+// Petr - nastavenÃ­ ÄÃ­sla
 
 void _fastcall FSetSwcN(int mask, char rot)
 {
-// naètení èísla
+// naÄtenÃ­ ÄÃ­sla
 	int cislo = FIntR();
 
-// naètení pozice Petra
+// naÄtenÃ­ pozice Petra
 	MAPITEM* item = PetrXYMap();
 
-// nastavení èísla, je-li platná pozice
+// nastavenÃ­ ÄÃ­sla, je-li platnÃ¡ pozice
 	if (item != NULL)
 	{
 		cislo <<= rot;
@@ -3480,17 +3480,17 @@ void FSetSwcN3() { FSetSwcN(MAP_VALUE3_MASK, MAP_VALUE3_ROT); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - nastavení èísla
+// Petra - nastavenÃ­ ÄÃ­sla
 
 void _fastcall FSet2SwcN(int mask, char rot)
 {
-// naètení èísla
+// naÄtenÃ­ ÄÃ­sla
 	int cislo = FIntR();
 
-// naètení pozice Petry
+// naÄtenÃ­ pozice Petry
 	MAPITEM* item = Petr2XYMap();
 
-// nastavení èísla, je-li platná pozice
+// nastavenÃ­ ÄÃ­sla, je-li platnÃ¡ pozice
 	if (item != NULL)
 	{
 		cislo <<= rot;
@@ -3508,17 +3508,17 @@ void FSetSwcN32() { FSet2SwcN(MAP_VALUE3_MASK, MAP_VALUE3_ROT); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petr - nastavení pøepínaèe
+// Petr - nastavenÃ­ pÅ™epÃ­naÄe
 
 void _fastcall FSetSwc(DWORD mask)
 {
-// naètení hodnoty pøepínaèe
+// naÄtenÃ­ hodnoty pÅ™epÃ­naÄe
 	bool log = FBool();
 
-// naètení pozice Petra
+// naÄtenÃ­ pozice Petra
 	MAPITEM* item = PetrXYMap();
 
-// nastavení pøepínaèe, je-li platná pozice
+// nastavenÃ­ pÅ™epÃ­naÄe, je-li platnÃ¡ pozice
 	if (item != NULL)
 	{
 		DWORD param = item->Param | mask;
@@ -3527,25 +3527,25 @@ void _fastcall FSetSwc(DWORD mask)
 	}
 }
 
-void FSetSwc1() { FSetSwc(MAP_FLAG1); };	// pøepínaè 1 - Petr
-void FSetSwc2() { FSetSwc(MAP_FLAG2); };	// pøepínaè 2 - Petr
-void FSetSwc3() { FSetSwc(MAP_FLAG3); };	// pøepínaè 3 - Petr
-void FSetSwc4() { FSetSwc(MAP_FLAG4); };	// pøepínaè 4 - Petr
-void FSetSwc5() { FSetSwc(MAP_FLAG5); };	// pøepínaè 5 - Petr
+void FSetSwc1() { FSetSwc(MAP_FLAG1); };	// pÅ™epÃ­naÄ 1 - Petr
+void FSetSwc2() { FSetSwc(MAP_FLAG2); };	// pÅ™epÃ­naÄ 2 - Petr
+void FSetSwc3() { FSetSwc(MAP_FLAG3); };	// pÅ™epÃ­naÄ 3 - Petr
+void FSetSwc4() { FSetSwc(MAP_FLAG4); };	// pÅ™epÃ­naÄ 4 - Petr
+void FSetSwc5() { FSetSwc(MAP_FLAG5); };	// pÅ™epÃ­naÄ 5 - Petr
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Petra - nastavení pøepínaèe
+// Petra - nastavenÃ­ pÅ™epÃ­naÄe
 
 void _fastcall FSet2Swc(DWORD mask)
 {
-// naètení hodnoty pøepínaèe
+// naÄtenÃ­ hodnoty pÅ™epÃ­naÄe
 	bool log = FBool();
 
-// naètení pozice Petry
+// naÄtenÃ­ pozice Petry
 	MAPITEM* item = Petr2XYMap();
 
-// nastavení pøepínaèe, je-li platná pozice
+// nastavenÃ­ pÅ™epÃ­naÄe, je-li platnÃ¡ pozice
 	if (item != NULL)
 	{
 		DWORD param = item->Param | mask;
@@ -3554,11 +3554,11 @@ void _fastcall FSet2Swc(DWORD mask)
 	}
 }
 
-void FSetSwc12() { FSet2Swc(MAP_FLAG1); };	// pøepínaè 1 - Petra
-void FSetSwc22() { FSet2Swc(MAP_FLAG2); };	// pøepínaè 2 - Petra
-void FSetSwc32() { FSet2Swc(MAP_FLAG3); };	// pøepínaè 3 - Petra
-void FSetSwc42() { FSet2Swc(MAP_FLAG4); };	// pøepínaè 4 - Petra
-void FSetSwc52() { FSet2Swc(MAP_FLAG5); };	// pøepínaè 5 - Petra
+void FSetSwc12() { FSet2Swc(MAP_FLAG1); };	// pÅ™epÃ­naÄ 1 - Petra
+void FSetSwc22() { FSet2Swc(MAP_FLAG2); };	// pÅ™epÃ­naÄ 2 - Petra
+void FSetSwc32() { FSet2Swc(MAP_FLAG3); };	// pÅ™epÃ­naÄ 3 - Petra
+void FSetSwc42() { FSet2Swc(MAP_FLAG4); };	// pÅ™epÃ­naÄ 4 - Petra
+void FSetSwc52() { FSet2Swc(MAP_FLAG5); };	// pÅ™epÃ­naÄ 5 - Petra
 
 
 /***************************************************************************\
@@ -3568,48 +3568,48 @@ void FSetSwc52() { FSet2Swc(MAP_FLAG5); };	// pøepínaè 5 - Petra
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// pøehrátí zvuku
+// pÅ™ehrÃ¡tÃ­ zvuku
 
 void FSoundPlay()
 {
-// naètení zvuku k pøehrátí
+// naÄtenÃ­ zvuku k pÅ™ehrÃ¡tÃ­
 	CSound sound;
 	FSound(sound);
 
-// naètení ostatních parametrù
+// naÄtenÃ­ ostatnÃ­ch parametrÅ¯
 	double volume = FNum();			// hlasitost
 	double balance = FNum();		// balance
 	double speed = FNum();			// rychlost
-	int loop = FIntR();				// opakování
-	bool stop = FBool();			// pøerušení
+	int loop = FIntR();				// opakovÃ¡nÃ­
+	bool stop = FBool();			// pÅ™eruÅ¡enÃ­
 
-// pøehrátí zvuku
+// pÅ™ehrÃ¡tÃ­ zvuku
 	PlaySoundOpen(sound, loop, stop, volume, balance, speed);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení všech zvukù
+// zastavenÃ­ vÅ¡ech zvukÅ¯
 
 void FSoundStop() { PlaySoundStop(); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení konkrétního zvuku
+// zastavenÃ­ konkrÃ©tnÃ­ho zvuku
 
 void FSoundStop1()
 {
-// naètení zvuku k zastavení
+// naÄtenÃ­ zvuku k zastavenÃ­
 	CSound sound;
 	FSound(sound);
 
-// zastavení zvuku
+// zastavenÃ­ zvuku
 	PlaySoundClose(sound);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice zvuku
+// nastavenÃ­ pozice zvuku
 
 void FSetSoundPos() { SetSoundPos(FNum()); };
 
@@ -3625,7 +3625,7 @@ void FSoundPauseSet()
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení rozlišovacího kódu
+// nastavenÃ­ rozliÅ¡ovacÃ­ho kÃ³du
 
 void FSetSoundDistinguish()
 {
@@ -3638,12 +3638,12 @@ void FSetSoundDistinguish()
 *																			*
 \***************************************************************************/
 
-int	PointWidth = 1;					// nastavená šíøka grafického bodu
-BYTE PointCol = YellowCol;			// nastavená barva grafického bodu
-BYTE PointFill = BackCol;			// barva pozadí pro vıplò
+int	PointWidth = 1;					// nastavenÃ¡ Å¡Ã­Å™ka grafickÃ©ho bodu
+BYTE PointCol = YellowCol;			// nastavenÃ¡ barva grafickÃ©ho bodu
+BYTE PointFill = BackCol;			// barva pozadÃ­ pro vÃ½plÅˆ
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení jednoduchého bodu
+// zobrazenÃ­ jednoduchÃ©ho bodu
 
 void _fastcall FPoint1(int x, int y)
 {
@@ -3664,7 +3664,7 @@ void _fastcall FPoint01(int x, int y)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení bodu nebo kruhu (šíøka "PointWidth" musí bıt > 0 !)
+// zobrazenÃ­ bodu nebo kruhu (Å¡Ã­Å™ka "PointWidth" musÃ­ bÃ½t > 0 !)
 
 void _fastcall CirclePoint(int x, int y)
 {
@@ -4019,50 +4019,50 @@ void _fastcall CirclePoint(int x, int y)
 
 	default:
 		{
-// lokální promìnné
+// lokÃ¡lnÃ­ promÄ›nnÃ©
 			int width = PointWidth;
-			if (width > 20000) width = 20000;	// omezení kvùli pøeteèení
-			int prumer2 = width*width;			// kvadrát prùmìru
-			int dx2;							// kvadrát vzdálenosti od støedu X * 2
-			int dy2;							// kvadrát vzdálenosti od støedu Y * 2
-			int xx;								// ukazatel souøadnice X
-			int yy;								// ukazatel souøadnice Y
+			if (width > 20000) width = 20000;	// omezenÃ­ kvÅ¯li pÅ™eteÄenÃ­
+			int prumer2 = width*width;			// kvadrÃ¡t prÅ¯mÄ›ru
+			int dx2;							// kvadrÃ¡t vzdÃ¡lenosti od stÅ™edu X * 2
+			int dy2;							// kvadrÃ¡t vzdÃ¡lenosti od stÅ™edu Y * 2
+			int xx;								// ukazatel souÅ™adnice X
+			int yy;								// ukazatel souÅ™adnice Y
 			BYTE* data;							// ukazatel dat
 
-// poèáteèní souøadnice X
-			int x1 = x - (width - 1) / 2;		// vıchozí souøadnice X
+// poÄÃ¡teÄnÃ­ souÅ™adnice X
+			int x1 = x - (width - 1) / 2;		// vÃ½chozÃ­ souÅ™adnice X
 			if (x1 < 0) x1 = 0;
 			
-// koncová souøadnice X - následující
-			int x2 = x + width / 2 + 1;			// koncová souøadnice X (následující)
+// koncovÃ¡ souÅ™adnice X - nÃ¡sledujÃ­cÃ­
+			int x2 = x + width / 2 + 1;			// koncovÃ¡ souÅ™adnice X (nÃ¡sledujÃ­cÃ­)
 			if (x2 > Width) x2 = Width;
 
-// poèáteèní souøadnice Y
-			int y1 = y - (width - 1) / 2;		// vıchozí souøadnice Y
+// poÄÃ¡teÄnÃ­ souÅ™adnice Y
+			int y1 = y - (width - 1) / 2;		// vÃ½chozÃ­ souÅ™adnice Y
 			if (y1 < 0) y1 = 0;
 			
-// koncová souøadnice Y - následující
-			int y2 = y + width / 2 + 1;			// koncová souøadnice Y - následující
+// koncovÃ¡ souÅ™adnice Y - nÃ¡sledujÃ­cÃ­
+			int y2 = y + width / 2 + 1;			// koncovÃ¡ souÅ™adnice Y - nÃ¡sledujÃ­cÃ­
 			if (y2 > Height) y2 = Height;
 
 // aktualizace ikon
 			AktIconBoxG(x1, y1, x2, y2);
 
-// cyklus pøes všechny linky
-			for (yy = y1; yy < y2; yy++)		// cyklus pøes všechny linky
+// cyklus pÅ™es vÅ¡echny linky
+			for (yy = y1; yy < y2; yy++)		// cyklus pÅ™es vÅ¡echny linky
 			{	
-				dy2 = (yy - y)*2;				// vzdálenost od støedu Y * 2
-				dy2 = dy2*dy2;					// kvadrát vzdálenosti Y
+				dy2 = (yy - y)*2;				// vzdÃ¡lenost od stÅ™edu Y * 2
+				dy2 = dy2*dy2;					// kvadrÃ¡t vzdÃ¡lenosti Y
 
-// cyklus pøes všechny pozice na lince
+// cyklus pÅ™es vÅ¡echny pozice na lince
 				data = &(BackBuf[x1 + yy * WidthByte]);
 
-				for (xx = x1; xx < x2; xx++)	// cyklus pøes všechny body na lince
+				for (xx = x1; xx < x2; xx++)	// cyklus pÅ™es vÅ¡echny body na lince
 				{
-					dx2 = (xx - x)*2;			// vzdálenost od støedu X * 2
-					dx2 = dx2*dx2;				// kvadrát vzdálenosti X
+					dx2 = (xx - x)*2;			// vzdÃ¡lenost od stÅ™edu X * 2
+					dx2 = dx2*dx2;				// kvadrÃ¡t vzdÃ¡lenosti X
 
-// kontrola, zda je platnı bod kruhu
+// kontrola, zda je platnÃ½ bod kruhu
 					if (dx2 + dy2 <= prumer2)
 					{
 						*data = PointCol;
@@ -4076,48 +4076,48 @@ void _fastcall CirclePoint(int x, int y)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení bodu
+// zobrazenÃ­ bodu
 
 void FPoint()
 {
-// naètení barvy bodu
+// naÄtenÃ­ barvy bodu
 	PointCol = (BYTE)FNumCol();
 
-// naètení šíøky bodu
+// naÄtenÃ­ Å¡Ã­Å™ky bodu
 	PointWidth = FIntR();
 
-// naètení souøadnic bodu
+// naÄtenÃ­ souÅ™adnic bodu
 	int x = FIntX();
 	int y = FIntY();
 
-// zobrazení bodu
+// zobrazenÃ­ bodu
 	if (PointWidth > 0) CirclePoint(x, y);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení èáry
+// zobrazenÃ­ ÄÃ¡ry
 
 void FLine()
 {
-// naètení barvy èáry
+// naÄtenÃ­ barvy ÄÃ¡ry
 	int col = FNumCol();
 	PointCol = (BYTE)col;
 
-// naètení šíøky èáry
+// naÄtenÃ­ Å¡Ã­Å™ky ÄÃ¡ry
 	int width = FIntR();
 	PointWidth = width;
 
-// naètení souøadnic èáry
+// naÄtenÃ­ souÅ™adnic ÄÃ¡ry
 	int x1 = FIntX();
 	int y1 = FIntY();
 	int x2 = FIntX();
 	int y2 = FIntY();
 
-// kontrola šíøky èáry
+// kontrola Å¡Ã­Å™ky ÄÃ¡ry
 	if (width <= 0) return;
 
-// zajištìní, aby èára šla zleva doprava
+// zajiÅ¡tÄ›nÃ­, aby ÄÃ¡ra Å¡la zleva doprava
 	int tmp;
 	if (x1 > x2)
 	{
@@ -4130,23 +4130,23 @@ void FLine()
 		y1 = tmp;
 	}
 
-// lokální promìnné pro zobrazení èáry
-	double inkrement;		// pøírustek souøadnice
-	double stradac;			// støadaè souøadnice
-	int citac;				// èítaè bodù k zobrazení
-	int x, y;				// ukazatel souøadnic
-	int sirka;				// èítaè šíøky
+// lokÃ¡lnÃ­ promÄ›nnÃ© pro zobrazenÃ­ ÄÃ¡ry
+	double inkrement;		// pÅ™Ã­rustek souÅ™adnice
+	double stradac;			// stÅ™adaÄ souÅ™adnice
+	int citac;				// ÄÃ­taÄ bodÅ¯ k zobrazenÃ­
+	int x, y;				// ukazatel souÅ™adnic
+	int sirka;				// ÄÃ­taÄ Å¡Ã­Å™ky
 	int mwidth = Width;
 	int mheight = Height;
 	int widthbyte = WidthByte;
 	int width2;
 
-// èára jde zdola nahoru (zleva doprava)
+// ÄÃ¡ra jde zdola nahoru (zleva doprava)
 	if (y1 <= y2)
 	{
 		AktIconBoxG(x1-width/2-1, y1-width/2-1, x2+width/2+1, y2+width/2+1);
 
-// èára jde strmì zdola nahoru
+// ÄÃ¡ra jde strmÄ› zdola nahoru
 		if ((x2 - x1) <= (y2 - y1))
 		{
 			inkrement = (double)(x2 - x1) / (y2 - y1);
@@ -4156,7 +4156,7 @@ void FLine()
 			for (sirka = 0; sirka < width2; sirka++)
 			{
 				y = (int)((double)y1 + (inkrement * ((width2+1)/2 - sirka))*0.7 + 0.5);
-				citac = y2 - y1;			// poèet krokù
+				citac = y2 - y1;			// poÄet krokÅ¯
 				stradac = x1 - (width2 - 1)/2 + sirka + ((y - y1)*inkrement);
 
 				for (; citac > 0; citac--)
@@ -4174,7 +4174,7 @@ void FLine()
 			}	
 		}
 
-// èára jde mírnì zdola nahoru
+// ÄÃ¡ra jde mÃ­rnÄ› zdola nahoru
 		else
 		{
 			inkrement = (double)(y2 - y1) / (x2 - x1);
@@ -4184,7 +4184,7 @@ void FLine()
 			for (sirka = 0; sirka < width2; sirka++)
 			{
 				x = (int)((double)x1 + (inkrement * ((width2+1)/2 - sirka))*0.7 + 0.5);
-				citac = x2 - x1;			// poèet krokù
+				citac = x2 - x1;			// poÄet krokÅ¯
 				stradac = y1 - (width2 - 1)/2 + sirka + ((x - x1)*inkrement);
 
 				for (; citac > 0; citac--)
@@ -4203,12 +4203,12 @@ void FLine()
 		}
 	}
 
-// èára jde shora dolù (zleva doprava)
+// ÄÃ¡ra jde shora dolÅ¯ (zleva doprava)
 	else
 	{
 		AktIconBoxG(x1-width/2-1, y2-width/2-1, x2+width/2+1, y1+width/2+1);
 
-// èára jde strmì shora dolù
+// ÄÃ¡ra jde strmÄ› shora dolÅ¯
 		if ((x2 - x1) <= (y1 - y2))
 		{
 			inkrement = (double)(x2 - x1) / (y1 - y2);
@@ -4218,7 +4218,7 @@ void FLine()
 			for (sirka = 0; sirka < width2; sirka++)
 			{
 				y = (int)((double)y1 - (inkrement * (((double)width2-2)/2 - sirka))*0.7);
-				citac = y1 - y2;			// poèet krokù
+				citac = y1 - y2;			// poÄet krokÅ¯
 				stradac = x1 - (width2 - 1)/2 + sirka + ((y1 - y)*inkrement);
 
 				for (; citac > 0; citac--)
@@ -4236,7 +4236,7 @@ void FLine()
 			}	
 		}
 
-// èára jde mírnì shora dolù
+// ÄÃ¡ra jde mÃ­rnÄ› shora dolÅ¯
 		else
 		{
 			inkrement = (double)(y1 - y2) / (x2 - x1);
@@ -4246,7 +4246,7 @@ void FLine()
 			for (sirka = 0; sirka < width2; sirka++)
 			{
 				x = (int)((double)x1 - (inkrement * (((double)width2-2)/2 - sirka))*0.7);
-				citac = x2 - x1;			// poèet krokù
+				citac = x2 - x1;			// poÄet krokÅ¯
 				stradac = y1 - (width2 - 1)/2 + sirka + ((x1 - x)*inkrement);
 
 				for (; citac > 0; citac--)
@@ -4265,14 +4265,14 @@ void FLine()
 		}
 	}
 
-// nakreslení okrajovıch bodù
+// nakreslenÃ­ okrajovÃ½ch bodÅ¯
 	CirclePoint(x1, y1);
 	CirclePoint(x2, y2);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení horizontální èáry
+// zobrazenÃ­ horizontÃ¡lnÃ­ ÄÃ¡ry
 
 void _fastcall HLine(int x1, int x2, int y)
 {
@@ -4299,7 +4299,7 @@ void _fastcall HLine(int x1, int x2, int y)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení vertikální èáry
+// zobrazenÃ­ vertikÃ¡lnÃ­ ÄÃ¡ry
 
 void _fastcall VLine(int x, int y1, int y2)
 {
@@ -4334,25 +4334,25 @@ void _fastcall VLine(int x, int y1, int y2)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení obdélníku
+// zobrazenÃ­ obdÃ©lnÃ­ku
 
 void FBox()
 {
-// naètení barvy obdélníku
+// naÄtenÃ­ barvy obdÃ©lnÃ­ku
 	int col = FNumCol();
 	PointCol = (BYTE)col;
 
-// naètení šíøky èáry obdélníku
+// naÄtenÃ­ Å¡Ã­Å™ky ÄÃ¡ry obdÃ©lnÃ­ku
 	int width = FIntR();
 	PointWidth = width;
 
-// naètení souøadnic obdélníku
+// naÄtenÃ­ souÅ™adnic obdÃ©lnÃ­ku
 	int x1 = FIntX();
 	int y1 = FIntY();
 	int x2 = FIntX();
 	int y2 = FIntY();
 
-// kontrola šíøky èáry obdélníku
+// kontrola Å¡Ã­Å™ky ÄÃ¡ry obdÃ©lnÃ­ku
 	if (width <= 0) return;
 
 	int tmp;
@@ -4386,15 +4386,15 @@ void FBox()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení vyplnìného obdélníku
+// zobrazenÃ­ vyplnÄ›nÃ©ho obdÃ©lnÃ­ku
 
 void FBoxFill()
 {
-// naètení barvy obdélníku
+// naÄtenÃ­ barvy obdÃ©lnÃ­ku
 	int col = FNumCol();
 	PointCol = (BYTE)col;
 
-// naètení souøadnic obdélníku
+// naÄtenÃ­ souÅ™adnic obdÃ©lnÃ­ku
 	int x1 = FIntX();
 	int y1 = FIntY();
 	int x2 = FIntX();
@@ -4439,25 +4439,25 @@ void FBoxFill()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıplò
+// vÃ½plÅˆ
 
 void _fastcall FFill1(BYTE* data, int x, int y)
 {
-// lokální promìnné
-	int min = x;				// minimální souøadnice X
-	int max = x;				// maximální souøadnice X
-	int i;						// pracovní èítaèe
-	int widthbyte = WidthByte; // délka linky
-	int width = Width - 1;	// šíøka plochy - 1
-	BYTE* data2;				// pracovní ukazatel dat
-	BYTE* datamin;				// minimální ukazatel dat
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	int min = x;				// minimÃ¡lnÃ­ souÅ™adnice X
+	int max = x;				// maximÃ¡lnÃ­ souÅ™adnice X
+	int i;						// pracovnÃ­ ÄÃ­taÄe
+	int widthbyte = WidthByte; // dÃ©lka linky
+	int width = Width - 1;	// Å¡Ã­Å™ka plochy - 1
+	BYTE* data2;				// pracovnÃ­ ukazatel dat
+	BYTE* datamin;				// minimÃ¡lnÃ­ ukazatel dat
 	BYTE fill = PointFill;
 	BYTE col = PointCol;
 
-// nastavení aktivního bodu
+// nastavenÃ­ aktivnÃ­ho bodu
 	*data = col;
 
-// vıplò minimálním smìrem
+// vÃ½plÅˆ minimÃ¡lnÃ­m smÄ›rem
 	datamin = data;
 	while ((min > 0) && (datamin[-1] == fill))
 	{
@@ -4466,7 +4466,7 @@ void _fastcall FFill1(BYTE* data, int x, int y)
 		*datamin = col;
 	}
 
-// vıplò maximálním smìrem
+// vÃ½plÅˆ maximÃ¡lnÃ­m smÄ›rem
 	data2 = data;
 	while ((max < width ) && (data2[1] == fill))
 	{
@@ -4478,7 +4478,7 @@ void _fastcall FFill1(BYTE* data, int x, int y)
 // aktualizace ikon
 	AktIconBoxG(min, y, max, y);
 
-// vıplò smìrem dolù
+// vÃ½plÅˆ smÄ›rem dolÅ¯
 	if (y > 0)
 	{
 		data2 = datamin - widthbyte;
@@ -4492,7 +4492,7 @@ void _fastcall FFill1(BYTE* data, int x, int y)
 		y++;
 	}
 
-// vıplò smìrem nahoru
+// vÃ½plÅˆ smÄ›rem nahoru
 	if (y < Height - 1)
 	{
 		data2 = datamin + widthbyte;
@@ -4509,15 +4509,15 @@ void _fastcall FFill1(BYTE* data, int x, int y)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıplò
+// vÃ½plÅˆ
 
 void FFill()
 {
-// naètení barvy vıplnì
+// naÄtenÃ­ barvy vÃ½plnÄ›
 	BYTE col = (BYTE)FNumCol();
 	PointCol = col;
 
-// naètení souøadnic vıplnì
+// naÄtenÃ­ souÅ™adnic vÃ½plnÄ›
 	int x = FIntX();
 	int y = FIntY();
 
@@ -4535,30 +4535,30 @@ void FFill()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// krunice
+// kruÅ¾nice
 
 void FCircle()
 {
-// naètení barvy krunice
+// naÄtenÃ­ barvy kruÅ¾nice
 	int col = FNumCol();
 	PointCol = (BYTE)col;
 
-// naètení šíøky èáry krunice
+// naÄtenÃ­ Å¡Ã­Å™ky ÄÃ¡ry kruÅ¾nice
 	double width = FNum() - 0.4;
 
-// naètení souøadnic støedu krunice
+// naÄtenÃ­ souÅ™adnic stÅ™edu kruÅ¾nice
 	int x = FIntX();
 	int y = FIntY();
 
-// naètení polomìru krunice
+// naÄtenÃ­ polomÄ›ru kruÅ¾nice
 	double polomer = (double)(int)((FNum()*ICONWIDTH + 0.2)*2)/2;
 
-// lokální promìnné
-	double polomer2;							// kvadrát polomìru
-	int dx;										// vzdálenost bodu X od støedu
-	int dy;										// vzdálenost bodu Y od støedu
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	double polomer2;							// kvadrÃ¡t polomÄ›ru
+	int dx;										// vzdÃ¡lenost bodu X od stÅ™edu
+	int dy;										// vzdÃ¡lenost bodu Y od stÅ™edu
 
-// poèáteèní polomìr
+// poÄÃ¡teÄnÃ­ polomÄ›r
 	polomer -= width / 2;
 	if (polomer < 0.5)
 	{
@@ -4570,12 +4570,12 @@ void FCircle()
 	AktIconBoxG(Round(x - polomer - width), Round(y - polomer - width), 
 		Round(x + polomer + width), Round(y + polomer + width));
 
-// cyklus pøes všechny prùmìry
+// cyklus pÅ™es vÅ¡echny prÅ¯mÄ›ry
 	for (; width > 0; width -= 0.7)
 	{
 		polomer2 = polomer*polomer;
 
-// cyklus pøes všechny body
+// cyklus pÅ™es vÅ¡echny body
 		for (dx = (int)(polomer * 0.72 + 0.8); dx >= 0; dx--)
 		{
 			dy = (int)(sqrt(polomer2 - (double)dx*dx) + 0.5);
@@ -4601,21 +4601,21 @@ void FCircle()
 
 void FCircleFill()
 {
-// naètení barvy kruhu
+// naÄtenÃ­ barvy kruhu
 	int col = FNumCol();
 	PointCol = (BYTE)col;
 
-// naètení souøadnic støedu kruhu
+// naÄtenÃ­ souÅ™adnic stÅ™edu kruhu
 	int x = FIntX();
 	int y = FIntY();
 
-// naètení prùmìru kruhu
+// naÄtenÃ­ prÅ¯mÄ›ru kruhu
 	int prumer = FIntX2();
 	if (prumer < 1) return;
 	if (prumer > 20000) prumer = 20000;
 	PointWidth = prumer;
 
-// vykreslení kruhu
+// vykreslenÃ­ kruhu
 	CirclePoint(x, y);
 }
 
@@ -4625,10 +4625,10 @@ void FCircleFill()
 
 void FSphere()
 {
-// naètení barvy koule
+// naÄtenÃ­ barvy koule
 	BYTE col0 = (BYTE)FNumCol();
 
-// pøíprava poètu barev
+// pÅ™Ã­prava poÄtu barev
 	int cols;
 	if (col0 >= StdColors - 2*ColLev)
 	{
@@ -4639,7 +4639,7 @@ void FSphere()
 		cols = (col0 - ResCols + ColLev)/ColLev*ColLev + ResCols - col0 + 1;
 	}
 
-// pøíprava tabulky palet
+// pÅ™Ã­prava tabulky palet
 	int i;
 	BYTE col[20];
 //	ASSERT(2*ColLev <= 20);
@@ -4649,68 +4649,68 @@ void FSphere()
 	}
 	col[cols-1] = (BYTE)(StdColors - 1);
 
-// naètení souøadnic støedu koule
+// naÄtenÃ­ souÅ™adnic stÅ™edu koule
 	int x = FIntX();
 	int y = FIntY();
 
-// naètení prùmìru koule
+// naÄtenÃ­ prÅ¯mÄ›ru koule
 	int width = FIntX2();
 	if (width < 1) return;
 	if (width > 20000) width = 20000;
 //	PointWidth = prumer;
 
-	int sxcol = x - width/4;					// støed pro barvu X
-	int sycol = y + width/4;					// støed pro barvu Y
+	int sxcol = x - width/4;					// stÅ™ed pro barvu X
+	int sycol = y + width/4;					// stÅ™ed pro barvu Y
 
-// lokální promìnné
-	int dxcol2, dycol2;							// kvadráty vzdálenosti pro barvu
-	int prumer2 = width*width;			// kvadrát prùmìru
-	int dx2;							// kvadrát vzdálenosti od støedu X * 2
-	int dy2;							// kvadrát vzdálenosti od støedu Y * 2
-	int xx;								// ukazatel souøadnice X
-	int yy;								// ukazatel souøadnice Y
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	int dxcol2, dycol2;							// kvadrÃ¡ty vzdÃ¡lenosti pro barvu
+	int prumer2 = width*width;			// kvadrÃ¡t prÅ¯mÄ›ru
+	int dx2;							// kvadrÃ¡t vzdÃ¡lenosti od stÅ™edu X * 2
+	int dy2;							// kvadrÃ¡t vzdÃ¡lenosti od stÅ™edu Y * 2
+	int xx;								// ukazatel souÅ™adnice X
+	int yy;								// ukazatel souÅ™adnice Y
 	BYTE* data;							// ukazatel dat
 
-// poèáteèní souøadnice X
-	int x1 = x - (width - 1) / 2;		// vıchozí souøadnice X
+// poÄÃ¡teÄnÃ­ souÅ™adnice X
+	int x1 = x - (width - 1) / 2;		// vÃ½chozÃ­ souÅ™adnice X
 	if (x1 < 0) x1 = 0;
 			
-// koncová souøadnice X - následující
-	int x2 = x + width / 2 + 1;			// koncová souøadnice X (následující)
+// koncovÃ¡ souÅ™adnice X - nÃ¡sledujÃ­cÃ­
+	int x2 = x + width / 2 + 1;			// koncovÃ¡ souÅ™adnice X (nÃ¡sledujÃ­cÃ­)
 	if (x2 > Width) x2 = Width;
 
-// poèáteèní souøadnice Y
-	int y1 = y - (width - 1) / 2;		// vıchozí souøadnice Y
+// poÄÃ¡teÄnÃ­ souÅ™adnice Y
+	int y1 = y - (width - 1) / 2;		// vÃ½chozÃ­ souÅ™adnice Y
 	if (y1 < 0) y1 = 0;
 			
-// koncová souøadnice Y - následující
-	int y2 = y + width / 2 + 1;			// koncová souøadnice Y - následující
+// koncovÃ¡ souÅ™adnice Y - nÃ¡sledujÃ­cÃ­
+	int y2 = y + width / 2 + 1;			// koncovÃ¡ souÅ™adnice Y - nÃ¡sledujÃ­cÃ­
 	if (y2 > Height) y2 = Height;
 
 // aktualizace ikon
 	AktIconBoxG(x1, y1, x2, y2);
 
-// cyklus pøes všechny linky
-	for (yy = y1; yy < y2; yy++)		// cyklus pøes všechny linky
+// cyklus pÅ™es vÅ¡echny linky
+	for (yy = y1; yy < y2; yy++)		// cyklus pÅ™es vÅ¡echny linky
 	{	
-		dy2 = (yy - y)*2;				// vzdálenost od støedu Y * 2
-		dy2 *= dy2;						// kvadrát vzdálenosti Y
-		dycol2 = (yy - sycol) * 2;		// vzdálenost od støedu Y * 2 pro barvu
+		dy2 = (yy - y)*2;				// vzdÃ¡lenost od stÅ™edu Y * 2
+		dy2 *= dy2;						// kvadrÃ¡t vzdÃ¡lenosti Y
+		dycol2 = (yy - sycol) * 2;		// vzdÃ¡lenost od stÅ™edu Y * 2 pro barvu
 		dycol2 *= dycol2;
 
-// cyklus pøes všechny pozice na lince
+// cyklus pÅ™es vÅ¡echny pozice na lince
 		data = BackBuf + x1 + yy*WidthByte;
 
-		for (xx = x1; xx < x2; xx++)	// cyklus pøes všechny body na lince
+		for (xx = x1; xx < x2; xx++)	// cyklus pÅ™es vÅ¡echny body na lince
 		{
-			dx2 = (xx - x)*2;			// vzdálenost od støedu X * 2
-			dx2 *= dx2;					// kvadrát vzdálenosti X
+			dx2 = (xx - x)*2;			// vzdÃ¡lenost od stÅ™edu X * 2
+			dx2 *= dx2;					// kvadrÃ¡t vzdÃ¡lenosti X
 
-// kontrola, zda je platnı bod kruhu
+// kontrola, zda je platnÃ½ bod kruhu
 			if (dx2 + dy2 <= prumer2)
 			{
 
-				dxcol2 = (xx - sxcol) * 2;	// vzdálenost od støedu X * 2 pro barvu
+				dxcol2 = (xx - sxcol) * 2;	// vzdÃ¡lenost od stÅ™edu X * 2 pro barvu
 				dxcol2 *= dxcol2;
 
 				i = (int)(cols * 2.2 * sqrt((double)(dxcol2 + dycol2)) / width);
@@ -4740,14 +4740,14 @@ void FSphere()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyplnìnı trojùhelník
+// vyplnÄ›nÃ½ trojÅ¯helnÃ­k
 
 void FTriangle()
 {
-// naètení barvy trojúhelníku
+// naÄtenÃ­ barvy trojÃºhelnÃ­ku
 	BYTE col = (BYTE)FNumCol();
 
-// naètení souøadnic trojúhelníku
+// naÄtenÃ­ souÅ™adnic trojÃºhelnÃ­ku
 	int x1 = FIntX();
 	int y1 = FIntY();
 	int x2 = FIntX();
@@ -4757,7 +4757,7 @@ void FTriangle()
 
 	int tmp;
 
-// setøídìní souøadnic podle vıšky (1. bod nejniší, 3. bod nejvyšší)
+// setÅ™Ã­dÄ›nÃ­ souÅ™adnic podle vÃ½Å¡ky (1. bod nejniÅ¾Å¡Ã­, 3. bod nejvyÅ¡Å¡Ã­)
 	if (y2 < y1)
 	{
 		tmp = x2; x2 = x1; x1 = tmp;
@@ -4785,15 +4785,15 @@ void FTriangle()
 	if (x2 > xmax) xmax = x2;
 	AktIconBoxG(xmin, y1, xmax, y3);
 
-// cyklus pøes všechny linky
+// cyklus pÅ™es vÅ¡echny linky
 	for (int y = y1; y <= y3; y++)
 	{
 
-// kontrola, zda je linka platná
+// kontrola, zda je linka platnÃ¡
 		if ((y >= 0) && (y < Height))
 		{
 
-// je úsek pod druhım bodem
+// je Ãºsek pod druhÃ½m bodem
 			if (y < y2)
 			{
 
@@ -4813,10 +4813,10 @@ void FTriangle()
 					if (xmax >= Width) xmax = Width-1;
 					MemFill(BackBuf + xmin + y*WidthByte, xmax-xmin+1, col);
 				}
-			}				// IF je úsek nad druhım bodem
+			}				// IF je Ãºsek nad druhÃ½m bodem
 
-// je úsek nad druhım bodem
-			else			// test úseku pod druhım bodem
+// je Ãºsek nad druhÃ½m bodem
+			else			// test Ãºseku pod druhÃ½m bodem
 			{
 				if (y2 == y3)
 				{
@@ -4849,38 +4849,38 @@ void FTriangle()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení textu
+// zobrazenÃ­ textu
 
 void FGraphText()
 {
-// naètení textu
+// naÄtenÃ­ textu
 	CString text;
 	FText(text);
 
 	int radku = text.LineNum();
 	int radek = 0;
 
-// naètení barvy
+// naÄtenÃ­ barvy
 	BYTE col = (BYTE)FNumCol();
 
-// souøadnice textu
+// souÅ™adnice textu
 	int x = FIntX();
 	int y = Height - FIntY();
 
-// úhel sklonu
+// Ãºhel sklonu
 	double uhel = FNum();
 
-// vıška znakù
+// vÃ½Å¡ka znakÅ¯
 	int height = (int)fabs(FNum() * ICONHEIGHT);
 	int height0 = height;
 	if (height == 0) height0 = 16;
 
-	double width = fabs(FNum());		// relativní šíøka
+	double width = fabs(FNum());		// relativnÃ­ Å¡Ã­Å™ka
 
 	y -= (int)(height0*(cos(uhel)));
 	x -= (int)(height0*(sin(uhel)));
 
-// naètení pøepínaèù
+// naÄtenÃ­ pÅ™epÃ­naÄÅ¯
 	bool bold = FBool();						// BOLD
 	bool italic = FBool();					// ITALIC
 	bool underline = FBool();				// UNDERLINE
@@ -4888,39 +4888,39 @@ void FGraphText()
 	bool serif = FBool();					// SERIF
 	bool courier = FBool();					// COURIER
 
-// vytvoøení bufferu bitmapy
+// vytvoÅ™enÃ­ bufferu bitmapy
 	int widthbyte = ((Width + 15) & ~0xf)/8;
 	MemBuf(TextBuf, widthbyte * Height);
 	MemFill(TextBuf, widthbyte * Height, -1);
 
-// vytvoøení mono bitmapy
+// vytvoÅ™enÃ­ mono bitmapy
 	HBITMAP bitmap = ::CreateBitmap(Width, Height, 1, 1, TextBuf);
 	ASSERT(bitmap != NULL);
 	if (bitmap == NULL) return;
 
-// otevøení DC displeje
+// otevÅ™enÃ­ DC displeje
 	HDC dc = ::GetDC(MainFrame);
 	ASSERT(dc != NULL);
 	if (dc != NULL)
 	{
 
-// vytvoøení kompatibilního DC
+// vytvoÅ™enÃ­ kompatibilnÃ­ho DC
 		HDC dcTemp = ::CreateCompatibleDC(dc);
 		ASSERT(dcTemp != NULL);
 		if (dcTemp != NULL)
 		{
 
-// nastavení barvy písma a pozadí
+// nastavenÃ­ barvy pÃ­sma a pozadÃ­
 //			::SetTextColor(dcTemp, 0xffffff);
 //			::SetBkColor(dcTemp, 0);
 //			::SetBkMode(dcTemp, OPAQUE); //TRANSPARENT);
 //			::SelectObject(dcTemp, ::GetStockObject(BLACK_BRUSH));
 //			::SetTextAlign(dcTemp, TA_BASELINE | TA_NOUPDATECP);
 
-// vıbìr bitmapy do DC
+// vÃ½bÄ›r bitmapy do DC
 			HBITMAP oldbitmap = (HBITMAP)::SelectObject(dcTemp, bitmap);
 
-// vytvoøení fontu
+// vytvoÅ™enÃ­ fontu
 			HFONT font;
 			if ((height0 == 16) &&
 				(uhel == 0) &&
@@ -4964,10 +4964,10 @@ void FGraphText()
 				width,
 				uhel);
 
-// vıbìr fontu
+// vÃ½bÄ›r fontu
 			HFONT oldfont = (HFONT) ::SelectObject(dcTemp, font);
 
-// vıpis textu
+// vÃ½pis textu
 			CString txt;
 			while (radek < radku)
 			{
@@ -4989,14 +4989,14 @@ void FGraphText()
 				y += height0;
 			}
 
-// navrácení pùvodního fontu
+// navrÃ¡cenÃ­ pÅ¯vodnÃ­ho fontu
 			::SelectObject(dcTemp, oldfont);
 			FreeFont(font);
 
-// navrácení pùvodní bitmapy
+// navrÃ¡cenÃ­ pÅ¯vodnÃ­ bitmapy
 			::SelectObject(dcTemp, oldbitmap);
 
-// naètení dat zpìt do bufferu
+// naÄtenÃ­ dat zpÄ›t do bufferu
 			struct {BITMAPINFOHEADER bmiHeader; RGBQUAD bmiColors[2]; } bmpinfo;
 			bmpinfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 			bmpinfo.bmiHeader.biWidth = Width;
@@ -5011,7 +5011,7 @@ void FGraphText()
 			bmpinfo.bmiHeader.biClrImportant = 0;
 			::GetDIBits(dcTemp, bitmap, 0, Height, TextBuf, (BITMAPINFO*) &bmpinfo, DIB_RGB_COLORS);
 
-// pøenesení dat do obrázku
+// pÅ™enesenÃ­ dat do obrÃ¡zku
 			char* src = (char*)TextBuf;
 			BYTE* dst = BackBuf;
 			char data;
@@ -5076,23 +5076,23 @@ void FGraphText()
 				dst++;
 			}
 
-// aktualizace všech ikon
+// aktualizace vÅ¡ech ikon
 			AktIconBox(0, 0, WidthN-1, HeightN-1);
 
-// zrušení pracovního DC
+// zruÅ¡enÃ­ pracovnÃ­ho DC
 			::DeleteDC(dcTemp);
 		}
 
-// uvolnìní DC
+// uvolnÄ›nÃ­ DC
 		::ReleaseDC(0, dc);
 	}
 
-// zrušení bitmapy
+// zruÅ¡enÃ­ bitmapy
 	::DeleteObject(bitmap);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení šíøky pole k zobrazení centrovaného textu
+// nastavenÃ­ Å¡Ã­Å™ky pole k zobrazenÃ­ centrovanÃ©ho textu
 
 void FSetGraphAreaWidth()
 {
@@ -5101,26 +5101,26 @@ void FSetGraphAreaWidth()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení obrázku
+// zobrazenÃ­ obrÃ¡zku
 
 void FPicDisp()
 {
-// naètení obrázku k zobrazení
+// naÄtenÃ­ obrÃ¡zku k zobrazenÃ­
 	CPicture pic;
 	FPicture(pic);
 
-// naètení ostatních parametrù
-	int x = FIntX();				// souøadnice X
-	int y = FIntY();				// souøadnice Y
-	int x22 = FIntX();				// poèátek vıøezu X
-	int y22 = FIntY();				// poèátek vıøezu Y
-	int width22 = FIntX();			// šíøka
-	int height22 = FIntY();			// vıška
-	int width = pic.Width();		// šíøka obrázku
-	int height = pic.Height();		// vıška obrázku
-	int widthbyte = pic.Width(); // délka linky v bajtech
+// naÄtenÃ­ ostatnÃ­ch parametrÅ¯
+	int x = FIntX();				// souÅ™adnice X
+	int y = FIntY();				// souÅ™adnice Y
+	int x22 = FIntX();				// poÄÃ¡tek vÃ½Å™ezu X
+	int y22 = FIntY();				// poÄÃ¡tek vÃ½Å™ezu Y
+	int width22 = FIntX();			// Å¡Ã­Å™ka
+	int height22 = FIntY();			// vÃ½Å¡ka
+	int width = pic.Width();		// Å¡Ã­Å™ka obrÃ¡zku
+	int height = pic.Height();		// vÃ½Å¡ka obrÃ¡zku
+	int widthbyte = pic.Width(); // dÃ©lka linky v bajtech
 
-// korekce a kontrola vıøezu
+// korekce a kontrola vÃ½Å™ezu
 	if (x22 < 0) x22 = 0;
 	if (x22 > width) x22 = width;
 	if (y22 < 0) y22 = 0;
@@ -5129,17 +5129,17 @@ void FPicDisp()
 	if ((y22 + height22) > height) height22 = height - y22;
 	if ((width22 <= 0) || (height22 <= 0)) return;
 
-// pøíprava souøadnic
+// pÅ™Ã­prava souÅ™adnic
 	int x1 = x;
 	int x2 = x + width22;
 	int y1 = y;
 	int y2 = y + height22;
 
-// zdrojová adresa
+// zdrojovÃ¡ adresa
 	pic.DeComp();
-	BYTE* src = pic.DataData() + y22*widthbyte + x22;		// zdrojová adresa
+	BYTE* src = pic.DataData() + y22*widthbyte + x22;		// zdrojovÃ¡ adresa
 
-// omezení poèátku pøi podteèení
+// omezenÃ­ poÄÃ¡tku pÅ™i podteÄenÃ­
 	if (x1 < 0)
 	{
 		src -= x1;
@@ -5152,14 +5152,14 @@ void FPicDisp()
 		y1 = 0;
 	}
 
-// omezení šíøky a vıšky k zobrazení pøi pøeteèení konce
+// omezenÃ­ Å¡Ã­Å™ky a vÃ½Å¡ky k zobrazenÃ­ pÅ™i pÅ™eteÄenÃ­ konce
 	if (x2 > Width) x2 = Width;
 	if (y2 > Height) y2 = Height;
 
 // kontrola, zda je co zobrazit
 	if ((x1 >= x2) || (y1 >= y2)) return;
 
-// zajištìní zmapování obrázku
+// zajiÅ¡tÄ›nÃ­ zmapovÃ¡nÃ­ obrÃ¡zku
 	if (pic.Param() == PicParamNone)
 	{
 		bool backcol = false;
@@ -5204,19 +5204,19 @@ void FPicDisp()
 		pic.Param(param);
 	}
 
-// cílová adresa
-	BYTE* dst = BackBuf + x1 + y1*WidthByte; // cílová adresa
+// cÃ­lovÃ¡ adresa
+	BYTE* dst = BackBuf + x1 + y1*WidthByte; // cÃ­lovÃ¡ adresa
 
-// pøíprava pøírustku adres
-	int dstinc = WidthByte;	// pøírustek cílové adresy
-	int srcinc = widthbyte;				// pøírustek zdrojové adresy
-	width = x2 - x1;				// šíøka k zobrazení
+// pÅ™Ã­prava pÅ™Ã­rustku adres
+	int dstinc = WidthByte;	// pÅ™Ã­rustek cÃ­lovÃ© adresy
+	int srcinc = widthbyte;				// pÅ™Ã­rustek zdrojovÃ© adresy
+	width = x2 - x1;				// Å¡Ã­Å™ka k zobrazenÃ­
 
-// rozlišení typu obrázku
+// rozliÅ¡enÃ­ typu obrÃ¡zku
 	switch (pic.Param())
 	{
 
-// pouze obrázek bez pozadí
+// pouze obrÃ¡zek bez pozadÃ­
 	case PicParamPic:
 		for (y = y2 - y1; y > 0; y--)
 		{
@@ -5226,7 +5226,7 @@ void FPicDisp()
 		}
 		break;
 
-// mixovanı obrázek s pozadím
+// mixovanÃ½ obrÃ¡zek s pozadÃ­m
 	case PicParamMix:
 		dstinc -= width;
 		srcinc -= width;
@@ -5255,11 +5255,11 @@ void FPicDisp()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zprùhlednìní
+// zprÅ¯hlednÄ›nÃ­
 
 void FTransparent()
 {
-// vıpoèet zdrojovıch souøadnic
+// vÃ½poÄet zdrojovÃ½ch souÅ™adnic
 	POINT p;
 	p.x = DispLeft + Round(Width*(Meritko-1)/2);
 	p.y = DispTop + Round(Height*(Meritko-1)/2);
@@ -5267,43 +5267,43 @@ void FTransparent()
 	int x = p.x;
 	int y = p.y;
 
-// vypnutí okna
+// vypnutÃ­ okna
 	if (MainFrameVisible)
 	{
 		::ShowWindow(MainFrame, SW_HIDE);
 		TimeWait(9);
 	}
 
-// otevøení DC obrazovky - zdroj
+// otevÅ™enÃ­ DC obrazovky - zdroj
 	HDC hdcScreen = ::CreateDC(_T("DISPLAY"),NULL, NULL, NULL);
 	if (hdcScreen)
 	{
-// naètení rozmìrù displeje
+// naÄtenÃ­ rozmÄ›rÅ¯ displeje
 		int horzres = ::GetDeviceCaps(hdcScreen, HORZRES);
 		int vertres = ::GetDeviceCaps(hdcScreen, VERTRES);
 
-// nastavení vlastních palet pro zdroj
+// nastavenÃ­ vlastnÃ­ch palet pro zdroj
 		HPALETTE OldPal = ::SelectPalette(hdcScreen, StdPalette, FALSE);
 		::RealizePalette(hdcScreen);
 
-// vytvoøení pamìového DC pro úschovu obrazovky - cíl
+// vytvoÅ™enÃ­ pamÄ›Å¥ovÃ©ho DC pro Ãºschovu obrazovky - cÃ­l
 		HDC hdcCompat = ::CreateCompatibleDC(hdcScreen);
 		if (hdcCompat)
 		{
 
-// nastavení vlastních palet pro cíl
+// nastavenÃ­ vlastnÃ­ch palet pro cÃ­l
 			HPALETTE OldPal2 = ::SelectPalette(hdcCompat, StdPalette, FALSE);
 			::RealizePalette(hdcCompat);
 
-// vytvoøení bitmapy pro pamìovı DC cíle
+// vytvoÅ™enÃ­ bitmapy pro pamÄ›Å¥ovÃ½ DC cÃ­le
 			HBITMAP hBitmap = ::CreateCompatibleBitmap(hdcScreen, Width, Height);
 			if (hBitmap)
 			{
 
-// vıbìr bitmapy do pamìového DC cíle
+// vÃ½bÄ›r bitmapy do pamÄ›Å¥ovÃ©ho DC cÃ­le
 				HBITMAP oldBitmap = (HBITMAP) ::SelectObject(hdcCompat, hBitmap);
 
-// inicializaèní vymazání plochy
+// inicializaÄnÃ­ vymazÃ¡nÃ­ plochy
 				RECT rc;
 				rc.left = 0;
 				rc.top = 0;
@@ -5311,7 +5311,7 @@ void FTransparent()
 				rc.bottom = Height;
 				::FillRect(hdcCompat, &rc, (HBRUSH)::GetStockObject(BLACK_BRUSH));
 
-// omezení zdrojovıch souøadnic
+// omezenÃ­ zdrojovÃ½ch souÅ™adnic
 				int x0 = 0;
 				int y0 = 0;
 				int width0 = Width;
@@ -5341,10 +5341,10 @@ void FTransparent()
 					height0 = vertres - y;
 				}
 
-// pøenesení vıøezu do bitmapy
+// pÅ™enesenÃ­ vÃ½Å™ezu do bitmapy
 				::BitBlt(hdcCompat, x0, y0, width0, height0, hdcScreen, x, y, SRCCOPY);
 
-// vytvoøení bufferu k naètení dat bitmapy
+// vytvoÅ™enÃ­ bufferu k naÄtenÃ­ dat bitmapy
 				BITMAPINFO* bmi = (BITMAPINFO*)MemGet(sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD)*256);
 
 				int widthbyte = ((3*Width + 3) & ~3);
@@ -5360,11 +5360,11 @@ void FTransparent()
 
 				BYTE* data = (BYTE*)::MemGet((widthbyte+15) * (Height+2));
 
-// naètení dat bitmapy
+// naÄtenÃ­ dat bitmapy
 				if (::GetDIBits(hdcCompat, hBitmap, 0, Height, data, bmi, DIB_RGB_COLORS) == Height)
 				{
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 					BYTE* dst = BackBuf;
 					BYTE* src = data;
 					widthbyte -= 3*Width;
@@ -5382,35 +5382,35 @@ void FTransparent()
 				}
 
 
-// uvolnìní bufferù
+// uvolnÄ›nÃ­ bufferÅ¯
 				MemFree(data);
 				MemFree(bmi);
 
-// návrat pùvodní bitmapy
+// nÃ¡vrat pÅ¯vodnÃ­ bitmapy
 				::SelectObject(hdcCompat, oldBitmap);
 
-// zrušení bitmapy
+// zruÅ¡enÃ­ bitmapy
 				::DeleteObject(hBitmap);
 			}
 
-// návrat pùvodních palet cíle
+// nÃ¡vrat pÅ¯vodnÃ­ch palet cÃ­le
 			::SelectPalette(hdcCompat, OldPal2, FALSE);
 
-// zrušení pamìového DC
+// zruÅ¡enÃ­ pamÄ›Å¥ovÃ©ho DC
 			::DeleteDC(hdcCompat);
 		}
 
-// návrat pùvodních palet zdroje
+// nÃ¡vrat pÅ¯vodnÃ­ch palet zdroje
 		::SelectPalette(hdcScreen, OldPal, FALSE);
 
-// zrušení DC displeje
+// zruÅ¡enÃ­ DC displeje
 		::DeleteDC(hdcScreen);
 	}
 
 // aktualizace ikon
 	AktAllIcon();
 
-// zapnutí okna
+// zapnutÃ­ okna
 	if (MainFrameVisible)
 	{
 		::ShowWindow(MainFrame, SW_SHOW);
@@ -5419,16 +5419,16 @@ void FTransparent()
 
 /***************************************************************************\
 *																			*
-*								obsluha klávesnice							*
+*								obsluha klÃ¡vesnice							*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání na klávesu
+// ÄekÃ¡nÃ­ na klÃ¡vesu
 
 void FComVKeyWait()
 {
-// èekání na vstup znaku z klávesnice (nebo na pøerušení)
+// ÄekÃ¡nÃ­ na vstup znaku z klÃ¡vesnice (nebo na pÅ™eruÅ¡enÃ­)
 	while ((Break == 0) && 
 			(KeyBufRead == KeyBufWrite) && 
 			(!ConsoleOn))
@@ -5439,11 +5439,11 @@ void FComVKeyWait()
 		TimeWait(1);
 	}
 
-// kontrola, zda byla pøijata klávesa (zda to nebylo jen pøerušení)
+// kontrola, zda byla pÅ™ijata klÃ¡vesa (zda to nebylo jen pÅ™eruÅ¡enÃ­)
 	if (KeyBufRead != KeyBufWrite)
 	{
 
-// zvıšení ètecí adresy
+// zvÃ½Å¡enÃ­ ÄtecÃ­ adresy
 		KeyBufRead++;
 		if (KeyBufRead >= KEYBUFSIZE) KeyBufRead = 0;
 	}
@@ -5451,11 +5451,11 @@ void FComVKeyWait()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání na snak z klávesnice
+// ÄekÃ¡nÃ­ na snak z klÃ¡vesnice
 
 void FComCharWait()
 {
-// èekání na vstup znaku z klávesnice (nebo na pøerušení)
+// ÄekÃ¡nÃ­ na vstup znaku z klÃ¡vesnice (nebo na pÅ™eruÅ¡enÃ­)
 	while ((Break == 0) && 
 			(CharBufRead == CharBufWrite) && 
 			(!ConsoleOn))
@@ -5466,11 +5466,11 @@ void FComCharWait()
 		TimeWait(1);
 	}
 
-// kontrola, zda byla pøijata klávesa (zda to nebylo jen pøerušení)
+// kontrola, zda byla pÅ™ijata klÃ¡vesa (zda to nebylo jen pÅ™eruÅ¡enÃ­)
 	if (CharBufRead != CharBufWrite)
 	{
 
-// zvıšení ètecí adresy
+// zvÃ½Å¡enÃ­ ÄtecÃ­ adresy
 		CharBufRead++;
 		if (CharBufRead >= KEYBUFSIZE) CharBufRead = 0;
 	}
@@ -5478,7 +5478,7 @@ void FComCharWait()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní bufferu kláves
+// vyprÃ¡zdnÄ›nÃ­ bufferu klÃ¡ves
 
 void FKlavFlush()
 {
@@ -5488,7 +5488,7 @@ void FKlavFlush()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe Num Lock
+// nastavenÃ­ pÅ™epÃ­naÄe Num Lock
 
 void FSetNumLock()
 {
@@ -5498,7 +5498,7 @@ void FSetNumLock()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe Caps Lock
+// nastavenÃ­ pÅ™epÃ­naÄe Caps Lock
 
 void FSetCapsLock()
 {
@@ -5508,7 +5508,7 @@ void FSetCapsLock()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe Scroll Lock
+// nastavenÃ­ pÅ™epÃ­naÄe Scroll Lock
 
 void FSetScrollLock()
 {
@@ -5518,7 +5518,7 @@ void FSetScrollLock()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe Insert
+// nastavenÃ­ pÅ™epÃ­naÄe Insert
 
 void FSetInsertLock()
 {
@@ -5529,15 +5529,15 @@ void FSetInsertLock()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// hromadnı posun sprajtù ve smìru X
+// hromadnÃ½ posun sprajtÅ¯ ve smÄ›ru X
 
 void FSpriteShiftX()
 {
-// naètení poadovaného posunu
+// naÄtenÃ­ poÅ¾adovanÃ©ho posunu
 	double dx = FNum();
 	if (dx == 0) return;
 
-// posun všech sprajtù
+// posun vÅ¡ech sprajtÅ¯
 	CSprite* sprite = Sprite.Data();
 
 	for (int i = Sprite.Num()-1; i >= 0; i--)
@@ -5548,21 +5548,21 @@ void FSpriteShiftX()
 		sprite++;
 	}
 
-// poadavek aktualizace všech ikon
+// poÅ¾adavek aktualizace vÅ¡ech ikon
 	AktAllIcon();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// hromadnı posun sprajtù ve smìru Y
+// hromadnÃ½ posun sprajtÅ¯ ve smÄ›ru Y
 
 void FSpriteShiftY()
 {
-// naètení poadovaného posunu
+// naÄtenÃ­ poÅ¾adovanÃ©ho posunu
 	double dy = FNum();
 	if (dy == 0) return;
 
-// posun všech sprajtù
+// posun vÅ¡ech sprajtÅ¯
 	CSprite* sprite = Sprite.Data();
 
 	for (int i = Sprite.Num()-1; i >= 0; i--)
@@ -5573,13 +5573,13 @@ void FSpriteShiftY()
 		sprite++;
 	}
 
-// poadavek aktualizace všech ikon
+// poÅ¾adavek aktualizace vÅ¡ech ikon
 	AktAllIcon();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// okno k zobrazení sprajtù
+// okno k zobrazenÃ­ sprajtÅ¯
 
 void FSpriteWinX1()
 {
@@ -5640,13 +5640,13 @@ void FSpriteWinY2()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// reim konzoly
+// reÅ¾im konzoly
 
 void FConsoleOn() { ConsoleOnSet(!ConsoleOn); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıstup textu na konzolu
+// vÃ½stup textu na konzolu
 
 void FConsoleOut()
 {
@@ -5657,7 +5657,7 @@ void FConsoleOut()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıstup chybového textu na konzolu
+// vÃ½stup chybovÃ©ho textu na konzolu
 
 void FConsoleErr()
 {
@@ -5668,7 +5668,7 @@ void FConsoleErr()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// návratovı kód
+// nÃ¡vratovÃ½ kÃ³d
 
 void FSetReturnCode()
 {
@@ -5680,7 +5680,7 @@ void FSetReturnCode()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// spuštìní programu
+// spuÅ¡tÄ›nÃ­ programu
 
 void FExec()
 {
@@ -5707,7 +5707,7 @@ void FExecWait()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èíslo prvku
+// ÄÃ­slo prvku
 
 void FWindowID()
 {
@@ -5724,7 +5724,7 @@ void FWindowID()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení okna
+// zruÅ¡enÃ­ okna
 
 void FWindowDel()
 {
@@ -5749,7 +5749,7 @@ DWORD CALLBACK EditStreamCallback(DWORD cookie, BYTE* buf, long num, long* bytes
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zvıšení velikosti tabulky
+// zvÃ½Å¡enÃ­ velikosti tabulky
 
 void SetTabSize(WINITEM* item, int rows)
 {
@@ -5793,7 +5793,7 @@ void SetTabSize(WINITEM* item, int rows)
 
 void FWindowText()
 {
-// naètení textu pro okno
+// naÄtenÃ­ textu pro okno
 	CString text;
 	FText(text);
 
@@ -5805,12 +5805,12 @@ void FWindowText()
 // aktualizace textu
 		WindowTextValidate();
 
-// test, zda se text liší
+// test, zda se text liÅ¡Ã­
 		if (text != item->Text)
 		{
 			ProgramFill = true;
 
-// aktualizace textu pro hlavní okno
+// aktualizace textu pro hlavnÃ­ okno
 			if (WindowID == 0)
 			{
 				CaptionText = text;
@@ -5821,11 +5821,11 @@ void FWindowText()
 			{
 				item->Text = text;
 
-				bool newtextvalid = true;		// RichEdit to vypíná pro PLANE text
+				bool newtextvalid = true;		// RichEdit to vypÃ­nÃ¡ pro PLANE text
 
 				switch (item->Typ)
 				{
-// nastavení textu pro COMBOEDIT
+// nastavenÃ­ textu pro COMBOEDIT
 				case WINITEM_COMBOEDIT:
 				case WINITEM_LISTEDIT:
 					{
@@ -5838,7 +5838,7 @@ void FWindowText()
 					}
 					break;
 
-// nastavení textu pro textové pole (s úschovou kurzoru)
+// nastavenÃ­ textu pro textovÃ© pole (s Ãºschovou kurzoru)
 				case WINITEM_EDIT:
 					{
 						int selstart;
@@ -5850,107 +5850,107 @@ void FWindowText()
 					}
 					break;
 
-// nastavení textu pro textové pole (s úschovou kurzoru)
+// nastavenÃ­ textu pro textovÃ© pole (s Ãºschovou kurzoru)
 				case WINITEM_MEMO:
 					{
-						// vypnutí pøekreslování okna
+						// vypnutÃ­ pÅ™ekreslovÃ¡nÃ­ okna
 						::SendMessage(item->Wnd, WM_SETREDRAW, FALSE, 0);
 
-						// úschova pozice kurzoru
+						// Ãºschova pozice kurzoru
 						int selstart;
 						::SendMessage(item->Wnd, EM_GETSEL, (WPARAM)&selstart, NULL);
 						if (selstart > text.Length()) selstart = text.Length();
 
-						// úschova poèátku textu
+						// Ãºschova poÄÃ¡tku textu
 						int first = ::SendMessage(item->Wnd, EM_GETFIRSTVISIBLELINE, 0, 0);
 
-						// nastavení nového textu
+						// nastavenÃ­ novÃ©ho textu
 						text.SetWindowText(item->Wnd);
 
-						// návrat pùvodní pozice kurzoru
+						// nÃ¡vrat pÅ¯vodnÃ­ pozice kurzoru
 						::SendMessage(item->Wnd, EM_SETSEL, selstart, selstart);
 
-						// rolování kurzoru do okna
+						// rolovÃ¡nÃ­ kurzoru do okna
 						::SendMessage(item->Wnd, EM_SCROLLCARET, 0, 0);
 
-						// návrat pùvodního poèátku textu
+						// nÃ¡vrat pÅ¯vodnÃ­ho poÄÃ¡tku textu
 						first -= ::SendMessage(item->Wnd, EM_GETFIRSTVISIBLELINE, 0, 0);
 						if (first > 0)
 						{
 							::SendMessage(item->Wnd, EM_LINESCROLL, 0, first);
 						}
 
-						// obnovení pøekreslování okna
+						// obnovenÃ­ pÅ™ekreslovÃ¡nÃ­ okna
 						::SendMessage(item->Wnd, WM_SETREDRAW, TRUE, 0);
 						::InvalidateRect(item->Wnd, NULL, TRUE);
 					}
 					break;
 
-// nastavení textu pro textové pole Richedit (s úschovou kurzoru)
+// nastavenÃ­ textu pro textovÃ© pole Richedit (s Ãºschovou kurzoru)
 				case WINITEM_RICHMEMO:
 				case WINITEM_RICHEDIT:
 					{
-						// vypnutí pøekreslování okna
+						// vypnutÃ­ pÅ™ekreslovÃ¡nÃ­ okna
 						::SendMessage(item->Wnd, WM_SETREDRAW, FALSE, 0);
 
-						// úschova pozice kurzoru
+						// Ãºschova pozice kurzoru
 						CHARRANGE sel;
 						::SendMessage(item->Wnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 						if (sel.cpMin > text.Length()) sel.cpMin = text.Length();
 						sel.cpMax = sel.cpMin;
 
-						// úschova poèátku textu
+						// Ãºschova poÄÃ¡tku textu
 						int first = ::SendMessage(item->Wnd, EM_GETFIRSTVISIBLELINE, 0, 0);
 
-						// pøíprava textového proudu
+						// pÅ™Ã­prava textovÃ©ho proudu
 						RichEditText = text;
 						RichEditData = 0;
 						EDITSTREAM stream;
 						stream.pfnCallback = EditStreamCallback;
 
-						// test, zda je to formát RichEdit
+						// test, zda je to formÃ¡t RichEdit
 						CString txt0 = text.Left(RichEditIdent.Length());
 						txt0.UpperCase();
 						newtextvalid = (item->Typ == WINITEM_RICHEDIT) && (txt0 == RichEditIdent);
 
-						// odeslání textového proudu
+						// odeslÃ¡nÃ­ textovÃ©ho proudu
 						::SendMessage(item->Wnd, EM_STREAMIN, (newtextvalid) ? SF_RTF : SF_TEXT, (LPARAM)&stream);
 
-						// návrat pùvodní pozice kurzoru
+						// nÃ¡vrat pÅ¯vodnÃ­ pozice kurzoru
 						::SendMessage(item->Wnd, EM_EXSETSEL, 0, (LPARAM)&sel);
 
-						// rolování kurzoru do okna
+						// rolovÃ¡nÃ­ kurzoru do okna
 						::SendMessage(item->Wnd, EM_SCROLLCARET, 0, 0);
 
-						// návrat pùvodního poèátku textu
+						// nÃ¡vrat pÅ¯vodnÃ­ho poÄÃ¡tku textu
 						first -= ::SendMessage(item->Wnd, EM_GETFIRSTVISIBLELINE, 0, 0);
 						if (first > 0)
 						{
 							::SendMessage(item->Wnd, EM_LINESCROLL, 0, first);
 						}
 
-						// obnovení pøekreslování okna
+						// obnovenÃ­ pÅ™ekreslovÃ¡nÃ­ okna
 						::SendMessage(item->Wnd, WM_SETREDRAW, TRUE, 0);
 						::InvalidateRect(item->Wnd, NULL, TRUE);
 					}
 					break;
 
-// nastavení textu pro COMBOBOX	
+// nastavenÃ­ textu pro COMBOBOX	
 				case WINITEM_COMBOBOX:
 					::SendMessage(item->Wnd, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)(LPCTSTR)text);
 					break;
 
-// nastavení textu pro LISTBOX	
+// nastavenÃ­ textu pro LISTBOX	
 				case WINITEM_LISTBOX:
 					::SendMessage(item->Wnd, LB_SELECTSTRING, (WPARAM)-1, (LPARAM)(LPCTSTR)text);
 					break;
 
-// pro obrázek se nic nenastaví
+// pro obrÃ¡zek se nic nenastavÃ­
 				case WINITEM_WINICON:
 				case WINITEM_WINPIC:
 					break;
 
-// poloka tabulky
+// poloÅ¾ka tabulky
 				case WINITEM_TABLE:
 					{
 						int row = item->TabRow;
@@ -5982,7 +5982,7 @@ void FWindowText()
 					}
 					break;
 
-// nastavení textu prvku
+// nastavenÃ­ textu prvku
 				default:
 					text.SetWindowText(item->Wnd);
 				}
@@ -6114,7 +6114,7 @@ void FWindowHInt()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice v prvku okna
+// nastavenÃ­ pozice v prvku okna
 
 void FSetWindowPos()
 {
@@ -6295,7 +6295,7 @@ void FSetWindowPos()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice 2 v prvku okna
+// nastavenÃ­ pozice 2 v prvku okna
 
 void FSetWindowPos2()
 {
@@ -6380,18 +6380,18 @@ void FSetWindowPos2()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení rámeèku/nadpisu okna
+// nastavenÃ­ rÃ¡meÄku/nadpisu okna
 
 void AktWindowFrame(WINITEM* item)
 {
 // test, zda to je okno
 	bool wnd = ((item->Typ == WINITEM_WINDOW) || (item->Typ == WINITEM_WINDOWRO));
 
-// naètení aktuálního stylu
+// naÄtenÃ­ aktuÃ¡lnÃ­ho stylu
 	long style = ::GetWindowLong(item->Wnd, GWL_STYLE);
 	long extstyle = ::GetWindowLong(item->Wnd, GWL_EXSTYLE);
 
-// vynulování pøíznakù
+// vynulovÃ¡nÃ­ pÅ™Ã­znakÅ¯
 	style &= ~(WS_CAPTION | WS_BORDER | WS_DLGFRAME | WS_THICKFRAME | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
 	extstyle &= ~(WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE | WS_EX_DLGMODALFRAME | WS_EX_TOOLWINDOW | WS_EX_STATICEDGE);
 
@@ -6400,10 +6400,10 @@ void AktWindowFrame(WINITEM* item)
 	if (wnd)
 	{
 
-// mìnitelná velikost okna - mohou bıt ikony pro maximalizaci a minimalizaci
+// mÄ›nitelnÃ¡ velikost okna - mohou bÃ½t ikony pro maximalizaci a minimalizaci
 		if (item->HasSize) style |= WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
 
-// zapnutí rámeèku okna
+// zapnutÃ­ rÃ¡meÄku okna
 		if (item->HasBorder)
 		{
 			style |= WS_BORDER;
@@ -6421,7 +6421,7 @@ void AktWindowFrame(WINITEM* item)
 			}
 		}
 
-// vypnutí rámeèku okna (je-li titulek, nahradí se tenkım rámeèkem)
+// vypnutÃ­ rÃ¡meÄku okna (je-li titulek, nahradÃ­ se tenkÃ½m rÃ¡meÄkem)
 		else
 		{
 			if (item->HasCaption)
@@ -6430,21 +6430,21 @@ void AktWindowFrame(WINITEM* item)
 			}
 		}
 
-// zapnutí titulku
+// zapnutÃ­ titulku
 		if (item->HasCaption)
 		{
 			style |= (WS_CAPTION | WS_BORDER);
 		}
 	}
 
-// --- varianta pro dialogové prvky
+// --- varianta pro dialogovÃ© prvky
 
 	else
 	{
 		if (!item->HasSize)
 		{
 
-// zapnutí rámeèku okna
+// zapnutÃ­ rÃ¡meÄku okna
 			if (item->HasBorder)
 			{
 				style |= WS_BORDER;
@@ -6457,7 +6457,7 @@ void AktWindowFrame(WINITEM* item)
 				}
 			}
 
-// vypnutí rámeèku okna (je-li titulek, nahradí se tenkım rámeèkem)
+// vypnutÃ­ rÃ¡meÄku okna (je-li titulek, nahradÃ­ se tenkÃ½m rÃ¡meÄkem)
 			else
 			{
 				if (item->HasCaption)
@@ -6469,7 +6469,7 @@ void AktWindowFrame(WINITEM* item)
 		else
 		{
 
-// zapnutí rámeèku okna
+// zapnutÃ­ rÃ¡meÄku okna
 			if (item->HasBorder)
 			{
 				style |= WS_BORDER;
@@ -6481,7 +6481,7 @@ void AktWindowFrame(WINITEM* item)
 				}
 			}
 
-// vypnutí rámeèku okna (je-li titulek, nahradí se vyvıšenım rámeèkem)
+// vypnutÃ­ rÃ¡meÄku okna (je-li titulek, nahradÃ­ se vyvÃ½Å¡enÃ½m rÃ¡meÄkem)
 			else
 			{
 				if (item->HasCaption)
@@ -6496,11 +6496,11 @@ void AktWindowFrame(WINITEM* item)
 		}
 	}
 
-// nastavení nového stylu
+// nastavenÃ­ novÃ©ho stylu
 	::SetWindowLong(item->Wnd, GWL_EXSTYLE, extstyle); 
 	::SetWindowLong(item->Wnd, GWL_STYLE, style);
 
-// korekce rozmìrù hlavního okna
+// korekce rozmÄ›rÅ¯ hlavnÃ­ho okna
 	if (WindowID == 0)
 	{
 		MainFrameStyle = style;
@@ -6514,13 +6514,13 @@ void AktWindowFrame(WINITEM* item)
 	}
 	else
 
-// aktualizace zobrazení okna
+// aktualizace zobrazenÃ­ okna
 	{
 		::SetWindowPos(item->Wnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_DRAWFRAME |
 			SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOOWNERZORDER | SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE);
 	}
 
-// aktualizace informací o prvku
+// aktualizace informacÃ­ o prvku
 	InitClientRect(item);
 }
 
@@ -6556,7 +6556,7 @@ void FSetWindowCaption()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení okna s mìnitelnou velikostí
+// nastavenÃ­ okna s mÄ›nitelnou velikostÃ­
 
 void FSetWindowSize()
 {
@@ -6574,7 +6574,7 @@ void FSetWindowSize()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení povolení uzavøení okna
+// nastavenÃ­ povolenÃ­ uzavÅ™enÃ­ okna
 
 void FSetWindowMayClose()
 {
@@ -6628,7 +6628,7 @@ void FSetWindowMinim()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení okna vdy nahoøe
+// nastavenÃ­ okna vÅ¾dy nahoÅ™e
 
 void FSetWindowTop()
 {
@@ -6703,7 +6703,7 @@ void FWindowVisibleSet()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zákaz prvku
+// zÃ¡kaz prvku
 
 void FWindowDisable()
 {
@@ -6728,11 +6728,11 @@ void FWindowDisable()
 				{
 					int styl = ::GetWindowLong(item->Wnd, GWL_STYLE);
 
-				// poznámka: u ji zobrazeného okna nelze posuvníky vypnout
+				// poznÃ¡mka: u jiÅ¾ zobrazenÃ©ho okna nelze posuvnÃ­ky vypnout
 					styl ^= LVS_NOSCROLL;
 
-				// poznámka: moná je to chyba systému, e vypíná hlavièku, je-li zákaz
-				// scrolování; pro jednoznaènost je to zde zajištìno natrvdo
+				// poznÃ¡mka: moÅ¾nÃ¡ je to chyba systÃ©mu, Å¾e vypÃ­nÃ¡ hlaviÄku, je-li zÃ¡kaz
+				// scrolovÃ¡nÃ­; pro jednoznaÄnost je to zde zajiÅ¡tÄ›no natrvdo
 					if (item->TabHead)
 					{
 						item->TabHead = false;
@@ -6762,7 +6762,7 @@ void FWindowDisableSet()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøepínaè
+// pÅ™epÃ­naÄ
 
 void FCheckBoxOn()
 {
@@ -6780,7 +6780,7 @@ void FCheckBoxOn()
 				break;
 			}
 
-// pokraèuje BUTTON
+// pokraÄuje BUTTON
 		case WINITEM_BUTTONCHECK:
 		case WINITEM_BUTTONCHECK2:
 		case WINITEM_BUTTONICON:
@@ -6861,10 +6861,10 @@ void FButton3OnSet()
 
 void FFocus()
 {
-// zapnutí hlavního okna
+// zapnutÃ­ hlavnÃ­ho okna
 	MainFrameShow();
 
-// nastavení prvku se zamìøením
+// nastavenÃ­ prvku se zamÄ›Å™enÃ­m
 	int focus = FIntR();
 	if (Win.IsValid(focus) && (Win[focus].Typ != WINITEM_WINDOW) && (Win[focus].Typ != WINITEM_WINDOWRO))
 	{
@@ -6877,7 +6877,7 @@ void FFocus()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// písmo
+// pÃ­smo
 
 void FFontBold()
 {
@@ -7085,7 +7085,7 @@ void FFontBackSet()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøidání poloky do seznamu
+// pÅ™idÃ¡nÃ­ poloÅ¾ky do seznamu
 
 void FListBoxAdd()
 {
@@ -7122,7 +7122,7 @@ void FListBoxAdd()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní seznamu
+// vyprÃ¡zdnÄ›nÃ­ seznamu
 
 void FListBoxClear()
 {
@@ -7190,7 +7190,7 @@ void FListBoxClear()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// šíøka sloupce tabulky
+// Å¡Ã­Å™ka sloupce tabulky
 
 void FSetTableWidth()
 {
@@ -7213,7 +7213,7 @@ void FSetTableWidth()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zarovnání sloupce tabulky
+// zarovnÃ¡nÃ­ sloupce tabulky
 
 void FSetTableAlign()
 {
@@ -7279,7 +7279,7 @@ void FWindowIcon()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// obrázek okna
+// obrÃ¡zek okna
 
 void FWindowPic()
 {
@@ -7309,7 +7309,7 @@ void FWindowPic()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// tlaèítko pro klávesu Esc
+// tlaÄÃ­tko pro klÃ¡vesu Esc
 
 void FSetButtonEsc()
 {
@@ -7323,7 +7323,7 @@ void FSetButtonEsc()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// celoobrazokovı mód
+// celoobrazokovÃ½ mÃ³d
 
 void FFullScreen()
 {
@@ -7338,11 +7338,11 @@ void FFullScreenSet()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kurzor myši
+// kurzor myÅ¡i
 
 void FMouseCursor()
 {
-// naètení parametrù kurzoru
+// naÄtenÃ­ parametrÅ¯ kurzoru
 	CIcon icon;
 	FIcon(icon);
 	int x1 = FIntX();
@@ -7350,12 +7350,12 @@ void FMouseCursor()
 	int x2 = FIntX() + x1;
 	int y2 = FIntY() + y1;
 	
-// kontrola platnosti souøadnic
+// kontrola platnosti souÅ™adnic
 	if ((x2 <= x1) || (y2 <= y1)) return;
 
-// vypustìní pøekrytıch oblastí regionù myši
-	int i = MouseRegNum - 1;				// poslední poloka
-	MOUSEREG* reg = &MouseReg[i];			// tabulka regionù
+// vypustÄ›nÃ­ pÅ™ekrytÃ½ch oblastÃ­ regionÅ¯ myÅ¡i
+	int i = MouseRegNum - 1;				// poslednÃ­ poloÅ¾ka
+	MOUSEREG* reg = &MouseReg[i];			// tabulka regionÅ¯
 	for (; i >= 0; i--)
 	{
 		if ((reg->x1 >= x1) &&
@@ -7372,7 +7372,7 @@ void FMouseCursor()
 		reg--;
 	}
 
-// pøidání nové oblasti
+// pÅ™idÃ¡nÃ­ novÃ© oblasti
 	i = MouseRegNum;
 	MouseRegNum++;
 	if (MouseRegNum > MouseRegMax)
@@ -7387,7 +7387,7 @@ void FMouseCursor()
 	reg->y2 = y2;
 	reg->Cursor = icon.Cursor();
 
-// nastavení kurzoru myši, leí-li v nové oblasti
+// nastavenÃ­ kurzoru myÅ¡i, leÅ¾Ã­-li v novÃ© oblasti
 	int x = MouseMain.x;
 	int y = MouseMain.y;
 	if (FullScreen)
@@ -7413,7 +7413,7 @@ void FMouseCursor()
 		}
 	}
 
-// korekce pro implicitní kurzor
+// korekce pro implicitnÃ­ kurzor
 	if ((MouseRegNum == 0) && (icon.IsEmpty()))
 	{
 		MouseRegNum = 0;
@@ -7422,11 +7422,11 @@ void FMouseCursor()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha kurzoru myši (vrací TRUE = kurzor myši nastaven)
+// obsluha kurzoru myÅ¡i (vracÃ­ TRUE = kurzor myÅ¡i nastaven)
 
 BOOL OnSetCursor(int x, int y)
 {
-// kontrola, zda je myš v oblasti okna
+// kontrola, zda je myÅ¡ v oblasti okna
 	if ((x < DispLeft) ||
 		(x >= DispLeft + DispWidth) ||
 		(y <= DispTop) ||
@@ -7440,13 +7440,13 @@ BOOL OnSetCursor(int x, int y)
 		if (y > DispTop + DispHeight) y = DispTop + DispHeight;
 	}
 
-// pøíprava souøadnice kurzoru myši
+// pÅ™Ã­prava souÅ™adnice kurzoru myÅ¡i
 	int x0 = Round((x - DispLeft)/Meritko);
 	int y0 = Round((DispHeight - (y - DispTop))/Meritko);
 
-// nalezení oblasti myši a nastavení kurzoru
-	int i = MouseRegNum - 1;				// poslední poloka
-	MOUSEREG* reg = &MouseReg[i];			// tabulka regionù
+// nalezenÃ­ oblasti myÅ¡i a nastavenÃ­ kurzoru
+	int i = MouseRegNum - 1;				// poslednÃ­ poloÅ¾ka
+	MOUSEREG* reg = &MouseReg[i];			// tabulka regionÅ¯
 	for (; i >= 0; i--)
 	{
 		if ((x0 >= reg->x1) &&
@@ -7469,7 +7469,7 @@ BOOL OnSetCursor(int x, int y)
 		reg--;
 	}
 
-// jinak implicitní kurzor
+// jinak implicitnÃ­ kurzor
 	if (FullScreen)
 	{
 		::SetCursor(CurArrow2);
@@ -7480,18 +7480,18 @@ BOOL OnSetCursor(int x, int y)
 
 /***************************************************************************\
 *																			*
-*							obsluha myši									*
+*							obsluha myÅ¡i									*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení nové pozice kurzoru myši
+// nastavenÃ­ novÃ© pozice kurzoru myÅ¡i
 
 void SetMouseXY()
 {
 	POINT pt;
 
-// vıpoèet souøadnic v oknì
+// vÃ½poÄet souÅ™adnic v oknÄ›
 	if ((DialogMode && !DialogGraph) || (DialogParent != 0))
 	{
 		pt.x = Round(MouseX*ICONWIDTH);
@@ -7503,25 +7503,25 @@ void SetMouseXY()
 		pt.y = DispHeight - 1 + DispTop - Round(MouseY*ICONHEIGHT*Meritko);
 	}
 
-// pøepoèet lokálních souøadnic kurzoru na souøadnice obrazovky
+// pÅ™epoÄet lokÃ¡lnÃ­ch souÅ™adnic kurzoru na souÅ™adnice obrazovky
 	::ClientToScreen(Win[DialogParent].Wnd, &pt);
 
-// zachování posunu myši od posledního naèítání souøadnic
+// zachovÃ¡nÃ­ posunu myÅ¡i od poslednÃ­ho naÄÃ­tÃ¡nÃ­ souÅ™adnic
 	POINT newpt;
 	::GetCursorPos(&newpt);
 	pt.x += (newpt.x - MouseScreen.x);
 	pt.y += (newpt.y - MouseScreen.y);
 
-// nastavení nové pozice kurzoru myši
+// nastavenÃ­ novÃ© pozice kurzoru myÅ¡i
 	::SetCursorPos(pt.x, pt.y);
 
-// naètení novıch souøadnic kurzoru myši
+// naÄtenÃ­ novÃ½ch souÅ™adnic kurzoru myÅ¡i
 	MouseValid = false;
 	GetAktMousePos();
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice X myši
+// nastavenÃ­ souÅ™adnice X myÅ¡i
 
 void FSetMouseX()
 {
@@ -7534,7 +7534,7 @@ void FSetMouseX()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení souøadnice Y myši
+// nastavenÃ­ souÅ™adnice Y myÅ¡i
 
 void FSetMouseY()
 {
@@ -7556,7 +7556,7 @@ void FSetMouseY()
 #ifndef _MINI
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního spojení
+// nastavenÃ­ aktivnÃ­ho spojenÃ­
 
 void FSetConnectAct()
 {
@@ -7566,7 +7566,7 @@ void FSetConnectAct()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivní hry
+// nastavenÃ­ aktivnÃ­ hry
 
 void FSetGameAct()
 {
@@ -7576,7 +7576,7 @@ void FSetGameAct()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního hráèe
+// nastavenÃ­ aktivnÃ­ho hrÃ¡Äe
 
 void FSetPlayerAct()
 {
@@ -7587,7 +7587,7 @@ void FSetPlayerAct()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èíselné hodnoty hry
+// nastavenÃ­ ÄÃ­selnÃ© hodnoty hry
 
 void FSetGameN1() { SetGameN(FIntR(), 0); }
 void FSetGameN2() { SetGameN(FIntR(), 1); }
@@ -7600,7 +7600,7 @@ void FSetGameN8() { SetGameN(FIntR(), 7); }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe hry
+// nastavenÃ­ pÅ™epÃ­naÄe hry
 
 void FSetGameL1() { SetGameL(FBool(), 0); }
 void FSetGameL2() { SetGameL(FBool(), 1); }
@@ -7612,12 +7612,12 @@ void FSetGameL7() { SetGameL(FBool(), 6); }
 void FSetGameL8() { SetGameL(FBool(), 7); }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení max. poètu hráèù
+// nastavenÃ­ max. poÄtu hrÃ¡ÄÅ¯
 
 void FSetPlayerMax() { SetPlayerMax(FIntR()); }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání datového paketu
+// vyslÃ¡nÃ­ datovÃ©ho paketu
 
 void FSetGamePacket()
 {
@@ -7630,7 +7630,7 @@ void FSetGamePacket0()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání èísla paketem
+// vyslÃ¡nÃ­ ÄÃ­sla paketem
 
 void FSetGameDataN()
 {
@@ -7639,7 +7639,7 @@ void FSetGameDataN()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání textu paketem (není pro UNICODE !!!)
+// vyslÃ¡nÃ­ textu paketem (nenÃ­ pro UNICODE !!!)
 
 void FSetGameDataT()
 {
@@ -7649,7 +7649,7 @@ void FSetGameDataT()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání pøepínaèe paketem
+// vyslÃ¡nÃ­ pÅ™epÃ­naÄe paketem
 
 void FSetGameDataL()
 {
@@ -7659,7 +7659,7 @@ void FSetGameDataL()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání bajtu paketem
+// vyslÃ¡nÃ­ bajtu paketem
 
 void FSetGameDataB()
 {
@@ -7677,7 +7677,7 @@ void FSetGameDataB()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vysílací IP adresy UDP
+// nastavenÃ­ vysÃ­lacÃ­ IP adresy UDP
 
 void FSetUDPSendIP()
 {
@@ -7693,7 +7693,7 @@ void FSetUDPSendIP()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vysílacího portu UDP
+// nastavenÃ­ vysÃ­lacÃ­ho portu UDP
 
 void FSetUDPSendPort()
 {
@@ -7711,7 +7711,7 @@ void FSetUDPSendPort()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení velikosti pøijímacího bufferu UDP (0=zavøení UDP)
+// nastavenÃ­ velikosti pÅ™ijÃ­macÃ­ho bufferu UDP (0=zavÅ™enÃ­ UDP)
 
 void FSetUDPRecSize()
 {
@@ -7722,11 +7722,11 @@ void FSetUDPRecSize()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøijímací IP adresy UDP
+// nastavenÃ­ pÅ™ijÃ­macÃ­ IP adresy UDP
 
 void FSetUDPRecIP()
 {
-	// naètení IP adresy
+	// naÄtenÃ­ IP adresy
 	CString text;
 	FText(text);
 	text.TrimLeft();
@@ -7748,11 +7748,11 @@ void FSetUDPRecIP()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøijímacího portu UDP
+// nastavenÃ­ pÅ™ijÃ­macÃ­ho portu UDP
 
 void FSetUDPRecPort()
 {
-	// naètení èísla portu
+	// naÄtenÃ­ ÄÃ­sla portu
 	int n = FIntR();
 	if (n < 0)
 	{
@@ -7775,7 +7775,7 @@ void FSetUDPRecPort()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// odeslání binárního paketu UDP
+// odeslÃ¡nÃ­ binÃ¡rnÃ­ho paketu UDP
 
 void FSetUDPMem()
 {
@@ -7785,7 +7785,7 @@ void FSetUDPMem()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// odeslání textového paketu UDP
+// odeslÃ¡nÃ­ textovÃ©ho paketu UDP
 
 void FSetUDPText()
 {
@@ -7795,11 +7795,11 @@ void FSetUDPText()
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení kódové stránky
+// nastavenÃ­ kÃ³dovÃ© strÃ¡nky
 
 void FSetCodePage()
 {
@@ -7851,7 +7851,7 @@ void FSetCodePage()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení uivatelského fontu
+// nastavenÃ­ uÅ¾ivatelskÃ©ho fontu
 
 void FSetUserFont()
 {
@@ -7863,7 +7863,7 @@ void FSetUserFont()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení jazyku
+// nastavenÃ­ jazyku
 
 void FSetLanguage()
 {
@@ -7885,14 +7885,14 @@ void FSetLanguage()
 	InitLang(Jazyk);
 	InitKeyb();
 
-// pøíprava ukazatelù jazykù
+// pÅ™Ã­prava ukazatelÅ¯ jazykÅ¯
 	for (int lan = 0; lan < JAZYKNUM; lan++)
 	{
 		JazykUkaz[lan] = JazykInfo[lan].TextTab;
 	}
 	JazykUkaz0 = 0;
 
-// naètení a aktualizace textù
+// naÄtenÃ­ a aktualizace textÅ¯
 	int poc = PetAdr->piText.Pocet;
 
 	for (int i = poc; i > 0; i--)
@@ -7951,28 +7951,28 @@ void FSetLanguage()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení alias
+// nastavenÃ­ alias
 
 void FSetAlias()
 {
-// text k nastavení
+// text k nastavenÃ­
 	CString txt;
 	FText(txt);
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// test, zda je soubor zadanı
+// test, zda je soubor zadanÃ½
 	if (FileWrite.IsEmpty())
 	{
 		FileError = true;
 		return;
 	}
 
-// pøíprava aliases
+// pÅ™Ã­prava aliases
 	InitAlias(FileWrite);
 	InitAliasGroup(Jazyk);
 
-// zápis aliases
+// zÃ¡pis aliases
 	int res;
 
 	if (txt.IsEmpty())
@@ -7997,7 +7997,7 @@ void FSetAlias()
 #ifndef _MINI
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního portu
+// nastavenÃ­ aktivnÃ­ho portu
 
 void FSetComID()
 {
@@ -8009,7 +8009,7 @@ void FSetComID()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// uzavøení portu
+// uzavÅ™enÃ­ portu
 
 void FComClose()
 {
@@ -8021,7 +8021,7 @@ void FComClose()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøenosové rychlosti portu
+// nastavenÃ­ pÅ™enosovÃ© rychlosti portu
 
 void FSetComBaud()
 {
@@ -8041,7 +8041,7 @@ void FSetComBaud()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stopbitù
+// nastavenÃ­ stopbitÅ¯
 
 void FSetComStop()
 {
@@ -8072,7 +8072,7 @@ void FSetComStop()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poètu bitù
+// nastavenÃ­ poÄtu bitÅ¯
 
 void FSetComBits()
 {
@@ -8097,7 +8097,7 @@ void FSetComBits()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení parity
+// nastavenÃ­ parity
 
 void FSetComParit()
 {
@@ -8121,7 +8121,7 @@ void FSetComParit()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání znaku
+// vyslÃ¡nÃ­ znaku
 
 void FSetComText()
 {
@@ -8135,7 +8135,7 @@ void FSetComText()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání èísla
+// vyslÃ¡nÃ­ ÄÃ­sla
 
 void FSetComNum()
 {
@@ -8143,7 +8143,7 @@ void FSetComNum()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// povolení vysílání, poadavek k protìjšku o vysílání dat (signál RTS)
+// povolenÃ­ vysÃ­lÃ¡nÃ­, poÅ¾adavek k protÄ›jÅ¡ku o vysÃ­lÃ¡nÃ­ dat (signÃ¡l RTS)
 
 void FSetComSend()
 {
@@ -8161,7 +8161,7 @@ void FSetComSend()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// povolení pøíjmu, potvrzení platnosti dat vysílanıch k protìjšku (signál DTR)
+// povolenÃ­ pÅ™Ã­jmu, potvrzenÃ­ platnosti dat vysÃ­lanÃ½ch k protÄ›jÅ¡ku (signÃ¡l DTR)
 
 void FSetComReceive()
 {
@@ -8179,7 +8179,7 @@ void FSetComReceive()
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 
 /***************************************************************************\
@@ -8192,18 +8192,18 @@ void FSetComReceive()
 #ifndef _MINI
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního mixeru
+// nastavenÃ­ aktivnÃ­ho mixeru
 
 void FSetMixDevice()
 {
-// pøíprava textu	
+// pÅ™Ã­prava textu	
 	CString txt;
 	FText(txt);
 
 // inicializace mixeru
 	if (!MixDevInit()) return;
 
-// vyhledání jména mixeru
+// vyhledÃ¡nÃ­ jmÃ©na mixeru
 	for (int i = MixDevN-1; i > 0; i--)
 	{
 		if (MixDev[i].Name == txt) break;
@@ -8214,43 +8214,43 @@ void FSetMixDevice()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení cílového signálu
+// nastavenÃ­ cÃ­lovÃ©ho signÃ¡lu
 
 void FSetMixLineDst()
 {
-// pøíprava textu	
+// pÅ™Ã­prava textu	
 	CString txt;
 	FText(txt);
 
 // inicializace mixeru
 	if (!MixDevInit()) return;
 
-// vyhledání jména signálu (pro neplatné jméno bude i=-1)
+// vyhledÃ¡nÃ­ jmÃ©na signÃ¡lu (pro neplatnÃ© jmÃ©no bude i=-1)
 	int i;
 	for (i = MixDest-1; i >= 0; i--)
 	{
 		if (MixLine[i].Name == txt) break;
 	}
 
-// nastavení cílového signálu (-1=ádnı)
+// nastavenÃ­ cÃ­lovÃ©ho signÃ¡lu (-1=Å¾Ã¡dnÃ½)
 	MixDstSet(i);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zdrojového signálu
+// nastavenÃ­ zdrojovÃ©ho signÃ¡lu
 
 void FSetMixLineSrc()
 {
-// pøíprava textu	
+// pÅ™Ã­prava textu	
 	CString txt;
 	FText(txt);
 
 // inicializace mixeru
 	if (!MixDevInit()) return;
-	if ((DWORD)MixLineDA >= (DWORD)MixDest) MixDstSet(0); // nastaven neplatnı cílovı signál
+	if ((DWORD)MixLineDA >= (DWORD)MixDest) MixDstSet(0); // nastaven neplatnÃ½ cÃ­lovÃ½ signÃ¡l
 	if (MixLineDA < 0) return;
 
-// vyhledání jména signálu (-1=jen cílovı)
+// vyhledÃ¡nÃ­ jmÃ©na signÃ¡lu (-1=jen cÃ­lovÃ½)
 	int i = MixLine[MixLineDA].SourceI;
 	int n = i + MixLine[MixLineDA].Sources;
 	int src = -1;
@@ -8267,22 +8267,22 @@ void FSetMixLineSrc()
 		}
 	}
 
-// nastavení cílového signálu
+// nastavenÃ­ cÃ­lovÃ©ho signÃ¡lu
 	MixSrcSet(src);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení typu signálu
+// nastavenÃ­ typu signÃ¡lu
 
 void FSetLineType()
 {
-// poadované èíslo typu signálu
+// poÅ¾adovanÃ© ÄÃ­slo typu signÃ¡lu
 	DWORD type = FIntRN();
 
 // inicializace mixeru
 	if (!MixDevInit() || (MixLineN == 0)) return;
 
-// vyhledání poadovaného typu signálu
+// vyhledÃ¡nÃ­ poÅ¾adovanÃ©ho typu signÃ¡lu
 	MIXLINE* item = MixLine;
 
 	for (int i = MixLineN; i > 0; i--)
@@ -8297,47 +8297,47 @@ void FSetLineType()
 		item++;
 	}
 
-// zadán neplatnı signál
+// zadÃ¡n neplatnÃ½ signÃ¡l
 	MixDstSet(-1);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení ovládacího prvku
+// nastavenÃ­ ovlÃ¡dacÃ­ho prvku
 
 void FSetMixControl()
 {
-// pøíprava textu	
+// pÅ™Ã­prava textu	
 	CString txt;
 	FText(txt);
 
 // inicializace mixeru
 	if (!MixDevInit()) return;
-	if ((DWORD)MixLineDA >= (DWORD)MixDest) MixDstSet(0); // nastaven neplatnı cílovı signál
+	if ((DWORD)MixLineDA >= (DWORD)MixDest) MixDstSet(0); // nastaven neplatnÃ½ cÃ­lovÃ½ signÃ¡l
 
-// vyhledání jména prvku (pro nenalezenı zùstane i = -1)
+// vyhledÃ¡nÃ­ jmÃ©na prvku (pro nenalezenÃ½ zÅ¯stane i = -1)
 	int i = MixCtrlN - 1;
 	for (; i >= 0; i--)
 	{
 		if (MixCtrl[i].Name == txt) break;
 	}
 
-// nastavení ovládacího prvku (-1=nenalezen)
+// nastavenÃ­ ovlÃ¡dacÃ­ho prvku (-1=nenalezen)
 	MixCtrlSet(i);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení typu ovládacího prvku
+// nastavenÃ­ typu ovlÃ¡dacÃ­ho prvku
 
 void FSetCtrlType()
 {
-// poadované èíslo typu ovládacího prvku
+// poÅ¾adovanÃ© ÄÃ­slo typu ovlÃ¡dacÃ­ho prvku
 	DWORD type = FIntRN();
 
 // inicializace mixeru
 	if (!MixDevInit()) return;
-	if ((DWORD)MixLineDA >= (DWORD)MixDest) MixDstSet(0); // nastaven neplatnı cílovı signál
+	if ((DWORD)MixLineDA >= (DWORD)MixDest) MixDstSet(0); // nastaven neplatnÃ½ cÃ­lovÃ½ signÃ¡l
 
-// vyhledání typu prvku
+// vyhledÃ¡nÃ­ typu prvku
 	int ctrl = -1;
 	for (int i = 0; i < MixCtrlN; i++)
 	{
@@ -8348,24 +8348,24 @@ void FSetCtrlType()
 		}
 	}
 
-// nastavení prvku
+// nastavenÃ­ prvku
 	MixCtrlSet(ctrl);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hodnoty ovládacího prvku
+// nastavenÃ­ hodnoty ovlÃ¡dacÃ­ho prvku
 
 void FSetCtrlVal()
 {
-// poadovaná hodnota
+// poÅ¾adovanÃ¡ hodnota
 	double val = FNum();
 
-// nastavení hodnoty
+// nastavenÃ­ hodnoty
 	SetMixCtrlVal(val);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení kanálu ovládacího prvku
+// nastavenÃ­ kanÃ¡lu ovlÃ¡dacÃ­ho prvku
 
 void FSetMixChannel()
 {
@@ -8373,11 +8373,11 @@ void FSetMixChannel()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vıbìr hodnoty ovládacího prvku
+// vÃ½bÄ›r hodnoty ovlÃ¡dacÃ­ho prvku
 
 void FSetMixCtrlList()
 {
-// pøíprava textu	
+// pÅ™Ã­prava textu	
 	CString txt;
 	FText(txt);
 
@@ -8385,7 +8385,7 @@ void FSetMixCtrlList()
 	if (!MixDevInit()) return;
 	if (MixValN < 2) return;
 
-// vyhledání jména hodnoty prvku (pro nenalezenı zùstane i = -1)
+// vyhledÃ¡nÃ­ jmÃ©na hodnoty prvku (pro nenalezenÃ½ zÅ¯stane i = -1)
 	int i;
 	for (i = MixValN - 1; i >= 0; i--)
 	{
@@ -8395,10 +8395,10 @@ void FSetMixCtrlList()
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení grafického pozadí
+// nastavenÃ­ grafickÃ©ho pozadÃ­
 
 void FSetDialogGraph()
 {
@@ -8423,23 +8423,23 @@ void FSetDialogGraph()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení videomódu
+// nastavenÃ­ videomÃ³du
 
 void FSet3DMode()
 {
-// pøíprava textu	
+// pÅ™Ã­prava textu	
 	CString txt;
 	FText(txt);
 	txt.LowerCase();
 
-// poadovaná šíøka
+// poÅ¾adovanÃ¡ Å¡Ã­Å™ka
 	double k = Double(txt);
 	if (k < 0) k = -k;
 	if (k < 160) k = k * ICONWIDTH;
 	if (k > 10000) k = 10000;
 	int width = Round(k);
 
-// poadovaná vıška
+// poÅ¾adovanÃ¡ vÃ½Å¡ka
 	int p = txt.Find('*');
 	if (p < 0) p = txt.Find('x');
 	int height = 0;
@@ -8453,7 +8453,7 @@ void FSet3DMode()
 		height = Round(k);
 	}
 
-// poadovanı poèet bitù
+// poÅ¾adovanÃ½ poÄet bitÅ¯
 	p = txt.Find('/');
 	if (p < 0) p = txt.Find('\\');
 	int bits = 0;
@@ -8465,7 +8465,7 @@ void FSet3DMode()
 		if (bits > 32) bits = 32;
 	}
 
-// parametry videomódu
+// parametry videomÃ³du
 	if (!FullScreen ||
 		(width != UserScreenWidth) ||
 		(height != UserScreenHeight) ||
@@ -8475,7 +8475,7 @@ void FSet3DMode()
 		UserScreenHeight = height;
 		UserScreenBits = bits;
 
-// aktivace videomódu
+// aktivace videomÃ³du
 		StartVideoMode();
 	}
 }
@@ -8484,31 +8484,31 @@ void FSet3DMode()
 #ifndef _MINI
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení okna Direct3D
+// nastavenÃ­ okna Direct3D
 
 void FDirect3DView()
 {
-// blokování Alt+Enter
-//	D3DReturn = true;		// blokování Alt+Enter
+// blokovÃ¡nÃ­ Alt+Enter
+//	D3DReturn = true;		// blokovÃ¡nÃ­ Alt+Enter
 
-// naètení rozmìrù okna
-	D3DX0 = FIntX();		// poèátek X
-	D3DY0 = FIntY();		// poèátek Y
-	D3DW0 = FIntX();		// šíøka
-	D3DH0 = FIntY();		// vıška
+// naÄtenÃ­ rozmÄ›rÅ¯ okna
+	D3DX0 = FIntX();		// poÄÃ¡tek X
+	D3DY0 = FIntY();		// poÄÃ¡tek Y
+	D3DW0 = FIntX();		// Å¡Ã­Å™ka
+	D3DH0 = FIntY();		// vÃ½Å¡ka
 
-// zapnutí hlavního okna
+// zapnutÃ­ hlavnÃ­ho okna
 	MainFrameShow();
 
-// pøepoèet rozmìrù
+// pÅ™epoÄet rozmÄ›rÅ¯
 	if (RecalcD3D())
 	{
 
-// pouze zmìna velikost okna
+// pouze zmÄ›na velikost okna
 		if (D3D)
 		{
-			ReSet3DCount = 0;				// resetování opakované inicializace
-			ReSet3DCountN = 1;				// inicializace pøíštího èítaèe
+			ReSet3DCount = 0;				// resetovÃ¡nÃ­ opakovanÃ© inicializace
+			ReSet3DCountN = 1;				// inicializace pÅ™Ã­Å¡tÃ­ho ÄÃ­taÄe
 
 			pD3SizeView();
 			pD3MoveView();
@@ -8516,14 +8516,14 @@ void FDirect3DView()
 			AktAllIcon();
 		}
 
-// inicializace funkce 3D zaøízení
+// inicializace funkce 3D zaÅ™Ã­zenÃ­
 		else
 		{
 			UserD3DDevice();
 		}
 	}
 
-// vypnutí okna 3D
+// vypnutÃ­ okna 3D
 	else
 	{
 		DeSelectD3DDev();
@@ -8531,7 +8531,7 @@ void FDirect3DView()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení módu vıplnì Direct3D
+// nastavenÃ­ mÃ³du vÃ½plnÄ› Direct3D
 
 void FSetD3DWireframe()
 {
@@ -8539,7 +8539,7 @@ void FSetD3DWireframe()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí osvìtlení Direct3D
+// zapnutÃ­ osvÄ›tlenÃ­ Direct3D
 
 void FSetD3DLighton()
 {
@@ -8547,7 +8547,7 @@ void FSetD3DLighton()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení módu stínování Direct3D
+// nastavenÃ­ mÃ³du stÃ­novÃ¡nÃ­ Direct3D
 
 void FSetD3DShades()
 {
@@ -8561,15 +8561,15 @@ void FD3DInvert()
 {
 	if (IsValidID())
 	{
-// odpojení dat od klonù
+// odpojenÃ­ dat od klonÅ¯
 		D3DF_Modi(D3D_ID);
 
 		D3DFITEM* item = GetID();
 
-// resetování objektu
+// resetovÃ¡nÃ­ objektu
 		pD3Reset(item);
 
-// inverze normál
+// inverze normÃ¡l
 		int n = item->VertNum;
 		D3DVECTOR* v = item->Normal;
 
@@ -8585,7 +8585,7 @@ void FD3DInvert()
 			}
 		}
 
-// zmìna smìru vektorù
+// zmÄ›na smÄ›ru vektorÅ¯
 		n = item->FaceNum; 
 		int* f = item->Face;
 
@@ -8606,7 +8606,7 @@ void FD3DInvert()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí filtrace pøi zmenšení
+// zapnutÃ­ filtrace pÅ™i zmenÅ¡enÃ­
 
 void FSetD3DMinFilter()
 {
@@ -8614,7 +8614,7 @@ void FSetD3DMinFilter()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí filtrace pøi zvìtšení
+// zapnutÃ­ filtrace pÅ™i zvÄ›tÅ¡enÃ­
 
 void FSetD3DMagFilter()
 {
@@ -8622,7 +8622,7 @@ void FSetD3DMagFilter()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí filtrace pøi vzdálení
+// zapnutÃ­ filtrace pÅ™i vzdÃ¡lenÃ­
 
 void FSetD3DMipFilter()
 {
@@ -8630,7 +8630,7 @@ void FSetD3DMipFilter()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení módu vıplnì objektu Direct3D
+// nastavenÃ­ mÃ³du vÃ½plnÄ› objektu Direct3D
 
 void FSetD3DOWireframe()
 {
@@ -8643,7 +8643,7 @@ void FSetD3DOWireframe()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí osvìtlení objektu Direct3D
+// zapnutÃ­ osvÄ›tlenÃ­ objektu Direct3D
 
 void FSetD3DOLighton()
 {
@@ -8656,7 +8656,7 @@ void FSetD3DOLighton()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení módu stínování objektu Direct3D
+// nastavenÃ­ mÃ³du stÃ­novÃ¡nÃ­ objektu Direct3D
 
 void FSetD3DOShades()
 {
@@ -8669,7 +8669,7 @@ void FSetD3DOShades()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí filtrace pøi zmenšení textury objektu
+// zapnutÃ­ filtrace pÅ™i zmenÅ¡enÃ­ textury objektu
 
 void FSetD3DOMinFilter()
 {
@@ -8682,7 +8682,7 @@ void FSetD3DOMinFilter()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí filtrace pøi zvìtšení textury objektu
+// zapnutÃ­ filtrace pÅ™i zvÄ›tÅ¡enÃ­ textury objektu
 
 void FSetD3DOMagFilter()
 {
@@ -8695,7 +8695,7 @@ void FSetD3DOMagFilter()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí filtrace pøi vzdálení textury objektu
+// zapnutÃ­ filtrace pÅ™i vzdÃ¡lenÃ­ textury objektu
 
 void FSetD3DOMipFilter()
 {
@@ -8708,7 +8708,7 @@ void FSetD3DOMipFilter()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení odstraòování ploch objektu
+// nastavenÃ­ odstraÅˆovÃ¡nÃ­ ploch objektu
 
 void FSetD3DOCulling()
 {
@@ -8723,7 +8723,7 @@ void FSetD3DOCulling()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti objektu Direct3D
+// nastavenÃ­ viditelnosti objektu Direct3D
 
 void FSetD3DVisible()
 {
@@ -8748,14 +8748,14 @@ void FSetD3DVisible()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení objektu Direct3D	(Data = poèet prvkù - 1)
+// zruÅ¡enÃ­ objektu Direct3D	(Data = poÄet prvkÅ¯ - 1)
 
 void FD3DObjectDelete()
 {
-// pøíprava poètu prvkù
+// pÅ™Ã­prava poÄtu prvkÅ¯
 	int i = ExecItem[-1].Data + 1;
 
-// zrušeni všech prvkù (kromì scény a kamery)
+// zruÅ¡eni vÅ¡ech prvkÅ¯ (kromÄ› scÃ©ny a kamery)
 	for (; i > 0; i--)
 	{
 		int inx = FIntR();
@@ -8765,7 +8765,7 @@ void FD3DObjectDelete()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního objektu Direct3D
+// nastavenÃ­ aktivnÃ­ho objektu Direct3D
 
 void FSetD3DObjectID()
 {
@@ -8788,7 +8788,7 @@ void FSetD3DObjectID()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poøadí rotací objektu
+// nastavenÃ­ poÅ™adÃ­ rotacÃ­ objektu
 
 void FSetD3DOrder()
 {
@@ -8809,7 +8809,7 @@ void FSetD3DOrder()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení mìøítka ve smìru X
+// nastavenÃ­ mÄ›Å™Ã­tka ve smÄ›ru X
 
 void FSetD3DScaleX()
 {
@@ -8838,7 +8838,7 @@ void FSetD3DScaleX()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení mìøítka ve smìru Y
+// nastavenÃ­ mÄ›Å™Ã­tka ve smÄ›ru Y
 
 void FSetD3DScaleY()
 {
@@ -8867,7 +8867,7 @@ void FSetD3DScaleY()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení mìøítka ve smìru Z
+// nastavenÃ­ mÄ›Å™Ã­tka ve smÄ›ru Z
 
 void FSetD3DScaleZ()
 {
@@ -8891,7 +8891,7 @@ void FSetD3DScaleZ()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení rotace podle osy X
+// nastavenÃ­ rotace podle osy X
 
 void FSetD3DRotateX()
 {
@@ -8914,7 +8914,7 @@ void FSetD3DRotateX()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení rotace podle osy Y
+// nastavenÃ­ rotace podle osy Y
 
 void FSetD3DRotateY()
 {
@@ -8938,7 +8938,7 @@ void FSetD3DRotateY()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení rotace podle osy Z
+// nastavenÃ­ rotace podle osy Z
 
 void FSetD3DRotateZ()
 {
@@ -8966,7 +8966,7 @@ void FSetD3DRotateZ()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení posunu ve smìru X
+// nastavenÃ­ posunu ve smÄ›ru X
 
 void FSetD3DTransX()
 {
@@ -9003,7 +9003,7 @@ void FSetD3DTransX()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení posunu ve smìru Y
+// nastavenÃ­ posunu ve smÄ›ru Y
 
 void FSetD3DTransY()
 {
@@ -9040,7 +9040,7 @@ void FSetD3DTransY()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení posunu ve smìru Z
+// nastavenÃ­ posunu ve smÄ›ru Z
 
 void FSetD3DTransZ()
 {
@@ -9072,7 +9072,7 @@ void FSetD3DTransZ()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení prùhlednosti
+// nastavenÃ­ prÅ¯hlednosti
 
 void FSetD3DTransparent()
 {
@@ -9108,7 +9108,7 @@ void FSetD3DTransparent()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení alpfa referenèní úrovnì
+// nastavenÃ­ alpfa referenÄnÃ­ ÃºrovnÄ›
 
 void FSetD3DAlphaRef()
 {
@@ -9127,7 +9127,7 @@ void FSetD3DAlphaRef()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace materiálu aktivního objektu
+// aktualizace materiÃ¡lu aktivnÃ­ho objektu
 
 void SetMaterial()
 {
@@ -9160,7 +9160,7 @@ void SetMaterial()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy objektu
+// nastavenÃ­ barvy objektu
 
 void FSetD3DColor()
 {
@@ -9203,7 +9203,7 @@ void FSetD3DColor()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení odrazu rozptıleného svìtla
+// nastavenÃ­ odrazu rozptÃ½lenÃ©ho svÄ›tla
 
 void FSetD3DAmbiRef()
 {
@@ -9228,7 +9228,7 @@ void FSetD3DAmbiRef()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy svítivosti
+// nastavenÃ­ barvy svÃ­tivosti
 
 void FSetD3DEmissive()
 {
@@ -9253,7 +9253,7 @@ void FSetD3DEmissive()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení matnosti
+// nastavenÃ­ matnosti
 
 void FSetD3DPower()
 {
@@ -9281,7 +9281,7 @@ void FSetD3DPower()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy odlesku
+// nastavenÃ­ barvy odlesku
 
 void FSetD3DSpecular()
 {
@@ -9306,7 +9306,7 @@ void FSetD3DSpecular()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textury objektu Direct3D
+// nastavenÃ­ textury objektu Direct3D
 
 void FSetD3DTexture()
 {
@@ -9335,7 +9335,7 @@ void FSetD3DTexture()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení textury objektu Direct3D ze souboru
+// naÄtenÃ­ textury objektu Direct3D ze souboru
 
 void FD3DTextureFile()
 {
@@ -9362,7 +9362,7 @@ void FD3DTextureFile()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// mapování textury
+// mapovÃ¡nÃ­ textury
 
 void FD3DTextMap()
 {
@@ -9370,47 +9370,47 @@ void FD3DTextMap()
 }
 
 
-// pro (item == NULL) se naèítají parametry z programu pro aktuální objekt
-// pro (item != NULL) musí bıt platná poloka (item->AutoMap != NULL) !!!!
+// pro (item == NULL) se naÄÃ­tajÃ­ parametry z programu pro aktuÃ¡lnÃ­ objekt
+// pro (item != NULL) musÃ­ bÃ½t platnÃ¡ poloÅ¾ka (item->AutoMap != NULL) !!!!
 
 void D3DTextMap(D3DFITEM* item)
 {
-// lokální promìnné
-	int method;						// metoda mapování (0=adresy, 1=vrcholy, 2=plošky)
-	int type;						// typ mapování (0=plocha, 1=válec, 2=koule, 3=chrom, 4=èoèka)
-	double ox;						// souøadnice X poèátku mapování
-	double oy;						// souøadnice Y poèátku mapování
-	double oz;						// souøadnice Z poèátku mapování
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	int method;						// metoda mapovÃ¡nÃ­ (0=adresy, 1=vrcholy, 2=ploÅ¡ky)
+	int type;						// typ mapovÃ¡nÃ­ (0=plocha, 1=vÃ¡lec, 2=koule, 3=chrom, 4=ÄoÄka)
+	double ox;						// souÅ™adnice X poÄÃ¡tku mapovÃ¡nÃ­
+	double oy;						// souÅ™adnice Y poÄÃ¡tku mapovÃ¡nÃ­
+	double oz;						// souÅ™adnice Z poÄÃ¡tku mapovÃ¡nÃ­
 	double rz;						// rotace podle osy Z
 	double rx;						// rotace podle osy X
 	double ry;						// rotace podle osy Y
-	double ou;						// poèátek textury horizontálnì
-	double ov;						// poèátek textury vertikálnì
-	double su;						// mìøítko textury horizontálnì
-	double sv;						// mìøítko textury vertikálnì
+	double ou;						// poÄÃ¡tek textury horizontÃ¡lnÄ›
+	double ov;						// poÄÃ¡tek textury vertikÃ¡lnÄ›
+	double su;						// mÄ›Å™Ã­tko textury horizontÃ¡lnÄ›
+	double sv;						// mÄ›Å™Ã­tko textury vertikÃ¡lnÄ›
 
-	BOOL automap = (item != NULL);	//  je automatické mapování
+	BOOL automap = (item != NULL);	//  je automatickÃ© mapovÃ¡nÃ­
 
-// naètení parametrù z programu
+// naÄtenÃ­ parametrÅ¯ z programu
 	if (!automap)
 	{
-		method = FIntR();			// metoda mapování (0=adresy, 1=vrcholy, 2=plošky)
-		type = FIntR();				// typ mapování (0=plocha, 1=válec, 2=koule, 3=chrom, 4=èoèka)
-		ox = FNum();				// souøadnice X poèátku mapování
-		oy = FNum();				// souøadnice Y poèátku mapování
-		oz = FNum();				// souøadnice Z poèátku mapování
+		method = FIntR();			// metoda mapovÃ¡nÃ­ (0=adresy, 1=vrcholy, 2=ploÅ¡ky)
+		type = FIntR();				// typ mapovÃ¡nÃ­ (0=plocha, 1=vÃ¡lec, 2=koule, 3=chrom, 4=ÄoÄka)
+		ox = FNum();				// souÅ™adnice X poÄÃ¡tku mapovÃ¡nÃ­
+		oy = FNum();				// souÅ™adnice Y poÄÃ¡tku mapovÃ¡nÃ­
+		oz = FNum();				// souÅ™adnice Z poÄÃ¡tku mapovÃ¡nÃ­
 		rz = FNum();				// rotace podle osy Z
 		rx = FNum();				// rotace podle osy X
 		ry = FNum();				// rotace podle osy Y
-		ou = FNum();				// poèátek textury horizontálnì
-		ov = FNum();				// poèátek textury vertikálnì
-		su = FNum();				// mìøítko textury horizontálnì
-		sv = FNum();				// mìøítko textury vertikálnì
+		ou = FNum();				// poÄÃ¡tek textury horizontÃ¡lnÄ›
+		ov = FNum();				// poÄÃ¡tek textury vertikÃ¡lnÄ›
+		su = FNum();				// mÄ›Å™Ã­tko textury horizontÃ¡lnÄ›
+		sv = FNum();				// mÄ›Å™Ã­tko textury vertikÃ¡lnÄ›
 
 #define EPS 0.001
 #define EPS2 0.499
 
-// korekce parametrù
+// korekce parametrÅ¯
 		if ((DWORD)method > (DWORD)2) method = 0;
 		if ((DWORD)type > (DWORD)4) type = 0;
 		if ((su > -EPS) && (su < EPS)) su = 1;
@@ -9419,19 +9419,19 @@ void D3DTextMap(D3DFITEM* item)
 // adresa objektu
 		if (!IsValidID()) return;
 
-// odpojení dat od klonù
+// odpojenÃ­ dat od klonÅ¯
 		D3DF_Modi(D3D_ID);
 
 		item = GetID();
 
-// kontrola, zda je to platnı objekt
+// kontrola, zda je to platnÃ½ objekt
 		if ((item->VertNum <= 0) || (item->Vertex == NULL) ||
 			(item->FaceNum <= 0) || (item->Face == NULL) ||
 			(item->Normal == NULL) ||
 			(item->Type == D3DFTYPE_PICTURE) ||
 			((method > 0) && (item->Texture[D3DAktStage] < 0))) return;
 
-// korekce pro chrom a èoèku
+// korekce pro chrom a ÄoÄku
 		if ((type == 3) || (type == 4))
 		{
 			if (type == 3)
@@ -9449,7 +9449,7 @@ void D3DTextMap(D3DFITEM* item)
 			item->AddressU[D3DAktStage] = D3DTADDRESS_WRAP;
 			item->AddressV[D3DAktStage] = D3DTADDRESS_MIRROR;
 
-// pøíprava pro automatické mapování textur
+// pÅ™Ã­prava pro automatickÃ© mapovÃ¡nÃ­ textur
 			if (method == 0)
 			{
 				AUTOMAP* am = item->AutoMap;
@@ -9460,18 +9460,18 @@ void D3DTextMap(D3DFITEM* item)
 					item->AutoMap = am;
 				}
 
-				am->method = method;	// metoda mapování (0=adresy, 1=vrcholy, 2=plošky)
-				am->type = type;		// typ mapování (0=plocha, 1=válec, 2=koule, 3=chrom, 4=èoèka)
-				am->ox = ox;			// souøadnice X poèátku mapování
-				am->oy = oy;			// souøadnice Y poèátku mapování
-				am->oz = oz;			// souøadnice Z poèátku mapování
+				am->method = method;	// metoda mapovÃ¡nÃ­ (0=adresy, 1=vrcholy, 2=ploÅ¡ky)
+				am->type = type;		// typ mapovÃ¡nÃ­ (0=plocha, 1=vÃ¡lec, 2=koule, 3=chrom, 4=ÄoÄka)
+				am->ox = ox;			// souÅ™adnice X poÄÃ¡tku mapovÃ¡nÃ­
+				am->oy = oy;			// souÅ™adnice Y poÄÃ¡tku mapovÃ¡nÃ­
+				am->oz = oz;			// souÅ™adnice Z poÄÃ¡tku mapovÃ¡nÃ­
 				am->rz = rz;			// rotace podle osy Z
 				am->rx = rx;			// rotace podle osy X
 				am->ry = ry;			// rotace podle osy Y
-				am->ou = ou;			// poèátek textury horizontálnì
-				am->ov = ov;			// poèátek textury vertikálnì
-				am->su = su;			// mìøítko textury horizontálnì
-				am->sv = sv;			// mìøítko textury vertikálnì
+				am->ou = ou;			// poÄÃ¡tek textury horizontÃ¡lnÄ›
+				am->ov = ov;			// poÄÃ¡tek textury vertikÃ¡lnÄ›
+				am->su = su;			// mÄ›Å™Ã­tko textury horizontÃ¡lnÄ›
+				am->sv = sv;			// mÄ›Å™Ã­tko textury vertikÃ¡lnÄ›
 
 				MemFill(&(am->m), sizeof(D3DMATRIX), 0);
 
@@ -9479,38 +9479,38 @@ void D3DTextMap(D3DFITEM* item)
 			}	
 		}
 
-// jinak zrušení pøípadného bufferu automatického mapování
+// jinak zruÅ¡enÃ­ pÅ™Ã­padnÃ©ho bufferu automatickÃ©ho mapovÃ¡nÃ­
 		MemFree(item->AutoMap);
 		item->AutoMap = NULL;
 	}
 	else
 
-// naètení parametrù z objektu
+// naÄtenÃ­ parametrÅ¯ z objektu
 	{
 		AUTOMAP* am = item->AutoMap;
 
-		method = am->method;	// metoda mapování (0=adresy, 1=vrcholy, 2=plošky)
-		type = am->type;		// typ mapování (0=plocha, 1=válec, 2=koule, 3=chrom, 4=èoèka)
-		ox = am->ox;			// souøadnice X poèátku mapování
-		oy = am->oy;			// souøadnice Y poèátku mapování
-		oz = am->oz;			// souøadnice Z poèátku mapování
+		method = am->method;	// metoda mapovÃ¡nÃ­ (0=adresy, 1=vrcholy, 2=ploÅ¡ky)
+		type = am->type;		// typ mapovÃ¡nÃ­ (0=plocha, 1=vÃ¡lec, 2=koule, 3=chrom, 4=ÄoÄka)
+		ox = am->ox;			// souÅ™adnice X poÄÃ¡tku mapovÃ¡nÃ­
+		oy = am->oy;			// souÅ™adnice Y poÄÃ¡tku mapovÃ¡nÃ­
+		oz = am->oz;			// souÅ™adnice Z poÄÃ¡tku mapovÃ¡nÃ­
 		rz = am->rz;			// rotace podle osy Z
 		rx = am->rx;			// rotace podle osy X
 		ry = am->ry;			// rotace podle osy Y
-		ou = am->ou;			// poèátek textury horizontálnì
-		ov = am->ov;			// poèátek textury vertikálnì
-		su = am->su;			// mìøítko textury horizontálnì
-		sv = am->sv;			// mìøítko textury vertikálnì
+		ou = am->ou;			// poÄÃ¡tek textury horizontÃ¡lnÄ›
+		ov = am->ov;			// poÄÃ¡tek textury vertikÃ¡lnÄ›
+		su = am->su;			// mÄ›Å™Ã­tko textury horizontÃ¡lnÄ›
+		sv = am->sv;			// mÄ›Å™Ã­tko textury vertikÃ¡lnÄ›
 	}
 
-// pro chrom a èoèku pøíprava vektoru pohledu
+// pro chrom a ÄoÄku pÅ™Ã­prava vektoru pohledu
 	if ((type == 3) || (type == 4))
 	{
 		D3DVECTOR posun;
 
 		D3DFITEM* item2 = item;
 
-		while (item2->Type == D3DFTYPE_SECTOR)	// musí se pouít originál sektorù
+		while (item2->Type == D3DFTYPE_SECTOR)	// musÃ­ se pouÅ¾Ã­t originÃ¡l sektorÅ¯
 		{
 			item2 = D3DF_Get(item2->Parent);
 		}
@@ -9521,7 +9521,7 @@ void D3DTextMap(D3DFITEM* item)
 		posun.y = (float)(D3DF_Get(1)->MatrixWorld._42 - m->_42);
 		posun.z = (float)(D3DF_Get(1)->MatrixWorld._43 - m->_43);
 
-// pøi automatickém mapování test, zda je zmìna
+// pÅ™i automatickÃ©m mapovÃ¡nÃ­ test, zda je zmÄ›na
 		if (automap)
 		{
 			D3DMATRIX* m2 = &(item->AutoMap->m);
@@ -9549,7 +9549,7 @@ void D3DTextMap(D3DFITEM* item)
 			m2->_43 = posun.z;
 		}
 
-// korekce pro chrom a èoèku
+// korekce pro chrom a ÄoÄku
 		if (type == 3)
 		{
 			ry += atan2(-posun.x, -posun.z)/2;
@@ -9566,7 +9566,7 @@ void D3DTextMap(D3DFITEM* item)
 	item->AktSector = TRUE;
 	D3DF_AktMatLink(item);
 
-// vytvoøení bufferù mapování barvy a mapování textury
+// vytvoÅ™enÃ­ bufferÅ¯ mapovÃ¡nÃ­ barvy a mapovÃ¡nÃ­ textury
 	if (method == 0)
 	{
 		if(item->TextUV[D3DAktStage] == NULL)
@@ -9588,13 +9588,13 @@ void D3DTextMap(D3DFITEM* item)
 		item->AutoCol = MAXDWORD;
 	}
 
-// resetování objektu
+// resetovÃ¡nÃ­ objektu
 	pD3Reset(item);
 		
-// inicializace manaeru vrcholù
+// inicializace manaÅ¾eru vrcholÅ¯
 	D3DF_UsedInit(item->Index);
 
-// obrázek s barvami
+// obrÃ¡zek s barvami
 	int width = 0;
 	int height = 0;
 	BYTE* data = NULL;
@@ -9608,7 +9608,7 @@ void D3DTextMap(D3DFITEM* item)
 		data = picdata->TextData;
 	}
 
-// pøíprava transformaèní matice (zpìtné poøadí rotací Y-X-Z)
+// pÅ™Ã­prava transformaÄnÃ­ matice (zpÄ›tnÃ© poÅ™adÃ­ rotacÃ­ Y-X-Z)
 	float siny = (float)sin(-ry);
 	float cosy = (float)cos(ry);
 	float sinx = (float)sin(-rx);
@@ -9643,7 +9643,7 @@ void D3DTextMap(D3DFITEM* item)
 
 	D3DMATRIX* m0 = &(item->MatrixWorld);
 
-// cyklus pøes všechny plošky
+// cyklus pÅ™es vÅ¡echny ploÅ¡ky
 	int faceinx = 0;
 
 	double kx = 0;
@@ -9663,7 +9663,7 @@ void D3DTextMap(D3DFITEM* item)
 			ty = item2->TransY;
 			tz = item2->TransZ;
 
-			while (item2->Type == D3DFTYPE_SECTOR)	// musí se pouít originál sektorù
+			while (item2->Type == D3DFTYPE_SECTOR)	// musÃ­ se pouÅ¾Ã­t originÃ¡l sektorÅ¯
 			{
 				item2 = D3DF_Get(item2->Parent);
 			}
@@ -9677,7 +9677,7 @@ void D3DTextMap(D3DFITEM* item)
 	for (int faces = item->FaceNum; faces > 0; faces--)
 	{
 
-// indexy vektorù plošky
+// indexy vektorÅ¯ ploÅ¡ky
 		int* f = item->Face;
 		int inx1 = f[faceinx];
 		faceinx++;
@@ -9686,7 +9686,7 @@ void D3DTextMap(D3DFITEM* item)
 		int inx3 = f[faceinx];
 		faceinx++;
 
-// souøadnice vrcholù plošky
+// souÅ™adnice vrcholÅ¯ ploÅ¡ky
 		D3DVECTOR* v = item->Vertex;
 
 		if ((type == 3) || (type == 4)) v = item->Normal;
@@ -9777,7 +9777,7 @@ void D3DTextMap(D3DFITEM* item)
 		double y3 = (dx*m._12 + dy*m._22 + dz*m._32);
 		double z3 = (dx*m._13 + dy*m._23 + dz*m._33);
 
-// mapovací souøadnice vrcholù
+// mapovacÃ­ souÅ™adnice vrcholÅ¯
 		double tu1 = x1;
 		double tv1 = y1;
 
@@ -9787,11 +9787,11 @@ void D3DTextMap(D3DFITEM* item)
 		double tu3 = x3;
 		double tv3 = y3;
 
-// pøemapování
+// pÅ™emapovÃ¡nÃ­
 		switch(type)
 		{
 
-// èoèka
+// ÄoÄka
 		case 4:
 
 // chrom
@@ -9811,8 +9811,8 @@ void D3DTextMap(D3DFITEM* item)
 			if (tv3 < -EPS2) tv3 = -EPS2;
 			if (tv3 > EPS2) tv3 = EPS2;
 
-		// pokraèuje pøemapování souøadnice u
-// válec
+		// pokraÄuje pÅ™emapovÃ¡nÃ­ souÅ™adnice u
+// vÃ¡lec
 		case 1:
 			tu1 = atan2(x1, -z1)/pi2;
 			if (tu1 < -EPS2) tu1 = -EPS2;
@@ -9851,7 +9851,7 @@ void D3DTextMap(D3DFITEM* item)
 			break;
 		}
 
-// korekce mìøítka a poèátku textury
+// korekce mÄ›Å™Ã­tka a poÄÃ¡tku textury
 		tu1 = tu1*su - ou;
 		tv1 = ov - tv1*sv;
 
@@ -9864,7 +9864,7 @@ void D3DTextMap(D3DFITEM* item)
 		switch (method)
 		{
 
-// mapování vrcholù
+// mapovÃ¡nÃ­ vrcholÅ¯
 		case 1:
 			{
 		// vrchol 1
@@ -9929,7 +9929,7 @@ void D3DTextMap(D3DFITEM* item)
 			}
 			break;
 
-// mapování plošek
+// mapovÃ¡nÃ­ ploÅ¡ek
 		case 2:
 			{
 				double tu = (tu1 + tu2 + tu3)/3;
@@ -9969,7 +9969,7 @@ void D3DTextMap(D3DFITEM* item)
 	if (method > 0)
 	{
 
-// zrušení textury
+// zruÅ¡enÃ­ textury
 		D3DT_Del(item->Texture[D3DAktStage]);
 		item->Texture[D3DAktStage] = -1;
 		item->MatSource = MATSOURCE_OBJECT;
@@ -9977,7 +9977,7 @@ void D3DTextMap(D3DFITEM* item)
 	else
 	{
 
-// nastavení módu adresování
+// nastavenÃ­ mÃ³du adresovÃ¡nÃ­
 		if (!automap)
 		{
 			if (item->AddressU[D3DAktStage] == D3DTADDRESS_CLAMP) item->AddressU[D3DAktStage] = D3DTADDRESS_WRAP;
@@ -9987,16 +9987,16 @@ void D3DTextMap(D3DFITEM* item)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení parametrù svìtla
+// nastavenÃ­ parametrÅ¯ svÄ›tla
 
 void SetLight(D3DLITEM* item)
 {
 	D3DLIGHT8* light = &(item->Light);
 
-// nastavení difusní barvy
+// nastavenÃ­ difusnÃ­ barvy
 	BGRFloat(item->Diffuse, &(light->Diffuse));
 
-// nastavení úhlu svìtelného kuele a polostínu
+// nastavenÃ­ Ãºhlu svÄ›telnÃ©ho kuÅ¾ele a polostÃ­nu
 	double theta = item->Theta;
 	double phi = item->Phi;
 	if (theta > phi) phi = theta;
@@ -10004,12 +10004,12 @@ void SetLight(D3DLITEM* item)
 	light->Phi = (float)phi;
 	light->Falloff = 1;
 
-// nastavení útlumu
+// nastavenÃ­ Ãºtlumu
 	light->Attenuation0 = 1;
 	light->Attenuation1 = (float)(item->Attenuation1);
 	light->Attenuation2 = (float)(item->Attenuation2);
 
-// korekce intenzity svìtla
+// korekce intenzity svÄ›tla
 	double n = item->Intens;
 	light->Diffuse.r = (float)(light->Diffuse.r * n);	
 	light->Diffuse.g = (float)(light->Diffuse.g * n);	
@@ -10018,12 +10018,12 @@ void SetLight(D3DLITEM* item)
 
 	light->Specular = light->Diffuse;
 
-// poadavek aktualizace svìtla
+// poÅ¾adavek aktualizace svÄ›tla
 	item->Akt = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy svìtla
+// nastavenÃ­ barvy svÄ›tla
 
 void FSetD3DLightColor()
 {
@@ -10047,7 +10047,7 @@ void FSetD3DLightColor()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení typu svìtla
+// nastavenÃ­ typu svÄ›tla
 
 void FSetD3DLightType()
 {
@@ -10076,7 +10076,7 @@ void FSetD3DLightType()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení úhlu kuele svìtla
+// nastavenÃ­ Ãºhlu kuÅ¾ele svÄ›tla
 
 void FSetD3DLightUmbra()
 {
@@ -10103,7 +10103,7 @@ void FSetD3DLightUmbra()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení úhlu polostínu svìtla
+// nastavenÃ­ Ãºhlu polostÃ­nu svÄ›tla
 
 void FSetD3DLightPenumbra()
 {
@@ -10130,7 +10130,7 @@ void FSetD3DLightPenumbra()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení dosahu svìtla
+// nastavenÃ­ dosahu svÄ›tla
 
 void FSetD3DLightRange()
 {
@@ -10157,7 +10157,7 @@ void FSetD3DLightRange()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení intenzity svìtla
+// nastavenÃ­ intenzity svÄ›tla
 
 void FSetD3DLightCatten()
 {
@@ -10181,7 +10181,7 @@ void FSetD3DLightCatten()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení lineárního útlumu svìtla
+// nastavenÃ­ lineÃ¡rnÃ­ho Ãºtlumu svÄ›tla
 
 void FSetD3DLightLatten()
 {	 
@@ -10207,7 +10207,7 @@ void FSetD3DLightLatten()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení kvadratického útlumu svìtla
+// nastavenÃ­ kvadratickÃ©ho Ãºtlumu svÄ›tla
 
 void FSetD3DLightQatten()
 {
@@ -10233,7 +10233,7 @@ void FSetD3DLightQatten()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení projekce
+// nastavenÃ­ projekce
 
 void FSetD3DProjection()
 {
@@ -10248,17 +10248,17 @@ void FSetD3DProjection()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøipojení jiného objektu (Data = poèet prvkù - 1)
+// pÅ™ipojenÃ­ jinÃ©ho objektu (Data = poÄet prvkÅ¯ - 1)
 
 void FD3DLink()
 {
-// pøíprava poètu prvkù
+// pÅ™Ã­prava poÄtu prvkÅ¯
 	int i = ExecItem[-1].Data + 1;
 
-// aktivní prvek se mùe mìnit (pøipojování vytváøenıch objektù)
+// aktivnÃ­ prvek se mÅ¯Å¾e mÄ›nit (pÅ™ipojovÃ¡nÃ­ vytvÃ¡Å™enÃ½ch objektÅ¯)
 	int d3did = D3D_ID;
 
-// pøipojení všech prvkù
+// pÅ™ipojenÃ­ vÅ¡ech prvkÅ¯
 	for (; i > 0; i--)
 	{
 		int inx = FIntR();
@@ -10274,7 +10274,7 @@ void FD3DLink()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení objektu do souboru
+// uloÅ¾enÃ­ objektu do souboru
 
 //void FD3DSave()
 //{
@@ -10303,7 +10303,7 @@ void FD3DLink()
 //}
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy pozadí scény
+// nastavenÃ­ barvy pozadÃ­ scÃ©ny
 
 void FSetD3DSceneColor()
 {
@@ -10328,7 +10328,7 @@ void FSetD3DSceneColor()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textury pozadí scény
+// nastavenÃ­ textury pozadÃ­ scÃ©ny
 
 void FSetD3DSceneTexture()
 {
@@ -10350,7 +10350,7 @@ void FSetD3DSceneTexture()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení ambient svìtla
+// nastavenÃ­ ambient svÄ›tla
 
 void FSetD3DAmbient()
 {
@@ -10369,7 +10369,7 @@ void FSetD3DAmbient()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy mlhy
+// nastavenÃ­ barvy mlhy
 
 void SetFogCol(DWORD col)
 {
@@ -10387,7 +10387,7 @@ void SetFogCol(DWORD col)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy mlhy
+// nastavenÃ­ barvy mlhy
 
 void FSetD3DFogColor()
 {
@@ -10400,7 +10400,7 @@ void FSetD3DFogColor()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí mlhy
+// zapnutÃ­ mlhy
 
 void FFogOn()
 {
@@ -10414,7 +10414,7 @@ void FFogOn()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení módu mlhy
+// nastavenÃ­ mÃ³du mlhy
 
 void FSetD3DFogMode()
 {
@@ -10437,7 +10437,7 @@ void FSetD3DFogMode()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zaèátku mlhy
+// nastavenÃ­ zaÄÃ¡tku mlhy
 
 void FSetD3DFogStart()
 {
@@ -10451,7 +10451,7 @@ void FSetD3DFogStart()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení konce mlhy
+// nastavenÃ­ konce mlhy
 
 void FSetD3DFogEnd()
 {
@@ -10465,7 +10465,7 @@ void FSetD3DFogEnd()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hustoty mlhy
+// nastavenÃ­ hustoty mlhy
 
 void FSetD3DFogDensity()
 {
@@ -10479,7 +10479,7 @@ void FSetD3DFogDensity()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení promítací roviny
+// nastavenÃ­ promÃ­tacÃ­ roviny
 
 void FSetD3DViewFront()
 {
@@ -10493,7 +10493,7 @@ void FSetD3DViewFront()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vzdálenosti dohledu
+// nastavenÃ­ vzdÃ¡lenosti dohledu
 
 void FSetD3DViewBack()
 {
@@ -10507,7 +10507,7 @@ void FSetD3DViewBack()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// tvoøit horní podstavu
+// tvoÅ™it hornÃ­ podstavu
 
 void FSetD3DUpper()
 {
@@ -10515,7 +10515,7 @@ void FSetD3DUpper()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// tvoøit dolní podstavu
+// tvoÅ™it dolnÃ­ podstavu
 
 void FSetD3DLower()
 {
@@ -10523,7 +10523,7 @@ void FSetD3DLower()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení sloitosti objektù
+// nastavenÃ­ sloÅ¾itosti objektÅ¯
 
 void FSetD3DSplits()
 {
@@ -10533,7 +10533,7 @@ void FSetD3DSplits()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení ovladaèe
+// nastavenÃ­ ovladaÄe
 
 void FSetD3DDriver()
 {
@@ -10556,7 +10556,7 @@ void FSetD3DDriver()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení rozhraní
+// nastavenÃ­ rozhranÃ­
 
 void FSetD3DInterface()
 {
@@ -10579,7 +10579,7 @@ void FSetD3DInterface()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vyhlazení textur
+// nastavenÃ­ vyhlazenÃ­ textur
 
 void FSetD3DSmooth()
 {
@@ -10594,10 +10594,10 @@ void FSetD3DSmooth()
 void FD3DNorm()
 {
 
-// popisovaè objektu
+// popisovaÄ objektu
 	if (IsValidID())
 	{
-// odpojení dat od klonù
+// odpojenÃ­ dat od klonÅ¯
 		D3DF_Modi(D3D_ID);
 
 		D3DFITEM* item = GetID();
@@ -10615,7 +10615,7 @@ void FD3DNorm()
 			item->AktSector = TRUE;
 			D3DF_AktMatLink(item);
 
-// pøíprava promìnnıch - hranice
+// pÅ™Ã­prava promÄ›nnÃ½ch - hranice
 			double minx = 0;
 			double maxx = 0;
 			double miny = 0;
@@ -10623,7 +10623,7 @@ void FD3DNorm()
 			double minz = 0;
 			double maxz = 0;
 
-// zjištìní rozmìrù objektu
+// zjiÅ¡tÄ›nÃ­ rozmÄ›rÅ¯ objektu
 			for (int i = vn; i > 0; i--)
 			{
 				double x = vp->x;
@@ -10641,7 +10641,7 @@ void FD3DNorm()
 				vp++;
 			}
 
-// vıpoèet normalizaèních koeficientù
+// vÃ½poÄet normalizaÄnÃ­ch koeficientÅ¯
 			double d = maxx - minx;
 			double a = maxy - miny;
 			if (a > d) d = a;
@@ -10654,16 +10654,16 @@ void FD3DNorm()
 			double sy = -(miny + maxy)/2;
 			double sz = -(minz + maxz)/2;
 
-// normalizace objektu (pokud je nìjaká zmìna)
+// normalizace objektu (pokud je nÄ›jakÃ¡ zmÄ›na)
 			if ((d < 0.9999) || (d > 1.0001) ||
 				(sx > 0.0001) || (sx < -0.0001) ||
 				(sy > 0.0001) || (sy < -0.0001) ||
 				(sz > 0.0001) || (sz < -0.0001))
 			{
-// zrušení bufferù
+// zruÅ¡enÃ­ bufferÅ¯
 				pD3Reset(item);
 
-// normalizace vrcholù
+// normalizace vrcholÅ¯
 				vp = item->Vertex;
 
 				for (int i = vn; i > 0; i--)
@@ -10675,7 +10675,7 @@ void FD3DNorm()
 					vp++;
 				}
 
-// pøenesení zmìny i na potomky
+// pÅ™enesenÃ­ zmÄ›ny i na potomky
 				int inx = item->Child;
 
 				while (inx >= 0)
@@ -10707,7 +10707,7 @@ void FD3DNorm()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního stupnì textur
+// nastavenÃ­ aktivnÃ­ho stupnÄ› textur
 
 void FSetD3DStage()
 {
@@ -10719,16 +10719,16 @@ void FSetD3DStage()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// korekce texturovıch operací
+// korekce texturovÃ½ch operacÃ­
 
 void KorStages(D3DFITEM* item)
 {
-	int stages = MAX_STAGES;			// poèet stupòù
+	int stages = MAX_STAGES;			// poÄet stupÅˆÅ¯
 
 	for (int i = 0; i < MAX_STAGES; i++)
 	{
 
-// zákaz stupnì pøi pøekroèení poètu stupòù
+// zÃ¡kaz stupnÄ› pÅ™i pÅ™ekroÄenÃ­ poÄtu stupÅˆÅ¯
 		int colorop = item->ColorOp[i];
 		if (i >= stages)
 		{
@@ -10740,7 +10740,7 @@ void KorStages(D3DFITEM* item)
 			if (colorop == D3DTOP_DISABLE) stages = i;
 		}
 
-// povolení alfa operace, je-li povolena operace barvy
+// povolenÃ­ alfa operace, je-li povolena operace barvy
 		int alphaop = item->AlphaOp[i];
 		if ((colorop != D3DTOP_DISABLE) && (alphaop == D3DTOP_DISABLE))
 		{
@@ -10750,7 +10750,7 @@ void KorStages(D3DFITEM* item)
 			item->AlphaArg2[i] = D3DTA_CURRENT;
 		}
 
-// zákaz alfa operace, je-li zakázána operace barvy
+// zÃ¡kaz alfa operace, je-li zakÃ¡zÃ¡na operace barvy
 		if (colorop == D3DTOP_DISABLE)
 		{
 			item->ColorArg1[i] = D3DTA_TEXTURE;
@@ -10761,13 +10761,13 @@ void KorStages(D3DFITEM* item)
 			item->AlphaArg2[i] = D3DTA_CURRENT;
 		}
 
-// argumenty operací
+// argumenty operacÃ­
 		int colorarg1 = item->ColorArg1[i] & 0xf;
 		int colorarg2 = item->ColorArg2[i] & 0xf;
 		int alphaarg1 = item->AlphaArg1[i] & 0xf;
 		int alphaarg2 = item->AlphaArg2[i] & 0xf;
 
-// test, zda je operace vyuívající texturu
+// test, zda je operace vyuÅ¾Ã­vajÃ­cÃ­ texturu
 		item->UseText[i] = ((colorop != D3DTOP_DISABLE) && (
 							((colorarg1 == D3DTA_TEXTURE) && (colorop != D3DTOP_SELECTARG2)) ||
 							((colorarg2 == D3DTA_TEXTURE) && (colorop != D3DTOP_SELECTARG1)) ||
@@ -10781,7 +10781,7 @@ void KorStages(D3DFITEM* item)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení operace barev
+// nastavenÃ­ operace barev
 
 void FSetD3DColorOp()
 {
@@ -10798,7 +10798,7 @@ void FSetD3DColorOp()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení argumentu 1 barev
+// nastavenÃ­ argumentu 1 barev
 
 void FSetD3DColorArg1()
 {
@@ -10812,7 +10812,7 @@ void FSetD3DColorArg1()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení argumentu 2 barev
+// nastavenÃ­ argumentu 2 barev
 
 void FSetD3DColorArg2()
 {
@@ -10826,7 +10826,7 @@ void FSetD3DColorArg2()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení operace alfa
+// nastavenÃ­ operace alfa
 
 void FSetD3DAlphaOp()
 {
@@ -10843,7 +10843,7 @@ void FSetD3DAlphaOp()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení argumentu 1 alfa
+// nastavenÃ­ argumentu 1 alfa
 
 void FSetD3DAlphaArg1()
 {
@@ -10857,7 +10857,7 @@ void FSetD3DAlphaArg1()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení argumentu 2 alfa
+// nastavenÃ­ argumentu 2 alfa
 
 void FSetD3DAlphaArg2()
 {
@@ -10871,7 +10871,7 @@ void FSetD3DAlphaArg2()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení horizontálního adresování
+// nastavenÃ­ horizontÃ¡lnÃ­ho adresovÃ¡nÃ­
 
 void FSetD3DAddressU()
 {
@@ -10886,7 +10886,7 @@ void FSetD3DAddressU()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vertikálního adresování
+// nastavenÃ­ vertikÃ¡lnÃ­ho adresovÃ¡nÃ­
 
 void FSetD3DAddressV()
 {
@@ -10901,7 +10901,7 @@ void FSetD3DAddressV()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy okolí textury
+// nastavenÃ­ barvy okolÃ­ textury
 /*
 void FSetD3DBorder()
 {
@@ -10926,7 +10926,7 @@ void FSetD3DBorder()
 }
 */
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zjemnìní vzdálenıch textur
+// nastavenÃ­ zjemnÄ›nÃ­ vzdÃ¡lenÃ½ch textur
 
 void FSetD3DBias()
 {
@@ -10939,7 +10939,7 @@ void FSetD3DBias()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení barvy faktoru textur
+// nastavenÃ­ barvy faktoru textur
 
 void FSetD3DTFactor()
 {
@@ -10955,7 +10955,7 @@ void FSetD3DTFactor()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// poèet úrovní mipmaps
+// poÄet ÃºrovnÃ­ mipmaps
 
 void FSetD3DMipMaps()
 {
@@ -10984,7 +10984,7 @@ void FSetD3DMipMaps()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení renderovací skupiny
+// nastavenÃ­ renderovacÃ­ skupiny
 
 void FSetD3DZGroup()
 {
@@ -10999,7 +10999,7 @@ void FSetD3DZGroup()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení tøídìní
+// nastavenÃ­ tÅ™Ã­dÄ›nÃ­
 
 void FSetD3DZSort()
 {
@@ -11012,7 +11012,7 @@ void FSetD3DZSort()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hloubkového zápisu
+// nastavenÃ­ hloubkovÃ©ho zÃ¡pisu
 
 void FSetD3DZWrite()
 {
@@ -11025,7 +11025,7 @@ void FSetD3DZWrite()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hloubkového testu
+// nastavenÃ­ hloubkovÃ©ho testu
 
 void FSetD3DZTest()
 {
@@ -11040,7 +11040,7 @@ void FSetD3DZTest()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení dosahu stínu
+// nastavenÃ­ dosahu stÃ­nu
 
 void FSetD3DShadowRange()
 {
@@ -11095,7 +11095,7 @@ void FSetD3DShadowRange()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// generování normál
+// generovÃ¡nÃ­ normÃ¡l
 
 void FD3DNormals()
 {
@@ -11109,7 +11109,7 @@ void FD3DNormals0()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// renderování bez zobrazení
+// renderovÃ¡nÃ­ bez zobrazenÃ­
 
 void FD3DRender()
 {
@@ -11118,7 +11118,7 @@ void FD3DRender()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení objektu pro LOD
+// nastavenÃ­ objektu pro LOD
 
 void FSetD3DLODObject()
 {
@@ -11129,17 +11129,17 @@ void FSetD3DLODObject()
 	{
 		if ((n <= 1) || !D3DF_IsValid(n)) n = -1;
 
-// aktuální objekt
+// aktuÃ¡lnÃ­ objekt
 		D3DFITEM* item = GetID();
 
-// test, zda není objekt ji pøipojen
+// test, zda nenÃ­ objekt jiÅ¾ pÅ™ipojen
 		if (n != item->LODNext)
 		{
 
-// zrušení starého objektu
+// zruÅ¡enÃ­ starÃ©ho objektu
 			D3DF_Del(item->LODNext);
 
-// pøepojení nového objektu
+// pÅ™epojenÃ­ novÃ©ho objektu
 			item->LODNext = n;
 
 			if (n >= 0)
@@ -11159,7 +11159,7 @@ void FSetD3DLODObject()
 
 				item2->LODPrev = D3D_ID;
 
-// pøenesení parametrù objektu
+// pÅ™enesenÃ­ parametrÅ¯ objektu
 				item2->LODMin2 = item->LODMax2;
 
 				while (n >= 0)
@@ -11180,7 +11180,7 @@ void FSetD3DLODObject()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vzdálenosti pro LOD
+// nastavenÃ­ vzdÃ¡lenosti pro LOD
 
 void FSetD3DLODDistance()
 {
@@ -11208,7 +11208,7 @@ void FSetD3DLODDistance()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vzoru morfování
+// nastavenÃ­ vzoru morfovÃ¡nÃ­
 
 void FSetD3DMorphModel()
 {
@@ -11244,7 +11244,7 @@ void FSetD3DMorphModel()
 				item->MorphMax = 1;
 			}
 
-// pøíprava bufferu pro další objekt (data pøednastavena na pøedešlı objekt)
+// pÅ™Ã­prava bufferu pro dalÅ¡Ã­ objekt (data pÅ™ednastavena na pÅ™edeÅ¡lÃ½ objekt)
 			int i = item->MorphMax;
 			item->MorphMax = i + 1;
 
@@ -11264,7 +11264,7 @@ void FSetD3DMorphModel()
 				DuplikData((void**)&(item->MorphUV[m]), v * 2 * sizeof(float));
 			}
 			
-// pøenesení dat z dalšího objektu
+// pÅ™enesenÃ­ dat z dalÅ¡Ã­ho objektu
 			D3DFITEM* item2 = D3DF_Get(n);
 			int v2 = item2->VertNum;
 			if (v2 > v) v2 = v;
@@ -11292,7 +11292,7 @@ void FSetD3DMorphModel()
 		else
 		{
 
-// reset morfování
+// reset morfovÃ¡nÃ­
 			if (n < 0)
 			{
 				D3DF_MorphReset(item);
@@ -11302,13 +11302,13 @@ void FSetD3DMorphModel()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stupnì morfování
+// nastavenÃ­ stupnÄ› morfovÃ¡nÃ­
 
 void FSetD3DMorphLevel()
 {
 	double n = FNum();
 
-// test platnosti aktuálního objektu
+// test platnosti aktuÃ¡lnÃ­ho objektu
 	if (IsValidID())
 	{
 		D3DFITEM* item = GetID();
@@ -11316,7 +11316,7 @@ void FSetD3DMorphLevel()
 		int max = item->MorphMax;
 		if (max == 0) return;
 
-// test, zda je zmìna aktuálního stupnì
+// test, zda je zmÄ›na aktuÃ¡lnÃ­ho stupnÄ›
 		if ((n > 100000) || (n < -100000)) n = 0;
 
 		while (n < 0) n += max;
@@ -11326,19 +11326,19 @@ void FSetD3DMorphLevel()
 		{
 			item->MorphStage = n;
 
-// resetování stavu objektu
+// resetovÃ¡nÃ­ stavu objektu
 			pD3Reset(item);
 			D3DF_Modi(D3D_ID);
 			MemFree(item->ShadeVert);
 			item->ShadeVert = NULL;
 
-// pøíprava stupnì a váhy
+// pÅ™Ã­prava stupnÄ› a vÃ¡hy
 			int v = item->VertNum;
 			int s = (int)n;
 			n = n - s;
 			int i;
 
-// pouije se celı stupeò (pro zrychlení se neinterpoluje)
+// pouÅ¾ije se celÃ½ stupeÅˆ (pro zrychlenÃ­ se neinterpoluje)
 			if (n == 0)
 			{
 				if (item->Vertex != NULL)
@@ -11366,7 +11366,7 @@ void FSetD3DMorphLevel()
 				int s2 = s + 1;
 				if (s2 >= item->MorphMax) s2 = 0;
 
-// interpolace vrcholù
+// interpolace vrcholÅ¯
 				if (item->Vertex != NULL)
 				{
 					i = item->VertNum * 3 - 1;
@@ -11385,7 +11385,7 @@ void FSetD3DMorphLevel()
 					}
 				}
 
-// interpolace normál
+// interpolace normÃ¡l
 				if (item->Normal != NULL)
 				{
 					i = item->VertNum * 3 - 1;
@@ -11404,7 +11404,7 @@ void FSetD3DMorphLevel()
 					}
 				}
 
-// interpolace souøadnic textur
+// interpolace souÅ™adnic textur
 				for (int k = 0; k < MAX_STAGES; k++)
 				{
 					if (item->TextUV[k] != NULL)
@@ -11443,16 +11443,16 @@ void FSetD3DMorphLevel()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení jména aplikace DDE
+// nastavenÃ­ jmÃ©na aplikace DDE
 
 void FSetDDEApp()
 {
-// pøíprava jména aplikace
+// pÅ™Ã­prava jmÃ©na aplikace
 	CString txt;
 	FText(txt);
 	DDEAppAktName = txt;
 
-// nalezení jména serveru
+// nalezenÃ­ jmÃ©na serveru
 	DDEAppAkt = -1;
 	DDEServAkt = -1;
 
@@ -11474,7 +11474,7 @@ void FSetDDEApp()
 		}
 	}
 
-// nalezení jména aplikace
+// nalezenÃ­ jmÃ©na aplikace
 	if (DDEServAkt < 0)
 	{
 		DDEAPPITEM* appitem = DDEAppList;
@@ -11493,11 +11493,11 @@ void FSetDDEApp()
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivní aplikace
+// nastavenÃ­ aktivnÃ­ aplikace
 
 void FSetActive()
 {
@@ -11512,7 +11512,7 @@ void FSetActive()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// tisk obrázku
+// tisk obrÃ¡zku
 
 void FPicPrint2() 
 { 
@@ -11529,14 +11529,14 @@ void FPicPrint2()
 #ifndef _MINI
 
 /////////////////////////////////////////////////////////////////////////////
-// uvolnìní DLL knihovny
+// uvolnÄ›nÃ­ DLL knihovny
 
 void FDLLFree()
 {
-// naètení handle knihovny
+// naÄtenÃ­ handle knihovny
 	int n = FIntR();
 
-// uvolnìní knihovny
+// uvolnÄ›nÃ­ knihovny
 	if (n != 0)
 	{
 		::FreeLibrary((HMODULE)n);
@@ -11544,7 +11544,7 @@ void FDLLFree()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// provedení DLL funkce
+// provedenÃ­ DLL funkce
 
 void FDLLExecCom()
 {
@@ -11552,19 +11552,19 @@ void FDLLExecCom()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení bloku pamìti
+// zruÅ¡enÃ­ bloku pamÄ›ti
 
 void FMemoryFree()
 {
-// adresa pamìového bloku
+// adresa pamÄ›Å¥ovÃ©ho bloku
 	void* blok = (void*)FIntR();
 
-// zrušení pamìového bloku
+// zruÅ¡enÃ­ pamÄ›Å¥ovÃ©ho bloku
 	MemFree(blok);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// ukazatel ètení z pamìti
+// ukazatel ÄtenÃ­ z pamÄ›ti
 
 void FSetMemoryRead()
 {
@@ -11572,7 +11572,7 @@ void FSetMemoryRead()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// ukazatel zápisu do pamìti
+// ukazatel zÃ¡pisu do pamÄ›ti
 
 void FSetMemoryWrite()
 {
@@ -11584,17 +11584,17 @@ void FSetMemoryWrite()
 
 void FMemoryCopy()
 {
-// délka dat
+// dÃ©lka dat
 	int len = FIntR();
 
-// provedení kopie dat
+// provedenÃ­ kopie dat
 	MemCopy(DLLMemoryWrite, DLLMemoryRead, len);
 	DLLMemoryRead = (char*)DLLMemoryRead + len;
 	DLLMemoryWrite = (char*)DLLMemoryWrite + len;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// bajt se znaménkem
+// bajt se znamÃ©nkem
 
 void FSetMemoryByteS()
 {
@@ -11606,7 +11606,7 @@ void FSetMemoryByteS()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// slovo se znaménkem
+// slovo se znamÃ©nkem
 
 void FSetMemoryWordS()
 {
@@ -11618,7 +11618,7 @@ void FSetMemoryWordS()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// 3-bajt se znaménkem
+// 3-bajt se znamÃ©nkem
 
 void FSetMemory3ByteS()
 {
@@ -11632,7 +11632,7 @@ void FSetMemory3ByteS()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// dvouslovo se znaménkem
+// dvouslovo se znamÃ©nkem
 
 void FSetMemoryDWordS()
 {
@@ -11644,7 +11644,7 @@ void FSetMemoryDWordS()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// dvouslovo bez znaménka
+// dvouslovo bez znamÃ©nka
 
 void FSetMemoryDWordU()
 {
@@ -11656,7 +11656,7 @@ void FSetMemoryDWordU()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// reálné èíslo 4 bajty
+// reÃ¡lnÃ© ÄÃ­slo 4 bajty
 
 void FSetMemoryFloat()
 {
@@ -11669,7 +11669,7 @@ void FSetMemoryFloat()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// reálné èíslo 8 bajtù
+// reÃ¡lnÃ© ÄÃ­slo 8 bajtÅ¯
 
 void FSetMemoryDouble()
 {
@@ -11682,7 +11682,7 @@ void FSetMemoryDouble()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// logická hodnota
+// logickÃ¡ hodnota
 
 void FSetMemoryBool()
 {
@@ -11693,7 +11693,7 @@ void FSetMemoryBool()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// text zakonèenı nulou
+// text zakonÄenÃ½ nulou
 
 void FSetMemoryText0()
 {
@@ -11708,7 +11708,7 @@ void FSetMemoryText0()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// ukazatel na text zakonèenı nulou
+// ukazatel na text zakonÄenÃ½ nulou
 
 void FSetMemoryText0P()
 {
@@ -11721,12 +11721,12 @@ void FSetMemoryText0P()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// text s pevnou délkou
+// text s pevnou dÃ©lkou
 
 void FSetMemoryTextN()
 {
 #ifdef _UNICODE
-	nepodporovanı pøeklad!!!!	
+	nepodporovanÃ½ pÅ™eklad!!!!	
 #endif
 
 	CString text;
@@ -11749,7 +11749,7 @@ void FSetMemoryTextN()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// délka textu s pevnou délkou
+// dÃ©lka textu s pevnou dÃ©lkou
 
 void FSetMemoryTextNLen()
 {
@@ -11759,7 +11759,7 @@ void FSetMemoryTextNLen()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení bloku dat
+// naÄtenÃ­ bloku dat
 
 void FMemoryLoad()
 {
@@ -11777,7 +11777,7 @@ void FMemoryLoad()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis bloku dat
+// zÃ¡pis bloku dat
 
 void FMemorySave()
 {
@@ -11801,7 +11801,7 @@ void FMemorySave()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// jméno konfiguraèního souboru
+// jmÃ©no konfiguraÄnÃ­ho souboru
 
 void FSetIniFile()
 {
@@ -11809,7 +11809,7 @@ void FSetIniFile()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// jméno konfiguraèní sekce
+// jmÃ©no konfiguraÄnÃ­ sekce
 
 void FSetIniSection()
 {
@@ -11817,7 +11817,7 @@ void FSetIniSection()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// jméno konfiguraèního parametru
+// jmÃ©no konfiguraÄnÃ­ho parametru
 
 void FSetIniValue()
 {
@@ -11825,21 +11825,21 @@ void FSetIniValue()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis parametru
+// zÃ¡pis parametru
 
 void _fastcall SetIniValue(LPCTSTR text)
 {
-// jméno hodnoty
+// jmÃ©no hodnoty
 	LPCTSTR key = NULL;
 	if (INIKey.IsNotEmpty()) key = INIKey;
 
-// nastavení poloky
+// nastavenÃ­ poloÅ¾ky
 	::WritePrivateProfileString(INISection, key, text, INIFile);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení konfiguraèního parametru
+// zruÅ¡enÃ­ konfiguraÄnÃ­ho parametru
 
 void FSetIniDel()
 {
@@ -11847,7 +11847,7 @@ void FSetIniDel()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis konfiguraèního textu
+// zÃ¡pis konfiguraÄnÃ­ho textu
 
 void FSetIniString()
 {
@@ -11857,7 +11857,7 @@ void FSetIniString()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis konfiguraèního èísla
+// zÃ¡pis konfiguraÄnÃ­ho ÄÃ­sla
 
 void FSetIniNum()
 {
@@ -11868,7 +11868,7 @@ void FSetIniNum()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// skupina klíèù registrù
+// skupina klÃ­ÄÅ¯ registrÅ¯
 
 void FSetRegKey()
 {
@@ -11876,7 +11876,7 @@ void FSetRegKey()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// klíè registrù
+// klÃ­Ä registrÅ¯
 
 void FSetRegSubkey()
 {
@@ -11886,7 +11886,7 @@ void FSetRegSubkey()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// jméno poloky registru
+// jmÃ©no poloÅ¾ky registru
 
 void FSetRegValue()
 {
@@ -11896,11 +11896,11 @@ void FSetRegValue()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení registru
+// zruÅ¡enÃ­ registru
 
 void FSetRegDel()
 {
-// otevøení klíèe
+// otevÅ™enÃ­ klÃ­Äe
 	HKEY hkey;
 
 	if (::RegOpenKeyEx(
@@ -11911,26 +11911,26 @@ void FSetRegDel()
 		&hkey) == ERROR_SUCCESS)
 	{
 
-// zrušení registru
+// zruÅ¡enÃ­ registru
 		::RegDeleteValue(
 			hkey,
 			REGValue);
 
-// uzavøení klíèe
+// uzavÅ™enÃ­ klÃ­Äe
 		::RegCloseKey(hkey);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis textu do registru
+// zÃ¡pis textu do registru
 
 void FSetRegString()
 {
-// text k zápisu
+// text k zÃ¡pisu
 	CString text;
 	FText(text);
 
-// otevøení klíèe
+// otevÅ™enÃ­ klÃ­Äe
 	HKEY hkey;
 	DWORD pos;
 
@@ -11946,7 +11946,7 @@ void FSetRegString()
 		&pos) == ERROR_SUCCESS)
 	{
 
-// nastavení hodnoty registru
+// nastavenÃ­ hodnoty registru
 		::RegSetValueEx(
 			hkey,
 			REGValue,
@@ -11955,19 +11955,19 @@ void FSetRegString()
 			(const BYTE*)(LPCTSTR)text,
 			(text.Length()+1) * sizeof(TCHAR));
 
-// uzavøení klíèe
+// uzavÅ™enÃ­ klÃ­Äe
 		::RegCloseKey(hkey);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis èísla do registru
+// zÃ¡pis ÄÃ­sla do registru
 
 void FSetRegNum()
 {
 	int cislo = FIntR();
 
-// otevøení klíèe
+// otevÅ™enÃ­ klÃ­Äe
 	HKEY hkey;
 	DWORD pos;
 
@@ -11983,7 +11983,7 @@ void FSetRegNum()
 		&pos) == ERROR_SUCCESS)
 	{
 
-// nastavení hodnoty registru
+// nastavenÃ­ hodnoty registru
 		::RegSetValueEx(
 			hkey,
 			REGValue,
@@ -11992,10 +11992,10 @@ void FSetRegNum()
 			(const BYTE*)&cislo,
 			4);
 
-// uzavøení klíèe
+// uzavÅ™enÃ­ klÃ­Äe
 		::RegCloseKey(hkey);
 	}
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------

@@ -1,13 +1,13 @@
 
 /***************************************************************************\
 *																			*
-*						Provádìní programu - èíselnı vıraz					*
+*						ProvÃ¡dÄ›nÃ­ programu - ÄÃ­selnÃ½ vÃ½raz					*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inline volání pøíkazu - èíslo
+// inline volÃ¡nÃ­ pÅ™Ã­kazu - ÄÃ­slo
 
 inline double FNum()
 {
@@ -17,165 +17,165 @@ inline double FNum()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na int
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na int
 
 //int FInt();
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení úhlu s normalizací rozsahu 0 a 2pi
+// naÄtenÃ­ Ãºhlu s normalizacÃ­ rozsahu 0 aÅ¾ 2pi
 
 double FAngle();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na int se zaokrouhlením
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na int se zaokrouhlenÃ­m
 
 int FIntR();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na DWORD se zaokrouhlením
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na DWORD se zaokrouhlenÃ­m
 
 DWORD FIntRN();
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na INT64 se zaokrouhlením
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na INT64 se zaokrouhlenÃ­m
 
 hyper FIntHN();
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na grafickou souøadnici X
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na grafickou souÅ™adnici X
 
 int FIntX();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na grafickou souøadnici Y
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na grafickou souÅ™adnici Y
 
 inline int FIntY() { return FIntX(); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru vynásobeného * 1000 (èas v milisekundách)
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru vynÃ¡sobenÃ©ho * 1000 (Äas v milisekundÃ¡ch)
 
 int FInt1000();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru vynásobeného * 2 (prùmìr kruhu)
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru vynÃ¡sobenÃ©ho * 2 (prÅ¯mÄ›r kruhu)
 
 int FIntX2();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru vynásobeného * 18.20648 (èas v èasovıch impulsech)
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru vynÃ¡sobenÃ©ho * 18.20648 (Äas v ÄasovÃ½ch impulsech)
 
 int FInt18();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru s vynásobením * 255
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru s vynÃ¡sobenÃ­m * 255
 
 BYTE FInt255();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na souborovı èas
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na souborovÃ½ Äas
 
 __int64 FNumFileTime();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na systémovı èas
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na systÃ©movÃ½ Äas
 
-#define FILETIMEKONV 10000000		// pøevod na souborovı èas
+#define FILETIMEKONV 10000000		// pÅ™evod na souborovÃ½ Äas
 
-extern	SYSTEMTIME	SystemTime;			// pomocná promìnná pro obsluhu èasu
+extern	SYSTEMTIME	SystemTime;			// pomocnÃ¡ promÄ›nnÃ¡ pro obsluhu Äasu
 void FNumSysTime();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení èíselného parametru pøevedeného na svìtovı souborovı èas
+// naÄtenÃ­ ÄÃ­selnÃ©ho parametru pÅ™evedenÃ©ho na svÄ›tovÃ½ souborovÃ½ Äas
 
 __int64 FNumFileTimeUTC();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení barvy
+// naÄtenÃ­ barvy
 
 int FNumCol();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení souøadnic Petra/Petry (ECX = adresa x, EDX = adresa y)
+// naÄtenÃ­ souÅ™adnic Petra/Petry (ECX = adresa x, EDX = adresa y)
 
 bool _fastcall PetrXY(int& x, int& y);
 bool _fastcall Petr2XY(int& x, int& y);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení pozice Petra/Petry (NULL=neplatná)
+// naÄtenÃ­ pozice Petra/Petry (NULL=neplatnÃ¡)
 
 MAPITEM* PetrXYMap();
 MAPITEM* Petr2XYMap();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení pøíští souøadnice Petra/Petry (ECX = adresa x, EDX = adresa y)
+// naÄtenÃ­ pÅ™Ã­Å¡tÃ­ souÅ™adnice Petra/Petry (ECX = adresa x, EDX = adresa y)
 
 bool _fastcall PetrXYNext(int& x, int& y);
 bool _fastcall Petr2XYNext(int& x, int& y);
 
 
 // funkce
-double FNumFunc();					// funkce s návratem èíselné hodnoty
+double FNumFunc();					// funkce s nÃ¡vratem ÄÃ­selnÃ© hodnoty
 
-// promìnné
-double FNumConst();					// èíselná konstanta
-double FNumObj();					// globální promìnná (Data = index)
-double FNumObjList();				// globalní promìnná v seznamu (Data = index, List = seznam)
-double FNumLoc();					// lokální promìnná (Data = index)
-double FNumLocList();				// lokální promìnná v seznamu (Data = index, List = seznam)
-double FGetList();					// index globálního seznamu
-double FGetListLoc();				// index lokálního seznamu
-double FGetListAuto();				// inkrementace globálního seznamu
-double FGetListAutoLoc();			// inkrementace lokálního seznamu
-double FGetSpriteX();				// souøadnice X globálního sprajtu (Data = index)
-double FGetSpriteXList();			// souøadnice X sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteXLoc();			// souøadnice X lokálního sprajtu (Data = index)
-double FGetSpriteXLocList();		// souøadnice X lokálního sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteY();				// souøadnice Y globálního sprajtu (Data = index)
-double FGetSpriteYList();			// souøadnice Y sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteYLoc();			// souøadnice Y lokálního sprajtu (Data = index)
-double FGetSpriteYLocList();		// souøadnice Y lokálního sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteSmer();			// smìr globálního sprajtu (Data = index)
-double FGetSpriteSmerList();		// smìr sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteSmerLoc();			// smìr lokálního sprajtu (Data = index)
-double FGetSpriteSmerLocList();		// smìr lokálního sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteFaze();			// fáze globálního sprajtu (Data = index)
-double FGetSpriteFazeList();		// fáze sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteFazeLoc();			// fáze lokálního sprajtu (Data = index)
-double FGetSpriteFazeLocList();		// fáze lokálního sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteStatus();			// stav globálního sprajtu (Data = index)
+// promÄ›nnÃ©
+double FNumConst();					// ÄÃ­selnÃ¡ konstanta
+double FNumObj();					// globÃ¡lnÃ­ promÄ›nnÃ¡ (Data = index)
+double FNumObjList();				// globalnÃ­ promÄ›nnÃ¡ v seznamu (Data = index, List = seznam)
+double FNumLoc();					// lokÃ¡lnÃ­ promÄ›nnÃ¡ (Data = index)
+double FNumLocList();				// lokÃ¡lnÃ­ promÄ›nnÃ¡ v seznamu (Data = index, List = seznam)
+double FGetList();					// index globÃ¡lnÃ­ho seznamu
+double FGetListLoc();				// index lokÃ¡lnÃ­ho seznamu
+double FGetListAuto();				// inkrementace globÃ¡lnÃ­ho seznamu
+double FGetListAutoLoc();			// inkrementace lokÃ¡lnÃ­ho seznamu
+double FGetSpriteX();				// souÅ™adnice X globÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteXList();			// souÅ™adnice X sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteXLoc();			// souÅ™adnice X lokÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteXLocList();		// souÅ™adnice X lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteY();				// souÅ™adnice Y globÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteYList();			// souÅ™adnice Y sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteYLoc();			// souÅ™adnice Y lokÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteYLocList();		// souÅ™adnice Y lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteSmer();			// smÄ›r globÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteSmerList();		// smÄ›r sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteSmerLoc();			// smÄ›r lokÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteSmerLocList();		// smÄ›r lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteFaze();			// fÃ¡ze globÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteFazeList();		// fÃ¡ze sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteFazeLoc();			// fÃ¡ze lokÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteFazeLocList();		// fÃ¡ze lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteStatus();			// stav globÃ¡lnÃ­ho sprajtu (Data = index)
 double FGetSpriteStatusList();		// stav sprajtu v seznamu (Data = index, List = seznam)
-double FGetSpriteStatusLoc();		// stav lokálního sprajtu (Data = index)
-double FGetSpriteStatusLocList();	// stav lokálního sprajtu v seznamu (Data = index, List = seznam)
+double FGetSpriteStatusLoc();		// stav lokÃ¡lnÃ­ho sprajtu (Data = index)
+double FGetSpriteStatusLocList();	// stav lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
 // obsluha Petra a Petry
-double FGetSmer();					// Petr - smìr
-double FGetSmer2();					// Petra - smìr
+double FGetSmer();					// Petr - smÄ›r
+double FGetSmer2();					// Petra - smÄ›r
 double FGetPozX();					// Petr - pozice X
 double FGetPozX2();					// Petra - pozice X
 double FGetPozY();					// Petr - pozice Y
 double FGetPozY2();					// Petra - pozice Y
-double FGetSwcN1();					// naètení èísla 1 - Petr
-double FGetSwcN12();				// naètení èísla 1 - Petra
-double FGetSwcN2();					// naètení èísla 2 - Petr
-double FGetSwcN22();				// naètení èísla 2 - Petra
-double FGetSwcN3();					// naètení èísla 3 - Petr
-double FGetSwcN32();				// naètení èísla 3 - Petra
+double FGetSwcN1();					// naÄtenÃ­ ÄÃ­sla 1 - Petr
+double FGetSwcN12();				// naÄtenÃ­ ÄÃ­sla 1 - Petra
+double FGetSwcN2();					// naÄtenÃ­ ÄÃ­sla 2 - Petr
+double FGetSwcN22();				// naÄtenÃ­ ÄÃ­sla 2 - Petra
+double FGetSwcN3();					// naÄtenÃ­ ÄÃ­sla 3 - Petr
+double FGetSwcN32();				// naÄtenÃ­ ÄÃ­sla 3 - Petra
 
-// vıpoèty
+// vÃ½poÄty
 double FInc();						// inkrementace
 double FDec();						// dekrementace
 double FSin();						// sinus
@@ -186,128 +186,128 @@ double FArcSin();					// arcsinus
 double FArcCos();					// arccosinus
 double FArcTg();					// arctangens
 double FArcCoTg();					// arccotangens
-double FNumInt();					// celé èíslo
-double FFrac();						// desetinná èást èísla
-double FAbs();						// absolutní hodnota
+double FNumInt();					// celÃ© ÄÃ­slo
+double FFrac();						// desetinnÃ¡ ÄÃ¡st ÄÃ­sla
+double FAbs();						// absolutnÃ­ hodnota
 double FSqrt();						// odmocnina
-double FFact();						// faktoriál
-double FRand();						// náhodné èíslo s násobkem
-double FRand0();					// náhodné èíslo bez násobku
-double FDegRad();					// pøevod stupòù na radiány
-double FRadDeg();					// pøevod radiánù na stupnì
-double FLog();						// dekadickı logaritmus
-double FLn();						// pøirozenı logaritmus
-double FExp();						// pøirozenı exponent
-double FAdd();						// operátor ADD
-double FSub1();						// operátor SUB pro 1 prvek
-double FSub();						// operátor SUB
-double FMul();						// operátor MUL
-double FDiv1();						// operátor DIV pro 1 prvek
-double FDiv();						// operátor DIV
-double FMod();						// operátor MOD
-double FMocn();						// operátor MOCNINA
-double FNumSqr();					// druhá mocnina
+double FFact();						// faktoriÃ¡l
+double FRand();						// nÃ¡hodnÃ© ÄÃ­slo s nÃ¡sobkem
+double FRand0();					// nÃ¡hodnÃ© ÄÃ­slo bez nÃ¡sobku
+double FDegRad();					// pÅ™evod stupÅˆÅ¯ na radiÃ¡ny
+double FRadDeg();					// pÅ™evod radiÃ¡nÅ¯ na stupnÄ›
+double FLog();						// dekadickÃ½ logaritmus
+double FLn();						// pÅ™irozenÃ½ logaritmus
+double FExp();						// pÅ™irozenÃ½ exponent
+double FAdd();						// operÃ¡tor ADD
+double FSub1();						// operÃ¡tor SUB pro 1 prvek
+double FSub();						// operÃ¡tor SUB
+double FMul();						// operÃ¡tor MUL
+double FDiv1();						// operÃ¡tor DIV pro 1 prvek
+double FDiv();						// operÃ¡tor DIV
+double FMod();						// operÃ¡tor MOD
+double FMocn();						// operÃ¡tor MOCNINA
+double FNumSqr();					// druhÃ¡ mocnina
 
 // obsluha grafiky
-double FColorLevel();				// nastavení jasu barvy
-double FColorSynth();				// syntéza barvy
-double FGetPoint();					// zjištìní barvy bodu
-double FGetPicWidth();				// zjištìní šíøky obrázku
-double FGetPicHeight();				// zjištìní vıšky obrázku
-double FGetGraphAreaWidth();		// zjištìní šíøky pole k zobrazení centrovaného textu
+double FColorLevel();				// nastavenÃ­ jasu barvy
+double FColorSynth();				// syntÃ©za barvy
+double FGetPoint();					// zjiÅ¡tÄ›nÃ­ barvy bodu
+double FGetPicWidth();				// zjiÅ¡tÄ›nÃ­ Å¡Ã­Å™ky obrÃ¡zku
+double FGetPicHeight();				// zjiÅ¡tÄ›nÃ­ vÃ½Å¡ky obrÃ¡zku
+double FGetGraphAreaWidth();		// zjiÅ¡tÄ›nÃ­ Å¡Ã­Å™ky pole k zobrazenÃ­ centrovanÃ©ho textu
 
-// obsluha èasu
-double FGetTimeCurrent();			// naètení aktuálního èasu
-double FTimeUtc();					// pøevod na svìtovı èas
-double FTimeLocal();				// pøevod na místní èas
-double FTimeComp();					// syntéza èasu
-double FGetTimeYear();				// naètení roku z èasu
-double FGetTimeMonth();				// naètení mìsíce z èasu
-double FGetTimeDay();				// naètení dne z èasu
-double FGetTimeWeek();				// naètení dne v tıdnu z èasu
-double FGetTimeHour();				// naètení hodiny z èasu
-double FGetTimeMin();				// naètení minuty z èasu
-double FGetTimeSec();				// naètení sekundy z èasu
-double FGetTimeMSec();				// naètení milisekundy z èasu
+// obsluha Äasu
+double FGetTimeCurrent();			// naÄtenÃ­ aktuÃ¡lnÃ­ho Äasu
+double FTimeUtc();					// pÅ™evod na svÄ›tovÃ½ Äas
+double FTimeLocal();				// pÅ™evod na mÃ­stnÃ­ Äas
+double FTimeComp();					// syntÃ©za Äasu
+double FGetTimeYear();				// naÄtenÃ­ roku z Äasu
+double FGetTimeMonth();				// naÄtenÃ­ mÄ›sÃ­ce z Äasu
+double FGetTimeDay();				// naÄtenÃ­ dne z Äasu
+double FGetTimeWeek();				// naÄtenÃ­ dne v tÃ½dnu z Äasu
+double FGetTimeHour();				// naÄtenÃ­ hodiny z Äasu
+double FGetTimeMin();				// naÄtenÃ­ minuty z Äasu
+double FGetTimeSec();				// naÄtenÃ­ sekundy z Äasu
+double FGetTimeMSec();				// naÄtenÃ­ milisekundy z Äasu
 
-// obsluha myši
-double FMouseX();					// naètení souøadnice X myši
-double FMouseY();					// naètení souøadnice Y myši
+// obsluha myÅ¡i
+double FMouseX();					// naÄtenÃ­ souÅ™adnice X myÅ¡i
+double FMouseY();					// naÄtenÃ­ souÅ™adnice Y myÅ¡i
 
-// obsluha dialogù
-double FNumDialogBox();				// dialog box s návratem hodnoty
+// obsluha dialogÅ¯
+double FNumDialogBox();				// dialog box s nÃ¡vratem hodnoty
 
 // obsluha souboru
-double FGetDiskSize();				// zjištìní velikosti disku
-double FGetDiskFree();				// zjištìní volného místa disku
-double FGetDiskSerial();			// naètení sériového èísla disku
-double FGetFileCreate();			// èas vytvoøení souboru
-double FGetFileOpen();				// èas ètení ze souboru
-double FGetFileModi();				// èas zápisu do souboru
-double FGetFileReadOff();			// offset pro ètení ze souboru
-double FGetFileWriteOff();			// offset pro zápis do souboru
-double FGetFileSize();				// zjištìní velikosti souboru
-double FGetFileTextNLen();			// délka textu s pevnou délkou
-double FFileDiskType();				// naètení typu disku
-double FGetFileByteS();				// naètení èísla ze souboru bajt se znaménkem
-double FGetFileByteU();				// naètení èísla ze souboru bajt bez znaménka
-double FGetFileWordS();				// naètení èísla ze souboru slovo se znaménkem
-double FGetFileWordU();				// naètení èísla ze souboru slovo bez znaménka
-double FGetFile3ByteS();			// naètení èísla ze souboru 3 bajty se znaménkem
-double FGetFile3ByteU();			// naètení èísla ze souboru 3 bajty bez znaménka
-double FGetFileDWordS();			// naètení èísla ze souboru dvojslovo se znaménkem
-double FGetFileDWordU();			// naètení èísla ze souboru dvojslovo bez znaménka
-double FGetFileFloat();				// naètení èísla ze souboru FLOAT
-double FGetFileDouble();			// naètení èísla ze souboru DOUBLE
+double FGetDiskSize();				// zjiÅ¡tÄ›nÃ­ velikosti disku
+double FGetDiskFree();				// zjiÅ¡tÄ›nÃ­ volnÃ©ho mÃ­sta disku
+double FGetDiskSerial();			// naÄtenÃ­ sÃ©riovÃ©ho ÄÃ­sla disku
+double FGetFileCreate();			// Äas vytvoÅ™enÃ­ souboru
+double FGetFileOpen();				// Äas ÄtenÃ­ ze souboru
+double FGetFileModi();				// Äas zÃ¡pisu do souboru
+double FGetFileReadOff();			// offset pro ÄtenÃ­ ze souboru
+double FGetFileWriteOff();			// offset pro zÃ¡pis do souboru
+double FGetFileSize();				// zjiÅ¡tÄ›nÃ­ velikosti souboru
+double FGetFileTextNLen();			// dÃ©lka textu s pevnou dÃ©lkou
+double FFileDiskType();				// naÄtenÃ­ typu disku
+double FGetFileByteS();				// naÄtenÃ­ ÄÃ­sla ze souboru bajt se znamÃ©nkem
+double FGetFileByteU();				// naÄtenÃ­ ÄÃ­sla ze souboru bajt bez znamÃ©nka
+double FGetFileWordS();				// naÄtenÃ­ ÄÃ­sla ze souboru slovo se znamÃ©nkem
+double FGetFileWordU();				// naÄtenÃ­ ÄÃ­sla ze souboru slovo bez znamÃ©nka
+double FGetFile3ByteS();			// naÄtenÃ­ ÄÃ­sla ze souboru 3 bajty se znamÃ©nkem
+double FGetFile3ByteU();			// naÄtenÃ­ ÄÃ­sla ze souboru 3 bajty bez znamÃ©nka
+double FGetFileDWordS();			// naÄtenÃ­ ÄÃ­sla ze souboru dvojslovo se znamÃ©nkem
+double FGetFileDWordU();			// naÄtenÃ­ ÄÃ­sla ze souboru dvojslovo bez znamÃ©nka
+double FGetFileFloat();				// naÄtenÃ­ ÄÃ­sla ze souboru FLOAT
+double FGetFileDouble();			// naÄtenÃ­ ÄÃ­sla ze souboru DOUBLE
 
 // obsluha CD disku
-double FCDGetLength();				// zjištìní délky CD
-double FCDGetTracks();				// zjištìní poètu stop CD
-double FCDGetPos();					// zjištìní pozice CD
-double FCDGetTrack();				// zjištìní aktivní stopy CD
-double FCDGetTrackLength();			// zjištìní délky aktivní stopy
-double FCDGetTrackPos();			// zjištìní pozice aktivní stopy CD
+double FCDGetLength();				// zjiÅ¡tÄ›nÃ­ dÃ©lky CD
+double FCDGetTracks();				// zjiÅ¡tÄ›nÃ­ poÄtu stop CD
+double FCDGetPos();					// zjiÅ¡tÄ›nÃ­ pozice CD
+double FCDGetTrack();				// zjiÅ¡tÄ›nÃ­ aktivnÃ­ stopy CD
+double FCDGetTrackLength();			// zjiÅ¡tÄ›nÃ­ dÃ©lky aktivnÃ­ stopy
+double FCDGetTrackPos();			// zjiÅ¡tÄ›nÃ­ pozice aktivnÃ­ stopy CD
 
 // obsluha hudby
-double FMusicLen();					// délka pøehrávané hudby
+double FMusicLen();					// dÃ©lka pÅ™ehrÃ¡vanÃ© hudby
 double FGetMusicPos();				// pozice hudby
 
 // obsluha zvuku
-double FGetSoundBit();				// poèet bitù na vzorek
-double FGetSoundFreq();				// vzorkovací kmitoèet
-double FGetSoundLength();			// délka zvuku
+double FGetSoundBit();				// poÄet bitÅ¯ na vzorek
+double FGetSoundFreq();				// vzorkovacÃ­ kmitoÄet
+double FGetSoundLength();			// dÃ©lka zvuku
 double FGetSoundPos();				// pozice zvuku
-double FGetSoundDistinguish();		// rozlišovací kód
+double FGetSoundDistinguish();		// rozliÅ¡ovacÃ­ kÃ³d
 
-// obsluha textù
-double FTextLen();					// délka textu
-double FTextScan();					// pøevod textu na èíslo
-double FTextFind();					// nalezení textu
-double FTextOrd();					// abecední poøadí znaku
-double FTextLineNum();				// zjištìní poètu øádkù textu
+// obsluha textÅ¯
+double FTextLen();					// dÃ©lka textu
+double FTextScan();					// pÅ™evod textu na ÄÃ­slo
+double FTextFind();					// nalezenÃ­ textu
+double FTextOrd();					// abecednÃ­ poÅ™adÃ­ znaku
+double FTextLineNum();				// zjiÅ¡tÄ›nÃ­ poÄtu Å™Ã¡dkÅ¯ textu
 
-// obsluha klávesnice
-double FVKey();						// naètení klávesy bez èekání
-double FVKeyWait();					// naètení klávesy s èekáním
+// obsluha klÃ¡vesnice
+double FVKey();						// naÄtenÃ­ klÃ¡vesy bez ÄekÃ¡nÃ­
+double FVKeyWait();					// naÄtenÃ­ klÃ¡vesy s ÄekÃ¡nÃ­m
 
 // plocha
-double FGetMapWidth();				// šíøka plochy
-double FGetMapWidth0();				// šíøka hlavní plochy
-double FGetMapHeight();				// vıška plochy
-double FGetMapHeight0();			// vıška hlavní plochy
-double FGetMapNum1();				// naètení èísla 1 z plochy
-double FGetMapNum2();				// naètení èísla 2 z plochy
-double FGetMapNum3();				// naètení èísla 3 z plochy
+double FGetMapWidth();				// Å¡Ã­Å™ka plochy
+double FGetMapWidth0();				// Å¡Ã­Å™ka hlavnÃ­ plochy
+double FGetMapHeight();				// vÃ½Å¡ka plochy
+double FGetMapHeight0();			// vÃ½Å¡ka hlavnÃ­ plochy
+double FGetMapNum1();				// naÄtenÃ­ ÄÃ­sla 1 z plochy
+double FGetMapNum2();				// naÄtenÃ­ ÄÃ­sla 2 z plochy
+double FGetMapNum3();				// naÄtenÃ­ ÄÃ­sla 3 z plochy
 
-// naètení okna k zobrazení sprajtù
+// naÄtenÃ­ okna k zobrazenÃ­ sprajtÅ¯
 double FGetSpriteWinX1();
 double FGetSpriteWinY1();
 double FGetSpriteWinX2();
 double FGetSpriteWinY2();
 
-double FGetReturnCode();			// návratovı kód
+double FGetReturnCode();			// nÃ¡vratovÃ½ kÃ³d
 
-double FGetExecWait();				// spuštìní programu
+double FGetExecWait();				// spuÅ¡tÄ›nÃ­ programu
 
 // joystick
 double FJoystickX();				// pozice X
@@ -315,232 +315,232 @@ double FJoystickY();				// pozice Y
 double FJoystickZ();				// pozice Z
 
 // dialogy
-double FGetWindowID();				// ID aktivního prvku
-double FWindowNew();				// vytvoøení okna
-double FWindowRONew();				// vytvoøení okna
-double FButtonNew();				// vytvoøení tlaèítka
-double FGetButtonEsc();				// tlaèítko Esc
-double FDefButtonNew();				// vytvoøení tlaèítka
-double FButtonIconNew();			// vytvoøení ikonového tlaèítka
-double FButton3New();				// vytvoøení tlaèítka
-double FButtonCheckNew();			// vytvoøení tlaèítka
-double FButtonCheckNew2();			// vytvoøení pøepínacího tlaèítka
-double FEditNew();					// vytvoøení editaèního øádku
-double FButtonRadioNew();			// vytvoøení tlaèítka
-double FButtonRadioNew2();			// vytvoøení tlaèítka
-double FMemoNew();					// vytvoøení editaèního pole
-double FRicheditNew();				// vytvoøení editoru Richedit
-double FRichMemoNew();				// vytvoøení editaèního pole se zalamováním
-double FGroupBoxNew();				// vytvoøení skupiny
-double FListBoxNew();				// vytvoøení seznamu
-double FTabsNew();					// vytvoøení záloek
-double FWinTextNew();				// vytvoøení textu
-double FWinTextNewCenter();			// vytvoøení textu vystøedìného
-double FWinTextNewRight();			// vytvoøení textu zarovnaného vpravo
-double FListEditNew();				// vytvoøení seznamu
-double FComboBoxNew();				// vytvoøení seznamu
-double FComboEditNew();				// vytvoøení seznamu
-double FTableNew();					// vytvoøení tabulky
-double FGetTableWidth();			// zjištìní šíøky sloupce tabulky
-double FGetTableAlign();			// zjištìní zarovnání sloupce tabulky
-double FGetWindowX();				// poèátek okna vlevo
-double FGetWindowY();				// poèátek okna dole
-double FGetWindowW();				// šíøka okna
-double FGetWindowH();				// vıška okna
-double FGetWindowWInt();			// vnitøní šíøka okna
-double FGetWindowHInt();			// vnitøní vıška okna
-double FGetFontHeight();			// vıška fontù
-double FGetFontWidth();				// šíøka fontù
-double FGetFontAngle();				// úhel textu
+double FGetWindowID();				// ID aktivnÃ­ho prvku
+double FWindowNew();				// vytvoÅ™enÃ­ okna
+double FWindowRONew();				// vytvoÅ™enÃ­ okna
+double FButtonNew();				// vytvoÅ™enÃ­ tlaÄÃ­tka
+double FGetButtonEsc();				// tlaÄÃ­tko Esc
+double FDefButtonNew();				// vytvoÅ™enÃ­ tlaÄÃ­tka
+double FButtonIconNew();			// vytvoÅ™enÃ­ ikonovÃ©ho tlaÄÃ­tka
+double FButton3New();				// vytvoÅ™enÃ­ tlaÄÃ­tka
+double FButtonCheckNew();			// vytvoÅ™enÃ­ tlaÄÃ­tka
+double FButtonCheckNew2();			// vytvoÅ™enÃ­ pÅ™epÃ­nacÃ­ho tlaÄÃ­tka
+double FEditNew();					// vytvoÅ™enÃ­ editaÄnÃ­ho Å™Ã¡dku
+double FButtonRadioNew();			// vytvoÅ™enÃ­ tlaÄÃ­tka
+double FButtonRadioNew2();			// vytvoÅ™enÃ­ tlaÄÃ­tka
+double FMemoNew();					// vytvoÅ™enÃ­ editaÄnÃ­ho pole
+double FRicheditNew();				// vytvoÅ™enÃ­ editoru Richedit
+double FRichMemoNew();				// vytvoÅ™enÃ­ editaÄnÃ­ho pole se zalamovÃ¡nÃ­m
+double FGroupBoxNew();				// vytvoÅ™enÃ­ skupiny
+double FListBoxNew();				// vytvoÅ™enÃ­ seznamu
+double FTabsNew();					// vytvoÅ™enÃ­ zÃ¡loÅ¾ek
+double FWinTextNew();				// vytvoÅ™enÃ­ textu
+double FWinTextNewCenter();			// vytvoÅ™enÃ­ textu vystÅ™edÄ›nÃ©ho
+double FWinTextNewRight();			// vytvoÅ™enÃ­ textu zarovnanÃ©ho vpravo
+double FListEditNew();				// vytvoÅ™enÃ­ seznamu
+double FComboBoxNew();				// vytvoÅ™enÃ­ seznamu
+double FComboEditNew();				// vytvoÅ™enÃ­ seznamu
+double FTableNew();					// vytvoÅ™enÃ­ tabulky
+double FGetTableWidth();			// zjiÅ¡tÄ›nÃ­ Å¡Ã­Å™ky sloupce tabulky
+double FGetTableAlign();			// zjiÅ¡tÄ›nÃ­ zarovnÃ¡nÃ­ sloupce tabulky
+double FGetWindowX();				// poÄÃ¡tek okna vlevo
+double FGetWindowY();				// poÄÃ¡tek okna dole
+double FGetWindowW();				// Å¡Ã­Å™ka okna
+double FGetWindowH();				// vÃ½Å¡ka okna
+double FGetWindowWInt();			// vnitÅ™nÃ­ Å¡Ã­Å™ka okna
+double FGetWindowHInt();			// vnitÅ™nÃ­ vÃ½Å¡ka okna
+double FGetFontHeight();			// vÃ½Å¡ka fontÅ¯
+double FGetFontWidth();				// Å¡Ã­Å™ka fontÅ¯
+double FGetFontAngle();				// Ãºhel textu
 double FGetFontCol();				// barva textu
-double FGetFontBack();				// barva pozadí
+double FGetFontBack();				// barva pozadÃ­
 double FGetFocus();					// okno s fokusem
-double FWinIconNew();				// vytvoøení ikony
-double FWinPicNew();				// vytvoøení obrázku
-double FProgressNew();				// indikátor
-double FHTrackbarNew();				// táhlo horizontálnì
-double FVTrackbarNew();				// táhlo vertikálnì
-double FHScrollbarNew();			// horizontální posuvník
-double FVScrollbarNew();			// vertikální posuvník
+double FWinIconNew();				// vytvoÅ™enÃ­ ikony
+double FWinPicNew();				// vytvoÅ™enÃ­ obrÃ¡zku
+double FProgressNew();				// indikÃ¡tor
+double FHTrackbarNew();				// tÃ¡hlo horizontÃ¡lnÄ›
+double FVTrackbarNew();				// tÃ¡hlo vertikÃ¡lnÄ›
+double FHScrollbarNew();			// horizontÃ¡lnÃ­ posuvnÃ­k
+double FVScrollbarNew();			// vertikÃ¡lnÃ­ posuvnÃ­k
 double FGetWindowPos();				// pozice v prvku
 double FGetWindowPos2();			// pozice 2 v prvku
 
 // DirectPlay
-double FGetGameN1();				// zjištìní èíselné hodnoty hry 1
-double FGetGameN2();				// zjištìní èíselné hodnoty hry 2
-double FGetGameN3();				// zjištìní èíselné hodnoty hry 3
-double FGetGameN4();				// zjištìní èíselné hodnoty hry 4
-double FGetGameN5();				// zjištìní èíselné hodnoty hry 5
-double FGetGameN6();				// zjištìní èíselné hodnoty hry 6
-double FGetGameN7();				// zjištìní èíselné hodnoty hry 7
-double FGetGameN8();				// zjištìní èíselné hodnoty hry 8
-double FGetPlayerMax();				// zjištìní max. poètu hráèù
-double FPlayerInx();				// zjištìní indexu hráèe
-double FGetGamePacket();			// pøíjem paketu
-double FGetGameDataN();				// naètení èísla z paketu
-double FGetGameDataB();				// naètení bajtu z paketu
+double FGetGameN1();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 1
+double FGetGameN2();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 2
+double FGetGameN3();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 3
+double FGetGameN4();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 4
+double FGetGameN5();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 5
+double FGetGameN6();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 6
+double FGetGameN7();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 7
+double FGetGameN8();				// zjiÅ¡tÄ›nÃ­ ÄÃ­selnÃ© hodnoty hry 8
+double FGetPlayerMax();				// zjiÅ¡tÄ›nÃ­ max. poÄtu hrÃ¡ÄÅ¯
+double FPlayerInx();				// zjiÅ¡tÄ›nÃ­ indexu hrÃ¡Äe
+double FGetGamePacket();			// pÅ™Ã­jem paketu
+double FGetGameDataN();				// naÄtenÃ­ ÄÃ­sla z paketu
+double FGetGameDataB();				// naÄtenÃ­ bajtu z paketu
 
 // UDP
-double FGetUDPSendPort();			// zjištìní vysílacího portu UDP
-double FGetUDPRecSize();			// zjištìní velikosti pøijímacího bufferu UDP
-double FGetUDPRecPort();			// zjištìní pøijímacího portu UDP
-double FGetUDPMem();				// pøíjem datového bloku UDP
+double FGetUDPSendPort();			// zjiÅ¡tÄ›nÃ­ vysÃ­lacÃ­ho portu UDP
+double FGetUDPRecSize();			// zjiÅ¡tÄ›nÃ­ velikosti pÅ™ijÃ­macÃ­ho bufferu UDP
+double FGetUDPRecPort();			// zjiÅ¡tÄ›nÃ­ pÅ™ijÃ­macÃ­ho portu UDP
+double FGetUDPMem();				// pÅ™Ã­jem datovÃ©ho bloku UDP
 
-// bitové operace
-double FBitAnd();					// operátor BIT-AND (Data = poèet prvkù - 1)
-double FBitOr();					// operátor BIT-OR (Data = poèet prvkù - 1)
-double FBitXor();					// operátor BIT-XOR (Data = poèet prvkù - 1)
-double FBitNot();					// bitovı doplnìk
+// bitovÃ© operace
+double FBitAnd();					// operÃ¡tor BIT-AND (Data = poÄet prvkÅ¯ - 1)
+double FBitOr();					// operÃ¡tor BIT-OR (Data = poÄet prvkÅ¯ - 1)
+double FBitXor();					// operÃ¡tor BIT-XOR (Data = poÄet prvkÅ¯ - 1)
+double FBitNot();					// bitovÃ½ doplnÄ›k
 double FBitLeft();					// rotace vlevo
 double FBitRight();					// rotace vpravo
 
 
-double FGetCodePage();				// zjištìní znakové sady
-double FGetLanguage();				// zjištìní jazyku
+double FGetCodePage();				// zjiÅ¡tÄ›nÃ­ znakovÃ© sady
+double FGetLanguage();				// zjiÅ¡tÄ›nÃ­ jazyku
 
 // porty
-double FComOpen();					// otevøení portu
-double FGetComID();					// aktivní port
-double FGetComBaud();				// zjištìní pøenosové rychlosti portu
-double FGetComBits();				// zjištìní poètu bitù portu
-double FGetComParit();				// zjištìní parity
-double FGetComNum();				// naètení bajtu
+double FComOpen();					// otevÅ™enÃ­ portu
+double FGetComID();					// aktivnÃ­ port
+double FGetComBaud();				// zjiÅ¡tÄ›nÃ­ pÅ™enosovÃ© rychlosti portu
+double FGetComBits();				// zjiÅ¡tÄ›nÃ­ poÄtu bitÅ¯ portu
+double FGetComParit();				// zjiÅ¡tÄ›nÃ­ parity
+double FGetComNum();				// naÄtenÃ­ bajtu
 
 // mixer
-double FGetLineType();				// zjištìní typu signálu
-double FGetCtrlType();				// zjištìní typu ovládacího prvku
-double FGetCtrlVal();				// zjištìní hodnoty ovládacího prvku
-double FGetMixChannel();			// zjištìní poètu kanálù prvku
+double FGetLineType();				// zjiÅ¡tÄ›nÃ­ typu signÃ¡lu
+double FGetCtrlType();				// zjiÅ¡tÄ›nÃ­ typu ovlÃ¡dacÃ­ho prvku
+double FGetCtrlVal();				// zjiÅ¡tÄ›nÃ­ hodnoty ovlÃ¡dacÃ­ho prvku
+double FGetMixChannel();			// zjiÅ¡tÄ›nÃ­ poÄtu kanÃ¡lÅ¯ prvku
 
 // Direct3D
-double FGetD3DOCulling();			// zjištìní módu odstraòováni ploch objektu Direct3D
-double FD3DTriangle();				// vytvoøení trojúhleníku
-double FD3DWall();					// vytvoøení zdi
-double FD3DCircle();				// vytvoøení kruhu
-double FD3DCube();					// vytvoøení krychle
-double FD3DSphere();				// vytvoøení koule
-double FD3DHemisphere();			// vytvoøení polokoule
-double FD3DTorus();					// vytvoøení torusu
-double FD3DCylinder();				// vytvoøení válce
-double FD3DCone();					// vytvoøení kuele
-double FD3DCone2();					// vytvoøení komolého kuele
-double FD3DClone();					// klonování
-double FD3DText();					// naètení objektu z textu
-double FD3DFile();					// naètení objektu ze souboru
-double FGetD3DObjectID();			// zjištìní ID aktivního objektu
-double FD3DLight();					// vytvoøení svìtla
+double FGetD3DOCulling();			// zjiÅ¡tÄ›nÃ­ mÃ³du odstraÅˆovÃ¡ni ploch objektu Direct3D
+double FD3DTriangle();				// vytvoÅ™enÃ­ trojÃºhlenÃ­ku
+double FD3DWall();					// vytvoÅ™enÃ­ zdi
+double FD3DCircle();				// vytvoÅ™enÃ­ kruhu
+double FD3DCube();					// vytvoÅ™enÃ­ krychle
+double FD3DSphere();				// vytvoÅ™enÃ­ koule
+double FD3DHemisphere();			// vytvoÅ™enÃ­ polokoule
+double FD3DTorus();					// vytvoÅ™enÃ­ torusu
+double FD3DCylinder();				// vytvoÅ™enÃ­ vÃ¡lce
+double FD3DCone();					// vytvoÅ™enÃ­ kuÅ¾ele
+double FD3DCone2();					// vytvoÅ™enÃ­ komolÃ©ho kuÅ¾ele
+double FD3DClone();					// klonovÃ¡nÃ­
+double FD3DText();					// naÄtenÃ­ objektu z textu
+double FD3DFile();					// naÄtenÃ­ objektu ze souboru
+double FGetD3DObjectID();			// zjiÅ¡tÄ›nÃ­ ID aktivnÃ­ho objektu
+double FD3DLight();					// vytvoÅ™enÃ­ svÄ›tla
 
-double FGetD3DScaleX();				// zjištìní mìøítka ve smìru X
-double FGetD3DScaleY();				// zjištìní mìøítka ve smìru Y
-double FGetD3DScaleZ();				// zjištìní mìøítka ve smìru Z
-double FGetD3DRotateX();			// zjištìní rotace podle osy X
-double FGetD3DRotateY();			// zjištìní rotace podle osy Y
-double FGetD3DRotateZ();			// zjištìní rotace podle osy Z
-double FGetD3DTransX();				// zjištìní posunu ve smìru X
-double FGetD3DTransY();				// zjištìní posunu ve smìru Y
-double FGetD3DTransZ();				// zjištìní posunu ve smìru Z
-double FGetD3DColor();				// zjištìní barvy objektu
-double FGetD3DEmissive();			// zjištìní barvy svítivosti
-double FGetD3DAmbiRef();			// zjištìní odrazu rozptıleného svìtla
-double FGetD3DPower();				// zjištìní matnosti
-double FGetD3DSpecular();			// zjištìní barvy odlesku
-double FGetD3DLightColor();			// zjištìní barvy svìtla
-double FGetD3DLightType();			// zjištìní typu svìtla
-double FGetD3DLightUmbra();			// zjištìní úhlu stínu svìtla
-double FGetD3DLightPenumbra();		// zjištìní úhlu polostínu svìtla
-double FGetD3DLightRange();			// zjištìní dosahu svìtla
-double FGetD3DLightCatten();		// zjištìní konstantího útlumu svìtla
-double FGetD3DLightLatten();		// zjištìní lineárního útlumu svìtla
-double FGetD3DLightQatten();		// zjištìní lineárního útlumu svìtla
-double FGetD3DProjection();			// zjištìní projekce
-double FGetD3DSceneColor();			// zjištìní barvy pozadí scény
-double FGetD3DAmbient();			// zjištìní ambient svìtla
-double FGetD3DFogColor();			// zjištìní barvy mlhy
-double FGetD3DFogMode();			// zjištìní módy mlhy
-double FGetD3DFogStart();			// zjištìní zaèátku mlhy
-double FGetD3DFogEnd();				// zjištìní konce mlhy
-double FGetD3DFogDensity();			// zjištìní hustotu mlhy
-double FGetD3DViewFront();			// zjištìní projekèní roviny
-double FGetD3DViewBack();			// zjištìní vzdálenosti dohledu
-//double FD3DPick();					// vyhledání objektu
-double FD3D2DObject();				// vytvoøení 2D objektu
-double FD3D2DTerrain();				// vytvoøení terénu
-double FD3DLevel();					// zjištìní úrovnì terénu
-double FD3DEmpty();					// vytvoøení prázdného objektu
-double FGetD3DSplits();				// zjištìní sloitosti objektù
-double FGetD3DOrder();				// zjištìní poøadí rotací objektù
-double FGetD3DDriver();				// zjištìní ovladaèe
-double FGetD3DInterface();			// zjištìní rozhraní
-double FD3DRotary();				// vytvoøení rotaèního objektu
-double FD3DTerrainMap();			// vytvoøení terénu z plochy
-double FGetD3DSmooth();				// zjištìní vyhlazení textur
-double FD3D2DStatic();				// vytvoøení statického 2D objektu
-double FGetD3DTransparent();		// zjištìní prùhlednosti textury objektu Direct3D
-double FGetD3DAlphaRef();			// zjištìní alfa úrovnì Direct3D
-double FD3DElapsed0();				// uplynulı pøesnı èas 
-double FD3DElapsed();				// uplynulı pøesnı èas 
-double FD3DSpeed();					// rychlost renderování
-double FD3DFree();					// volná videopamì
-double FD3DPicture();				// vytvoøení 2D obrázku
-double FD3DLensFlare();				// vytvoøení èoèkového odlesku
-double FGetD3DStage();				// zjištìní poètu stupòù textur
-double FGetD3DColorOp();			// zjištìní operace barev
-double FGetD3DColorArg1();			// zjištìní argumentu 1 barev
-double FGetD3DColorArg2();			// zjištìní argumentu 2 barev
-double FGetD3DAlphaOp();			// zjištìní operace alfa
-double FGetD3DAlphaArg1();			// zjištìní argumentu 1 alfa
-double FGetD3DAlphaArg2();			// zjištìní argumentu 2 alfa
-double FGetD3DAddressU();			// zjištìní horizontálního adresování
-double FGetD3DAddressV();			// zjištìní vertikálního adresování
-//double FGetD3DBorder();				// zjištìní barvy okolí textury
-double FGetD3DBias();				// zjištìní zjemnìní vzdálenıch textur
-double FGetD3DMipMaps();			// poèet úrovní mipmaps
+double FGetD3DScaleX();				// zjiÅ¡tÄ›nÃ­ mÄ›Å™Ã­tka ve smÄ›ru X
+double FGetD3DScaleY();				// zjiÅ¡tÄ›nÃ­ mÄ›Å™Ã­tka ve smÄ›ru Y
+double FGetD3DScaleZ();				// zjiÅ¡tÄ›nÃ­ mÄ›Å™Ã­tka ve smÄ›ru Z
+double FGetD3DRotateX();			// zjiÅ¡tÄ›nÃ­ rotace podle osy X
+double FGetD3DRotateY();			// zjiÅ¡tÄ›nÃ­ rotace podle osy Y
+double FGetD3DRotateZ();			// zjiÅ¡tÄ›nÃ­ rotace podle osy Z
+double FGetD3DTransX();				// zjiÅ¡tÄ›nÃ­ posunu ve smÄ›ru X
+double FGetD3DTransY();				// zjiÅ¡tÄ›nÃ­ posunu ve smÄ›ru Y
+double FGetD3DTransZ();				// zjiÅ¡tÄ›nÃ­ posunu ve smÄ›ru Z
+double FGetD3DColor();				// zjiÅ¡tÄ›nÃ­ barvy objektu
+double FGetD3DEmissive();			// zjiÅ¡tÄ›nÃ­ barvy svÃ­tivosti
+double FGetD3DAmbiRef();			// zjiÅ¡tÄ›nÃ­ odrazu rozptÃ½lenÃ©ho svÄ›tla
+double FGetD3DPower();				// zjiÅ¡tÄ›nÃ­ matnosti
+double FGetD3DSpecular();			// zjiÅ¡tÄ›nÃ­ barvy odlesku
+double FGetD3DLightColor();			// zjiÅ¡tÄ›nÃ­ barvy svÄ›tla
+double FGetD3DLightType();			// zjiÅ¡tÄ›nÃ­ typu svÄ›tla
+double FGetD3DLightUmbra();			// zjiÅ¡tÄ›nÃ­ Ãºhlu stÃ­nu svÄ›tla
+double FGetD3DLightPenumbra();		// zjiÅ¡tÄ›nÃ­ Ãºhlu polostÃ­nu svÄ›tla
+double FGetD3DLightRange();			// zjiÅ¡tÄ›nÃ­ dosahu svÄ›tla
+double FGetD3DLightCatten();		// zjiÅ¡tÄ›nÃ­ konstantÃ­ho Ãºtlumu svÄ›tla
+double FGetD3DLightLatten();		// zjiÅ¡tÄ›nÃ­ lineÃ¡rnÃ­ho Ãºtlumu svÄ›tla
+double FGetD3DLightQatten();		// zjiÅ¡tÄ›nÃ­ lineÃ¡rnÃ­ho Ãºtlumu svÄ›tla
+double FGetD3DProjection();			// zjiÅ¡tÄ›nÃ­ projekce
+double FGetD3DSceneColor();			// zjiÅ¡tÄ›nÃ­ barvy pozadÃ­ scÃ©ny
+double FGetD3DAmbient();			// zjiÅ¡tÄ›nÃ­ ambient svÄ›tla
+double FGetD3DFogColor();			// zjiÅ¡tÄ›nÃ­ barvy mlhy
+double FGetD3DFogMode();			// zjiÅ¡tÄ›nÃ­ mÃ³dy mlhy
+double FGetD3DFogStart();			// zjiÅ¡tÄ›nÃ­ zaÄÃ¡tku mlhy
+double FGetD3DFogEnd();				// zjiÅ¡tÄ›nÃ­ konce mlhy
+double FGetD3DFogDensity();			// zjiÅ¡tÄ›nÃ­ hustotu mlhy
+double FGetD3DViewFront();			// zjiÅ¡tÄ›nÃ­ projekÄnÃ­ roviny
+double FGetD3DViewBack();			// zjiÅ¡tÄ›nÃ­ vzdÃ¡lenosti dohledu
+//double FD3DPick();					// vyhledÃ¡nÃ­ objektu
+double FD3D2DObject();				// vytvoÅ™enÃ­ 2D objektu
+double FD3D2DTerrain();				// vytvoÅ™enÃ­ terÃ©nu
+double FD3DLevel();					// zjiÅ¡tÄ›nÃ­ ÃºrovnÄ› terÃ©nu
+double FD3DEmpty();					// vytvoÅ™enÃ­ prÃ¡zdnÃ©ho objektu
+double FGetD3DSplits();				// zjiÅ¡tÄ›nÃ­ sloÅ¾itosti objektÅ¯
+double FGetD3DOrder();				// zjiÅ¡tÄ›nÃ­ poÅ™adÃ­ rotacÃ­ objektÅ¯
+double FGetD3DDriver();				// zjiÅ¡tÄ›nÃ­ ovladaÄe
+double FGetD3DInterface();			// zjiÅ¡tÄ›nÃ­ rozhranÃ­
+double FD3DRotary();				// vytvoÅ™enÃ­ rotaÄnÃ­ho objektu
+double FD3DTerrainMap();			// vytvoÅ™enÃ­ terÃ©nu z plochy
+double FGetD3DSmooth();				// zjiÅ¡tÄ›nÃ­ vyhlazenÃ­ textur
+double FD3D2DStatic();				// vytvoÅ™enÃ­ statickÃ©ho 2D objektu
+double FGetD3DTransparent();		// zjiÅ¡tÄ›nÃ­ prÅ¯hlednosti textury objektu Direct3D
+double FGetD3DAlphaRef();			// zjiÅ¡tÄ›nÃ­ alfa ÃºrovnÄ› Direct3D
+double FD3DElapsed0();				// uplynulÃ½ pÅ™esnÃ½ Äas 
+double FD3DElapsed();				// uplynulÃ½ pÅ™esnÃ½ Äas 
+double FD3DSpeed();					// rychlost renderovÃ¡nÃ­
+double FD3DFree();					// volnÃ¡ videopamÄ›Å¥
+double FD3DPicture();				// vytvoÅ™enÃ­ 2D obrÃ¡zku
+double FD3DLensFlare();				// vytvoÅ™enÃ­ ÄoÄkovÃ©ho odlesku
+double FGetD3DStage();				// zjiÅ¡tÄ›nÃ­ poÄtu stupÅˆÅ¯ textur
+double FGetD3DColorOp();			// zjiÅ¡tÄ›nÃ­ operace barev
+double FGetD3DColorArg1();			// zjiÅ¡tÄ›nÃ­ argumentu 1 barev
+double FGetD3DColorArg2();			// zjiÅ¡tÄ›nÃ­ argumentu 2 barev
+double FGetD3DAlphaOp();			// zjiÅ¡tÄ›nÃ­ operace alfa
+double FGetD3DAlphaArg1();			// zjiÅ¡tÄ›nÃ­ argumentu 1 alfa
+double FGetD3DAlphaArg2();			// zjiÅ¡tÄ›nÃ­ argumentu 2 alfa
+double FGetD3DAddressU();			// zjiÅ¡tÄ›nÃ­ horizontÃ¡lnÃ­ho adresovÃ¡nÃ­
+double FGetD3DAddressV();			// zjiÅ¡tÄ›nÃ­ vertikÃ¡lnÃ­ho adresovÃ¡nÃ­
+//double FGetD3DBorder();				// zjiÅ¡tÄ›nÃ­ barvy okolÃ­ textury
+double FGetD3DBias();				// zjiÅ¡tÄ›nÃ­ zjemnÄ›nÃ­ vzdÃ¡lenÃ½ch textur
+double FGetD3DMipMaps();			// poÄet ÃºrovnÃ­ mipmaps
 
-double FPolarRadius();				// vıpoèet vzdálenosti bodu
-double FPolarAngle();				// vıpoèet úhlu bodu
-double FPreciseTimer();				// pøesnı èítaè èasu
-double FGetD3DTFactor();			// zjištìní barvy faktoru textur
-double FGetD3DZGroup();				// zjištìní renderovací skupiny
-double FGetD3DZTest();				// zjištìní hloubkového testu
-double FGetD3DShadowRange();		// zjištìní dosahu stínu
-double FGetD3DLODObject();			// zjištìní objektu pro LOD
-double FGetD3DLODDistance();		// zjištìní vzdálenosti pro LOD
-double FGetD3DMorphModel();			// zjištìní max. stupnì morfování
-double FGetD3DMorphLevel();			// zjištìní stupnì morfování
-double FD3DChild0();				// poskytnutí potomka 3D objektu
-double FD3DChild();					// poskytnutí dalšího potomka 3D objektu
+double FPolarRadius();				// vÃ½poÄet vzdÃ¡lenosti bodu
+double FPolarAngle();				// vÃ½poÄet Ãºhlu bodu
+double FPreciseTimer();				// pÅ™esnÃ½ ÄÃ­taÄ Äasu
+double FGetD3DTFactor();			// zjiÅ¡tÄ›nÃ­ barvy faktoru textur
+double FGetD3DZGroup();				// zjiÅ¡tÄ›nÃ­ renderovacÃ­ skupiny
+double FGetD3DZTest();				// zjiÅ¡tÄ›nÃ­ hloubkovÃ©ho testu
+double FGetD3DShadowRange();		// zjiÅ¡tÄ›nÃ­ dosahu stÃ­nu
+double FGetD3DLODObject();			// zjiÅ¡tÄ›nÃ­ objektu pro LOD
+double FGetD3DLODDistance();		// zjiÅ¡tÄ›nÃ­ vzdÃ¡lenosti pro LOD
+double FGetD3DMorphModel();			// zjiÅ¡tÄ›nÃ­ max. stupnÄ› morfovÃ¡nÃ­
+double FGetD3DMorphLevel();			// zjiÅ¡tÄ›nÃ­ stupnÄ› morfovÃ¡nÃ­
+double FD3DChild0();				// poskytnutÃ­ potomka 3D objektu
+double FD3DChild();					// poskytnutÃ­ dalÅ¡Ã­ho potomka 3D objektu
 
-// tabulky pro tvorbu zdi 3D, pouívají se i pøi zobrazení 2D objektu v OpenGL
+// tabulky pro tvorbu zdi 3D, pouÅ¾Ã­vajÃ­ se i pÅ™i zobrazenÃ­ 2D objektu v OpenGL
 extern D3DVECTOR wall_vertices[4];
 extern float wall_text[2*4];
 
 // obsluha DLL
-double FDLLLoad();					// naètení DLL knihovny
-double FDLLImport();				// importování DLL funkce
-double FDLLExecNum();				// provedení DLL funkce
-double FMemoryNew();				// vytvoøení bloku pamìti
-double FMemoryResize();				// zmìna velikosti bloku pamìti
-double FGetMemoryRead();			// ukazatel ètení z pamìti
-double FGetMemoryWrite();			// ukazatel zápisu do pamìti
-double FMemoryCompare();			// porovnání dat
-double FGetMemoryByteS();			// bajt se znaménkem
-double FGetMemoryByteU();			// bajt bez znaménka
-double FGetMemoryWordS();			// slovo se znaménkem
-double FGetMemoryWordU();			// slovo bez znaménka
-double FGetMemory3ByteS();			// 3-bajt se znaménkem
-double FGetMemory3ByteU();			// 3-bajt bez znaménka
-double FGetMemoryDWordS();			// dvouslovo se znaménkem
-double FGetMemoryDWordU();			// dvouslovo bez znaménka
-double FGetMemoryFloat();			// reálné èíslo 4 bajty
-double FGetMemoryDouble();			// reálné èíslo 8 bajtù
-double FGetMemoryTextNLen();		// délka textu s pevnou délkou
-double FWindowHandle();				// handle okenního prvku
-double FMemory3D();					// vytvoøení 3D objektu z pamìti
-double FD3DMemory();				// vytvoøení pamìového bloku z 3D objektu
+double FDLLLoad();					// naÄtenÃ­ DLL knihovny
+double FDLLImport();				// importovÃ¡nÃ­ DLL funkce
+double FDLLExecNum();				// provedenÃ­ DLL funkce
+double FMemoryNew();				// vytvoÅ™enÃ­ bloku pamÄ›ti
+double FMemoryResize();				// zmÄ›na velikosti bloku pamÄ›ti
+double FGetMemoryRead();			// ukazatel ÄtenÃ­ z pamÄ›ti
+double FGetMemoryWrite();			// ukazatel zÃ¡pisu do pamÄ›ti
+double FMemoryCompare();			// porovnÃ¡nÃ­ dat
+double FGetMemoryByteS();			// bajt se znamÃ©nkem
+double FGetMemoryByteU();			// bajt bez znamÃ©nka
+double FGetMemoryWordS();			// slovo se znamÃ©nkem
+double FGetMemoryWordU();			// slovo bez znamÃ©nka
+double FGetMemory3ByteS();			// 3-bajt se znamÃ©nkem
+double FGetMemory3ByteU();			// 3-bajt bez znamÃ©nka
+double FGetMemoryDWordS();			// dvouslovo se znamÃ©nkem
+double FGetMemoryDWordU();			// dvouslovo bez znamÃ©nka
+double FGetMemoryFloat();			// reÃ¡lnÃ© ÄÃ­slo 4 bajty
+double FGetMemoryDouble();			// reÃ¡lnÃ© ÄÃ­slo 8 bajtÅ¯
+double FGetMemoryTextNLen();		// dÃ©lka textu s pevnou dÃ©lkou
+double FWindowHandle();				// handle okennÃ­ho prvku
+double FMemory3D();					// vytvoÅ™enÃ­ 3D objektu z pamÄ›ti
+double FD3DMemory();				// vytvoÅ™enÃ­ pamÄ›Å¥ovÃ©ho bloku z 3D objektu
 
 // konfigurace
-double FGetIniNum();				// ètení konfiguraèního èísla
-double FGetIniNum0();				// ètení konfiguraèního èísla
-double FGetRegKey();				// skupina klíèù registru
-double FGetRegNum();				// ètení èísla z registru
-double FGetRegNum0();				// ètení èísla z registru
+double FGetIniNum();				// ÄtenÃ­ konfiguraÄnÃ­ho ÄÃ­sla
+double FGetIniNum0();				// ÄtenÃ­ konfiguraÄnÃ­ho ÄÃ­sla
+double FGetRegKey();				// skupina klÃ­ÄÅ¯ registru
+double FGetRegNum();				// ÄtenÃ­ ÄÃ­sla z registru
+double FGetRegNum0();				// ÄtenÃ­ ÄÃ­sla z registru

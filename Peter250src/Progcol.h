@@ -1,14 +1,14 @@
 
 /***************************************************************************\
 *																			*
-*									Výbìr barvy								*
+*									VÃ½bÄ›r barvy								*
 *																			*
 \***************************************************************************/
 
 namespace ProgCol
 {
 
-// výbìr barvy
+// vÃ½bÄ›r barvy
 	void SelectColor(int index);
 
 
@@ -16,6 +16,6 @@ namespace ProgCol
 
 
 /////////////////////////////////////////////////////////////////////////////
-// menu nastavení fontu
+// menu nastavenÃ­ fontu
 
 void ProgOnSetup(int id);

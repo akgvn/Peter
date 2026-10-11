@@ -9,7 +9,7 @@
 
 
 ////////////////////////////////////////////////////////////////////
-// test platnosti záhlaví BMP (TRUE=je OK)
+// test platnosti zÃ¡hlavÃ­ BMP (TRUE=je OK)
 
 BOOL TestBMP(const BITMAPINFO* bitmap)
 {
@@ -50,13 +50,13 @@ void DekompRLE8(BYTE* dst, int dstN, BYTE* src, int srcN)
 {
 	BYTE data;
 	BYTE num;
-	int lineoff = 0;				// bodový offset na lince
+	int lineoff = 0;				// bodovÃ½ offset na lince
 
 	for (;;)
 	{
 		if ((dstN <= 0) || (srcN <= 0)) break;
 
-// naètení prvního a druhého bajtu
+// naÄtenÃ­ prvnÃ­ho a druhÃ©ho bajtu
 		num = *src;
 		src++;
 		srcN--;
@@ -65,7 +65,7 @@ void DekompRLE8(BYTE* dst, int dstN, BYTE* src, int srcN)
 		src++;
 		srcN--;
 
-// opakování bajtu
+// opakovÃ¡nÃ­ bajtu
 		if (num != 0)
 		{
 			lineoff += num;
@@ -77,7 +77,7 @@ void DekompRLE8(BYTE* dst, int dstN, BYTE* src, int srcN)
 		else
 		{
 
-// pøenos bajtù beze zmìny
+// pÅ™enos bajtÅ¯ beze zmÄ›ny
 			if (data > 2)
 			{
 				lineoff += data;
@@ -91,7 +91,7 @@ void DekompRLE8(BYTE* dst, int dstN, BYTE* src, int srcN)
 			else
 			{
 
-// escape kód - konec linky
+// escape kÃ³d - konec linky
 				if (data == 0)
 				{
 					num = (BYTE)(3 - ((lineoff+3) & 3));
@@ -103,7 +103,7 @@ void DekompRLE8(BYTE* dst, int dstN, BYTE* src, int srcN)
 				else
 				{
 
-// escape kód - konec bitmapu
+// escape kÃ³d - konec bitmapu
 					if (data == 1)
 					{
 						break;
@@ -116,7 +116,7 @@ void DekompRLE8(BYTE* dst, int dstN, BYTE* src, int srcN)
 
 
 ////////////////////////////////////////////////////////////////////
-// pøenesení bodu
+// pÅ™enesenÃ­ bodu
 
 inline void RLE4Store(BOOL& firstdst, BOOL& firstsrc, BYTE*& dst, const BYTE& data)
 {
@@ -160,17 +160,17 @@ void DekompRLE4(BYTE* dst, int dstN, BYTE* src, int srcN)
 {
 	BYTE data;						// data
 	BYTE olddata;
-	BYTE num;						// poèet dat
-	int lineoff = 0;				// bodový offset na lince
+	BYTE num;						// poÄet dat
+	int lineoff = 0;				// bodovÃ½ offset na lince
 
-	BOOL firstdst = TRUE;			// ukládá se první tetráda bajtu
-	BOOL firstsrc;					// naèítá se první tetráda bajtu
+	BOOL firstdst = TRUE;			// uklÃ¡dÃ¡ se prvnÃ­ tetrÃ¡da bajtu
+	BOOL firstsrc;					// naÄÃ­tÃ¡ se prvnÃ­ tetrÃ¡da bajtu
 
-// dokud jsou platná data (to je jen pøibližná kontrola, musí být rezerva)
+// dokud jsou platnÃ¡ data (to je jen pÅ™ibliÅ¾nÃ¡ kontrola, musÃ­ bÃ½t rezerva)
 	while ((dstN > 0) && (srcN > 0))
 	{
 
-// naètení prvního a druhého bajtu
+// naÄtenÃ­ prvnÃ­ho a druhÃ©ho bajtu
 		num = *src;
 		src++;
 		srcN--;
@@ -179,9 +179,9 @@ void DekompRLE4(BYTE* dst, int dstN, BYTE* src, int srcN)
 		src++;
 		srcN--;
 
-		firstsrc = TRUE;			// naèítá se první tetráda bajtu
+		firstsrc = TRUE;			// naÄÃ­tÃ¡ se prvnÃ­ tetrÃ¡da bajtu
 
-// opakování bajtu
+// opakovÃ¡nÃ­ bajtu
 		if (num != 0)
 		{
 			lineoff += num;
@@ -195,7 +195,7 @@ void DekompRLE4(BYTE* dst, int dstN, BYTE* src, int srcN)
 		else
 		{
 
-// pøenos bajtù beze zmìny
+// pÅ™enos bajtÅ¯ beze zmÄ›ny
 			if (data > 2)
 			{
 				lineoff += data;
@@ -224,7 +224,7 @@ void DekompRLE4(BYTE* dst, int dstN, BYTE* src, int srcN)
 			else
 			{
 
-// escape kód - konec linky
+// escape kÃ³d - konec linky
 				if (data == 0)
 				{
 					for (lineoff = 7 - ((lineoff+7) & 7); lineoff > 0; lineoff--)
@@ -235,7 +235,7 @@ void DekompRLE4(BYTE* dst, int dstN, BYTE* src, int srcN)
 				else
 				{
 
-// escape kód - konec bitmapu
+// escape kÃ³d - konec bitmapu
 					if (data == 1)
 					{
 						break;
@@ -254,30 +254,30 @@ class CRle8
 {
 public:
 
-	BYTE*	m_Dst;				// ukládací adresa do výstupního bufferu
-	BYTE*	m_Src;				// ètecí adresa neuložených dat
-	BYTE	m_Neshoda;			// délka neshody
-	BYTE	m_Shoda;			// délka shody
+	BYTE*	m_Dst;				// uklÃ¡dacÃ­ adresa do vÃ½stupnÃ­ho bufferu
+	BYTE*	m_Src;				// ÄtecÃ­ adresa neuloÅ¾enÃ½ch dat
+	BYTE	m_Neshoda;			// dÃ©lka neshody
+	BYTE	m_Shoda;			// dÃ©lka shody
 
-// uložení bajtu do výstupního bufferu
+// uloÅ¾enÃ­ bajtu do vÃ½stupnÃ­ho bufferu
 	inline void Store(BYTE data);
 
-// pøenesení bajtu neuložených dat
+// pÅ™enesenÃ­ bajtu neuloÅ¾enÃ½ch dat
 	inline void Move();
 
-// vyprázdnìní bufferu neshody
+// vyprÃ¡zdnÄ›nÃ­ bufferu neshody
 	void FlushNeshoda();
 
-// zaøazení bajtu do bufferu neshody
+// zaÅ™azenÃ­ bajtu do bufferu neshody
 	inline void StoreNeshoda();
 
-// vyprázdnìní bufferu shody
+// vyprÃ¡zdnÄ›nÃ­ bufferu shody
 	void FlushShoda();
 };
 
 
 ////////////////////////////////////////////////////////////////////
-// uložení bajtu do výstupního bufferu
+// uloÅ¾enÃ­ bajtu do vÃ½stupnÃ­ho bufferu
 
 inline void CRle8::Store(BYTE data)
 {
@@ -287,7 +287,7 @@ inline void CRle8::Store(BYTE data)
 
 
 ////////////////////////////////////////////////////////////////////
-// pøenesení bajtu neuložených dat
+// pÅ™enesenÃ­ bajtu neuloÅ¾enÃ½ch dat
 
 inline void CRle8::Move()
 {
@@ -298,7 +298,7 @@ inline void CRle8::Move()
 
 
 ////////////////////////////////////////////////////////////////////
-// vyprázdnìní bufferu neshody
+// vyprÃ¡zdnÄ›nÃ­ bufferu neshody
 
 void CRle8::FlushNeshoda()
 {
@@ -386,7 +386,7 @@ void CRle8::FlushNeshoda()
 
 
 ////////////////////////////////////////////////////////////////////
-// zaøazení bajtu do bufferu neshody
+// zaÅ™azenÃ­ bajtu do bufferu neshody
 
 inline void CRle8::StoreNeshoda()
 {
@@ -399,7 +399,7 @@ inline void CRle8::StoreNeshoda()
 
 
 ////////////////////////////////////////////////////////////////////
-// vyprázdnìní bufferu shody
+// vyprÃ¡zdnÄ›nÃ­ bufferu shody
 
 void CRle8::FlushShoda()
 {
@@ -469,36 +469,36 @@ void CRle8::FlushShoda()
 }
 
 ////////////////////////////////////////////////////////////////////
-// komprese dat bitmapy BI_RLE8, vrací velikost dat
+// komprese dat bitmapy BI_RLE8, vracÃ­ velikost dat
 
 int KompRLE8(BYTE* dstbuf, BYTE* srcbuf, int width, int height)
 {
 // buffer komprese
 	CRle8 rle;
-	rle.m_Dst = dstbuf;						// ukládací adresa
-	rle.m_Src = srcbuf;						// ètecí adersa
-	rle.m_Neshoda = 0;						// délka neshody
-	rle.m_Shoda = 0;						// délka shody
+	rle.m_Dst = dstbuf;						// uklÃ¡dacÃ­ adresa
+	rle.m_Src = srcbuf;						// ÄtecÃ­ adersa
+	rle.m_Neshoda = 0;						// dÃ©lka neshody
+	rle.m_Shoda = 0;						// dÃ©lka shody
 
-// lokální promìnné
-	BYTE* src = srcbuf;							// ètecí adresa
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	BYTE* src = srcbuf;							// ÄtecÃ­ adresa
 
-// cyklus pøes všechny linky
+// cyklus pÅ™es vÅ¡echny linky
 	for (int i = height; i > 0; i--)
 	{
 
-// cyklus pøes všechny pozice na lince
+// cyklus pÅ™es vÅ¡echny pozice na lince
 		for (int j = width; j > 0; j--)
 		{
 
-// buffer shody je prázdný
+// buffer shody je prÃ¡zdnÃ½
 			if (rle.m_Shoda == 0)
 			{
 				rle.m_Shoda = 1;
 			}
 			else
 
-// test, zda je shodný bajt
+// test, zda je shodnÃ½ bajt
 			{
 				if (*src == src[-1])
 				{
@@ -517,19 +517,19 @@ int KompRLE8(BYTE* dstbuf, BYTE* srcbuf, int width, int height)
 			src++;
 		}
 
-// konec linky - vyprázdnìní bufferù
+// konec linky - vyprÃ¡zdnÄ›nÃ­ bufferÅ¯
 		rle.FlushShoda();
 		rle.FlushNeshoda();
 
-// uložení kódu pro konec linky
+// uloÅ¾enÃ­ kÃ³du pro konec linky
 		rle.Store(0);
 		rle.Store(0);
 	}
 
-// uložení kódu pro konec bitmapy
+// uloÅ¾enÃ­ kÃ³du pro konec bitmapy
 	rle.Store(0);
 	rle.Store(1);
 
-// návrat délky uložených dat
+// nÃ¡vrat dÃ©lky uloÅ¾enÃ½ch dat
 	return (rle.m_Dst - dstbuf);
 }

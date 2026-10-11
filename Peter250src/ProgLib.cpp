@@ -10,35 +10,35 @@
 namespace ProgLib
 {
 
-// promìnné
-BOOL	m_Loading = FALSE;	// probíhá obsluha naèítání
-int		m_Parent;			// index poloky k naètení obsahu
-int		m_ParParam;			// parametry rodièe poloek
-int		m_Root;				// ROOT poloka vìtve
+// promÄ›nnÃ©
+BOOL	m_Loading = FALSE;	// probÃ­hÃ¡ obsluha naÄÃ­tÃ¡nÃ­
+int		m_Parent;			// index poloÅ¾ky k naÄtenÃ­ obsahu
+int		m_ParParam;			// parametry rodiÄe poloÅ¾ek
+int		m_Root;				// ROOT poloÅ¾ka vÄ›tve
 int		m_Func;				// identifikace funkce
-BOOL	m_CD = FALSE;		// pøíznak alternativního adresáøe (R/O)
-BOOL	m_CD2 = FALSE;		// pøíznak alternativního adresáøe 2 (R/O, CD-ROM)
-BOOL	m_CDItem = FALSE;	// pøíznak alternativní poloky (mùe to bıt i adresáø v normálním adresáøi)
-BOOL	m_CDItem2 = FALSE;	// pøíznak alternativní poloky 2 (mùe to bıt i adresáø v normálním adresáøi)
-BOOL	m_AltExt = FALSE;	// pøíznak alternativní pøípony (JPG, MP3, RMI, RTF)
-CText	m_RootPath;			// vıchozí cesta (s "\" na konci)
-CText	m_RootPath2;		// alternativní cesta (prázdné = není, jinak s "\" na konci)
-CText	m_RootPath3;		// alternativní cesta 2 (prázdné = není, jinak s "\" na konci)
-CText	m_RootPath3Key;		// klíè ve FOLDERS.INI na CD-ROM
-CText	m_SubPath;			// podcesta (s "\" na konci nebo prázdnı)
-CText	m_Path;				// cesta do adresáøe (s "\" na konci)
-CText	m_Aliases;			// jméno INI souboru s ALIASES
-CText	m_Ext;				// pøípona souborù 3 znaky
-CText	m_Ext2;				// alternativní pøípona souborù 3 znaky (prázdné = není)
-CText	m_Name;				// plné jméno souboru
-CText	m_NameKey;			// jméno souboru pouité jako klíè INI (jméno s pøíponou)
-CText	m_IconName;			// jméno ikony k souboru (prázdné = není)
+BOOL	m_CD = FALSE;		// pÅ™Ã­znak alternativnÃ­ho adresÃ¡Å™e (R/O)
+BOOL	m_CD2 = FALSE;		// pÅ™Ã­znak alternativnÃ­ho adresÃ¡Å™e 2 (R/O, CD-ROM)
+BOOL	m_CDItem = FALSE;	// pÅ™Ã­znak alternativnÃ­ poloÅ¾ky (mÅ¯Å¾e to bÃ½t i adresÃ¡Å™ v normÃ¡lnÃ­m adresÃ¡Å™i)
+BOOL	m_CDItem2 = FALSE;	// pÅ™Ã­znak alternativnÃ­ poloÅ¾ky 2 (mÅ¯Å¾e to bÃ½t i adresÃ¡Å™ v normÃ¡lnÃ­m adresÃ¡Å™i)
+BOOL	m_AltExt = FALSE;	// pÅ™Ã­znak alternativnÃ­ pÅ™Ã­pony (JPG, MP3, RMI, RTF)
+CText	m_RootPath;			// vÃ½chozÃ­ cesta (s "\" na konci)
+CText	m_RootPath2;		// alternativnÃ­ cesta (prÃ¡zdnÃ© = nenÃ­, jinak s "\" na konci)
+CText	m_RootPath3;		// alternativnÃ­ cesta 2 (prÃ¡zdnÃ© = nenÃ­, jinak s "\" na konci)
+CText	m_RootPath3Key;		// klÃ­Ä ve FOLDERS.INI na CD-ROM
+CText	m_SubPath;			// podcesta (s "\" na konci nebo prÃ¡zdnÃ½)
+CText	m_Path;				// cesta do adresÃ¡Å™e (s "\" na konci)
+CText	m_Aliases;			// jmÃ©no INI souboru s ALIASES
+CText	m_Ext;				// pÅ™Ã­pona souborÅ¯ 3 znaky
+CText	m_Ext2;				// alternativnÃ­ pÅ™Ã­pona souborÅ¯ 3 znaky (prÃ¡zdnÃ© = nenÃ­)
+CText	m_Name;				// plnÃ© jmÃ©no souboru
+CText	m_NameKey;			// jmÃ©no souboru pouÅ¾itÃ© jako klÃ­Ä INI (jmÃ©no s pÅ™Ã­ponou)
+CText	m_IconName;			// jmÃ©no ikony k souboru (prÃ¡zdnÃ© = nenÃ­)
 
-HANDLE*	m_pDirChange = NULL; // adresa hlášení o zmìnì adresáøe
-HANDLE*	m_pDirChange2 = NULL; // adresa hlášení o zmìnì alternativního adresáøe
+HANDLE*	m_pDirChange = NULL; // adresa hlÃ¡Å¡enÃ­ o zmÄ›nÄ› adresÃ¡Å™e
+HANDLE*	m_pDirChange2 = NULL; // adresa hlÃ¡Å¡enÃ­ o zmÄ›nÄ› alternativnÃ­ho adresÃ¡Å™e
 
 /////////////////////////////////////////////////////////////////////////////
-// statická inicializace obsluhy
+// statickÃ¡ inicializace obsluhy
 
 void StartInit()
 {
@@ -46,7 +46,7 @@ void StartInit()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíprava jména souboru
+// pÅ™Ã­prava jmÃ©na souboru
 
 void _fastcall InitName(int index)
 {
@@ -113,22 +113,22 @@ void _fastcall InitName(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíprava cesty (index = poslední adresáø)
+// pÅ™Ã­prava cesty (index = poslednÃ­ adresÃ¡Å™)
 
 void _fastcall InitPath(int index)
 {
-// úschova indexu poloky
+// Ãºschova indexu poloÅ¾ky
 	ASSERT(BufCls.IsValid(index));
 	m_Parent = index;
 
-// úschova parametrù rodièe poloek
+// Ãºschova parametrÅ¯ rodiÄe poloÅ¾ek
 	m_ParParam = BufCls[index].Param;
 
-// pøíznak alternativního adresáøe
+// pÅ™Ã­znak alternativnÃ­ho adresÃ¡Å™e
 	m_CD = (m_ParParam & PR_CD);
 	m_CD2 = (m_ParParam & PR_CD2);
 
-// nalezení ROOT poloky (a pøíprava èásti adresáøe)
+// nalezenÃ­ ROOT poloÅ¾ky (a pÅ™Ã­prava ÄÃ¡sti adresÃ¡Å™e)
 	m_SubPath.Empty();
 
 	if (m_CD || m_CD2)
@@ -154,10 +154,10 @@ void _fastcall InitPath(int index)
 
 	m_Root = index;
 
-// úschova typu poloky
+// Ãºschova typu poloÅ¾ky
 	m_Func = BufCls[index].Func;
 
-// pøíprava adresáøe a specifikace poloek
+// pÅ™Ã­prava adresÃ¡Å™e a specifikace poloÅ¾ek
 	m_Ext2.Empty();
 
 	switch (m_Func)
@@ -366,7 +366,7 @@ void _fastcall InitPath(int index)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení ALIAS jména souboru
+// naÄtenÃ­ ALIAS jmÃ©na souboru
 
 CText ReadAliasName(int lang, LPCTSTR key)
 {
@@ -376,20 +376,20 @@ CText ReadAliasName(int lang, LPCTSTR key)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení obsahu poloky v oknì tøíd
+// naÄtenÃ­ obsahu poloÅ¾ky v oknÄ› tÅ™Ã­d
 
 void Load(int index)
 {
-// kontrola, zda neprobíhá naèítání
+// kontrola, zda neprobÃ­hÃ¡ naÄÃ­tÃ¡nÃ­
 	if (m_Loading) return;
 
-// ovìøení platnosti poloky
+// ovÄ›Å™enÃ­ platnosti poloÅ¾ky
 	if (BufCls.IsNotValid(index)) return;
 
-// nastavení pøíznaku obsluhy
+// nastavenÃ­ pÅ™Ã­znaku obsluhy
 	m_Loading = TRUE;
 
-// zrušení všech potomkù poloky
+// zruÅ¡enÃ­ vÅ¡ech potomkÅ¯ poloÅ¾ky
 	while (BufCls[index].Child >= 0)
 	{
 		BufCls.Del(BufCls[index].Child);
@@ -398,27 +398,27 @@ void Load(int index)
 // UNDO nelze navracet
 	Undo.DelAll();
 
-// pøíprava cesty pro poloku
+// pÅ™Ã­prava cesty pro poloÅ¾ku
 	InitPath(index);
 
-// vytvoøení cesty
+// vytvoÅ™enÃ­ cesty
 	if (!(m_CD || m_CD2))
 	{
 		CreatePath(m_Path);
 	}
 
-// zahájení hlášení zmìn adresáøù, pokud adresáø pøedtím neexistoval
+// zahÃ¡jenÃ­ hlÃ¡Å¡enÃ­ zmÄ›n adresÃ¡Å™Å¯, pokud adresÃ¡Å™ pÅ™edtÃ­m neexistoval
 	BeginDirChange(m_pDirChange, m_pDirChange2, m_RootPath, m_RootPath2);
 
-// lokální promìnné
-	WIN32_FIND_DATA wfd;			// struktura pro hledání souborù
-	HANDLE handle;					// handle hledání souborù
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	WIN32_FIND_DATA wfd;			// struktura pro hledÃ¡nÃ­ souborÅ¯
+	HANDLE handle;					// handle hledÃ¡nÃ­ souborÅ¯
 	PROGITEM item;
-	CText jmeno;					// jméno nalezeného souboru
-	CMultiText jmeno2;				// vícejazyèné jméno souboru
-	CIcon icon;						// ikona nalezeného souboru
+	CText jmeno;					// jmÃ©no nalezenÃ©ho souboru
+	CMultiText jmeno2;				// vÃ­cejazyÄnÃ© jmÃ©no souboru
+	CIcon icon;						// ikona nalezenÃ©ho souboru
 
-// pøíprava poloky k naètení adresáøù
+// pÅ™Ã­prava poloÅ¾ky k naÄtenÃ­ adresÃ¡Å™Å¯
 	MemFill(&item, sizeof(PROGITEM), -1);
 	item.Func = IDF_GROUP;
 	item.RefBlok = BufStrID;
@@ -437,7 +437,7 @@ void Load(int index)
 	item.SrcMask = PR_ALL;
 	item.DstMask = PR_ALL;
 
-// zdìdìní parametrù uzamknutí a vypnutí
+// zdÄ›dÄ›nÃ­ parametrÅ¯ uzamknutÃ­ a vypnutÃ­
 	if (m_ParParam & (PR_LOCK | PR_LOCK_DEP))
 	{
 		item.Param |= PR_LOCK_DEP;
@@ -448,7 +448,7 @@ void Load(int index)
 		item.Param |= PR_OFF_DEP;
 	}
 
-// naètení podadresáøù
+// naÄtenÃ­ podadresÃ¡Å™Å¯
 	handle = ::FindFirstFile(m_Path + _T("*.*"), &wfd);
 	if (handle != INVALID_HANDLE_VALUE)
 	{
@@ -460,7 +460,7 @@ void Load(int index)
 
 				item.Param &= ~(PR_LOCK | PR_OFF);
 
-			// naètení atributù podadresáøe
+			// naÄtenÃ­ atributÅ¯ podadresÃ¡Å™e
 				int atr = (int)::GetFileAttributes(m_Path + jmeno);
 				if (atr != -1)
 				{
@@ -475,7 +475,7 @@ void Load(int index)
 					}
 				}				
 
-			// uzamknutí vzorového adresáøe
+			// uzamknutÃ­ vzorovÃ©ho adresÃ¡Å™e
 				if (m_CD || m_CD2)
 				{
 					item.Param |= PR_LOCK;
@@ -507,7 +507,7 @@ void Load(int index)
 		::FindClose(handle);
 	}
 
-// pøidání alternativního adresáøe
+// pÅ™idÃ¡nÃ­ alternativnÃ­ho adresÃ¡Å™e
 	if (!(m_CD || m_CD2) && (BufCls[index].Parent < 0))
 	{
 		if (m_RootPath2.IsNotEmpty())
@@ -530,7 +530,7 @@ void Load(int index)
 		}
 	}
 
-// pøíprava poloky k naètení souborù
+// pÅ™Ã­prava poloÅ¾ky k naÄtenÃ­ souborÅ¯
 	item.Func = m_Func;
 	item.RefBlok = BufIntID;
 	item.RefIndex = m_Func - IDF;
@@ -538,7 +538,7 @@ void Load(int index)
 	item.SrcMask = BufCls[m_Root].SrcMask;
 	item.DstMask = BufCls[m_Root].DstMask;
 
-// zdìdìní parametrù uzamknutí a vypnutí
+// zdÄ›dÄ›nÃ­ parametrÅ¯ uzamknutÃ­ a vypnutÃ­
 	if (m_ParParam & (PR_LOCK | PR_LOCK_DEP))
 	{
 		item.Param |= PR_LOCK_DEP;
@@ -549,7 +549,7 @@ void Load(int index)
 		item.Param |= PR_OFF_DEP;
 	}
 
-// vyhledání souborù
+// vyhledÃ¡nÃ­ souborÅ¯
 	handle = ::FindFirstFile(m_Path + _T("*.") + m_Ext, &wfd);
 	BOOL errpath = FALSE;
 
@@ -620,7 +620,7 @@ void Load(int index)
 		errpath = (::GetLastError() != ERROR_FILE_NOT_FOUND);
 	}
 
-// vyhledání alternativních souborù
+// vyhledÃ¡nÃ­ alternativnÃ­ch souborÅ¯
 	if (m_Ext2.IsNotEmpty())
 	{
 		handle = ::FindFirstFile(m_Path + _T("*.") + m_Ext2, &wfd);
@@ -697,7 +697,7 @@ void Load(int index)
 		}
 	}
 
-// oprava zobrazení tlaèítka
+// oprava zobrazenÃ­ tlaÄÃ­tka
 	TV_ITEM tvi;
 	tvi.hItem = BufCls[index].HTree;
 	tvi.mask = TVIF_CHILDREN;
@@ -712,40 +712,40 @@ void Load(int index)
 // UNDO nelze navracet
 	Undo.DelAll();
 
-// vypnutí pøíznaku obsluhy
+// vypnutÃ­ pÅ™Ã­znaku obsluhy
 	m_Loading = FALSE;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení poloky z bufferu tøíd (se zrušením souboru)
+// zruÅ¡enÃ­ poloÅ¾ky z bufferu tÅ™Ã­d (se zruÅ¡enÃ­m souboru)
 
 void Delete(int index)
 {
-// kontrola platnosti poloky
+// kontrola platnosti poloÅ¾ky
 	if (BufCls.IsNotValid(index)) return;
 
-// adresa poloky
+// adresa poloÅ¾ky
 	PROGITEM* item = &BufCls[index];
 
-// základní kontrola povolení operace
+// zÃ¡kladnÃ­ kontrola povolenÃ­ operace
 	if ((item->Parent < 0) || 
 		(item->Param & (PR_NOMOVE | PR_INTERN | PR_LOCK | PR_LOCK_DEP)))
 	{
 		return;
 	}
 
-// zjištìní potomkù skupiny
+// zjiÅ¡tÄ›nÃ­ potomkÅ¯ skupiny
 	if ((item->Func == IDF_GROUP) && (item->Child < 0))
 	{
 		Load(index);
 		item = &BufCls[index];
 	}
 
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (item->Child >= 0) return;
 
-// dotaz na potvrzení operace
+// dotaz na potvrzenÃ­ operace
 	if (item->Func != IDF_GROUP)
 	{
 		CText text;
@@ -760,19 +760,19 @@ void Delete(int index)
 		}
 	}
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 	BeginWaitCursor();
 
-// pøíprava jména souboru
+// pÅ™Ã­prava jmÃ©na souboru
 	InitName(index);
 
-// zrušení souboru (u sloky se ovìøí, zda opravdu neobsahuje ádné platné soubory)
+// zruÅ¡enÃ­ souboru (u sloÅ¾ky se ovÄ›Å™Ã­, zda opravdu neobsahuje Å¾Ã¡dnÃ© platnÃ© soubory)
 	BOOL result;
 	if (item->Func == IDF_GROUP)
 	{
-		WIN32_FIND_DATA wfd;			// struktura pro hledání souborù
-		HANDLE handle;					// handle hledání souborù
-		result = TRUE;					// povoleno zrušení sloky
+		WIN32_FIND_DATA wfd;			// struktura pro hledÃ¡nÃ­ souborÅ¯
+		HANDLE handle;					// handle hledÃ¡nÃ­ souborÅ¯
+		result = TRUE;					// povoleno zruÅ¡enÃ­ sloÅ¾ky
 
 		handle = ::FindFirstFile(m_Name + _T("\\*.") + m_Ext, &wfd);
 		if (handle != INVALID_HANDLE_VALUE)
@@ -802,13 +802,13 @@ void Delete(int index)
 		result = ::DeleteFile(m_Name);
 	}
 
-// zrušení ikony
+// zruÅ¡enÃ­ ikony
 	if (result && m_IconName.IsNotEmpty())
 	{
 		::DeleteFile(m_IconName);
 	}
 
-// zrušení Aliases
+// zruÅ¡enÃ­ Aliases
 	if (result)
 	{
 		for (int lang = 0; lang < JAZYKNUM; lang++)
@@ -820,10 +820,10 @@ void Delete(int index)
 		}
 	}
 
-// ukonèení pøedešlého nahrávání záznamu UNDO operace (naètení knihovny)
+// ukonÄenÃ­ pÅ™edeÅ¡lÃ©ho nahrÃ¡vÃ¡nÃ­ zÃ¡znamu UNDO operace (naÄtenÃ­ knihovny)
 	Undo.Stop();
 
-// zrušení poloky z bufferu
+// zruÅ¡enÃ­ poloÅ¾ky z bufferu
 	if (result)
 	{
 		BufCls.Del(index);
@@ -832,63 +832,63 @@ void Delete(int index)
 // UNDO nelze navracet
 	Undo.DelAll();
 
-// po nìjakou dobu se ignoruje hlášení zmìn adresáøe
+// po nÄ›jakou dobu se ignoruje hlÃ¡Å¡enÃ­ zmÄ›n adresÃ¡Å™e
 	ProgDirChangeIgnore = 2;
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 	EndWaitCursor();
 
-// aktualizace informací o poloce, aktualizace menu clipboardu
+// aktualizace informacÃ­ o poloÅ¾ce, aktualizace menu clipboardu
 	ProgAktItem();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie poloky z jiného okna (musí bıt platné!)
+// kopie poloÅ¾ky z jinÃ©ho okna (musÃ­ bÃ½t platnÃ©!)
 
 int Copy(int parent, int pos, int bufID, int src)
 {
-// zajištìní naètení cílové poloky
+// zajiÅ¡tÄ›nÃ­ naÄtenÃ­ cÃ­lovÃ© poloÅ¾ky
 	if ((BufCls[parent].Child < 0) &&
 		((BufCls[parent].Func == IDF_GROUP) || (BufCls[parent].Parent < 0)))
 	{
 		Load(parent);
 	}
 
-// adresa zdrojového bufferu
+// adresa zdrojovÃ©ho bufferu
 	CBufProg* buf = BufProg + bufID;
 
-// adresa zdrojové poloky
+// adresa zdrojovÃ© poloÅ¾ky
 	PROGITEM* item = &buf->At(src);
 
 // ------------------------------------------
-// kopie poloek v oknì tøíd
+// kopie poloÅ¾ek v oknÄ› tÅ™Ã­d
 	if (bufID == BufClsID)
 	{
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 		BeginWaitCursor();
 
-// provedení kopie poloky
+// provedenÃ­ kopie poloÅ¾ky
 		pos = BufCls.Copy(parent, pos, bufID, src);
 
 		if (pos >= 0)
 		{
 			item = &buf->At(src);
 
-// zajištìní jména poloky
+// zajiÅ¡tÄ›nÃ­ jmÃ©na poloÅ¾ky
 			if (BufCls[pos].Name < 0)
 			{
 				BufCls[pos].Name = Text.Dup(BufCls.GetText(pos));
 			}
 
-// pøíprava jména souboru
+// pÅ™Ã­prava jmÃ©na souboru
 			InitName(pos);
 
-// pøíprava jména poloky
+// pÅ™Ã­prava jmÃ©na poloÅ¾ky
 			CMultiText txt2 = Text.Get(BufCls[pos].Name);
 			CText txt = txt2.MultiText();
 
-// oprava jména poloky
+// oprava jmÃ©na poloÅ¾ky
 			txt.KorigShort();
 
 			if (BufCls[pos].Func == IDF_GROUP)
@@ -920,17 +920,17 @@ int Copy(int parent, int pos, int bufID, int src)
 				altname = m_Name.Left(m_Name.Length() - 3) + m_Ext2;
 			}
 
-// existuje soubor nebo adresáø tohoto jména?
+// existuje soubor nebo adresÃ¡Å™ tohoto jmÃ©na?
 			int nn = 1;
 			while (((int)::GetFileAttributes(m_Name) != -1) ||
 					(m_Ext2.IsNotEmpty() && ((int)::GetFileAttributes(altname) != -1)))
 			{
 
-// zvıšení èítaèe indexu jména
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe indexu jmÃ©na
 				nn++;
 				if (nn >= 10000) break;
 
-// sestavení nového jména poloky
+// sestavenÃ­ novÃ©ho jmÃ©na poloÅ¾ky
 				CText txt0;
 
 				if (ShortName)
@@ -950,7 +950,7 @@ int Copy(int parent, int pos, int bufID, int src)
 					txt0.SetNumObj(nn);
 				}
 
-// zmìna textu pro poloku
+// zmÄ›na textu pro poloÅ¾ku
 				if (BufCls[pos].Func == IDF_GROUP)
 				{
 					txt2.MultiText(JAZYK000, txt0);
@@ -968,7 +968,7 @@ int Copy(int parent, int pos, int bufID, int src)
 				}
 				Text.Set(BufCls[pos].Name, txt2);
 
-// pøíprava nového jména souboru
+// pÅ™Ã­prava novÃ©ho jmÃ©na souboru
 				InitName(pos);
 				if (m_AltExt)
 				{
@@ -980,14 +980,14 @@ int Copy(int parent, int pos, int bufID, int src)
 				}
 			}
 
-// oprava zobrazení jména poloky
+// oprava zobrazenÃ­ jmÃ©na poloÅ¾ky
 			TV_ITEM tvi;
 			tvi.hItem = BufCls[pos].HTree;
 			tvi.mask = TVIF_TEXT;
 			tvi.pszText = (LPTSTR)(LPCTSTR)txt2.MultiText();
 			::SendMessage(BufCls.Tree(), TVM_SETITEM, 0, (LPARAM)&tvi);
 
-// fyzické provedení kopie souborù
+// fyzickÃ© provedenÃ­ kopie souborÅ¯
 			int dst = pos;
 			int nextsrc = BufCls[src].Next;
 			int src0 = src;
@@ -1035,7 +1035,7 @@ int Copy(int parent, int pos, int bufID, int src)
 					}
 				}
 
-// zápis aliases
+// zÃ¡pis aliases
 				for (int lang = 0; lang < JAZYKNUM; lang++)
 				{
 					if (lang != JAZYK000)
@@ -1062,42 +1062,42 @@ int Copy(int parent, int pos, int bufID, int src)
 
 		ProgDirChangeIgnore = 2;
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 		EndWaitCursor();
 
-// návrat nové pozice prvku
+// nÃ¡vrat novÃ© pozice prvku
 		return pos;
 	}
 
 // ------------------------------------------
-// vytvoøení adresáøe
+// vytvoÅ™enÃ­ adresÃ¡Å™e
 	if ((item->Func == IDF_GROUP) && (item->Child < 0) && 
 		((BufCls[parent].Func == IDF_GROUP) || (BufCls[parent].Parent < 0)))
 	{
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 		BeginWaitCursor();
 
-// provedení kopie poloky
+// provedenÃ­ kopie poloÅ¾ky
 		pos = BufCls.Copy(parent, pos, bufID, src);
 
 		if (pos >= 0)
 		{
 
-// zajištìní jména poloky
+// zajiÅ¡tÄ›nÃ­ jmÃ©na poloÅ¾ky
 			if (BufCls[pos].Name < 0)
 			{
 				BufCls[pos].Name = Text.Dup(BufCls.GetText(pos));
 			}
 
-// pøíprava jména souboru
+// pÅ™Ã­prava jmÃ©na souboru
 			InitName(pos);
 
-// pøíprava jména poloky
+// pÅ™Ã­prava jmÃ©na poloÅ¾ky
 			CMultiText txt2 = Text.Get(BufCls[pos].Name);
 			CText txt = txt2.MultiText();
 
-// oprava jména poloky
+// oprava jmÃ©na poloÅ¾ky
 			txt.KorigShort();
 
 			txt2.MultiText(JAZYK000, txt);
@@ -1105,16 +1105,16 @@ int Copy(int parent, int pos, int bufID, int src)
 
 			InitName(pos);
 
-// existuje soubor nebo adresáø tohoto jména?
+// existuje soubor nebo adresÃ¡Å™ tohoto jmÃ©na?
 			int nn = 1;
 			while ((int)::GetFileAttributes(m_Name) != -1)
 			{
 
-// zvıšení èítaèe indexu jména
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe indexu jmÃ©na
 				nn++;
 				if (nn >= 10000) break;
 
-// sestavení nového jména poloky
+// sestavenÃ­ novÃ©ho jmÃ©na poloÅ¾ky
 				CText txt0;
 
 				if (ShortName)
@@ -1134,18 +1134,18 @@ int Copy(int parent, int pos, int bufID, int src)
 					txt0.SetNumObj(nn);
 				}
 
-// zmìna textu pro poloku
+// zmÄ›na textu pro poloÅ¾ku
 				txt2.MultiText(JAZYK000, txt0);
 				Text.Set(BufCls[pos].Name, txt2);
 
-// pøíprava nového jména souboru
+// pÅ™Ã­prava novÃ©ho jmÃ©na souboru
 				InitName(pos);
 			}
 
-// vytvoøení zadaného adresáøe
+// vytvoÅ™enÃ­ zadanÃ©ho adresÃ¡Å™e
 			CreatePath(m_Name);
 
-// oprava zobrazení jména poloky
+// oprava zobrazenÃ­ jmÃ©na poloÅ¾ky
 			TV_ITEM tvi;
 			tvi.hItem = BufCls[pos].HTree;
 			tvi.mask = TVIF_CHILDREN | TVIF_TEXT;
@@ -1153,7 +1153,7 @@ int Copy(int parent, int pos, int bufID, int src)
 			tvi.cChildren = 0;
 			::SendMessage(BufCls.Tree(), TVM_SETITEM, 0, (LPARAM)&tvi);
 
-// zápis aliases
+// zÃ¡pis aliases
 			CMultiText txt3 = Text.Get(BufInt.GetText(BufCls[pos].Func - IDF));
 
 			for (int lang = 0; lang < JAZYKNUM; lang++)
@@ -1179,41 +1179,41 @@ int Copy(int parent, int pos, int bufID, int src)
 
 		ProgDirChangeIgnore = 2;
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 		EndWaitCursor();
 
-// návrat nové pozice prvku
+// nÃ¡vrat novÃ© pozice prvku
 		return pos;
 	}
 
 // ------------------------------------------
-// bude vytvoøení datové poloky
+// bude vytvoÅ™enÃ­ datovÃ© poloÅ¾ky
 	if ((item->DatBlok >= 0) && (item->DatIndex >= 0) && ((item->Child < 0) || (item->Func == IDF_SPRITE)))
 	{
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 		BeginWaitCursor();
 
-// provedení kopie poloky
+// provedenÃ­ kopie poloÅ¾ky
 		pos = BufCls.Copy(parent, pos, bufID, src);
 
 		if (pos >= 0)
 		{
 
-// zajištìní jména poloky
+// zajiÅ¡tÄ›nÃ­ jmÃ©na poloÅ¾ky
 			if (BufCls[pos].Name < 0)
 			{
 				BufCls[pos].Name = Text.Dup(BufCls.GetText(pos));
 			}
 
-// pøíprava jména souboru
+// pÅ™Ã­prava jmÃ©na souboru
 			InitName(pos);
 
-// pøíprava jména poloky
+// pÅ™Ã­prava jmÃ©na poloÅ¾ky
 			CMultiText txt2 = Text.Get(BufCls[pos].Name);
 			CText txt = txt2.MultiText();
 
-// oprava jména poloky
+// oprava jmÃ©na poloÅ¾ky
 			txt.KorigShort();
 
 			txt2.MultiText(JAZYK000, txt + _T('.') + m_Ext);
@@ -1224,17 +1224,17 @@ int Copy(int parent, int pos, int bufID, int src)
 			CText altname;
 			altname = m_Name.Left(m_Name.Length() - 3) + m_Ext2;
 
-// existuje soubor nebo adresáø tohoto jména?
+// existuje soubor nebo adresÃ¡Å™ tohoto jmÃ©na?
 			int nn = 1;
 			while (((int)::GetFileAttributes(m_Name) != -1) ||
 					(m_Ext2.IsNotEmpty() && ((int)::GetFileAttributes(altname) != -1)))
 			{
 
-// zvıšení èítaèe indexu jména
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe indexu jmÃ©na
 				nn++;
 				if (nn >= 10000) break;
 
-// sestavení nového jména poloky
+// sestavenÃ­ novÃ©ho jmÃ©na poloÅ¾ky
 				CText txt0;
 
 				if (ShortName)
@@ -1254,16 +1254,16 @@ int Copy(int parent, int pos, int bufID, int src)
 					txt0.SetNumObj(nn);
 				}
 
-// zmìna textu pro poloku
+// zmÄ›na textu pro poloÅ¾ku
 				txt2.MultiText(JAZYK000, txt0 + _T('.') + m_Ext);
 				Text.Set(BufCls[pos].Name, txt2);
 
-// pøíprava nového jména souboru
+// pÅ™Ã­prava novÃ©ho jmÃ©na souboru
 				InitName(pos);
 				altname = m_Name.Left(m_Name.Length() - 3) + m_Ext2;
 			}
 
-// oprava zobrazení jména poloky
+// oprava zobrazenÃ­ jmÃ©na poloÅ¾ky
 			TV_ITEM tvi;
 			tvi.hItem = BufCls[pos].HTree;
 			tvi.mask = TVIF_CHILDREN | TVIF_TEXT;
@@ -1271,7 +1271,7 @@ int Copy(int parent, int pos, int bufID, int src)
 			tvi.cChildren = 0;
 			::SendMessage(BufCls.Tree(), TVM_SETITEM, 0, (LPARAM)&tvi);
 
-// uloení dat souboru
+// uloÅ¾enÃ­ dat souboru
 			switch (item->DatBlok)
 			{
 			case BufNumID:
@@ -1311,7 +1311,7 @@ int Copy(int parent, int pos, int bufID, int src)
 				break;
 			}
 
-// uloení ikony k souboru
+// uloÅ¾enÃ­ ikony k souboru
 			PROGITEM* newitem = &BufCls[pos];
 			if ((item->Icon >= 0) && (newitem->Icon < 0))
 			{
@@ -1331,7 +1331,7 @@ int Copy(int parent, int pos, int bufID, int src)
 				Icon.Get(newitem->Icon).SaveFile(m_IconName);
 			}
 
-// zápis aliases
+// zÃ¡pis aliases
 			CMultiText txt3 = Text.Get(BufInt.GetText(BufCls[pos].Func - IDF));
 
 			for (int lang = 0; lang < JAZYKNUM; lang++)
@@ -1357,10 +1357,10 @@ int Copy(int parent, int pos, int bufID, int src)
 
 		ProgDirChangeIgnore = 2;
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 		EndWaitCursor();
 
-// návrat nové pozice prvku
+// nÃ¡vrat novÃ© pozice prvku
 		return pos;
 	}
 
@@ -1369,34 +1369,34 @@ int Copy(int parent, int pos, int bufID, int src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøesun poloky v oknì
+// pÅ™esun poloÅ¾ky v oknÄ›
 
 int Move(int parent, int pos, int src)
 {
-// zajištìní naètení cílové poloky
+// zajiÅ¡tÄ›nÃ­ naÄtenÃ­ cÃ­lovÃ© poloÅ¾ky
 	if ((BufCls[parent].Child < 0) &&
 		((BufCls[parent].Func == IDF_GROUP) || (BufCls[parent].Parent < 0)))
 	{
 		Load(parent);
 	}
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 	BeginWaitCursor();
 
-// úschova starého jména poloky
+// Ãºschova starÃ©ho jmÃ©na poloÅ¾ky
 	InitName(src);
 	CText oldname = m_Name;
 	CText oldicon = m_IconName;
 	CText oldalias = m_Aliases;
 	CText oldkey = m_NameKey;
 
-// provedení pøesunu poloky
+// provedenÃ­ pÅ™esunu poloÅ¾ky
 	pos = BufCls.Move(parent, pos, src);
 
 	if ((pos >= 0) && (BufCls[pos].Name >= 0))
 	{
 
-// pøíprava nového jména poloky
+// pÅ™Ã­prava novÃ©ho jmÃ©na poloÅ¾ky
 		InitName(pos);
 		CMultiText txt2 = Text.Get(BufCls[pos].Name);
 		CText txt = txt2.MultiText();
@@ -1419,7 +1419,7 @@ int Move(int parent, int pos, int src)
 		}
 		Text.Set(BufCls[pos].Name, txt2);
 
-		InitName(pos);						// pøíprava jména souboru
+		InitName(pos);						// pÅ™Ã­prava jmÃ©na souboru
 
 		CText altname;
 		if (m_AltExt)
@@ -1431,17 +1431,17 @@ int Move(int parent, int pos, int src)
 			altname = m_Name.Left(m_Name.Length() - 3) + m_Ext2;
 		}
 
-// existuje soubor nebo adresáø tohoto jména?
+// existuje soubor nebo adresÃ¡Å™ tohoto jmÃ©na?
 		int nn = 1;
 		while (((int)::GetFileAttributes(m_Name) != -1) ||
 				(m_Ext2.IsNotEmpty() && ((int)::GetFileAttributes(altname) != -1)))
 		{
 
-// zvıšení èítaèe indexu jména
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe indexu jmÃ©na
 			nn++;
 			if (nn >= 10000) break;
 
-// sestavení nového jména poloky
+// sestavenÃ­ novÃ©ho jmÃ©na poloÅ¾ky
 			CText txt0;
 
 			if (ShortName)
@@ -1461,7 +1461,7 @@ int Move(int parent, int pos, int src)
 				txt0.SetNumObj(nn);
 			}
 
-// zmìna textu pro poloku
+// zmÄ›na textu pro poloÅ¾ku
 			if (BufCls[pos].Func == IDF_GROUP)
 			{
 				txt2.MultiText(JAZYK000, txt0);
@@ -1479,7 +1479,7 @@ int Move(int parent, int pos, int src)
 			}
 			Text.Set(BufCls[pos].Name, txt2);
 
-// pøíprava nového jména souboru
+// pÅ™Ã­prava novÃ©ho jmÃ©na souboru
 			InitName(pos);
 			if (m_AltExt)
 			{
@@ -1491,7 +1491,7 @@ int Move(int parent, int pos, int src)
 			}
 		}
 
-// pøejmenování poloky
+// pÅ™ejmenovÃ¡nÃ­ poloÅ¾ky
 		if (::MoveFile(oldname, m_Name))
 		{
 			if (m_IconName.IsNotEmpty())
@@ -1500,7 +1500,7 @@ int Move(int parent, int pos, int src)
 			}
 		}
 
-// oprava zobrazení jména poloky
+// oprava zobrazenÃ­ jmÃ©na poloÅ¾ky
 		TV_ITEM tvi;
 		tvi.hItem = BufCls[pos].HTree;
 		tvi.mask = TVIF_TEXT;
@@ -1531,10 +1531,10 @@ int Move(int parent, int pos, int src)
 		ProgDirChangeIgnore = 2;
 	}
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 	EndWaitCursor();
 
-// návrat nové pozice prvku
+// nÃ¡vrat novÃ© pozice prvku
 	return pos;
 }
 

@@ -9,23 +9,23 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaèní prázdná plocha (modifikuje se poèet referencí!)
+// inicializaÄnÃ­ prÃ¡zdnÃ¡ plocha (modifikuje se poÄet referencÃ­!)
 
 MAPDATA*	EmptyMapData =	NULL;
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statická inicializace ploch
+// statickÃ¡ inicializace ploch
 
 void InitMap()
 {
-#pragma warning ( disable: 4127)				// hlášení - konstantní podmínka
+#pragma warning ( disable: 4127)				// hlÃ¡Å¡enÃ­ - konstantnÃ­ podmÃ­nka
 	ASSERT(SIZEOFMAPITEM == 8);
-#pragma warning ( default: 4127)				// hlášení - konstantní podmínka
+#pragma warning ( default: 4127)				// hlÃ¡Å¡enÃ­ - konstantnÃ­ podmÃ­nka
 	EmptyMapData = (MAPDATA*)MemGet(SIZEOFMAPDATA + SIZEOFMAPITEM);
-	EmptyMapData->Refer = 1;			// poèet referencí
-	EmptyMapData->Width = 1;			// šíøka
-	EmptyMapData->Height = 1;			// vıška
+	EmptyMapData->Refer = 1;			// poÄet referencÃ­
+	EmptyMapData->Width = 1;			// Å¡Ã­Å™ka
+	EmptyMapData->Height = 1;			// vÃ½Å¡ka
 	EmptyMapData->Data[0].Icon.Init();	// inicializace ikony
 	EmptyMapData->Data[0].Param = 0;	// parametry
 }
@@ -56,7 +56,7 @@ CMap::~CMap()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CMap::Init()
 { 
@@ -80,7 +80,7 @@ void CMap::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vymazání plochy
+// vymazÃ¡nÃ­ plochy
 
 void CMap::Clear()
 { 
@@ -96,16 +96,16 @@ void CMap::Clear()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie do vlastního bufferu pøed modifikací
+// kopie do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­
 
 void CMap::CopyWrite()
 {
-	MAPDATA* data = pData;			// adresa starıch dat
-	long* refer = &(data->Refer);	// poèet referencí
+	MAPDATA* data = pData;			// adresa starÃ½ch dat
+	long* refer = &(data->Refer);	// poÄet referencÃ­
 
-	if (*refer > 1)					// je nìjakı jinı majitel?
+	if (*refer > 1)					// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
-		NewBuffer(data->Width, data->Height);	// vytvoøení nového bufferu
+		NewBuffer(data->Width, data->Height);	// vytvoÅ™enÃ­ novÃ©ho bufferu
 
 		MAPITEM* src = data->Data;
 		MAPITEM* dst = pData->Data;
@@ -117,7 +117,7 @@ void CMap::CopyWrite()
 			src++;
 		}
 
-// odpojení starıch dat - v multithread mùe nastat i zrušení
+// odpojenÃ­ starÃ½ch dat - v multithread mÅ¯Å¾e nastat i zruÅ¡enÃ­
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
@@ -128,7 +128,7 @@ void CMap::CopyWrite()
 				item++;
 			}
 
-			MemFree(data);			// pøípadné zrušení dat
+			MemFree(data);			// pÅ™Ã­padnÃ© zruÅ¡enÃ­ dat
 #endif	// _MT
 		}
 	}
@@ -136,7 +136,7 @@ void CMap::CopyWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní plochy (uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ plochy (uvolnÄ›nÃ­ dat)
 
 void CMap::Empty()
 { 
@@ -146,43 +146,43 @@ void CMap::Empty()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nové plochy (pøipraveno k zápisu, data jsou náhodná)
+// vytvoÅ™enÃ­ novÃ© plochy (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
 
 void CMap::New(int width, int height)
 {
-	Detach();						// odpojení staré plochy
-	NewBuffer(width, height);		// vytvoøení nového bufferu
+	Detach();						// odpojenÃ­ starÃ© plochy
+	NewBuffer(width, height);		// vytvoÅ™enÃ­ novÃ©ho bufferu
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// poskytnutí prvku (s kontrolou platnosti offsetu/indexu)
+// poskytnutÃ­ prvku (s kontrolou platnosti offsetu/indexu)
 
 const MAPITEM& _fastcall CMap::Get(const int off) const
 {
-	if (IsValid(off))				// je offset platnı?
+	if (IsValid(off))				// je offset platnÃ½?
 	{
-		return pData->Data[off];	// prvek na daném offsetu
+		return pData->Data[off];	// prvek na danÃ©m offsetu
 	}
-	return EmptyMapData->Data[0];	// neplatnı offset
+	return EmptyMapData->Data[0];	// neplatnÃ½ offset
 }
 
 const MAPITEM& _fastcall CMap::Get(const int x, const int y) const
 {
-	if (IsValid(x, y))				// je index platnı?
+	if (IsValid(x, y))				// je index platnÃ½?
 	{
 		return pData->Data[x + y*pData->Width];	// prvek
 	}
-	return EmptyMapData->Data[0];	// neplatnı offset
+	return EmptyMapData->Data[0];	// neplatnÃ½ offset
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavení prvku (s kontrolou platnosti offsetu/indexu)
+// nastavenÃ­ prvku (s kontrolou platnosti offsetu/indexu)
 
 void _fastcall CMap::Set(const int off, const MAPITEM& data)
 {
-	if (IsValid(off))				// je offset platnı?
+	if (IsValid(off))				// je offset platnÃ½?
 	{
 		MAPITEM* item = pData->Data + off;
 		item->Icon = data.Icon;
@@ -192,7 +192,7 @@ void _fastcall CMap::Set(const int off, const MAPITEM& data)
 
 void _fastcall CMap::Set(const int x, const int y, const MAPITEM& data)
 {
-	if (IsValid(x, y))				// je index platnı?
+	if (IsValid(x, y))				// je index platnÃ½?
 	{
 		MAPITEM* item = pData->Data + x + y*pData->Width;
 		item->Icon = data.Icon;
@@ -202,12 +202,12 @@ void _fastcall CMap::Set(const int x, const int y, const MAPITEM& data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CMap& CMap::operator= (const CMap& src)
 {
-	Detach();				// zrušení starıch dat
-	Attach(src.pData);		// pøiøazení novıch dat
+	Detach();				// zruÅ¡enÃ­ starÃ½ch dat
+	Attach(src.pData);		// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
@@ -223,73 +223,73 @@ const CMap& CMap::operator= (const CMap& src)
 
 CBufMap::CBufMap()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 CBufMap::~CBufMap()
 {
-	DelAll();				// zrušení všech poloek
+	DelAll();				// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CBufMap::Init()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 void CBufMap::Term()
 {
-	DelAll();				// zrušení všech poloek
+	DelAll();				// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení novıch dat
+// vytvoÅ™enÃ­ novÃ½ch dat
 
 void CBufMap::NewData()
 {
 	m_Max *= 2;
 	if (m_Max == 0) m_Max = 0x400;
-//	m_Max += 0x400;			// zvıšení poètu poloek (o 4 KB)
-	MemBuf(m_Data, m_Max);	// zvıšení velikosti bufferu
+//	m_Max += 0x400;			// zvÃ½Å¡enÃ­ poÄtu poloÅ¾ek (o 4 KB)
+	MemBuf(m_Data, m_Max);	// zvÃ½Å¡enÃ­ velikosti bufferu
 };
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
  
 void CBufMap::DelAll()
 {
-	Del(m_Num);					// zrušení poloek
-	MemBuf(m_Data, 0);			// zrušení bufferu dat
-	m_Max = 0;					// není ádná poloka v bufferu
+	Del(m_Num);					// zruÅ¡enÃ­ poloÅ¾ek
+	MemBuf(m_Data, 0);			// zruÅ¡enÃ­ bufferu dat
+	m_Max = 0;					// nenÃ­ Å¾Ã¡dnÃ¡ poloÅ¾ka v bufferu
 }
 
 ////////////////////////////////////////////////////////////////////
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 const CMap& _fastcall CBufMap::Get(const int index) const
 {
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
-		return m_Data[index];	// poloka na daném indexu
+		return m_Data[index];	// poloÅ¾ka na danÃ©m indexu
 	}
-	return EmptyMap;			// pro neplatnı index vrátí prázdnou plochu
+	return EmptyMap;			// pro neplatnÃ½ index vrÃ¡tÃ­ prÃ¡zdnou plochu
 }
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 void _fastcall CBufMap::Set(const int index, const CMap& data)
 {
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
 		m_Data[index] = data;
 	}
@@ -297,11 +297,11 @@ void _fastcall CBufMap::Set(const int index, const CMap& data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní poloky (bez jejího zrušení - jen pro uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ poloÅ¾ky (bez jejÃ­ho zruÅ¡enÃ­ - jen pro uvolnÄ›nÃ­ dat)
 
 void _fastcall CBufMap::Empty(const int index)
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		m_Data[index].Empty();
 	}
@@ -309,7 +309,7 @@ void _fastcall CBufMap::Empty(const int index)
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 
 void _fastcall CBufMap::Del(int num)
 {
@@ -327,68 +327,68 @@ void _fastcall CBufMap::Del(int num)
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení poloky (vrací index poloky)
+// vytvoÅ™enÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int CBufMap::New()
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init();		// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init();		// inicializace poloÅ¾ky
 	return result;
 }
 
 int CBufMap::New(int width, int height)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(width, height);	// inicializace poloky
-	m_Data[result].Clear();		// vymazání plochy
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(width, height);	// inicializace poloÅ¾ky
+	m_Data[result].Clear();		// vymazÃ¡nÃ­ plochy
 	return result;
 }
 
 ////////////////////////////////////////////////////////////////////
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int _fastcall CBufMap::Add(const CMap& data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(data.Data());	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(data.Data());	// inicializace poloÅ¾ky
 	return result;
 }
 
 int _fastcall CBufMap::Add(MAPDATA* data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(data);	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(data);	// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 
 int _fastcall CBufMap::Dup(const int index)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
-		m_Data[result].Init(m_Data[index].Data());	// kopie poloky
+		m_Data[result].Init(m_Data[index].Data());	// kopie poloÅ¾ky
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatné poloky
+		m_Data[result].Init();		// inicializace neplatnÃ© poloÅ¾ky
 	}
 	return result;
 }
 
 int _fastcall CBufMap::Dup(const int index, int num)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		MAPDATA* data = m_Data[index].Data();
 
-		m_Data[result].Init(data);		// kopie poloky
+		m_Data[result].Init(data);		// kopie poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -397,7 +397,7 @@ int _fastcall CBufMap::Dup(const int index, int num)
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatné poloky
+		m_Data[result].Init();		// inicializace neplatnÃ© poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -409,19 +409,19 @@ int _fastcall CBufMap::Dup(const int index, int num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CBufMap& CBufMap::operator= (const CBufMap& src)
 {
-	Del(m_Num);					// zrušení starıch dat
+	Del(m_Num);					// zruÅ¡enÃ­ starÃ½ch dat
 
-	int index = 0;				// index naèítané poloky
-	int i = src.m_Num;			// velikost zdrojového bufferu
+	int index = 0;				// index naÄÃ­tanÃ© poloÅ¾ky
+	int i = src.m_Num;			// velikost zdrojovÃ©ho bufferu
 
-	for (; i > 0; i--)			// pro všechny poloky v bufferu
+	for (; i > 0; i--)			// pro vÅ¡echny poloÅ¾ky v bufferu
 	{
-		Add(src[index]);	// kopie poloky
-		index++;				// inkrementace ètecího indexu
+		Add(src[index]);	// kopie poloÅ¾ky
+		index++;				// inkrementace ÄtecÃ­ho indexu
 	}
 	ASSERT(m_Num == src.m_Num);
 	return *this;

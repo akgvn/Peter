@@ -3,103 +3,103 @@
 
 /***************************************************************************\
 *																			*
-*							Hlavní okno aplikace							*
+*							HlavnÃ­ okno aplikace							*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// globální a lokální promìnné
+// globÃ¡lnÃ­ a lokÃ¡lnÃ­ promÄ›nnÃ©
 
-TCHAR		MainFrameClass[] = _T("PeterMainFrameClass");	// název tøídy hlavního okna
+TCHAR		MainFrameClass[] = _T("PeterMainFrameClass");	// nÃ¡zev tÅ™Ã­dy hlavnÃ­ho okna
 
-HWND		MainFrame = NULL;						// hlavní okno aplikace
-HMENU		Menu = NULL;							// aktivní menu
-HWND		ToolBar = NULL;							// nástrojová lišta
+HWND		MainFrame = NULL;						// hlavnÃ­ okno aplikace
+HMENU		Menu = NULL;							// aktivnÃ­ menu
+HWND		ToolBar = NULL;							// nÃ¡strojovÃ¡ liÅ¡ta
 
-HBITMAP		ToolBarBmp = NULL;						// bitmapa panelu nástrojù
-HBITMAP		ToolBarMenu = NULL;						// bitmapa panelu nástrojù pro menu (nulováno pozadí)
-HBITMAP		ToolBarMask = NULL;						// maska bitmapy panelu nástrojù (nulováno pozadí)
+HBITMAP		ToolBarBmp = NULL;						// bitmapa panelu nÃ¡strojÅ¯
+HBITMAP		ToolBarMenu = NULL;						// bitmapa panelu nÃ¡strojÅ¯ pro menu (nulovÃ¡no pozadÃ­)
+HBITMAP		ToolBarMask = NULL;						// maska bitmapy panelu nÃ¡strojÅ¯ (nulovÃ¡no pozadÃ­)
 
 HWND		ToolTips = NULL;						// handle tooltips toolbaru
-POINT		LastToolTips;							// poslední souøadnice tooltipu
+POINT		LastToolTips;							// poslednÃ­ souÅ™adnice tooltipu
 
-#define		COMBOBOXSELHEIGHT 20					// vıška pole vıbìru comboboxu
-#define		COMBOBOXHEIGHT 24						// vıška øádku comboboxu
+#define		COMBOBOXSELHEIGHT 20					// vÃ½Å¡ka pole vÃ½bÄ›ru comboboxu
+#define		COMBOBOXHEIGHT 24						// vÃ½Å¡ka Å™Ã¡dku comboboxu
 
-RECT		ClientRect;								// klientská oblast hlavního okna
-int			ClientWidth;							// šíøka klientské oblasti
-int			ClientHeight;							// vıška klientské oblasti
+RECT		ClientRect;								// klientskÃ¡ oblast hlavnÃ­ho okna
+int			ClientWidth;							// Å¡Ã­Å™ka klientskÃ© oblasti
+int			ClientHeight;							// vÃ½Å¡ka klientskÃ© oblasti
 
-HFONT		MenuAktFont = NULL;						// vytvoøenı font pro menu
+HFONT		MenuAktFont = NULL;						// vytvoÅ™enÃ½ font pro menu
 
-CText		MainFrameName;							// titulek hlavního okna - jméno aplikace
-CText		MainFrameText;							// úplnı text titulku hlavního okna
+CText		MainFrameName;							// titulek hlavnÃ­ho okna - jmÃ©no aplikace
+CText		MainFrameText;							// ÃºplnÃ½ text titulku hlavnÃ­ho okna
 
-// stavovı øádek
-HWND		StatusBar = NULL;						// stavová lišta
-CText		StatusText;								// zobrazenı text stavové lišty
-CText		StatusText2;							// zobrazenı text stavové lišty 2
-int			StatusWidth;							// šíøka panelu 2 stavové lišty
-HFONT		StatFont = NULL;						// font stavového øádku
+// stavovÃ½ Å™Ã¡dek
+HWND		StatusBar = NULL;						// stavovÃ¡ liÅ¡ta
+CText		StatusText;								// zobrazenÃ½ text stavovÃ© liÅ¡ty
+CText		StatusText2;							// zobrazenÃ½ text stavovÃ© liÅ¡ty 2
+int			StatusWidth;							// Å¡Ã­Å™ka panelu 2 stavovÃ© liÅ¡ty
+HFONT		StatFont = NULL;						// font stavovÃ©ho Å™Ã¡dku
 
-int			Waiting = 0;							// pøíznak zobrazení kurzoru èekání
+int			Waiting = 0;							// pÅ™Ã­znak zobrazenÃ­ kurzoru ÄekÃ¡nÃ­
 
-// kurzory myši
-HCURSOR		CurAkt;									// aktivní kurzor (pouito pro taení)
+// kurzory myÅ¡i
+HCURSOR		CurAkt;									// aktivnÃ­ kurzor (pouÅ¾ito pro taÅ¾enÃ­)
 
-HCURSOR		CurArrow;								// (standardní) šipka
-HCURSOR		CurCil;									// cíl operace
+HCURSOR		CurArrow;								// (standardnÃ­) Å¡ipka
+HCURSOR		CurCil;									// cÃ­l operace
 HCURSOR		CurCopy;								// kopie
-HCURSOR		CurDelete;								// zrušení
+HCURSOR		CurDelete;								// zruÅ¡enÃ­
 HCURSOR		CurElip;								// elipsa
-HCURSOR		CurFill;								// vıplò
-HCURSOR		CurFillElip;							// ovál
-HCURSOR		CurFillRect;							// vyplnìnı obdélník
+HCURSOR		CurFill;								// vÃ½plÅˆ
+HCURSOR		CurFillElip;							// ovÃ¡l
+HCURSOR		CurFillRect;							// vyplnÄ›nÃ½ obdÃ©lnÃ­k
 HCURSOR		CurFillRound;							// kruh
-HCURSOR		CurKapatko;								// kapátko
+HCURSOR		CurKapatko;								// kapÃ¡tko
 HCURSOR		CurKoule;								// koule
-HCURSOR		CurLine;								// èára
-HCURSOR		CurMove;								// pøesun
-HCURSOR		CurNoDrag;								// zákaz taení
-HCURSOR		CurPaint;								// štìtec
+HCURSOR		CurLine;								// ÄÃ¡ra
+HCURSOR		CurMove;								// pÅ™esun
+HCURSOR		CurNoDrag;								// zÃ¡kaz taÅ¾enÃ­
+HCURSOR		CurPaint;								// Å¡tÄ›tec
 HCURSOR		CurPen;									// pero
-HCURSOR		CurRect;								// obdélník
-HCURSOR		CurRound;								// krunice
+HCURSOR		CurRect;								// obdÃ©lnÃ­k
+HCURSOR		CurRound;								// kruÅ¾nice
 HCURSOR		CurRuka;								// ruka
-HCURSOR		CurSelect;								// vıbìr bloku
-HCURSOR		CurSelectMove;							// pøesun vıbìru
-HCURSOR		CurSplitH;								// rozdìlení horizontálnì
-HCURSOR		CurSplitV;								// rozdìlení vertikálnì
+HCURSOR		CurSelect;								// vÃ½bÄ›r bloku
+HCURSOR		CurSelectMove;							// pÅ™esun vÃ½bÄ›ru
+HCURSOR		CurSplitH;								// rozdÄ›lenÃ­ horizontÃ¡lnÄ›
+HCURSOR		CurSplitV;								// rozdÄ›lenÃ­ vertikÃ¡lnÄ›
 HCURSOR		CurSpray;								// sprej
-HCURSOR		CurWait;								// èekání
+HCURSOR		CurWait;								// ÄekÃ¡nÃ­
 
-// stav myši (aktualizováno v PreTranslateMessage)
-BOOL		LMouseDown = FALSE;						// levé tlaèítko stisknuto
-BOOL		LMouseDClick = FALSE;					// dvojklik levého tlaèítka
-BOOL		RMouseDown = FALSE;						// pravé tlaèítko stisknuto
-BOOL		RMouseDClick = FALSE;					// dvojklik pravého tlaèítka
-POINT		MouseScreen = {MOUSEINV, MOUSEINV};		// souøadnice myši na displeji
-POINT		MouseMain = {MOUSEINV, MOUSEINV};		// souøadnice myši v hlavním oknì
+// stav myÅ¡i (aktualizovÃ¡no v PreTranslateMessage)
+BOOL		LMouseDown = FALSE;						// levÃ© tlaÄÃ­tko stisknuto
+BOOL		LMouseDClick = FALSE;					// dvojklik levÃ©ho tlaÄÃ­tka
+BOOL		RMouseDown = FALSE;						// pravÃ© tlaÄÃ­tko stisknuto
+BOOL		RMouseDClick = FALSE;					// dvojklik pravÃ©ho tlaÄÃ­tka
+POINT		MouseScreen = {MOUSEINV, MOUSEINV};		// souÅ™adnice myÅ¡i na displeji
+POINT		MouseMain = {MOUSEINV, MOUSEINV};		// souÅ™adnice myÅ¡i v hlavnÃ­m oknÄ›
 
-CText		HelpFileName;							// jméno souboru nápovìdy
+CText		HelpFileName;							// jmÃ©no souboru nÃ¡povÄ›dy
 
 /////////////////////////////////////////////////////////////////////////////
-// opodìné pøekreslení okna
+// opoÅ¾dÄ›nÃ© pÅ™ekreslenÃ­ okna
 
-#define		RepaintTimerID 19123					// ID èasovaèe pro pøekreslení okna
-UINT		RepaintTimer = 0;						// èasovaè pro pøekreslení okna
-int			RepaintTimerN = 0;						// èítaè pro pøekreslení okna
-int			RepaintTimerN2 = 0;						// èítaè pro pøekreslení okna 2
-BOOL		RepaintTimerBuf[PROGBUFNUM];			// pøíznaky bufferù k pøekreslení
-BOOL		RepaintTimerProg = FALSE;				// pøekreslit okno programu ProgOnPaint
+#define		RepaintTimerID 19123					// ID ÄasovaÄe pro pÅ™ekreslenÃ­ okna
+UINT		RepaintTimer = 0;						// ÄasovaÄ pro pÅ™ekreslenÃ­ okna
+int			RepaintTimerN = 0;						// ÄÃ­taÄ pro pÅ™ekreslenÃ­ okna
+int			RepaintTimerN2 = 0;						// ÄÃ­taÄ pro pÅ™ekreslenÃ­ okna 2
+BOOL		RepaintTimerBuf[PROGBUFNUM];			// pÅ™Ã­znaky bufferÅ¯ k pÅ™ekreslenÃ­
+BOOL		RepaintTimerProg = FALSE;				// pÅ™ekreslit okno programu ProgOnPaint
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////
 // definice menu
 
-MENUITEM** MenuAkt = NULL;							// aktuální menu (kvùli cachování)
+MENUITEM** MenuAkt = NULL;							// aktuÃ¡lnÃ­ menu (kvÅ¯li cachovÃ¡nÃ­)
 
 // soubor 1
 MENUITEM MenuSoubor1[] = 
@@ -352,7 +352,7 @@ MENUITEM MenuEditace[] =
 	0,				0,				-1,				0,
 };
 
-// zobrazení
+// zobrazenÃ­
 MENUITEM MenuZobraz[] =
 {
 	IDN_ZOBRAZ0,	0,				-1,				0,
@@ -409,7 +409,7 @@ MENUITEM MenuIkona[] =
 	0,				0,				-1,				0,
 };
 
-// obrázek
+// obrÃ¡zek
 MENUITEM MenuObrazek[] =
 {
 	IDN_OBRAZEK0,	0,				-1,				0,
@@ -433,7 +433,7 @@ MENUITEM MenuObrazek[] =
 	0,				0,				-1,				0,
 };
 
-// nástroje
+// nÃ¡stroje
 MENUITEM MenuNastroje[] =
 {
 	IDN_NASTROJE0,	0,				-1,				0,
@@ -454,7 +454,7 @@ MENUITEM MenuNastroje[] =
 	0,				0,				-1,				0,
 };
 
-// tlouška pera
+// tlouÅ¡Å¥ka pera
 MENUITEM MenuTloustka[] =
 {
 	IDN_TLOUSTKA0,	0,				-1,				0,
@@ -521,7 +521,7 @@ MENUITEM MenuMusic[] =
 	0,				0,				-1,				0,
 };
 
-// nápovìda
+// nÃ¡povÄ›da
 MENUITEM MenuHlp[] =
 {
 	IDN_HLP0,		0,				-1,				0,
@@ -534,7 +534,7 @@ MENUITEM MenuHlp[] =
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíprava jména hlavního okna
+// pÅ™Ã­prava jmÃ©na hlavnÃ­ho okna
 
 void MainFrameNameInit()
 {
@@ -547,59 +547,59 @@ void MainFrameNameInit()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení masky obrázku panelu nástrojù
+// vytvoÅ™enÃ­ masky obrÃ¡zku panelu nÃ¡strojÅ¯
 
 void CreateToolBarMask()
 {	
-// naètení informací o obrázku
+// naÄtenÃ­ informacÃ­ o obrÃ¡zku
 	BITMAP bmpinfo;
 	if (::GetObject(ToolBarMenu, sizeof(BITMAP), &bmpinfo))
 	{
 		int width = bmpinfo.bmWidth;
 		int height = bmpinfo.bmHeight;
 
-// vytvoøení DC pro pùvodní obrázek
+// vytvoÅ™enÃ­ DC pro pÅ¯vodnÃ­ obrÃ¡zek
 		HDC dc = ::CreateCompatibleDC(NULL);
 		if (dc != NULL)
 		{
 
-// nastavení obrázku do DC
+// nastavenÃ­ obrÃ¡zku do DC
 			HBITMAP bmpold = (HBITMAP)::SelectObject(dc, ToolBarMenu);
 
-// vytvoøení DC pro masku
+// vytvoÅ™enÃ­ DC pro masku
 			HDC dcmask = ::CreateCompatibleDC(dc);
 			if (dcmask != NULL)
 			{
 
-// vytvoøení obrázku masky
+// vytvoÅ™enÃ­ obrÃ¡zku masky
 				ToolBarMask = ::CreateBitmap(width, height, 1, 1, NULL);
 				if (ToolBarMask != NULL)
 				{
 
-// nastavení obrázku masky do DC
+// nastavenÃ­ obrÃ¡zku masky do DC
 					HBITMAP bmpmaskold = (HBITMAP)::SelectObject(dcmask, ToolBarMask);
 
-// vytvoøení masky
+// vytvoÅ™enÃ­ masky
 					::SetBkColor(dc, ::GetPixel(dc, 0, 0));
 					::BitBlt(dcmask, 0, 0, width, height, dc, 0, 0, SRCCOPY);
 
-// zamaskování pùvodního obrázku (barva pozadí se nastaví na èernou)
+// zamaskovÃ¡nÃ­ pÅ¯vodnÃ­ho obrÃ¡zku (barva pozadÃ­ se nastavÃ­ na Äernou)
 					::SetBkColor(dc, 0);
 					::SetTextColor(dc, 0xffffff);
 					::BitBlt(dc, 0, 0, width, height, dcmask, 0, 0, SRCAND);
 
-// návrat staré masky do DC
+// nÃ¡vrat starÃ© masky do DC
 					::SelectObject(dcmask, bmpmaskold);
 				}
 
-// zrušení DC masky
+// zruÅ¡enÃ­ DC masky
 				::DeleteObject(dcmask);
 			}
 
-// návrat starého obrázku do DC
+// nÃ¡vrat starÃ©ho obrÃ¡zku do DC
 			::SelectObject(dc, bmpold);
 
-// zrušení DC obrázku
+// zruÅ¡enÃ­ DC obrÃ¡zku
 			::DeleteObject(dc);
 		}
 	}
@@ -607,7 +607,7 @@ void CreateToolBarMask()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru textu zprava doleva
+// nastavenÃ­ smÄ›ru textu zprava doleva
 
 void SetRightToLeft(BOOL righttoleft)
 {
@@ -624,11 +624,11 @@ void SetRightToLeft(BOOL righttoleft)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení hlavního okna aplikace
+// vytvoÅ™enÃ­ hlavnÃ­ho okna aplikace
 
 BOOL MainFrameCreate()
 {
-// zajištìní knihovny rozšíøenıch ovládacích prvkù (a od verze 4.70 COMCTL32.DLL))
+// zajiÅ¡tÄ›nÃ­ knihovny rozÅ¡Ã­Å™enÃ½ch ovlÃ¡dacÃ­ch prvkÅ¯ (aÅ¾ od verze 4.70 COMCTL32.DLL))
 //	INITCOMMONCONTROLSEX ctl;
 //	ctl.dwSize = sizeof(INITCOMMONCONTROLSEX);
 //	ctl.dwICC = ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES | ICC_PROGRESS_CLASS | ICC_TAB_CLASSES | ICC_TREEVIEW_CLASSES;
@@ -636,7 +636,7 @@ BOOL MainFrameCreate()
 
 	::InitCommonControls();
 
-// registrace tøídy okna
+// registrace tÅ™Ã­dy okna
 	WNDCLASS wcl;
 	wcl.style = CS_DBLCLKS;
 	wcl.lpfnWndProc = WindowProc;
@@ -650,11 +650,11 @@ BOOL MainFrameCreate()
 	wcl.lpszClassName = MainFrameClass;
 	::RegisterClass(&wcl);
 
-// naètení titulku hlavního okna
+// naÄtenÃ­ titulku hlavnÃ­ho okna
 	MainFrameNameInit();
 	MainFrameText = MainFrameName;
 
-// pøíprava pozice a rozmìrù okna
+// pÅ™Ã­prava pozice a rozmÄ›rÅ¯ okna
 	int x = (ScreenWidth*MainLeft+Scale/2)/Scale;
 	if (x > ScreenWidth-30) x = ScreenWidth-30;
 	int y = (ScreenHeight*MainTop+Scale/2)/Scale;
@@ -664,25 +664,25 @@ BOOL MainFrameCreate()
 	int height = (ScreenHeight*MainHeight+Scale/2)/Scale;
 	if (y+height < 30) height = 30-y;
 
-// vytvoøení hlavního okna
+// vytvoÅ™enÃ­ hlavnÃ­ho okna
 	MainFrame = ::CreateWindowEx(
-		WS_EX_APPWINDOW | WS_EX_CONTROLPARENT | WS_EX_WINDOWEDGE,	// rozšíøenı styl
-		MainFrameClass,									// jméno tøídy okna
+		WS_EX_APPWINDOW | WS_EX_CONTROLPARENT | WS_EX_WINDOWEDGE,	// rozÅ¡Ã­Å™enÃ½ styl
+		MainFrameClass,									// jmÃ©no tÅ™Ã­dy okna
 		MainFrameName,									// titulek okna
 		WS_BORDER | WS_CAPTION | WS_CLIPCHILDREN 
 			| WS_MAXIMIZEBOX | WS_MINIMIZEBOX 
 			| WS_OVERLAPPED | WS_SYSMENU | WS_THICKFRAME, // styl okna
 		x,												// X
 		y,												// Y
-		width,											// šíøka
-		height,											// vıška
-		NULL,											// rodiè
+		width,											// Å¡Ã­Å™ka
+		height,											// vÃ½Å¡ka
+		NULL,											// rodiÄ
 		NULL,											// menu
 		hInstance,										// instance
 		NULL);											// parametry
 	if (MainFrame == NULL) return FALSE;
 
-// zobrazení hlavního okna
+// zobrazenÃ­ hlavnÃ­ho okna
 	if (Maximized)
 	{
 		::ShowWindow(MainFrame, SW_SHOWMAXIMIZED);
@@ -693,51 +693,51 @@ BOOL MainFrameCreate()
 	}
 //	::SetFocus(MainFrame);
 
-// vytvoøení akceleraèní tabulky
+// vytvoÅ™enÃ­ akceleraÄnÃ­ tabulky
 	Accel = ::LoadAccelerators(hInstance, MAKEINTRESOURCE(IDN_MAINFRAME));
 	ASSERT(Accel);
 
-// vytvoøení nástrojové lišty
+// vytvoÅ™enÃ­ nÃ¡strojovÃ© liÅ¡ty
 	ToolBar = ::CreateWindowEx(
-		0,												// rozšíøenı styl okna
-		TOOLBARCLASSNAME,								// jméno tøídy okna
+		0,												// rozÅ¡Ã­Å™enÃ½ styl okna
+		TOOLBARCLASSNAME,								// jmÃ©no tÅ™Ã­dy okna
 		NULL,											// nadpis okna
 
 		WS_CHILD | WS_VISIBLE |							// styl okna
 				TBSTYLE_TOOLTIPS | 0x800,
-														//		0x0040 - bez horní oddìlovací linky
-														//		0x0080 - zarovnáno na levé stranì
+														//		0x0040 - bez hornÃ­ oddÄ›lovacÃ­ linky
+														//		0x0080 - zarovnÃ¡no na levÃ© stranÄ›
 
-		0,												// souøadnice X
-		0,												// souøadnice Y
-		0,												// šíøka
-		0,												// vıška
-		MainFrame,										// rodiè okna
-		(HMENU)IDN_TOOLBAR,								// identifikátor okna
+		0,												// souÅ™adnice X
+		0,												// souÅ™adnice Y
+		0,												// Å¡Ã­Å™ka
+		0,												// vÃ½Å¡ka
+		MainFrame,										// rodiÄ okna
+		(HMENU)IDN_TOOLBAR,								// identifikÃ¡tor okna
 		hInstance,										// instance
-		NULL);											// doplòující parametr
+		NULL);											// doplÅˆujÃ­cÃ­ parametr
 
-	::SendMessage(ToolBar, TB_SETBITMAPSIZE, 0, MAKELONG(16, 16));	// nastavení velikosti obrázkù tlaèítek
+	::SendMessage(ToolBar, TB_SETBITMAPSIZE, 0, MAKELONG(16, 16));	// nastavenÃ­ velikosti obrÃ¡zkÅ¯ tlaÄÃ­tek
 	::SendMessage(ToolBar, TB_SETBUTTONSIZE, 0, MAKELONG(28, 24));
 	::SendMessage(ToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);	// definice velikosti struktury
 	TBADDBITMAP tbab;
 	tbab.hInst = hInstance;								// handle instance s bitmapou
 	tbab.nID = IDN_TOOLBAR;								// ID resource bitmapy
-	::SendMessage(ToolBar, TB_ADDBITMAP, ToolButtonNum, (LPARAM)&tbab);	// nastavení bitmapy tlaèítek
+	::SendMessage(ToolBar, TB_ADDBITMAP, ToolButtonNum, (LPARAM)&tbab);	// nastavenÃ­ bitmapy tlaÄÃ­tek
 
-// naètení bitmapy panelu nástrojù
+// naÄtenÃ­ bitmapy panelu nÃ¡strojÅ¯
 	ToolBarBmp = ::LoadBitmap(hInstance, MAKEINTRESOURCE(IDN_TOOLBAR));
 	ASSERT(ToolBarBmp);
 
-// vytvoøení masky panelu nástrojù
+// vytvoÅ™enÃ­ masky panelu nÃ¡strojÅ¯
 	ToolBarMenu = ::LoadBitmap(hInstance, MAKEINTRESOURCE(IDN_TOOLBAR));
 	ASSERT(ToolBarMenu);
 	CreateToolBarMask();
 
-// naètení handle tooltips
+// naÄtenÃ­ handle tooltips
 	ToolTips = (HWND)::SendMessage(ToolBar, TB_GETTOOLTIPS, 0, 0);
 
-// vytvoøení stavové lišty (viz té CreateStatusWindow)
+// vytvoÅ™enÃ­ stavovÃ© liÅ¡ty (viz tÃ©Å¾ CreateStatusWindow)
 	StatusBar = ::CreateWindowEx(
 		0,
 		STATUSCLASSNAME,
@@ -754,7 +754,7 @@ BOOL MainFrameCreate()
 
 	SetStatusFont();
 
-// naètení kurzorù myši
+// naÄtenÃ­ kurzorÅ¯ myÅ¡i
 	CurArrow =		::LoadCursor(0,			MAKEINTRESOURCE(IDC_ARROW));		ASSERT(CurArrow			!= NULL);
 	CurCil =		::LoadCursor(hInstance, MAKEINTRESOURCE(IDC_CIL));			ASSERT(CurCil			!= NULL);
 	CurCopy =		::LoadCursor(hInstance,	MAKEINTRESOURCE(IDC_COPY));			ASSERT(CurCopy			!= NULL);
@@ -781,63 +781,63 @@ BOOL MainFrameCreate()
 	CurSpray =		::LoadCursor(hInstance, MAKEINTRESOURCE(IDC_SPRAY));		ASSERT(CurSpray			!= NULL);
 	CurWait =		::LoadCursor(0,			MAKEINTRESOURCE(IDC_WAIT));			ASSERT(CurWait			!= NULL);
 
-// aktualizace klientské oblasti
+// aktualizace klientskÃ© oblasti
 	InitClientRect();
 
-// nastavení poètu stavovıch panelù
+// nastavenÃ­ poÄtu stavovÃ½ch panelÅ¯
 	SetStatusWidth(200);
 
-// zahájení reimu vıbìru souborù
+// zahÃ¡jenÃ­ reÅ¾imu vÃ½bÄ›ru souborÅ¯
 	SelectStartInit();
 	SelectInit();
 
-// startovací inicializace modulu programování
+// startovacÃ­ inicializace modulu programovÃ¡nÃ­
 	ProgStartInit();
 
 	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace klientskıch souøadnic
-// POZOR - toolbar a statusbar nemusí bıt ještì na správnıch pozicích!
+// aktualizace klientskÃ½ch souÅ™adnic
+// POZOR - toolbar a statusbar nemusÃ­ bÃ½t jeÅ¡tÄ› na sprÃ¡vnÃ½ch pozicÃ­ch!
 
 void InitClientRect()
 {
-// naètení souøadnic klientské oblasti okna
+// naÄtenÃ­ souÅ™adnic klientskÃ© oblasti okna
 	::GetClientRect(MainFrame, &ClientRect);
 
-// urèení horního okraje klientské oblasti
+// urÄenÃ­ hornÃ­ho okraje klientskÃ© oblasti
 	RECT rc;
 	::GetWindowRect(ToolBar, &rc);
 	ClientRect.top += rc.bottom - rc.top;
 
-// urèení dolního okraje klientské oblasti
+// urÄenÃ­ dolnÃ­ho okraje klientskÃ© oblasti
 	::GetWindowRect(StatusBar, &rc);
 	ClientRect.bottom -= rc.bottom - rc.top;
 
-// urèení vıšky a šíøky klientské oblasti
+// urÄenÃ­ vÃ½Å¡ky a Å¡Ã­Å™ky klientskÃ© oblasti
 	ClientWidth = ClientRect.right - ClientRect.left;
 	ClientHeight = ClientRect.bottom - ClientRect.top;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fontu stavového øádku
+// nastavenÃ­ fontu stavovÃ©ho Å™Ã¡dku
 
 void SetStatusFont()
 {
-// vytvoøení nového fontu
+// vytvoÅ™enÃ­ novÃ©ho fontu
 	HFONT oldfont = StatFont;
 	StatFont = GetFont(&StatusFont);
 
-// zrušení pøedìlu
+// zruÅ¡enÃ­ pÅ™edÄ›lu
 	int statpart[1];
 	statpart[0] = -1;
 	::SendMessage(StatusBar, SB_SETPARTS, 1, (LPARAM) &statpart);
 
-// nastavení nového fontu
+// nastavenÃ­ novÃ©ho fontu
 	::SendMessage(StatusBar, WM_SETFONT, (WPARAM)StatFont, TRUE);
 
-// upøesnìní rozmìrù fontu
+// upÅ™esnÄ›nÃ­ rozmÄ›rÅ¯ fontu
 	HDC dc = ::GetDC(StatusBar);
 	if (dc != NULL)
 	{
@@ -855,7 +855,7 @@ void SetStatusFont()
 		::ReleaseDC(StatusBar, dc);
 	}
 
-// nastavení pøedìlu
+// nastavenÃ­ pÅ™edÄ›lu
 	if (SelectMode)
 	{
 		SelectStatusWidth = StatusFont.Width0*70+16;
@@ -867,10 +867,10 @@ void SetStatusFont()
 		StatusWidth = ProgStatusWidth;
 	}
 
-// nastavení vıšky stavového øádku
+// nastavenÃ­ vÃ½Å¡ky stavovÃ©ho Å™Ã¡dku
 	::SendMessage(StatusBar, SB_SETMINHEIGHT, (WPARAM)(StatusFont.Height0), 0);
 
-// návrat pøedìlu a textu
+// nÃ¡vrat pÅ™edÄ›lu a textu
 	SetStatusWidth(StatusWidth);
 	::SendMessage(StatusBar, SB_SETTEXT, 1 | SBT_OWNERDRAW, (LPARAM)&StatusText2);
 
@@ -880,12 +880,12 @@ void SetStatusFont()
 	SelectOnSize();
 	ProgOnSize();
 
-// zrušení starého fontu
+// zruÅ¡enÃ­ starÃ©ho fontu
 	DelFont(oldfont);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení tlaèítek panelu nástrojù (a po minimální mnoství)
+// zruÅ¡enÃ­ tlaÄÃ­tek panelu nÃ¡strojÅ¯ (aÅ¾ po minimÃ¡lnÃ­ mnoÅ¾stvÃ­)
 
 void ToolBarClear(int min)
 {
@@ -898,7 +898,7 @@ void ToolBarClear(int min)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøidání tlaèítek do panelu nástrojù
+// pÅ™idÃ¡nÃ­ tlaÄÃ­tek do panelu nÃ¡strojÅ¯
 
 void ToolBarAdd(TBBUTTON* button, int num)
 {
@@ -907,7 +907,7 @@ void ToolBarAdd(TBBUTTON* button, int num)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace zobrazení panelu nástrojù
+// aktualizace zobrazenÃ­ panelu nÃ¡strojÅ¯
 
 void ToolBarResize()
 {
@@ -916,7 +916,7 @@ void ToolBarResize()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení obrázku tlaèítka v panelu nástrojù
+// nastavenÃ­ obrÃ¡zku tlaÄÃ­tka v panelu nÃ¡strojÅ¯
 
 void ToolBarBitmap(int id, int bitmap)
 {
@@ -924,13 +924,13 @@ void ToolBarBitmap(int id, int bitmap)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení nového menu
+// nastavenÃ­ novÃ©ho menu
 
-// evidence poloek aktivního menu
-MENUAKTITEM*	MenuAktItems = NULL;		// buffer poloek spuštìného menu
-int				MenuAktItemsN = 0;			// poèet poloek v bufferu spuštìného menu
+// evidence poloÅ¾ek aktivnÃ­ho menu
+MENUAKTITEM*	MenuAktItems = NULL;		// buffer poloÅ¾ek spuÅ¡tÄ›nÃ©ho menu
+int				MenuAktItemsN = 0;			// poÄet poloÅ¾ek v bufferu spuÅ¡tÄ›nÃ©ho menu
 
-// zrušení bufferu poloek spuštìného menu
+// zruÅ¡enÃ­ bufferu poloÅ¾ek spuÅ¡tÄ›nÃ©ho menu
 void MenuAktItemsDel()
 {
 	MENUAKTITEM* item = MenuAktItems;
@@ -952,10 +952,10 @@ void MenuAktItemsDel()
 	MenuAktItemsN = 0;
 }
 
-// vytvoøení nové poloky v bufferu poloek spuštìného menu (-1=chyba pamìti)
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky v bufferu poloÅ¾ek spuÅ¡tÄ›nÃ©ho menu (-1=chyba pamÄ›ti)
 int MenuAktItemsNew(MENUITEM* vzor, HDC dc)
 {
-// zvıšení velikosti bufferu
+// zvÃ½Å¡enÃ­ velikosti bufferu
 	MENUAKTITEM* item = (MENUAKTITEM*)MemSize(MenuAktItems, (MenuAktItemsN+1)*sizeof(MENUAKTITEM));
 	if (item == NULL) return -1;
 	MenuAktItems = item;
@@ -963,23 +963,23 @@ int MenuAktItemsNew(MENUITEM* vzor, HDC dc)
 	MenuAktItemsN++;
 	MemFill(item, sizeof(MENUAKTITEM), 0);
 
-// inicializace prvkù nové poloky
+// inicializace prvkÅ¯ novÃ© poloÅ¾ky
 	item->text.Init();
 	item->textshort.Init();
 	item->help.Init();
 	item->help2.Init();
 
-// pøenesení parametrù ze vzoru
+// pÅ™enesenÃ­ parametrÅ¯ ze vzoru
 	item->id0 = vzor->id0;
 	item->id = vzor->id;
 	item->bitmap = vzor->bitmap;
 	item->typ = vzor->typ;
 
-// naètení textu poloky
+// naÄtenÃ­ textu poloÅ¾ky
 	CText txt;
 	if (vzor->id0 > 0) txt.Load(vzor->id0);
 
-// rozdìlení na text poloky a text klávesy
+// rozdÄ›lenÃ­ na text poloÅ¾ky a text klÃ¡vesy
 	int i = txt.Find(9);
 	if (i >= 0)
 	{
@@ -988,7 +988,7 @@ int MenuAktItemsNew(MENUITEM* vzor, HDC dc)
 	}
 	item->text = txt;
 
-// horká klávesa
+// horkÃ¡ klÃ¡vesa
 	txt.UpperCase();
 	item->key = 0;
 	i = txt.Find(_T('&'));
@@ -997,10 +997,10 @@ int MenuAktItemsNew(MENUITEM* vzor, HDC dc)
 		item->key = txt.Get(i+1);
 	}
 
-// naètení nápovìdy
+// naÄtenÃ­ nÃ¡povÄ›dy
 	txt.Load(vzor->id);
 
-// rozdìlení na dlouhou a krátkou nápovìdu
+// rozdÄ›lenÃ­ na dlouhou a krÃ¡tkou nÃ¡povÄ›du
 	i = txt.Find(_T('\n'));
 	if (i >= 0)
 	{
@@ -1010,7 +1010,7 @@ int MenuAktItemsNew(MENUITEM* vzor, HDC dc)
 	}
 	item->help = txt;
 
-// zjištìní zobrazené šíøky poloky
+// zjiÅ¡tÄ›nÃ­ zobrazenÃ© Å¡Ã­Å™ky poloÅ¾ky
 	if (item->text.IsEmpty())
 	{
 		item->width = 8;
@@ -1030,37 +1030,37 @@ int MenuAktItemsNew(MENUITEM* vzor, HDC dc)
 		if (item->height < 18) item->height = 18;
 	}
 
-// adresa poloky
+// adresa poloÅ¾ky
 	return (MenuAktItemsN-1);
 }
 
-// vytvoøení podmenu
+// vytvoÅ™enÃ­ podmenu
 HMENU CreateNewSubMenu(MENUITEM** itm, HDC dc)
 {
-// vytvoøení podmenu
+// vytvoÅ™enÃ­ podmenu
 	HMENU menu = ::CreatePopupMenu();
 	int pos = 0;
 	CText name;
 	int minwidth = 0;
 
-// vytvoøení poloek
+// vytvoÅ™enÃ­ poloÅ¾ek
 	while (((*itm)->id != 0) || ((*itm)->id0 != 0))
 	{
-// adresa poloky menu
+// adresa poloÅ¾ky menu
 		MENUITEM* item = *itm;
 		(*itm)++;
 
-// vytvoøení nové poloky v bufferu poloek
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky v bufferu poloÅ¾ek
 		int inx = MenuAktItemsNew(item, dc);
 		if (inx < 0) break;
 		MENUAKTITEM* aktitem = MenuAktItems + inx;
 
-// inicializace informace o poloce
+// inicializace informace o poloÅ¾ce
 		aktitem->menu = menu;
 		aktitem->main = FALSE;
 		aktitem->inx = pos;
 
-// stanovení minimální šíøky
+// stanovenÃ­ minimÃ¡lnÃ­ Å¡Ã­Å™ky
 		int okraj = 60;
 
 		if ((aktitem->width + okraj)> minwidth)
@@ -1075,12 +1075,12 @@ HMENU CreateNewSubMenu(MENUITEM** itm, HDC dc)
 			}
 		}
 
-// pøíprava struktury menu
+// pÅ™Ã­prava struktury menu
 		MENUITEMINFO mi;
 		MemFill(&mi, sizeof(MENUITEMINFO), 0);
 		mi.cbSize = sizeof(MENUITEMINFO);
 
-// základní parametry poloky
+// zÃ¡kladnÃ­ parametry poloÅ¾ky
 		mi.fMask = MIIM_TYPE | MIIM_STATE | MIIM_ID | MIIM_DATA;
 		mi.fType = MFT_OWNERDRAW;
 		mi.fState = MFS_ENABLED | MFS_UNCHECKED;
@@ -1098,12 +1098,12 @@ HMENU CreateNewSubMenu(MENUITEM** itm, HDC dc)
 		}
 		else
 
-// separátor
+// separÃ¡tor
 		{
 			mi.fType |= MFT_SEPARATOR;
 		}
 
-// identifikátor jazyku
+// identifikÃ¡tor jazyku
 		int jazyk = -1;
 		for (int ll = 0; ll < JAZYKNUM; ll++)
 		{
@@ -1114,7 +1114,7 @@ HMENU CreateNewSubMenu(MENUITEM** itm, HDC dc)
 			}
 		}
 
-// pøepínaè
+// pÅ™epÃ­naÄ
 		if ((jazyk == Jazyk) ||
 			((item->id == IDN_JAZYKAUT) && (JazykUser == JAZYKAUT)) ||
 			((item->id == IDN_DITHER) && Dither) ||
@@ -1123,43 +1123,43 @@ HMENU CreateNewSubMenu(MENUITEM** itm, HDC dc)
 			mi.fState = MFS_CHECKED;
 		}
 
-// vloení poloky
+// vloÅ¾enÃ­ poloÅ¾ky
 		::InsertMenuItem(menu, pos, TRUE, &mi);
 		pos++;
 	}
 
-// pøeskoèení koncové poloky
+// pÅ™eskoÄenÃ­ koncovÃ© poloÅ¾ky
 	(*itm)++;
 	return menu;
 }
 
 void SetNewMenu(MENUITEM** item)
 {
-// kontrola, zda je menu ji vytvoøeno
+// kontrola, zda je menu jiÅ¾ vytvoÅ™eno
 	if (item == MenuAkt) return;
 	MenuAkt = item;
 
-// zrušení bufferu poloek aktivního menu
+// zruÅ¡enÃ­ bufferu poloÅ¾ek aktivnÃ­ho menu
 	MenuAktItemsDel();
 
-// vytvoøení hlavního menu
+// vytvoÅ™enÃ­ hlavnÃ­ho menu
 	HMENU menu = ::CreateMenu();
 	int pos = 0;
 	CText name;
 
-// vytvoøení nového fontu pro menu
+// vytvoÅ™enÃ­ novÃ©ho fontu pro menu
 	HFONT oldfont = MenuAktFont;
 	MenuAktFont = GetFont(&MenuFont);
 
-// pøíprava fontu k detekci šíøky poloky
+// pÅ™Ã­prava fontu k detekci Å¡Ã­Å™ky poloÅ¾ky
 	HDC dc = ::GetDC(MainFrame);
 	HFONT dcfont = (HFONT)::SelectObject(dc, MenuAktFont);
 
-// vytvoøení podmenu
+// vytvoÅ™enÃ­ podmenu
 	while (*item != NULL)
 	{
 
-// adresa poloky menu
+// adresa poloÅ¾ky menu
 		MENUITEM* itm = *item;
 
 		if (MultiJazyk)
@@ -1170,23 +1170,23 @@ void SetNewMenu(MENUITEM** item)
 
 		item++;
 
-// vytvoøení nové poloky v bufferu poloek
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky v bufferu poloÅ¾ek
 		int inx = MenuAktItemsNew(itm, dc);
 		if (inx < 0) break;
 		MENUAKTITEM* aktitem = MenuAktItems + inx;
 		itm++;
 
-// inicializace informace o poloce
+// inicializace informace o poloÅ¾ce
 		aktitem->menu = menu;
 		aktitem->main = TRUE;
 		aktitem->inx = pos;
 
-// pøíprava struktury menu
+// pÅ™Ã­prava struktury menu
 		MENUITEMINFO mi;
 		MemFill(&mi, sizeof(MENUITEMINFO), 0);
 		mi.cbSize = sizeof(MENUITEMINFO);
 
-// základní parametry poloky
+// zÃ¡kladnÃ­ parametry poloÅ¾ky
 		mi.fMask = MIIM_SUBMENU | MIIM_TYPE | MIIM_DATA;
 		mi.fType = MFT_OWNERDRAW;
 		mi.dwItemData = inx + 1;
@@ -1194,43 +1194,43 @@ void SetNewMenu(MENUITEM** item)
 // podmenu
 		mi.hSubMenu = CreateNewSubMenu(&itm, dc);
 
-// vloení poloky
+// vloÅ¾enÃ­ poloÅ¾ky
 		::InsertMenuItem(menu, pos, TRUE, &mi);
 		pos++;
 	}
 
-// návrat pùvodního fontu a uzavøení dc
+// nÃ¡vrat pÅ¯vodnÃ­ho fontu a uzavÅ™enÃ­ dc
 	::SelectObject(dc, dcfont);
 	::ReleaseDC(MainFrame, dc);
 
-// nastavení hlavního menu
+// nastavenÃ­ hlavnÃ­ho menu
 	::SetMenu(MainFrame, menu);
 	::DestroyMenu(Menu);
 	Menu = menu;
 
-// zrušení pùvodního fontu
+// zruÅ¡enÃ­ pÅ¯vodnÃ­ho fontu
 	DelFont(oldfont);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení kombinovaného pole v panelu nástrojù
+// vytvoÅ™enÃ­ kombinovanÃ©ho pole v panelu nÃ¡strojÅ¯
 
 HWND CreateToolCombo(int id, int* items, int index)
 {
-// naètení souøadnice pøedcházejícího prvku
+// naÄtenÃ­ souÅ™adnice pÅ™edchÃ¡zejÃ­cÃ­ho prvku
 	RECT prev;
 	int i = (int)::SendMessage(ToolBar, TB_BUTTONCOUNT, 0, 0) - 1;
 	::SendMessage(ToolBar, TB_GETITEMRECT, i, (LPARAM)&prev);
 
-// pøíprava souøadnic kombinovaného pole
+// pÅ™Ã­prava souÅ™adnic kombinovanÃ©ho pole
 	RECT rc;
 	rc.left = prev.right + index*50;
 	rc.top = prev.top;
 	rc.right = rc.left + 44;
 	rc.bottom = ClientRect.bottom;
 
-// vytvoøení kombinovaného pole
+// vytvoÅ™enÃ­ kombinovanÃ©ho pole
 	HWND combo = ::CreateWindowEx(
 		0,
 		_T("COMBOBOX"),
@@ -1238,14 +1238,14 @@ HWND CreateToolCombo(int id, int* items, int index)
 		WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED,
 		rc.left,				// X
 		rc.top,					// Y
-		rc.right - rc.left,		// šíøka
-		rc.bottom - rc.top,		// vıška
-		ToolBar,				// rodiè
+		rc.right - rc.left,		// Å¡Ã­Å™ka
+		rc.bottom - rc.top,		// vÃ½Å¡ka
+		ToolBar,				// rodiÄ
 		(HMENU)id,				// identifikace
 		hInstance,
 		NULL);
 
-// naètení prvkù
+// naÄtenÃ­ prvkÅ¯
 	TCHAR txt[2];
 	txt[1] = 0;
 
@@ -1256,7 +1256,7 @@ HWND CreateToolCombo(int id, int* items, int index)
 		::SendMessage(combo, CB_SETITEMDATA, i, items[2*i+1]);
 	}
 
-// pøipojení k tooltips
+// pÅ™ipojenÃ­ k tooltips
 	TOOLINFO ti;
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_IDISHWND;
@@ -1274,7 +1274,7 @@ HWND CreateToolCombo(int id, int* items, int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıbìr prvku v COMBO boxu
+// vÃ½bÄ›r prvku v COMBO boxu
 
 void SelectCombo(HWND combo, int id, int* items)
 {
@@ -1296,14 +1296,14 @@ void SelectCombo(HWND combo, int id, int* items)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení kurzoru èekání (zahájení a ukonèení musí bıt do páru!)
+// zobrazenÃ­ kurzoru ÄekÃ¡nÃ­ (zahÃ¡jenÃ­ a ukonÄenÃ­ musÃ­ bÃ½t do pÃ¡ru!)
 
 void BeginWaitCursor()
 {
-// zvıšení èítaèe èekání
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe ÄekÃ¡nÃ­
 	Waiting++;
 
-// zobrazení kurzoru
+// zobrazenÃ­ kurzoru
 	if (Waiting > 0)
 	{
 		::SetCursor(CurWait);
@@ -1311,14 +1311,14 @@ void BeginWaitCursor()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vypnutí kurzoru èekání (zahájení a ukonèení musí bıt do páru!)
+// vypnutÃ­ kurzoru ÄekÃ¡nÃ­ (zahÃ¡jenÃ­ a ukonÄenÃ­ musÃ­ bÃ½t do pÃ¡ru!)
 
 void EndWaitCursor()
 {
-// sníení èítaèe èekání
+// snÃ­Å¾enÃ­ ÄÃ­taÄe ÄekÃ¡nÃ­
 	Waiting--;
 
-// zobrazení kurzoru
+// zobrazenÃ­ kurzoru
 	if (Waiting <= 0)
 	{
 		if (!ProgOnSetCursor())
@@ -1330,7 +1330,7 @@ void EndWaitCursor()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení/aktualizace šíøky pole 2 stavové lišty
+// nastavenÃ­/aktualizace Å¡Ã­Å™ky pole 2 stavovÃ© liÅ¡ty
 
 void SetStatusWidth(int width)
 {
@@ -1345,7 +1345,7 @@ void SetStatusWidth(int width)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textu stavové lišty
+// nastavenÃ­ textu stavovÃ© liÅ¡ty
 
 void SetStatusText(const CText& text)
 {
@@ -1358,7 +1358,7 @@ void SetStatusText(const CText& text)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení textu stavové lišty 2
+// nastavenÃ­ textu stavovÃ© liÅ¡ty 2
 
 void SetStatusText2(const CText& text)
 {
@@ -1370,57 +1370,57 @@ void SetStatusText2(const CText& text)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení jména souboru v titulku okna
+// zobrazenÃ­ jmÃ©na souboru v titulku okna
 
 void ZobrazJmeno()
 {
 	CText text;
 	CText jmeno = Jmeno.MultiText();
 
-	if (jmeno.IsNotEmpty())							// je nìjaké jméno souboru ?
+	if (jmeno.IsNotEmpty())							// je nÄ›jakÃ© jmÃ©no souboru ?
 	{
 		text = jmeno;
-		text.Add(_T(" - "));						// oddìlovaè
+		text.Add(_T(" - "));						// oddÄ›lovaÄ
 	}
 
-	text.Add(MainFrameName);							// pøidání jména aplikace
+	text.Add(MainFrameName);							// pÅ™idÃ¡nÃ­ jmÃ©na aplikace
 
-	if (text != MainFrameText)						// mìní se titulek ?
+	if (text != MainFrameText)						// mÄ›nÃ­ se titulek ?
 	{
-		MainFrameText = text;						// úschova nového titulku
-		::SetWindowText(MainFrame, text);			// nastavení nového titulku
+		MainFrameText = text;						// Ãºschova novÃ©ho titulku
+		::SetWindowText(MainFrame, text);			// nastavenÃ­ novÃ©ho titulku
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// povolení volby v menu a v panelu nástrojù
+// povolenÃ­ volby v menu a v panelu nÃ¡strojÅ¯
 
 void EnableCommand(int id, BOOL enable)
 {
-// povolení tlaèítka nástrojového panelu
+// povolenÃ­ tlaÄÃ­tka nÃ¡strojovÃ©ho panelu
 	::SendMessage(ToolBar, TB_ENABLEBUTTON, id, enable);
 
-// povolení volby menu
+// povolenÃ­ volby menu
 	::EnableMenuItem(Menu, id, MF_BYCOMMAND | enable ? MF_ENABLED : (MF_DISABLED | MF_GRAYED));
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí volby v menu a v panelu nástrojù
+// zapnutÃ­ volby v menu a v panelu nÃ¡strojÅ¯
 
 void CheckCommand(int id, BOOL check)
 {
-// zapnutí tlaèítka nástrojového panelu
+// zapnutÃ­ tlaÄÃ­tka nÃ¡strojovÃ©ho panelu
 	::SendMessage(ToolBar, TB_CHECKBUTTON, id, check);
 
-// zapnutí volby menu
+// zapnutÃ­ volby menu
 	::CheckMenuItem(Menu, id, MF_BYCOMMAND | check ? MF_CHECKED : MF_UNCHECKED);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení informaèního okna About
+// zobrazenÃ­ informaÄnÃ­ho okna About
 
 BOOL CALLBACK AboutBoxProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -1442,7 +1442,7 @@ BOOL CALLBACK AboutBoxProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		switch (lParam)
 		{
 
-// obsluha hlášení chyby ètení programu
+// obsluha hlÃ¡Å¡enÃ­ chyby ÄtenÃ­ programu
 		case IDN_READERR:
 			{
 				DialogCustomText(hWnd, IDN_READERR1);
@@ -1451,7 +1451,7 @@ BOOL CALLBACK AboutBoxProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-// obsluha hlášení chyby zápisu do programu
+// obsluha hlÃ¡Å¡enÃ­ chyby zÃ¡pisu do programu
 		case IDN_WRITEERR:
 			{
 				DialogCustomText(hWnd, IDN_WRITEERR1);
@@ -1462,7 +1462,7 @@ BOOL CALLBACK AboutBoxProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 
-// obsluha hlášení chyby otevøení programu
+// obsluha hlÃ¡Å¡enÃ­ chyby otevÅ™enÃ­ programu
 		case IDN_OPENERR:
 			{
 				DialogCustomText(hWnd, IDN_OPENERR1);
@@ -1475,7 +1475,7 @@ BOOL CALLBACK AboutBoxProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		case IDN_ABOUTBOX:
 			{
 
-// nastavení textu verze
+// nastavenÃ­ textu verze
 				txt.Load(IDC_VERZE);
 				txt += _T(' ');
 				txt.AddInt(VerzeMaj);
@@ -1539,7 +1539,7 @@ void OnAboutBox()
 		(LPARAM)IDN_ABOUTBOX);
 }
 
-// pøíprava jména souboru nápovìdy
+// pÅ™Ã­prava jmÃ©na souboru nÃ¡povÄ›dy
 void InitHelpName()
 {
 	HelpFileName = HomeDir + _T("Peter_") + JazykInfo[Jazyk].HelpName + _T(".hlp");
@@ -1567,8 +1567,8 @@ void InitHelpName()
 			return;
 		}
 
-		WIN32_FIND_DATA wfd;			// struktura pro hledání souborù
-		HANDLE file;					// handle hledání souborù
+		WIN32_FIND_DATA wfd;			// struktura pro hledÃ¡nÃ­ souborÅ¯
+		HANDLE file;					// handle hledÃ¡nÃ­ souborÅ¯
 		file = ::FindFirstFile(HomeDir + _T("Peter*.hlp"), &wfd);
 		if (file != INVALID_HANDLE_VALUE)
 		{
@@ -1659,7 +1659,7 @@ void OnHelp()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha zprávy pøed rozesláním do oken (TRUE = zpráva zpracována)
+// obsluha zprÃ¡vy pÅ™ed rozeslÃ¡nÃ­m do oken (TRUE = zprÃ¡va zpracovÃ¡na)
 
 BOOL PreTranslateMessage(MSG* msg)
 {
@@ -1671,28 +1671,28 @@ BOOL PreTranslateMessage(MSG* msg)
 	{
 	case WM_MOUSEMOVE:
 
-// není stisknuto levé tlaæítko
+// nenÃ­ stisknuto levÃ© tlaÄ‡Ã­tko
 		if ((msg->wParam & MK_LBUTTON) == 0)
 		{
 			LMouseDown = FALSE;
 			LMouseDClick = FALSE;
 		}
 
-// není stisknuto pravé tlaèítko
+// nenÃ­ stisknuto pravÃ© tlaÄÃ­tko
 		if ((msg->wParam & MK_RBUTTON) == 0)
 		{
 			RMouseDown = FALSE;
 			RMouseDClick = FALSE;
 		}
 
-// úschova aktuální souøadnice kurzoru myši
+// Ãºschova aktuÃ¡lnÃ­ souÅ™adnice kurzoru myÅ¡i
 		MouseScreen.x = LOWORD(lParam);
 		MouseScreen.y = HIWORD(lParam);
 		::ClientToScreen(hWnd, &MouseScreen);
 		MouseMain = MouseScreen;
 		::ScreenToClient(MainFrame, &MouseMain);
 
-// vypnutí informací o poloce pod kurzorem, je-li posun mimo editaèní pole
+// vypnutÃ­ informacÃ­ o poloÅ¾ce pod kurzorem, je-li posun mimo editaÄnÃ­ pole
 		if ((hWnd != MainFrame) ||
 			(MouseMain.x < EditX) ||
 			(MouseMain.x >= EditX + EditWidth) ||
@@ -1704,7 +1704,7 @@ BOOL PreTranslateMessage(MSG* msg)
 			DispMouseXY();
 		}
 
-// pøi posunu myši daleko od poslední nápovìdy vypnout text ve stavovém øádku (kvùli nápovìdì v menu a toolbox)
+// pÅ™i posunu myÅ¡i daleko od poslednÃ­ nÃ¡povÄ›dy vypnout text ve stavovÃ©m Å™Ã¡dku (kvÅ¯li nÃ¡povÄ›dÄ› v menu a toolbox)
 		if ((abs(MouseScreen.x - LastToolTips.x) +
 			(abs(MouseScreen.y - LastToolTips.y))) > 40)
 		{
@@ -1713,25 +1713,25 @@ BOOL PreTranslateMessage(MSG* msg)
 		}
 		break;
 
-// dvojstisk levého tlaèítka myši
+// dvojstisk levÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_LBUTTONDBLCLK:
 		LMouseDown = TRUE;
 		LMouseDClick = TRUE;
 		goto MOUSECLICK;
 
-// dvojstisk pravého tlaèítka myši
+// dvojstisk pravÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_RBUTTONDBLCLK:
 		RMouseDown = TRUE;
 		RMouseDClick = TRUE;
 		goto MOUSECLICK;
 
-// stisk levého tlaèítka myši
+// stisk levÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_LBUTTONDOWN:
 		LMouseDown = TRUE;
 		LMouseDClick = FALSE;
 		goto MOUSECLICK;
 
-// stisk pravého tlaèítka myši
+// stisk pravÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_RBUTTONDOWN:
 		RMouseDown = TRUE;
 		RMouseDClick = FALSE;
@@ -1739,14 +1739,14 @@ BOOL PreTranslateMessage(MSG* msg)
 MOUSECLICK:
 		if ((FocusTimer != 0) && (FocusTimerN < 2)) FocusTimerN = 2;
 
-// úschova souøadnic kurzoru myši
+// Ãºschova souÅ™adnic kurzoru myÅ¡i
 		MouseScreen.x = LOWORD(lParam);
 		MouseScreen.y = HIWORD(lParam);
 		::ClientToScreen(hWnd, &MouseScreen);
 		MouseMain = MouseScreen;
 		::ScreenToClient(MainFrame, &MouseMain);
 
-// nastavení fokusu na editaèní pole
+// nastavenÃ­ fokusu na editaÄnÃ­ pole
 		if (ProgMode &&
 			((hWnd == EditNumWnd) ||
 			(hWnd == EditLogWnd) ||
@@ -1757,7 +1757,7 @@ MOUSECLICK:
 			ProgSetFocus();
 		}
 
-// kliknutí do hlavního okna v editaèním módu
+// kliknutÃ­ do hlavnÃ­ho okna v editaÄnÃ­m mÃ³du
 		if (ProgMode &&
 			((hWnd == EditNumWnd) ||
 			(hWnd == EditLogWnd) ||
@@ -1776,38 +1776,38 @@ MOUSECLICK:
 		}
 		break;
 
-// dvojstisk levého tlaèítka myši
+// dvojstisk levÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_NCLBUTTONDBLCLK:
 		LMouseDown = TRUE;
 		LMouseDClick = TRUE;
 		goto NCMOUSECLICK;
 
-// dvojstisk pravého tlaèítka myši
+// dvojstisk pravÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_NCRBUTTONDBLCLK:
 		RMouseDown = TRUE;
 		RMouseDClick = TRUE;
 		goto NCMOUSECLICK;
 
-// stisk levého tlaèítka myši
+// stisk levÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_NCLBUTTONDOWN:
 		LMouseDown = TRUE;
 		LMouseDClick = FALSE;
 		goto NCMOUSECLICK;
 
-// stisk pravého tlaèítka myši
+// stisk pravÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_NCRBUTTONDOWN:
 		RMouseDown = TRUE;
 		RMouseDClick = FALSE;
 
 NCMOUSECLICK:
 
-// úschova souøadnic kurzoru myši
+// Ãºschova souÅ™adnic kurzoru myÅ¡i
 		MouseScreen.x = MAKEPOINTS(lParam).x;
 		MouseScreen.y = MAKEPOINTS(lParam).y;
 		MouseMain = MouseScreen;
 		::ScreenToClient(MainFrame, &MouseMain);
 		
-// kliknutí do hlavního okna v editaèním módu
+// kliknutÃ­ do hlavnÃ­ho okna v editaÄnÃ­m mÃ³du
 		if (ProgMode &&
 			((hWnd == EditNumWnd) ||
 			(hWnd == EditLogWnd) ||
@@ -1826,12 +1826,12 @@ NCMOUSECLICK:
 		}
 		break;
 
-// uvolnìní levého tlaèítka myši
+// uvolnÄ›nÃ­ levÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_LBUTTONUP:
 		LMouseDown = FALSE;
 		LMouseDClick = FALSE;
 
-// úschova souøadnic kurzoru myši
+// Ãºschova souÅ™adnic kurzoru myÅ¡i
 		MouseScreen.x = LOWORD(lParam);
 		MouseScreen.y = HIWORD(lParam);
 		::ClientToScreen(hWnd, &MouseScreen);
@@ -1841,12 +1841,12 @@ NCMOUSECLICK:
 		ProgOnButtonUp(wParam, FALSE);
 		break;
 
-// uvolnìní pravého tlaèítka myši
+// uvolnÄ›nÃ­ pravÃ©ho tlaÄÃ­tka myÅ¡i
 	case WM_RBUTTONUP:
 		RMouseDown = FALSE;
 		RMouseDClick = FALSE;
 
-// úschova souøadnic kurzoru myši
+// Ãºschova souÅ™adnic kurzoru myÅ¡i
 		MouseScreen.x = LOWORD(lParam);
 		MouseScreen.y = HIWORD(lParam);
 		::ClientToScreen(hWnd, &MouseScreen);
@@ -1856,7 +1856,7 @@ NCMOUSECLICK:
 		ProgOnButtonUp(wParam, TRUE);
 		break;
 
-// stisk klávesy
+// stisk klÃ¡vesy
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 		if (SelectMode)
@@ -1865,7 +1865,7 @@ NCMOUSECLICK:
 		}
 		return ProgOnKeyDown(hWnd, wParam, lParam);
 
-// uvolnìní klávesy (aktualizace pøepínaèù)
+// uvolnÄ›nÃ­ klÃ¡vesy (aktualizace pÅ™epÃ­naÄÅ¯)
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		if (ProgMode)
@@ -1880,7 +1880,7 @@ NCMOUSECLICK:
 		}
 		break;
 
-// znak z klávesnice
+// znak z klÃ¡vesnice
 	case WM_CHAR:
 		if (ProgOnChar(hWnd, (TCHAR)wParam)) return TRUE;
 		break;
@@ -1891,7 +1891,7 @@ NCMOUSECLICK:
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace pøedešlého okna
+// aktualizace pÅ™edeÅ¡lÃ©ho okna
 
 void AktPrevWindow()
 {
@@ -1917,7 +1917,7 @@ void AktPrevWindow()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èasové pøekreslení okna (zadaného bufferu, -1=vše)
+// ÄasovÃ© pÅ™ekreslenÃ­ okna (zadanÃ©ho bufferu, -1=vÅ¡e)
 
 void TimeRepaint(int bufID)
 {
@@ -1938,7 +1938,7 @@ void TimeRepaint(int bufID)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// èasové pøekreslení okna po ubìhnutí èasu
+// ÄasovÃ© pÅ™ekreslenÃ­ okna po ubÄ›hnutÃ­ Äasu
 
 void TimeRepaintNow()
 {
@@ -1988,7 +1988,7 @@ void TimeRepaintNow()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fontu a stylu pro vlastní vıpis textu
+// nastavenÃ­ fontu a stylu pro vlastnÃ­ vÃ½pis textu
 
 void DialogCustomText(HWND hWnd, DWORD id)
 {
@@ -1996,7 +1996,7 @@ void DialogCustomText(HWND hWnd, DWORD id)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vlastního vıpisu textu
+// nastavenÃ­ vlastnÃ­ho vÃ½pisu textu
 
 void DialogCustom0(HWND hWnd, DWORD id)
 {
@@ -2004,7 +2004,7 @@ void DialogCustom0(HWND hWnd, DWORD id)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vlastního vıpisu textu
+// nastavenÃ­ vlastnÃ­ho vÃ½pisu textu
 
 void DialogCustom(HWND hWnd, DWORD id, BOOL load, BOOL font)
 {
@@ -2038,7 +2038,7 @@ void DialogCustom(HWND hWnd, DWORD id, BOOL load, BOOL font)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vlastního pøepínaèe RADIO
+// nastavenÃ­ vlastnÃ­ho pÅ™epÃ­naÄe RADIO
 
 void DialogCustomRadio(HWND hWnd, DWORD id)
 {
@@ -2061,7 +2061,7 @@ void DialogCustomRadio(HWND hWnd, DWORD id)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vlastního pøepínaèe CHECK
+// nastavenÃ­ vlastnÃ­ho pÅ™epÃ­naÄe CHECK
 
 void DialogCustomCheck(HWND hWnd, DWORD id)
 {
@@ -2084,7 +2084,7 @@ void DialogCustomCheck(HWND hWnd, DWORD id)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení vlastního rámeèku
+// nastavenÃ­ vlastnÃ­ho rÃ¡meÄku
 
 void DialogCustomBox(HWND hWnd, DWORD id)
 {
@@ -2107,7 +2107,7 @@ void DialogCustomBox(HWND hWnd, DWORD id)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hodnoty pøepínaèe
+// nastavenÃ­ hodnoty pÅ™epÃ­naÄe
 
 void DialogSetCheck(HWND hWnd, DWORD id, BOOL check)
 {
@@ -2129,7 +2129,7 @@ void DialogSetCheck(HWND hWnd, DWORD id, BOOL check)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vlastní vykreslení prvkù v dialogovıch oknech (vrací TRUE=obsloueno)
+// vlastnÃ­ vykreslenÃ­ prvkÅ¯ v dialogovÃ½ch oknech (vracÃ­ TRUE=obslouÅ¾eno)
 
 BOOL DialogDraw(HWND hWnd, LPARAM lParam)
 {
@@ -2307,7 +2307,7 @@ BOOL DialogDraw(HWND hWnd, LPARAM lParam)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha zpráv okna (ponechat obsluhu všech zpráv, aby se SWITCH pøekládal tabulkou!)
+// obsluha zprÃ¡v okna (ponechat obsluhu vÅ¡ech zprÃ¡v, aby se SWITCH pÅ™eklÃ¡dal tabulkou!)
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -2465,7 +2465,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		AktPrevWindow();
 		if ((BOOL)wParam)
 		{
-			HCURSOR curs = ::GetCursor();	// obnovení kurzoru
+			HCURSOR curs = ::GetCursor();	// obnovenÃ­ kurzoru
 			::SetCursor(NULL);
 			::SetCursor(curs);
 		}
@@ -2487,9 +2487,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 			return TRUE;
 		}
 
-		::GetCursorPos(&MouseScreen);	// naètení souøadnic myši
+		::GetCursorPos(&MouseScreen);	// naÄtenÃ­ souÅ™adnic myÅ¡i
 		MouseMain = MouseScreen;
-		::ScreenToClient(MainFrame, &MouseMain); // pøevod na klientské souøadnice
+		::ScreenToClient(MainFrame, &MouseMain); // pÅ™evod na klientskÃ© souÅ™adnice
 
 		if (ProgOnSetCursor()) return TRUE;
 		goto DEFAULT;
@@ -2546,14 +2546,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 				if ((DWORD)inx < (DWORD)MenuAktItemsN)
 				{
 
-		// pøíprava ukazatelù
+		// pÅ™Ã­prava ukazatelÅ¯
 					MENUAKTITEM* item = MenuAktItems + inx;
 					HDC dc = di->hDC;
 					HFONT oldfont = (HFONT)::SelectObject(dc, MenuAktFont);
 					RECT rc = di->rcItem;
 					DWORD state = di->itemState;
 
-		// pøíprava barvy pozadí a písma
+		// pÅ™Ã­prava barvy pozadÃ­ a pÃ­sma
 					DWORD barvapozadi = (::GetSysColor(COLOR_MENU) & 0xffffff);
 					DWORD barvatextu = (::GetSysColor(COLOR_MENUTEXT) & 0xffffff);
 					DWORD barvastinu = (::GetSysColor(COLOR_3DSHADOW) & 0xffffff);
@@ -2565,13 +2565,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 						barvatextu = (::GetSysColor(COLOR_HIGHLIGHTTEXT) & 0xffffff);
 					}
 
-		// vymazání podkladu
+		// vymazÃ¡nÃ­ podkladu
 					HBRUSH brush = ::CreateSolidBrush(barvapozadi);
 					::FillRect(dc, &rc, brush);
 					::SetBkColor(dc, barvapozadi);
 					::SetBkMode(di->hDC, TRANSPARENT);
 
-		// vykreslení oddìlovaèe
+		// vykreslenÃ­ oddÄ›lovaÄe
 					if (item->id0 == 0)
 					{
 						rc.top += item->height/2 - 1;
@@ -2582,7 +2582,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 					else
 					{
 
-		// vıpis textu hlavní nabídky
+		// vÃ½pis textu hlavnÃ­ nabÃ­dky
 						if (item->main)
 						{
 							if (state & ODS_SELECTED)
@@ -2598,7 +2598,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 						else
 						{
 
-		// pøíprava obrázku pøepínaèe
+		// pÅ™Ã­prava obrÃ¡zku pÅ™epÃ­naÄe
 							int icon = -1;
 							if (item->typ & MSWC)
 							{
@@ -2624,12 +2624,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 								}
 							}
 
-		// vykreslení pøepínaèe (musí bıt vybrána správná barva pozadí)
+		// vykreslenÃ­ pÅ™epÃ­naÄe (musÃ­ bÃ½t vybrÃ¡na sprÃ¡vnÃ¡ barva pozadÃ­)
 							::SetTextColor(dc, 0);
 
 							if (icon >= 0)
 							{
-	if (JazykInfo[Jazyk].RightToLeft) icon = ToolButtonNum - icon - 1;   // JAKJAK ... správné vykreslení ikonek
+	if (JazykInfo[Jazyk].RightToLeft) icon = ToolButtonNum - icon - 1;   // JAKJAK ... sprÃ¡vnÃ© vykreslenÃ­ ikonek
 								int x = rc.left + 2;
 								int y = rc.top + (rc.bottom - rc.top - 16)/2;
 
@@ -2645,7 +2645,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 							}
 							rc.left += 20;
 
-		// vykreslení ikony obrázku
+		// vykreslenÃ­ ikony obrÃ¡zku
 							icon = item->bitmap;
 							if (icon >= 0)
 							{
@@ -2653,7 +2653,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 								{
 									icon = ButtonSaveModi;
 								}
-	if (JazykInfo[Jazyk].RightToLeft) icon = ToolButtonNum - icon - 1;   // JAKJAK ... správné vykreslení ikonek
+	if (JazykInfo[Jazyk].RightToLeft) icon = ToolButtonNum - icon - 1;   // JAKJAK ... sprÃ¡vnÃ© vykreslenÃ­ ikonek
 								int x = rc.right - 20;
 								int y = rc.top + (rc.bottom - rc.top - 16)/2;
 
@@ -2685,7 +2685,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 							}
 							rc.right -= 30;
 
-		// vıpis podkladového textu pro zakázanou poloku
+		// vÃ½pis podkladovÃ©ho textu pro zakÃ¡zanou poloÅ¾ku
 							if (state & ODS_GRAYED)
 							{
 								barvatextu = barvasvetla;
@@ -2704,7 +2704,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 								}
 							}
 
-		// vıpis textu
+		// vÃ½pis textu
 							::SetTextColor(dc, barvatextu);
 							::DrawText(dc, item->text, item->text.Length(), &rc, DT_LEFT | DT_SINGLELINE | DT_VCENTER | smer);
 							::DrawText(dc, item->textshort, item->textshort.Length(), &rc, DT_RIGHT | DT_SINGLELINE | DT_VCENTER | smer);
@@ -2884,8 +2884,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 				return 0;
 
 			case TVN_ITEMEXPANDING:
-			// (pozor - vyvolá se po dvojkliku v editaèním oknì u zrušené poloky,
-			//  bez zákazu rozvinutí vznikne chyba pamìti! Bez této obsluhy havaruje!)
+			// (pozor - vyvolÃ¡ se po dvojkliku v editaÄnÃ­m oknÄ› u zruÅ¡enÃ© poloÅ¾ky,
+			//  bez zÃ¡kazu rozvinutÃ­ vznikne chyba pamÄ›ti! Bez tÃ©to obsluhy havaruje!)
 				return ProgOnExpanding(nmhdr->hwndFrom, &(((NM_TREEVIEW*)lParam)->itemNew), 
 						((((NM_TREEVIEW*)lParam)->action & TVE_EXPAND) != 0));
 
@@ -3776,7 +3776,7 @@ JMPCLOSE:
 				SelectOnDelete();
 				return 0;
 
-			case IDN_COPY:			// zachovat poøadí - v Select se otevøe editace do Prog
+			case IDN_COPY:			// zachovat poÅ™adÃ­ - v Select se otevÅ™e editace do Prog
 				ProgOnCopy();
 				SelectOnNewCopy();
 				return 0;
@@ -4113,13 +4113,13 @@ JMPCLOSE:
 
 				if ((wnd == EditNumWnd) && ProgMode)
 				{
-					EditNum::OnChange();		// poøadí je nutné!
+					EditNum::OnChange();		// poÅ™adÃ­ je nutnÃ©!
 					ProgUpdateUndoRedo();
 				}
 
 				if ((wnd == EditTextWnd) && ProgMode)
 				{
-					EditText::OnChange();		// poøadí je nutné!
+					EditText::OnChange();		// poÅ™adÃ­ je nutnÃ©!
 					ProgUpdateUndoRedo();
 				}
 
@@ -4223,14 +4223,14 @@ JMPCLOSE:
 	case WM_MENUCHAR:				// 0x120
 		{
 			HMENU menu = (HMENU)lParam;				// menu
-			WORD chr = LOWORD(wParam);				// znak z klávesnice
+			WORD chr = LOWORD(wParam);				// znak z klÃ¡vesnice
 
 			CText txt;
 			txt = (TCHAR)chr;
-			txt.UpperCase();						// konverze znaku na velké písmeno
+			txt.UpperCase();						// konverze znaku na velkÃ© pÃ­smeno
 			chr = txt.Get(0);
 
-			WPARAM kod = MNC_IGNORE;				// pøednastaveno - ignorovat znak
+			WPARAM kod = MNC_IGNORE;				// pÅ™ednastaveno - ignorovat znak
 			WPARAM inx = 0;
 
 			if (chr != 0)
@@ -4241,7 +4241,7 @@ JMPCLOSE:
 						(chr == MenuAktItems[i].key))
 					{
 						kod = MNC_EXECUTE;
-						inx = MenuAktItems[i].inx;		// èíslo menu
+						inx = MenuAktItems[i].inx;		// ÄÃ­slo menu
 						break;
 					}
 				}

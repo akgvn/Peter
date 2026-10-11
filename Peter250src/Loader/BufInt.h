@@ -1,77 +1,77 @@
 
 /***************************************************************************\
 *																			*
-*								Buffer celıch èísel							*
+*								Buffer celÃ½ch ÄÃ­sel							*
 *																			*
 \***************************************************************************/
 
 class CBufInt
 {
 
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
+// promÄ›nnÃ©
 	int*	m_Data;			// ukazatel na data
-	int		m_Num;			// poèet platnıch poloek v bufferu
-	int		m_Max;			// velikost bufferu (poloek)
+	int		m_Num;			// poÄet platnÃ½ch poloÅ¾ek v bufferu
+	int		m_Max;			// velikost bufferu (poloÅ¾ek)
 
-// vytvoøení nové poloky
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 	inline int NewItem()
 	{
 		int i = m_Num;
-		if (i >= m_Max)				// není další poloka?
+		if (i >= m_Max)				// nenÃ­ dalÅ¡Ã­ poloÅ¾ka?
 		{
-			NewData();				// vytvoøení novıch dat
+			NewData();				// vytvoÅ™enÃ­ novÃ½ch dat
 		}
 		m_Num = i + 1;
 		return i;
 	};
 
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 	void NewData();
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
 // konstruktor a destruktor
 	CBufInt();
-	CBufInt(int num);		// vytvoøení bufferu + vymazání hodnotou "-1"
+	CBufInt(int num);		// vytvoÅ™enÃ­ bufferu + vymazÃ¡nÃ­ hodnotou "-1"
 	~CBufInt();
 
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 	void Init();
-	void Init(int num);		// vytvoøení bufferu + vymazání hodnotou "-1"
+	void Init(int num);		// vytvoÅ™enÃ­ bufferu + vymazÃ¡nÃ­ hodnotou "-1"
 	void Term();
 
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 	void DelAll();
 
-// poskytnutí bufferu dat
+// poskytnutÃ­ bufferu dat
 	inline int* Data() const { return m_Data; };
 
-// poskytnutí poètu platnıch poloek v bufferu
+// poskytnutÃ­ poÄtu platnÃ½ch poloÅ¾ek v bufferu
 	inline int Num() const { return m_Num; };
 
-// nastavení poètu poloek v bufferu (nové poloky neinicializované)
+// nastavenÃ­ poÄtu poloÅ¾ek v bufferu (novÃ© poloÅ¾ky neinicializovanÃ©)
 	void _fastcall Num(int num);
 
-// poskytnutí velikosti bufferu
+// poskytnutÃ­ velikosti bufferu
 	inline int Max() const { return m_Max; };
 
-// vymazání všech poloek v bufferu zadanou hodnotou
+// vymazÃ¡nÃ­ vÅ¡ech poloÅ¾ek v bufferu zadanou hodnotou
 	void _fastcall Clear(const int clear = -1);
 
-// kontrola platnosti poloky
+// kontrola platnosti poloÅ¾ky
 	inline BOOL IsValid(const int index) const
 		{ return ((DWORD)index < (DWORD)m_Num); };
 
 	inline BOOL IsNotValid(const int index) const
 		{ return ((DWORD)index >= (DWORD)m_Num); };
 
-// poskytnutí pøístupu k poloce (bez kontroly indexu)
+// poskytnutÃ­ pÅ™Ã­stupu k poloÅ¾ce (bez kontroly indexu)
 	inline int& operator[] (const int index) 
 		{ ASSERT(IsValid(index)); return m_Data[index]; }
 
@@ -84,108 +84,108 @@ public:
 	inline const int& At(const int index) const
 		{ ASSERT(IsValid(index)); return m_Data[index]; }
 
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 	int _fastcall Get(const int index) const;
 
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 	void _fastcall Set(const int index, const int data);
 
-// vloení poloky do bufferu na poadovanou pozici (omezí index)
+// vloÅ¾enÃ­ poloÅ¾ky do bufferu na poÅ¾adovanou pozici (omezÃ­ index)
 	void _fastcall Insert(int index, const int data);
 
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 	void _fastcall Del(int num);
 
-// zrušení poloky z bufferu (ostatní poloky se pøisunou)
+// zruÅ¡enÃ­ poloÅ¾ky z bufferu (ostatnÃ­ poloÅ¾ky se pÅ™isunou)
 	void _fastcall DelItem(const int index);
 
-// vytvoøení prázdné poloky (vrací index poloky)
+// vytvoÅ™enÃ­ prÃ¡zdnÃ© poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 	int New();
 
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 	int _fastcall Add(const int data);
 
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 	int _fastcall Dup(const int index);
 	int _fastcall Dup(const int index, int num);
 
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 	const CBufInt& operator= (const CBufInt& src);
 };
 
 
 /***************************************************************************\
 *																			*
-*							Buffer logickıch promìnnıch						*
+*							Buffer logickÃ½ch promÄ›nnÃ½ch						*
 *																			*
 \***************************************************************************/
 
 class CBufBool
 { 
 
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
+// promÄ›nnÃ©
 	bool*	m_Data;			// ukazatel na data
-	int		m_Num;			// poèet platnıch poloek v bufferu
-	int		m_Max;			// velikost bufferu (poloek)
+	int		m_Num;			// poÄet platnÃ½ch poloÅ¾ek v bufferu
+	int		m_Max;			// velikost bufferu (poloÅ¾ek)
 
-// vytvoøení nové poloky
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 	inline int NewItem()
 	{
 		int i = m_Num;
-		if (i >= m_Max)				// není další poloka?
+		if (i >= m_Max)				// nenÃ­ dalÅ¡Ã­ poloÅ¾ka?
 		{
-			NewData();				// vytvoøení novıch dat
+			NewData();				// vytvoÅ™enÃ­ novÃ½ch dat
 		}
 		m_Num = i + 1;
 		return i;
 	};
 
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 	void NewData();
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
 // konstruktor a destruktor
 	CBufBool();
-	CBufBool(int num);		// vytvoøení bufferu + vymazání hodnotou false
+	CBufBool(int num);		// vytvoÅ™enÃ­ bufferu + vymazÃ¡nÃ­ hodnotou false
 	~CBufBool();
 
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 	void Init();
 	void Term();
 
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 	void DelAll();
 
-// poskytnutí bufferu dat
+// poskytnutÃ­ bufferu dat
 	inline bool* Data() const { return m_Data; };
 
-// poskytnutí poètu platnıch poloek v bufferu
+// poskytnutÃ­ poÄtu platnÃ½ch poloÅ¾ek v bufferu
 	inline int Num() const { return m_Num; };
 
-// poskytnutí velikosti bufferu
+// poskytnutÃ­ velikosti bufferu
 	inline int Max() const { return m_Max; };
 
-// nastavení poètu poloek v bufferu (nové poloky neinicializované)
+// nastavenÃ­ poÄtu poloÅ¾ek v bufferu (novÃ© poloÅ¾ky neinicializovanÃ©)
 	void _fastcall Num(int num);
 
-// vymazání všech poloek v bufferu zadanou hodnotou
+// vymazÃ¡nÃ­ vÅ¡ech poloÅ¾ek v bufferu zadanou hodnotou
 	void _fastcall Clear(const bool clear);
 
-// kontrola platnosti poloky
+// kontrola platnosti poloÅ¾ky
 	inline BOOL IsValid(const int index) const
 		{ return ((DWORD)index < (DWORD)m_Num); };
 
 	inline BOOL IsNotValid(const int index) const
 		{ return ((DWORD)index >= (DWORD)m_Num); };
 
-// poskytnutí pøístupu k poloce (bez kontroly indexu)
+// poskytnutÃ­ pÅ™Ã­stupu k poloÅ¾ce (bez kontroly indexu)
 	inline bool& operator[] (const int index) 
 		{ ASSERT(IsValid(index)); return m_Data[index]; }
 
@@ -198,31 +198,31 @@ public:
 	inline const bool& At(const int index) const
 		{ ASSERT(IsValid(index)); return m_Data[index]; }
 
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 	bool _fastcall Get(const int index) const;
 
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 	void _fastcall Set(const int index, const bool data);
 
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 	void _fastcall Del(int num);
 
-// vytvoøení prázdné poloky (vrací index poloky)
+// vytvoÅ™enÃ­ prÃ¡zdnÃ© poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 	int New();
 
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 	int _fastcall Add(const bool data);
 
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 	int _fastcall Dup(const int index);
 	int _fastcall Dup(const int index, int num);
 
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 	const CBufBool& operator= (const CBufBool& src);
 
-// naètení logické hodnoty ze souboru (naèítá do promìnné, TRUE=operace OK)
+// naÄtenÃ­ logickÃ© hodnoty ze souboru (naÄÃ­tÃ¡ do promÄ›nnÃ©, TRUE=operace OK)
 //	bool LoadFile(bool& data, CString jmeno);
 
-// uloení logické hodnoty do souboru formátu LOG (FALSE=chyba)
+// uloÅ¾enÃ­ logickÃ© hodnoty do souboru formÃ¡tu LOG (FALSE=chyba)
 //	bool SaveFile(bool data, CString jmeno) const;
 };

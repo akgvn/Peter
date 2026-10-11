@@ -8,39 +8,39 @@
 namespace ProgLib
 {
 
-// promìnné
-extern	BOOL	m_Loading;			// probíhá obsluha naèítání
-extern	int		m_Parent;			// index poloky k naètení obsahu
-extern	int		m_Root;				// ROOT poloka vìtve
+// promÄ›nnÃ©
+extern	BOOL	m_Loading;			// probÃ­hÃ¡ obsluha naÄÃ­tÃ¡nÃ­
+extern	int		m_Parent;			// index poloÅ¾ky k naÄtenÃ­ obsahu
+extern	int		m_Root;				// ROOT poloÅ¾ka vÄ›tve
 extern	int		m_Func;				// identifikace funkce
-extern	BOOL	m_AltExt;			// pøíznak alternativní pøípony (JPG, MP3, RMI)
-extern	CText	m_SubPath;			// podcesta (s "\" na konci nebo prázdnı)
-extern	CText	m_Path;				// cesta do adresáøe (s "\" na konci)
-extern	CText	m_Aliases;			// jméno INI souboru s ALIASES
-extern	CText	m_Ext;				// pøípona souborù 3 znaky
-extern	CText	m_Ext2;				// alternativní pøípona souborù 3 znaky (prázdné = není)
-extern	CText	m_Name;				// plné jméno souboru
-extern	CText	m_NameKey;			// jméno souboru pouité jako klíè INI (jméno s pøíponou)
-extern	CText	m_IconName;			// jméno ikony k souboru (prázdné = není)
+extern	BOOL	m_AltExt;			// pÅ™Ã­znak alternativnÃ­ pÅ™Ã­pony (JPG, MP3, RMI)
+extern	CText	m_SubPath;			// podcesta (s "\" na konci nebo prÃ¡zdnÃ½)
+extern	CText	m_Path;				// cesta do adresÃ¡Å™e (s "\" na konci)
+extern	CText	m_Aliases;			// jmÃ©no INI souboru s ALIASES
+extern	CText	m_Ext;				// pÅ™Ã­pona souborÅ¯ 3 znaky
+extern	CText	m_Ext2;				// alternativnÃ­ pÅ™Ã­pona souborÅ¯ 3 znaky (prÃ¡zdnÃ© = nenÃ­)
+extern	CText	m_Name;				// plnÃ© jmÃ©no souboru
+extern	CText	m_NameKey;			// jmÃ©no souboru pouÅ¾itÃ© jako klÃ­Ä INI (jmÃ©no s pÅ™Ã­ponou)
+extern	CText	m_IconName;			// jmÃ©no ikony k souboru (prÃ¡zdnÃ© = nenÃ­)
 
-// statická inicializace obsluhy
+// statickÃ¡ inicializace obsluhy
 	void StartInit();
 
-// pøíprava jména souboru (musí bıt platnı potomek s platnım rodièem!)
+// pÅ™Ã­prava jmÃ©na souboru (musÃ­ bÃ½t platnÃ½ potomek s platnÃ½m rodiÄem!)
 	void _fastcall InitName(int index);
 
-// pøíprava cesty (index = poslední adresáø)
+// pÅ™Ã­prava cesty (index = poslednÃ­ adresÃ¡Å™)
 	void _fastcall InitPath(int index);
 
-// naètení obsahu poloky v oknì tøíd
+// naÄtenÃ­ obsahu poloÅ¾ky v oknÄ› tÅ™Ã­d
 	void Load(int index);
 
-// zrušení poloky z bufferu tøíd (se zrušením souboru)
+// zruÅ¡enÃ­ poloÅ¾ky z bufferu tÅ™Ã­d (se zruÅ¡enÃ­m souboru)
 	void Delete(int index);
 
-// kopie poloky z jiného okna (musí bıt platné!)
+// kopie poloÅ¾ky z jinÃ©ho okna (musÃ­ bÃ½t platnÃ©!)
 	int Copy(int parent, int pos, int bufID, int src);
 
-// pøejmenování poloky v oknì
+// pÅ™ejmenovÃ¡nÃ­ poloÅ¾ky v oknÄ›
 	int Move(int parent, int pos, int src);
 };

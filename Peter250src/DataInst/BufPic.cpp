@@ -3,28 +3,28 @@
 
 /***************************************************************************\
 *																			*
-*								Obrázkové promìnné							*
+*								ObrÃ¡zkovÃ© promÄ›nnÃ©							*
 *																			*
 \***************************************************************************/
 
 ////////////////////////////////////////////////////////////////////
-// Pozn.: linky souboru BMP pro 256 barev jsou zarovnávány na 4 bajty
-//        linky souboru BMP pro 2 barvy (maska) jsou zarovnány na 2 bajty
+// Pozn.: linky souboru BMP pro 256 barev jsou zarovnÃ¡vÃ¡ny na 4 bajty
+//        linky souboru BMP pro 2 barvy (maska) jsou zarovnÃ¡ny na 2 bajty
 ////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaèní prázdnı obrázek (modifikuje se poèet referencí!)
+// inicializaÄnÃ­ prÃ¡zdnÃ½ obrÃ¡zek (modifikuje se poÄet referencÃ­!)
 
-// Prázdnı obrázek musí mít rozmìry ICONSIZE kvùli vytvoøení nového sprajtu!
+// PrÃ¡zdnÃ½ obrÃ¡zek musÃ­ mÃ­t rozmÄ›ry ICONSIZE kvÅ¯li vytvoÅ™enÃ­ novÃ©ho sprajtu!
 PICTUREDATA	EmptyPictureData		= { 1, ICONWIDTH, ICONHEIGHT, PicParamBack, 0, 0, 0, NULL };
-const CPicture	EmptyPicture;				// prázdnı obrázek
+const CPicture	EmptyPicture;				// prÃ¡zdnÃ½ obrÃ¡zek
 
 /////////////////////////////////////////////////////////////////////////////
-// statická inicializace obrázkù (pøi chybì pamìti vrací FALSE)
+// statickÃ¡ inicializace obrÃ¡zkÅ¯ (pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE)
 
 bool InitPicture()
 {
-// prázdnı obrázek
+// prÃ¡zdnÃ½ obrÃ¡zek
 	EmptyPictureData.Data = (BYTE*)MemGet(ICONSIZE);
 	if (EmptyPictureData.Data == NULL) return false;
 	MemFill(EmptyPictureData.Data, ICONSIZE, (char)(BYTE)BackCol);
@@ -32,28 +32,28 @@ bool InitPicture()
 }
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení dat obrázku (pøi chybì pamìti vrací NULL)
+// vytvoÅ™enÃ­ dat obrÃ¡zku (pÅ™i chybÄ› pamÄ›ti vracÃ­ NULL)
 
 PICTUREDATA* _fastcall NewPictureData(int width, int height)
 {
 	ASSERT((width > 0) && (height > 0));
 
-// vytvoøení záhlaví obrázku
-	PICTUREDATA* data = (PICTUREDATA*)MemGet(SIZEOFPICTUREDATA); // vytvoøení záhlaví
+// vytvoÅ™enÃ­ zÃ¡hlavÃ­ obrÃ¡zku
+	PICTUREDATA* data = (PICTUREDATA*)MemGet(SIZEOFPICTUREDATA); // vytvoÅ™enÃ­ zÃ¡hlavÃ­
 	if (data != NULL)
 	{
 
-// nastavení dat obrázku
-		data->Refer = 1;					// poèet referencí
-		data->Width = width;				// šíøka
-		data->Height = height;				// vıška
-		data->Param = PicParamNone;			// parametry (obsah neznámı)
+// nastavenÃ­ dat obrÃ¡zku
+		data->Refer = 1;					// poÄet referencÃ­
+		data->Width = width;				// Å¡Ã­Å™ka
+		data->Height = height;				// vÃ½Å¡ka
+		data->Param = PicParamNone;			// parametry (obsah neznÃ¡mÃ½)
 
-// vytvoøení bufferu dat obrázku
+// vytvoÅ™enÃ­ bufferu dat obrÃ¡zku
 		BYTE* datadata = (BYTE*)MemGet(width*height);
 		data->Data = datadata;				// adresa dat
 
-// pøi chybì pamìti zrušení záhlaví obrázku
+// pÅ™i chybÄ› pamÄ›ti zruÅ¡enÃ­ zÃ¡hlavÃ­ obrÃ¡zku
 		if (datadata == NULL)
 		{
 			MemFree(data);
@@ -64,15 +64,15 @@ PICTUREDATA* _fastcall NewPictureData(int width, int height)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení dat obrázku (oddìleno kvùli lepší optimalizaci)
+// zruÅ¡enÃ­ dat obrÃ¡zku (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 
 void _fastcall DelPictureData(PICTUREDATA* data)
 {
 	ASSERT(data != NULL);
 	ASSERT(data->Data != NULL);
 
-	MemFree(data->Data);		// zrušení dat obrázku
-	MemFree(data);				// zrušení záhlaví obrázku
+	MemFree(data->Data);		// zruÅ¡enÃ­ dat obrÃ¡zku
+	MemFree(data);				// zruÅ¡enÃ­ zÃ¡hlavÃ­ obrÃ¡zku
 }
 
 
@@ -101,7 +101,7 @@ CPicture::~CPicture()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CPicture::Init()
 { 
@@ -118,7 +118,7 @@ void _fastcall CPicture::Init(PICTUREDATA* data)
 	attach(data); 
 };
 
-bool _fastcall CPicture::Init(int width, int height) // pøi chybì pamìti vrací FALSE, obrázek není vytvoøen
+bool _fastcall CPicture::Init(int width, int height) // pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, obrÃ¡zek nenÃ­ vytvoÅ™en
 {
 	pData = NewPictureData(width, height);
 	return (pData != NULL);
@@ -131,7 +131,7 @@ void CPicture::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní obrázku (uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ obrÃ¡zku (uvolnÄ›nÃ­ dat)
 
 void CPicture::Empty()
 { 
@@ -141,56 +141,56 @@ void CPicture::Empty()
 
 
 ////////////////////////////////////////////////////////////////////
-// vymazání obsahu obrázku (naplnìní prùhlednou barvou), zajistí pøivlastnìní (a dekomprimaci) bufferu,
-// pøi chybì pamìti vrací FALSE, pùvodní obsah nezmìnìn
+// vymazÃ¡nÃ­ obsahu obrÃ¡zku (naplnÄ›nÃ­ prÅ¯hlednou barvou), zajistÃ­ pÅ™ivlastnÄ›nÃ­ (a dekomprimaci) bufferu,
+// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, pÅ¯vodnÃ­ obsah nezmÄ›nÄ›n
 
 bool CPicture::Clear()
 {
-// vytvoøení nového bufferu, je-li potøeba
+// vytvoÅ™enÃ­ novÃ©ho bufferu, je-li potÅ™eba
 	if (!New()) return false;
 
-// vymazání bufferu
+// vymazÃ¡nÃ­ bufferu
 	MemFill(pData->Data, pData->Width * pData->Height, (char)(BYTE)BackCol);
 	
-// nastavení parametrù na pozadí	
+// nastavenÃ­ parametrÅ¯ na pozadÃ­	
 	pData->Param = PicParamBack;
 	return true;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vymazání obsahu obrázku s nastavením velikosti (naplnìní prùhlednou barvou), zajistí pøivlastnìní (a dekomprimaci) bufferu,
-// pøi chybì pamìti vrací FALSE, pùvodní obsah nezmìnìn
+// vymazÃ¡nÃ­ obsahu obrÃ¡zku s nastavenÃ­m velikosti (naplnÄ›nÃ­ prÅ¯hlednou barvou), zajistÃ­ pÅ™ivlastnÄ›nÃ­ (a dekomprimaci) bufferu,
+// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE, pÅ¯vodnÃ­ obsah nezmÄ›nÄ›n
 
 bool _fastcall CPicture::Clear(int width, int height)
 {
-// vytvoøení nového bufferu, je-li potøeba
+// vytvoÅ™enÃ­ novÃ©ho bufferu, je-li potÅ™eba
 	if (!New(width, height)) return false;
 
-// vymazání bufferu
+// vymazÃ¡nÃ­ bufferu
 	MemFill(pData->Data, pData->Width * pData->Height, (char)(BYTE)BackCol);
 	
-// nastavení parametrù na pozadí	
+// nastavenÃ­ parametrÅ¯ na pozadÃ­	
 	pData->Param = PicParamBack;
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie obrázku do vlastního bufferu pøed modifikací (komprimovaná data zùstanou komprimovaná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie obrÃ¡zku do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­ (komprimovanÃ¡ data zÅ¯stanou komprimovanÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CPicture::CopyWrite()
 {
-// úschova ukazatelù
-	PICTUREDATA* olddata = pData;	// adresa starıch dat
-	long* refer = &(olddata->Refer);// poèet referencí
+// Ãºschova ukazatelÅ¯
+	PICTUREDATA* olddata = pData;	// adresa starÃ½ch dat
+	long* refer = &(olddata->Refer);// poÄet referencÃ­
 
-// test, zda je nutné pøivlastnìní
-	if (*refer > 1)					// je nìjakı jinı majitel?
+// test, zda je nutnÃ© pÅ™ivlastnÄ›nÃ­
+	if (*refer > 1)					// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		int size;
 		PICTUREDATA* newdata;
 		int width = olddata->Width;
@@ -211,14 +211,14 @@ bool CPicture::CopyWrite()
 			if (newdata == NULL) return false;
 		}
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 		MemCopy(newdata->Data, olddata->Data, size);
 		newdata->Param = olddata->Param;
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -228,27 +228,27 @@ bool CPicture::CopyWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nového obrázku se stejnou velikostí (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ©ho obrÃ¡zku se stejnou velikostÃ­ (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CPicture::New()
 {		 
-// ukazatel na stará data
-	PICTUREDATA* olddata = pData;			// adresa starıch dat
+// ukazatel na starÃ¡ data
+	PICTUREDATA* olddata = pData;			// adresa starÃ½ch dat
 
-// test, zda je nutné vytvoøení nového bufferu
-	if ((olddata->Refer > 1) ||				// na buffer je více referencí
-		(olddata->Param == PicParamComp))	// data jsou komprimovaná
+// test, zda je nutnÃ© vytvoÅ™enÃ­ novÃ©ho bufferu
+	if ((olddata->Refer > 1) ||				// na buffer je vÃ­ce referencÃ­
+		(olddata->Param == PicParamComp))	// data jsou komprimovanÃ¡
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		PICTUREDATA* newdata = NewPictureData(pData->Width, pData->Height);
 		if (newdata == NULL) return false;
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -258,29 +258,29 @@ bool CPicture::New()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nového obrázku (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ©ho obrÃ¡zku (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool _fastcall CPicture::New(int width, int height)
 {		 
-// ukazatel na stará data
-	PICTUREDATA* olddata = pData;			// adresa starıch dat
+// ukazatel na starÃ¡ data
+	PICTUREDATA* olddata = pData;			// adresa starÃ½ch dat
 
-// test, zda je nutné vytvoøení nového bufferu
-	if ((olddata->Refer > 1) ||				// na buffer je více referencí
-		(olddata->Width != width) ||		// nesouhlasí šíøka
-		(olddata->Height != height) ||		// nesouhlasí vıška
-		(olddata->Param == PicParamComp))	// data jsou komprimovaná
+// test, zda je nutnÃ© vytvoÅ™enÃ­ novÃ©ho bufferu
+	if ((olddata->Refer > 1) ||				// na buffer je vÃ­ce referencÃ­
+		(olddata->Width != width) ||		// nesouhlasÃ­ Å¡Ã­Å™ka
+		(olddata->Height != height) ||		// nesouhlasÃ­ vÃ½Å¡ka
+		(olddata->Param == PicParamComp))	// data jsou komprimovanÃ¡
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		PICTUREDATA* newdata = NewPictureData(width, height);
 		if (newdata == NULL) return false;
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -290,46 +290,46 @@ bool _fastcall CPicture::New(int width, int height)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení novıch rozmìrù obrázku (nová data jsou vymazána)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// nastavenÃ­ novÃ½ch rozmÄ›rÅ¯ obrÃ¡zku (novÃ¡ data jsou vymazÃ¡na)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CPicture::Resize(int width, int height)
 {
-// zajištìní dekomprimace
+// zajiÅ¡tÄ›nÃ­ dekomprimace
 	if (!DeComp()) return false;
 
-// pøivlastnìní bufferu
+// pÅ™ivlastnÄ›nÃ­ bufferu
 	if (!CopyWrite()) return false;
 
-// úschova starıch rozmìrù
+// Ãºschova starÃ½ch rozmÄ›rÅ¯
 	int oldwidth = pData->Width;
 	int oldheight = pData->Height;
 
-// test, zda je potøeba velikost obrázku mìnit
+// test, zda je potÅ™eba velikost obrÃ¡zku mÄ›nit
 	if ((width != oldwidth) || (height != oldheight))
 	{
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 		PICTUREDATA* olddata = pData;
 		PICTUREDATA* newdata = NewPictureData(width, height);
 		if (newdata == NULL) return false;
 
-// pøíprava poètu linek ke kopii
+// pÅ™Ã­prava poÄtu linek ke kopii
 		int i = height;
 		if (oldheight < i) i = oldheight;
 
-// pøíprava délky linky ke kopii
+// pÅ™Ã­prava dÃ©lky linky ke kopii
 		int j = width;
 		if (oldwidth < j) j = oldwidth;
 
-// pøíprava zbytku linky k vymazání
+// pÅ™Ã­prava zbytku linky k vymazÃ¡nÃ­
 		int k = width - j;
 
-// pøíprava zdrojové a cílové adresy
+// pÅ™Ã­prava zdrojovÃ© a cÃ­lovÃ© adresy
 		BYTE* src = olddata->Data;
 		BYTE* dst = newdata->Data;
 
-// kopie platnıch linek pøi shodì délek linek
+// kopie platnÃ½ch linek pÅ™i shodÄ› dÃ©lek linek
 		if (width == oldwidth)
 		{
 			i *= width;
@@ -338,7 +338,7 @@ bool CPicture::Resize(int width, int height)
 			src += i;
 		}
 
-// kopie platnıch linek pøi rozdílné délce linek
+// kopie platnÃ½ch linek pÅ™i rozdÃ­lnÃ© dÃ©lce linek
 		else
 		{
 			if (k == 0)
@@ -363,17 +363,17 @@ bool CPicture::Resize(int width, int height)
 			}
 		}
 
-// vymazání zbylıch linek
+// vymazÃ¡nÃ­ zbylÃ½ch linek
 		i = height - oldheight;
 		if (i > 0)
 		{
 			MemFill(dst, i*width, (char)(BYTE)BackCol);
 		}
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 		detach(olddata);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 		pData = newdata;
 	}
 
@@ -383,42 +383,42 @@ bool CPicture::Resize(int width, int height)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// poskytnutí bodu (s kontrolou platnosti offsetu/indexu), obrázek nesmí bıt komprimovanı!
-// pro neplatnı bod vrátí barvu pozadí)
+// poskytnutÃ­ bodu (s kontrolou platnosti offsetu/indexu), obrÃ¡zek nesmÃ­ bÃ½t komprimovanÃ½!
+// pro neplatnÃ½ bod vrÃ¡tÃ­ barvu pozadÃ­)
 
 BYTE _fastcall CPicture::Get(const int off) const
 {
 	ASSERT(pData->Param != PicParamComp);
 
-	if (IsValid(off))				// je offset platnı?
+	if (IsValid(off))				// je offset platnÃ½?
 	{
-		return pData->Data[off];	// bod na daném offsetu
+		return pData->Data[off];	// bod na danÃ©m offsetu
 	}
-	return (BYTE)BackCol;					// neplatnı offset
+	return (BYTE)BackCol;					// neplatnÃ½ offset
 }
 
 BYTE _fastcall CPicture::Get(const int x, const int y) const
 {
 	ASSERT(pData->Param != PicParamComp);
 
-	if (IsValid(x, y))				// je index platnı?
+	if (IsValid(x, y))				// je index platnÃ½?
 	{
 		return pData->Data[x + y*pData->Width];	// prvek
 	}
-	return (BYTE)BackCol;					// neplatnı offset
+	return (BYTE)BackCol;					// neplatnÃ½ offset
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavení bodu (s kontrolou platnosti offsetu/indexu), obrázek nesmí bıt komprimovanı!
-// pøed zápisem je nutno zajistit pøivlastnìní bufferu!
+// nastavenÃ­ bodu (s kontrolou platnosti offsetu/indexu), obrÃ¡zek nesmÃ­ bÃ½t komprimovanÃ½!
+// pÅ™ed zÃ¡pisem je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu!
 
 void _fastcall CPicture::Set(const int off, const BYTE data)
 {
 	ASSERT(pData->Param != PicParamComp);
 	ASSERT(pData->Refer == 1);
 
-	if (IsValid(off))				// je offset platnı?
+	if (IsValid(off))				// je offset platnÃ½?
 	{
 		pData->Data[off] = data;
 	}
@@ -429,7 +429,7 @@ void _fastcall CPicture::Set(const int x, const int y, const BYTE data)
 	ASSERT(pData->Param != PicParamComp);
 	ASSERT(pData->Refer == 1);
 
-	if (IsValid(x, y))				// je index platnı?
+	if (IsValid(x, y))				// je index platnÃ½?
 	{
 		pData->Data[x + y*pData->Width] = data;
 	}
@@ -437,25 +437,25 @@ void _fastcall CPicture::Set(const int x, const int y, const BYTE data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// komprese dat obrázku, vrací velikost dat (pøi chybì pamìti vrací <0, data jsou nezmìnìna)
-// komprese se provádí ve spoleèném bufferu pro všechny promìnné!
-// (v pøípadì potøeby je nutno zajistit pøivlastnìní bufferu)
-// pùvodní buffer s daty je zrušen
-// (velikost komprimovanıch dat je udávána bez dvojslova s velikostí, buffer s daty
-// je tedy o 4 vìtší, data zaèínají na offsetu 4 v bufferu)
+// komprese dat obrÃ¡zku, vracÃ­ velikost dat (pÅ™i chybÄ› pamÄ›ti vracÃ­ <0, data jsou nezmÄ›nÄ›na)
+// komprese se provÃ¡dÃ­ ve spoleÄnÃ©m bufferu pro vÅ¡echny promÄ›nnÃ©!
+// (v pÅ™Ã­padÄ› potÅ™eby je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu)
+// pÅ¯vodnÃ­ buffer s daty je zruÅ¡en
+// (velikost komprimovanÃ½ch dat je udÃ¡vÃ¡na bez dvojslova s velikostÃ­, buffer s daty
+// je tedy o 4 vÄ›tÅ¡Ã­, data zaÄÃ­najÃ­ na offsetu 4 v bufferu)
 
 int CPicture::Comp() const
 {
-// test, zda je obrázek ji komprimován
+// test, zda je obrÃ¡zek jiÅ¾ komprimovÃ¡n
 	if (pData->Param == PicParamComp)
 	{
 		return *(long*)pData->Data;
 	}
 
-// velikost dat obrázku
+// velikost dat obrÃ¡zku
 	int size = pData->Width * pData->Height;
 
-// vytvoøení nového bufferu pro data
+// vytvoÅ™enÃ­ novÃ©ho bufferu pro data
 	BYTE* newdata = (BYTE*)MemGet(2*size + 200);
 	if (newdata == NULL) return -1;
 
@@ -464,7 +464,7 @@ int CPicture::Comp() const
 	int newsize = Compress(newdata + 4, olddata, size, pData->Width);
 	*(long*)newdata = newsize;
 
-// vytvoøení bufferu se správnou velikostí (MemSize() by blok nezmenšil)
+// vytvoÅ™enÃ­ bufferu se sprÃ¡vnou velikostÃ­ (MemSize() by blok nezmenÅ¡il)
 	BYTE* newdata2 = (BYTE*)MemGet(newsize + 4);
 	if (newdata2 == NULL)
 	{
@@ -472,35 +472,35 @@ int CPicture::Comp() const
 		return -1;
 	}
 
-// kopie dat do nového bufferu
+// kopie dat do novÃ©ho bufferu
 	MemCopy(newdata2, newdata, newsize+4);
 	MemFree(newdata);
 
-// zrušení starého bufferu
+// zruÅ¡enÃ­ starÃ©ho bufferu
 	MemFree(olddata);
 
-// nastavení parametrù
+// nastavenÃ­ parametrÅ¯
 	pData->Data = newdata2;
 	pData->Param = PicParamComp;
 
-// nová velikost dat
+// novÃ¡ velikost dat
 	return newsize;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// dekomprimace dat obrázku (jsou-li komprimována), pøi chybì vrací FALSE
-// dekomprese se provádí ve spoleèném bufferu pro všechny promìnné
-// (v pøípadì potøeby je nutno zajistit pøivlastnìní bufferu)
-// pùvodní buffer s komprimovanımi daty je zrušen
+// dekomprimace dat obrÃ¡zku (jsou-li komprimovÃ¡na), pÅ™i chybÄ› vracÃ­ FALSE
+// dekomprese se provÃ¡dÃ­ ve spoleÄnÃ©m bufferu pro vÅ¡echny promÄ›nnÃ©
+// (v pÅ™Ã­padÄ› potÅ™eby je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu)
+// pÅ¯vodnÃ­ buffer s komprimovanÃ½mi daty je zruÅ¡en
 
 bool CPicture::DeComp() const
 {
-// test, zda je obrázek komprimován
+// test, zda je obrÃ¡zek komprimovÃ¡n
 	if (pData->Param == PicParamComp)
 	{
 
-// vytvoøení nového bufferu pro data
+// vytvoÅ™enÃ­ novÃ©ho bufferu pro data
 		int size = pData->Width * pData->Height;
 		BYTE* newdata = (BYTE*)MemGet(size);
 		if (newdata == NULL) return false;
@@ -509,10 +509,10 @@ bool CPicture::DeComp() const
 		BYTE* olddata = pData->Data;
 		DeCompress(newdata, olddata + 4, size, pData->Width);
 
-// zrušení starého bufferu
+// zruÅ¡enÃ­ starÃ©ho bufferu
 		MemFree(olddata);
 
-// nastavení parametrù
+// nastavenÃ­ parametrÅ¯
 		pData->Data = newdata;
 		pData->Param = PicParamNone;
 	}
@@ -521,12 +521,12 @@ bool CPicture::DeComp() const
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie novıch dat obrázku (rozmìry zùstanou nezmìnìny) - zajistí odpojení dat
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie novÃ½ch dat obrÃ¡zku (rozmÄ›ry zÅ¯stanou nezmÄ›nÄ›ny) - zajistÃ­ odpojenÃ­ dat
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CPicture::CopyData(BYTE* src)
 {
-// vytvoøení nového bufferu, je-li potøeba
+// vytvoÅ™enÃ­ novÃ©ho bufferu, je-li potÅ™eba
 	if (!New()) return false;
 
 // kopie dat do bufferu
@@ -536,20 +536,20 @@ bool CPicture::CopyData(BYTE* src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie komprimovanıch novıch dat obrázku (rozmìry zùstanou nezmìnìny) - zajistí odpojení dat
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie komprimovanÃ½ch novÃ½ch dat obrÃ¡zku (rozmÄ›ry zÅ¯stanou nezmÄ›nÄ›ny) - zajistÃ­ odpojenÃ­ dat
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CPicture::CompCopy(BYTE* src)
 {
-// úschova parametrù
+// Ãºschova parametrÅ¯
 	int width = pData->Width;
 	int height = pData->Height;
 	int size = *(long*)src + 4;
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 	if (!New(size, 1)) return false;
 
-// nastavení parametrù
+// nastavenÃ­ parametrÅ¯
 	pData->Width = width;
 	pData->Height = height;
 	pData->Param = PicParamComp;
@@ -561,12 +561,12 @@ bool CPicture::CompCopy(BYTE* src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie novıch dat obrázku s konverzí (rozmìry zùstanou nezmìnìny) - zajistí odpojení dat
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie novÃ½ch dat obrÃ¡zku s konverzÃ­ (rozmÄ›ry zÅ¯stanou nezmÄ›nÄ›ny) - zajistÃ­ odpojenÃ­ dat
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 
 bool CPicture::CopyKonvData(BYTE* src)
 {
-// vytvoøení nového bufferu, je-li potøeba
+// vytvoÅ™enÃ­ novÃ©ho bufferu, je-li potÅ™eba
 	if (!New()) return false;
 
 // kopie dat do bufferu
@@ -576,11 +576,11 @@ bool CPicture::CopyKonvData(BYTE* src)
 
 
 ////////////////////////////////////////////////////////////////////
-// naètení obrázku z resource
+// naÄtenÃ­ obrÃ¡zku z resource
 
 bool CPicture::Load(const int nID)
 {
-// nalezení resource bitmapy
+// nalezenÃ­ resource bitmapy
 	CResource res;
 	if (!res.Open(nID, RT_BITMAP)) { ASSERTERROR; return false; }
 
@@ -591,14 +591,14 @@ bool CPicture::Load(const int nID)
 	if (colors == 0) colors = 256;
 	ASSERT((DWORD)colors <= 256);
 
-// pøíprava pøírustku zdrojové adresy mezi linkami
+// pÅ™Ã­prava pÅ™Ã­rustku zdrojovÃ© adresy mezi linkami
 	int srcinc = (bmp->bmiHeader.biWidth + 3) & ~3;
 
-// nová data obrázku
+// novÃ¡ data obrÃ¡zku
 	New(bmp->bmiHeader.biWidth, bmp->bmiHeader.biHeight);
 
 // dekomprese bitmapy
-	BITMAPINFO*	bmp2 = NULL; // pomocnı buffer pro dekompresi bitmapy
+	BITMAPINFO*	bmp2 = NULL; // pomocnÃ½ buffer pro dekompresi bitmapy
 	if (bmp->bmiHeader.biCompression == BI_RLE8)
 	{
 		int sizehead = sizeof(BITMAPINFO) + (colors-1)*sizeof(RGBQUAD);
@@ -621,7 +621,7 @@ bool CPicture::Load(const int nID)
 	}
 
 
-// pøípadné zrušení bufferu
+// pÅ™Ã­padnÃ© zruÅ¡enÃ­ bufferu
 	MemFree(bmp2);
 
 	return true;
@@ -629,22 +629,22 @@ bool CPicture::Load(const int nID)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení obrázku ze souboru (FALSE=chyba, obsah nezmìnìn)
+// naÄtenÃ­ obrÃ¡zku ze souboru (FALSE=chyba, obsah nezmÄ›nÄ›n)
 /*
 bool CPicture::LoadFile(CText jmeno)
 {
-// otevøení souboru mapovaného do pamìti (uzavøen pøi destrukci!)
+// otevÅ™enÃ­ souboru mapovanÃ©ho do pamÄ›ti (uzavÅ™en pÅ™i destrukci!)
 	CFileMap file;
 	if (!file.Open(jmeno)) return false;
 
-// velikost souboru bez záhlaví 14 bajtù
+// velikost souboru bez zÃ¡hlavÃ­ 14 bajtÅ¯
 	int size = file.Size() - 14;
 
-// identifikaèní záhlaví
+// identifikaÄnÃ­ zÃ¡hlavÃ­
 	char* hd = (char*)file.Adr();
 	BITMAPINFO* bmp = (BITMAPINFO*)(file.Adr() + 14);
 	
-// kontrola velikosti souboru a záhlaví
+// kontrola velikosti souboru a zÃ¡hlavÃ­
 	if ((size < 50) || 
 		(hd[0] != 'B') || 
 		(hd[1] != 'M') ||
@@ -653,14 +653,14 @@ bool CPicture::LoadFile(CText jmeno)
 		return false;
 	}
 
-// pøíprava parametrù bitmapy
-	int width = bmp->bmiHeader.biWidth;			// šíøka
-	int height = bmp->bmiHeader.biHeight;		// vıška
-	int bits = bmp->bmiHeader.biBitCount;		// poèet bitù na bod
-	int colors = bmp->bmiHeader.biClrUsed;		// poèet pouitıch barev
-	if (colors <= 0) colors = (1 << bits);		// implicitní poèet barev
+// pÅ™Ã­prava parametrÅ¯ bitmapy
+	int width = bmp->bmiHeader.biWidth;			// Å¡Ã­Å™ka
+	int height = bmp->bmiHeader.biHeight;		// vÃ½Å¡ka
+	int bits = bmp->bmiHeader.biBitCount;		// poÄet bitÅ¯ na bod
+	int colors = bmp->bmiHeader.biClrUsed;		// poÄet pouÅ¾itÃ½ch barev
+	if (colors <= 0) colors = (1 << bits);		// implicitnÃ­ poÄet barev
 	if (bits > 8) colors = 0;					// pro TRUE COLOR nejsou palety
-	int sizehead = sizeof(BITMAPINFOHEADER) + colors*sizeof(RGBQUAD); // velikost záhlaví
+	int sizehead = sizeof(BITMAPINFOHEADER) + colors*sizeof(RGBQUAD); // velikost zÃ¡hlavÃ­
 	size -= sizehead;							// oprava velikosti dat
 	if (size < 0) size = 0;
 
@@ -692,7 +692,7 @@ bool CPicture::LoadFile(CText jmeno)
 		size = newsize;
 	}
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 	PICTUREDATA* newdata = NewPictureData(width, height);
 	if (newdata == NULL)
 	{
@@ -700,13 +700,13 @@ bool CPicture::LoadFile(CText jmeno)
 		return false;
 	}
 
-// vygenerování konverzní tabulky palet
+// vygenerovÃ¡nÃ­ konverznÃ­ tabulky palet
 //	if (bits <= 8)
 //	{
 //		GenKonvPal(bmp);
 //	}
 
-// pøíprava bufferu odchylky pro dithering
+// pÅ™Ã­prava bufferu odchylky pro dithering
 	int* odch = NULL;
 	if (Dither)
 	{
@@ -714,38 +714,38 @@ bool CPicture::LoadFile(CText jmeno)
 		MemFill(odch, (3*width + 6) * sizeof(int), 0);
 	}
 
-// pøíprava parametrù ke konverzi
-	BYTE* dst = newdata->Data;				// ukládací adresa
-	BYTE* src = (BYTE*)bmp + sizehead;		// ètecí adresa
-	int srcinc;								// pøírustek zdrojové adresy
-	int i, j;								// pracovní èítaèe
-	BYTE r, g, b;							// barevné sloky
-	WORD srcdat;							// zdrojová data 16 bitù
+// pÅ™Ã­prava parametrÅ¯ ke konverzi
+	BYTE* dst = newdata->Data;				// uklÃ¡dacÃ­ adresa
+	BYTE* src = (BYTE*)bmp + sizehead;		// ÄtecÃ­ adresa
+	int srcinc;								// pÅ™Ã­rustek zdrojovÃ© adresy
+	int i, j;								// pracovnÃ­ ÄÃ­taÄe
+	BYTE r, g, b;							// barevnÃ© sloÅ¾ky
+	WORD srcdat;							// zdrojovÃ¡ data 16 bitÅ¯
 
-// rozlišení podle poètu bodù
+// rozliÅ¡enÃ­ podle poÄtu bodÅ¯
 	switch (bits)
 	{
 
 // 1 bit
 	case 1:
-		srcinc = ((width+7)/8 + 1) & ~1;	// pøírustek zdrojové adresy
+		srcinc = ((width+7)/8 + 1) & ~1;	// pÅ™Ã­rustek zdrojovÃ© adresy
 
-		for (i = height; i > 0; i--)		// cyklus pøes všechny linky
+		for (i = height; i > 0; i--)		// cyklus pÅ™es vÅ¡echny linky
 		{
 			for (j = 0; j < width; j++)
 			{
 				*dst = KonvPal[(src[j/8] >> (7 - (j & 7))) & 1];
 				dst++;
 			}
-			src += srcinc;					// zvıšení zdrojové adresy
+			src += srcinc;					// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 		}
 		break;
 
 // 4 bity
 	case 4:
-		srcinc = ((width+1)/2 + 3) & ~3;	// pøírustek zdrojové adresy
+		srcinc = ((width+1)/2 + 3) & ~3;	// pÅ™Ã­rustek zdrojovÃ© adresy
 
-		for (i = height; i > 0; i--)		// cyklus pøes všechny linky
+		for (i = height; i > 0; i--)		// cyklus pÅ™es vÅ¡echny linky
 		{
 			for (j = 0; j < width; j++)
 			{
@@ -759,29 +759,29 @@ bool CPicture::LoadFile(CText jmeno)
 				}
 				dst++;
 			}
-			src += srcinc;					// zvıšení zdrojové adresy
+			src += srcinc;					// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 		}
 		break;
 
-// 8 bitù
+// 8 bitÅ¯
 	case 8:
-		srcinc = ((width + 3) & ~3) - width; // pøírustek zdrojové adresy
+		srcinc = ((width + 3) & ~3) - width; // pÅ™Ã­rustek zdrojovÃ© adresy
 
-		for (i = height; i > 0; i--)		// cyklus pøes všechny linky
+		for (i = height; i > 0; i--)		// cyklus pÅ™es vÅ¡echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body
 				{
-				// bod k zápisu
+				// bod k zÃ¡pisu
 					BYTE col = *src;
 					src++;
 					if (col >= colors) col = 0;
 					RGBQUAD* rgb = bmp->bmiColors + col;
 
-				// pozadí
+				// pozadÃ­
 					if ((*(int*)rgb & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
 						col = BackCol;
@@ -796,7 +796,7 @@ bool CPicture::LoadFile(CText jmeno)
 					else
 					{	
 
-				// stín
+				// stÃ­n
 					  if ((*(int*)rgb & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						col = ShadCol;
@@ -811,17 +811,17 @@ bool CPicture::LoadFile(CText jmeno)
 					  else
 					  {	
 
-				// poadovaná barva
-						b = rgb->rgbBlue;			// modrá sloka
-						g = rgb->rgbGreen;			// zelená sloka
-						r = rgb->rgbRed;			// èervená sloka
+				// poÅ¾adovanÃ¡ barva
+						b = rgb->rgbBlue;			// modrÃ¡ sloÅ¾ka
+						g = rgb->rgbGreen;			// zelenÃ¡ sloÅ¾ka
+						r = rgb->rgbRed;			// ÄervenÃ¡ sloÅ¾ka
 
-				// zkorigovaná barva
-						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrá sloka
-						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelená sloka
-						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// èervená sloka
+				// zkorigovanÃ¡ barva
+						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrÃ¡ sloÅ¾ka
+						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelenÃ¡ sloÅ¾ka
+						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ÄervenÃ¡ sloÅ¾ka
 
-				// omezení pøeteèení barvy
+				// omezenÃ­ pÅ™eteÄenÃ­ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -832,7 +832,7 @@ bool CPicture::LoadFile(CText jmeno)
 				// import barvy
 						col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktuálního bodu od poadované barvy
+				// odchylka aktuÃ¡lnÃ­ho bodu od poÅ¾adovanÃ© barvy
 						rgb = StdBitmapInfo->bmiColors + col;
 						*odch0 = rgb->rgbBlue - b;
 						odch0++;
@@ -845,9 +845,9 @@ bool CPicture::LoadFile(CText jmeno)
 					  }
 					}
 
-				// uloení bodu
+				// uloÅ¾enÃ­ bodu
 					*dst = col;
-					dst++;						// zvıšení cílové adresy
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 			else
@@ -856,42 +856,42 @@ bool CPicture::LoadFile(CText jmeno)
 				src += width;
 				dst += width;
 			}
-			src += srcinc;					// zvıšení zdrojové adresy
+			src += srcinc;					// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 		}
 		break;
 
-// 16 bitù
+// 16 bitÅ¯
 	case 16:
 		srcinc = ((2*width + 3) & ~3) - 2*width;
 
-		for (i = height; i > 0; i--)		// cyklus pøes všechny linky
+		for (i = height; i > 0; i--)		// cyklus pÅ™es vÅ¡echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body na lince
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body na lince
 				{
 
-				// poadovaná barva
+				// poÅ¾adovanÃ¡ barva
 					srcdat = *(WORD*)src;		// data jednoho bodu
-					b = (BYTE)(srcdat & 0x1F);	// modrá sloka
+					b = (BYTE)(srcdat & 0x1F);	// modrÃ¡ sloÅ¾ka
 					b = (BYTE)(b*8 + b/4);
-					srcdat >>= 5;				// zrušení bitù modré sloky
-					g = (BYTE)(srcdat & 0x1F);	// zelená sloka
+					srcdat >>= 5;				// zruÅ¡enÃ­ bitÅ¯ modrÃ© sloÅ¾ky
+					g = (BYTE)(srcdat & 0x1F);	// zelenÃ¡ sloÅ¾ka
 					g = (BYTE)(g*8 + g/4);
-					srcdat >>= 5;				// zrušení bitù zelené sloky
-					r = (BYTE)(srcdat & 0x1F);	// èervená sloka
+					srcdat >>= 5;				// zruÅ¡enÃ­ bitÅ¯ zelenÃ© sloÅ¾ky
+					r = (BYTE)(srcdat & 0x1F);	// ÄervenÃ¡ sloÅ¾ka
 					r = (BYTE)(r*8 + r/4);
-					src++;						// zvıšení zdrojové adresy
-					src++;						// zvıšení zdrojové adresy
+					src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+					src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 
-				// zkorigovaná barva
-					int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrá sloka
-					int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelená sloka
-					int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// èervená sloka
+				// zkorigovanÃ¡ barva
+					int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrÃ¡ sloÅ¾ka
+					int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelenÃ¡ sloÅ¾ka
+					int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ÄervenÃ¡ sloÅ¾ka
 
-				// omezení pøeteèení barvy
+				// omezenÃ­ pÅ™eteÄenÃ­ barvy
 					if (b2 < 0) b2 = 0;
 					if (b2 > 255) b2 = 255;
 					if (g2 < 0) g2 = 0;
@@ -902,7 +902,7 @@ bool CPicture::LoadFile(CText jmeno)
 				// import barvy
 					BYTE col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktuálního bodu od poadované barvy
+				// odchylka aktuÃ¡lnÃ­ho bodu od poÅ¾adovanÃ© barvy
 					RGBQUAD* rgb = StdBitmapInfo->bmiColors + col;
 					*odch0 = rgb->rgbBlue - b;
 					odch0++;
@@ -913,48 +913,48 @@ bool CPicture::LoadFile(CText jmeno)
 					*odch0 = rgb->rgbRed - r;
 					odch0++;
 
-				// uloení bodu
-					*dst = col;	// import barvy do vlastních palet
-					dst++;						// zvıšení cílové adresy
+				// uloÅ¾enÃ­ bodu
+					*dst = col;	// import barvy do vlastnÃ­ch palet
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 			else
 			{
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body
 				{
 					srcdat = *(WORD*)src;		// data jednoho bodu
-					b = (BYTE)(srcdat & 0x1F);	// modrá sloka
+					b = (BYTE)(srcdat & 0x1F);	// modrÃ¡ sloÅ¾ka
 					b = (BYTE)(b*8 + b/4);
-					srcdat >>= 5;				// zrušení bitù modré sloky
-					g = (BYTE)(srcdat & 0x1F);	// zelená sloka
+					srcdat >>= 5;				// zruÅ¡enÃ­ bitÅ¯ modrÃ© sloÅ¾ky
+					g = (BYTE)(srcdat & 0x1F);	// zelenÃ¡ sloÅ¾ka
 					g = (BYTE)(g*8 + g/4);
-					srcdat >>= 5;				// zrušení bitù zelené sloky
-					r = (BYTE)(srcdat & 0x1F);	// èervená sloka
+					srcdat >>= 5;				// zruÅ¡enÃ­ bitÅ¯ zelenÃ© sloÅ¾ky
+					r = (BYTE)(srcdat & 0x1F);	// ÄervenÃ¡ sloÅ¾ka
 					r = (BYTE)(r*8 + r/4);
-					*dst = PalImport(r, g, b);	// import barvy do vlastních palet
-					src++;						// zvıšení zdrojové adresy
+					*dst = PalImport(r, g, b);	// import barvy do vlastnÃ­ch palet
+					src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 					src++;
-					dst++;						// zvıšení cílové adresy
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 			src += srcinc;
 		}
 		break;
 
-// 24 bitù
+// 24 bitÅ¯
 	case 24:
 		srcinc = ((3*width + 3) & ~3) - 3*width;
 
-		for (i = height; i > 0; i--)			// cyklus pøes všechny linky
+		for (i = height; i > 0; i--)			// cyklus pÅ™es vÅ¡echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body na lince
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body na lince
 				{
 
-				// pozadí
+				// pozadÃ­
 					if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
 						*dst = BackCol;
@@ -970,7 +970,7 @@ bool CPicture::LoadFile(CText jmeno)
 					else
 					{	
 
-				// stín
+				// stÃ­n
 					  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						*dst = ShadCol;
@@ -986,20 +986,20 @@ bool CPicture::LoadFile(CText jmeno)
 					  else
 					  {	
 
-				// poadovaná barva
-						b = *src;					// modrá sloka
-						src++;						// zvıšení zdrojové adresy
-						g = *src;					// zelená sloka
-						src++;						// zvıšení zdrojové adresy
-						r = *src;					// èervená sloka
-						src++;						// zvıšení zdrojové adresy
+				// poÅ¾adovanÃ¡ barva
+						b = *src;					// modrÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						g = *src;					// zelenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						r = *src;					// ÄervenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 
-				// zkorigovaná barva
-						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrá sloka
-						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelená sloka
-						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// èervená sloka
+				// zkorigovanÃ¡ barva
+						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrÃ¡ sloÅ¾ka
+						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelenÃ¡ sloÅ¾ka
+						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ÄervenÃ¡ sloÅ¾ka
 
-				// omezení pøeteèení barvy
+				// omezenÃ­ pÅ™eteÄenÃ­ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -1010,7 +1010,7 @@ bool CPicture::LoadFile(CText jmeno)
 				// import barvy
 						BYTE col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktuálního bodu od poadované barvy
+				// odchylka aktuÃ¡lnÃ­ho bodu od poÅ¾adovanÃ© barvy
 						RGBQUAD* rgb = StdBitmapInfo->bmiColors + col;
 						*odch0 = rgb->rgbBlue - b;
 						odch0++;
@@ -1021,16 +1021,16 @@ bool CPicture::LoadFile(CText jmeno)
 						*odch0 = rgb->rgbRed - r;
 						odch0++;
 
-				// uloení bodu
-						*dst = col;	// import barvy do vlastních palet
+				// uloÅ¾enÃ­ bodu
+						*dst = col;	// import barvy do vlastnÃ­ch palet
 					  }
 					}
-					dst++;						// zvıšení cílové adresy
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 			else
 			{
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body
 				{
 					if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
@@ -1039,7 +1039,7 @@ bool CPicture::LoadFile(CText jmeno)
 					}
 					else
 					{
-				// stín
+				// stÃ­n
 					  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						*dst = ShadCol;
@@ -1048,43 +1048,43 @@ bool CPicture::LoadFile(CText jmeno)
 					  else
 					  {	
 
-						b = *src;					// modrá sloka
-						src++;						// zvıšení zdrojové adresy
-						g = *src;					// zelená sloka
-						src++;						// zvıšení zdrojové adresy
-						r = *src;					// èervená sloka
-						src++;						// zvıšení zdrojové adresy
-						*dst = PalImport(r, g, b);	// import barvy do vlastních palet
+						b = *src;					// modrÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						g = *src;					// zelenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						r = *src;					// ÄervenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						*dst = PalImport(r, g, b);	// import barvy do vlastnÃ­ch palet
 					  }
 					}
-					dst++;						// zvıšení cílové adresy
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 			src += srcinc;
 		}
 
 /*
-// vyhlazení ditheringu obrázku
+// vyhlazenÃ­ ditheringu obrÃ¡zku
 		if (Dither)
 		{
 		  for (int aa = 5; aa > 0; aa--)
 		  {
 			srcinc = (3*width + 3) & ~3;
 
-			dst = newdata->Data + (height-1)*width - 1;	// ukládací adresa
-			src = (BYTE*)bmp + sizehead + (height-2)*srcinc + 3*width - 3;	// ètecí adresa
+			dst = newdata->Data + (height-1)*width - 1;	// uklÃ¡dacÃ­ adresa
+			src = (BYTE*)bmp + sizehead + (height-2)*srcinc + 3*width - 3;	// ÄtecÃ­ adresa
 
-			for (i = height - 2; i > 0; i--)		// cyklus pøes všechny linky (bez okrajovıch)
+			for (i = height - 2; i > 0; i--)		// cyklus pÅ™es vÅ¡echny linky (bez okrajovÃ½ch)
 			{
-				src -= 3;							// pøeskoèení prvního bodu
+				src -= 3;							// pÅ™eskoÄenÃ­ prvnÃ­ho bodu
 				dst--;
 
-				for (j = width - 2; j > 0; j--)		// cyklus pøes všechny body na lince (bez okrajovıch)
+				for (j = width - 2; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body na lince (bez okrajovÃ½ch)
 				{
 
 					if ((*dst != BackCol) && (*dst != ShadCol))
 					{
-						int bo = 0;					// støadaè odchylek
+						int bo = 0;					// stÅ™adaÄ odchylek
 						int go = 0;
 						int ro = 0;
 //						int no = 10;
@@ -1117,7 +1117,7 @@ bool CPicture::LoadFile(CText jmeno)
 							src0 -= srcinc - 3*3;
 						}
 
-				// poadovaná barva
+				// poÅ¾adovanÃ¡ barva
 						BYTE c = *dst;
 						RGBQUAD* rgb = StdBitmapInfo->bmiColors + c;
 
@@ -1125,29 +1125,29 @@ bool CPicture::LoadFile(CText jmeno)
 //						int g;
 //						int r;
 
-				// zkorigovaná barva
+				// zkorigovanÃ¡ barva
 						int b2;
 						int g2;
 						int r2;
 
-						b2 = (src[0] + rgb->rgbBlue)/2;	// modrá sloka
-						g2 = (src[1] + rgb->rgbGreen)/2;	// zelená sloka
-						r2 = (src[2] + rgb->rgbRed)/2;		// èervená sloka
+						b2 = (src[0] + rgb->rgbBlue)/2;	// modrÃ¡ sloÅ¾ka
+						g2 = (src[1] + rgb->rgbGreen)/2;	// zelenÃ¡ sloÅ¾ka
+						r2 = (src[2] + rgb->rgbRed)/2;		// ÄervenÃ¡ sloÅ¾ka
 
 						if ((i + j) & 1)
 						{
-							b2 = b2 - bo/4; //3/no;		// modrá sloka
-							g2 = g2 - go/4; //3/no;		// zelená sloka
-							r2 = r2 - ro/4; //3/no;		// èervená sloka
+							b2 = b2 - bo/4; //3/no;		// modrÃ¡ sloÅ¾ka
+							g2 = g2 - go/4; //3/no;		// zelenÃ¡ sloÅ¾ka
+							r2 = r2 - ro/4; //3/no;		// ÄervenÃ¡ sloÅ¾ka
 						}
 						else
 						{
-							b2 = b2 - bo/10; //3/no;		// modrá sloka
-							g2 = g2 - go/10; //3/no;		// zelená sloka
-							r2 = r2 - ro/10; //3/no;		// èervená sloka
+							b2 = b2 - bo/10; //3/no;		// modrÃ¡ sloÅ¾ka
+							g2 = g2 - go/10; //3/no;		// zelenÃ¡ sloÅ¾ka
+							r2 = r2 - ro/10; //3/no;		// ÄervenÃ¡ sloÅ¾ka
 						}
 
-				// omezení pøeteèení barvy
+				// omezenÃ­ pÅ™eteÄenÃ­ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -1159,32 +1159,32 @@ bool CPicture::LoadFile(CText jmeno)
 						*dst = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 					}
 
-					src -= 3;						// další bod
+					src -= 3;						// dalÅ¡Ã­ bod
 					dst--;
 				}
 
-				src -= 3;							// pøeskoèení posledního bodu
+				src -= 3;							// pÅ™eskoÄenÃ­ poslednÃ­ho bodu
 				dst--;
 
-				src -= srcinc - 3*width;			// další linka
+				src -= srcinc - 3*width;			// dalÅ¡Ã­ linka
 			}
 		  }
 		}
 */
 //		break;
 /*
-// 32 bitù
+// 32 bitÅ¯
 	case 32:
-		for (i = height; i > 0; i--)		// cyklus pøes všechny linky
+		for (i = height; i > 0; i--)		// cyklus pÅ™es vÅ¡echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body na lince
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body na lince
 				{
 
-				// pozadí
+				// pozadÃ­
 					if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
 						*dst = BackCol;
@@ -1200,7 +1200,7 @@ bool CPicture::LoadFile(CText jmeno)
 					else
 					{	
 
-				// stín
+				// stÃ­n
 					  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						*dst = ShadCol;
@@ -1216,21 +1216,21 @@ bool CPicture::LoadFile(CText jmeno)
 					  else
 					  {	
 
-				// poadovaná barva
-						b = *src;					// modrá sloka
-						src++;						// zvıšení zdrojové adresy
-						g = *src;					// zelená sloka
-						src++;						// zvıšení zdrojové adresy
-						r = *src;					// èervená sloka
-						src++;						// zvıšení zdrojové adresy
-						src++;						// zvıšení zdrojové adresy
+				// poÅ¾adovanÃ¡ barva
+						b = *src;					// modrÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						g = *src;					// zelenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						r = *src;					// ÄervenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
 
-				// zkorigovaná barva
-						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrá sloka
-						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelená sloka
-						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// èervená sloka
+				// zkorigovanÃ¡ barva
+						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modrÃ¡ sloÅ¾ka
+						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelenÃ¡ sloÅ¾ka
+						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ÄervenÃ¡ sloÅ¾ka
 
-				// omezení pøeteèení barvy
+				// omezenÃ­ pÅ™eteÄenÃ­ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -1241,7 +1241,7 @@ bool CPicture::LoadFile(CText jmeno)
 				// import barvy
 						BYTE col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktuálního bodu od poadované barvy
+				// odchylka aktuÃ¡lnÃ­ho bodu od poÅ¾adovanÃ© barvy
 						RGBQUAD* rgb = StdBitmapInfo->bmiColors + col;
 						*odch0 = rgb->rgbBlue - b;
 						odch0++;
@@ -1252,16 +1252,16 @@ bool CPicture::LoadFile(CText jmeno)
 						*odch0 = rgb->rgbRed - r;
 						odch0++;
 
-				// uloení bodu
-						*dst = col;	// import barvy do vlastních palet
+				// uloÅ¾enÃ­ bodu
+						*dst = col;	// import barvy do vlastnÃ­ch palet
 					  }
 					}
-					dst++;						// zvıšení cílové adresy
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 			else
 			{
-				for (j = width; j > 0; j--)		// cyklus pøes všechny body
+				for (j = width; j > 0; j--)		// cyklus pÅ™es vÅ¡echny body
 				{
 					if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
@@ -1271,7 +1271,7 @@ bool CPicture::LoadFile(CText jmeno)
 					else
 					{
 
-				// stín
+				// stÃ­n
 					  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						*dst = ShadCol;
@@ -1280,62 +1280,62 @@ bool CPicture::LoadFile(CText jmeno)
 					  else
 					  {	
 
-						b = *src;					// modrá sloka
-						src++;						// zvıšení zdrojové adresy
-						g = *src;					// zelená sloka
-						src++;						// zvıšení zdrojové adresy
-						r = *src;					// èervená sloka
-						src++;						// zvıšení zdrojové adresy
-						src++;						// zvıšení zdrojové adresy
-						*dst = PalImport(r, g, b);	// import barvy do vlastních palet
+						b = *src;					// modrÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						g = *src;					// zelenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						r = *src;					// ÄervenÃ¡ sloÅ¾ka
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						src++;						// zvÃ½Å¡enÃ­ zdrojovÃ© adresy
+						*dst = PalImport(r, g, b);	// import barvy do vlastnÃ­ch palet
 					  }
 					}
-					dst++;						// zvıšení cílové adresy
+					dst++;						// zvÃ½Å¡enÃ­ cÃ­lovÃ© adresy
 				}
 			}
 		}
 		break;
 	}
 
-// uvolnìní bufferu odchylky pro dithering
+// uvolnÄ›nÃ­ bufferu odchylky pro dithering
 	MemFree(odch);
 
-// uvolnìní pøípadného bufferu
+// uvolnÄ›nÃ­ pÅ™Ã­padnÃ©ho bufferu
 	MemFree(bmp2);
 
-// odpojení starıch dat
+// odpojenÃ­ starÃ½ch dat
 	detach(pData);
 
-// pøipojení novıch dat
+// pÅ™ipojenÃ­ novÃ½ch dat
 	pData = newdata;
 
-// komprimace dat (chyba nevadí)
+// komprimace dat (chyba nevadÃ­)
 	Comp();
 
-// pøíznak - obrázek naèten OK
+// pÅ™Ã­znak - obrÃ¡zek naÄten OK
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení do souboru formátu BMP (komprimovanı obrázek dekomprimuje) (FALSE=chyba)
+// uloÅ¾enÃ­ do souboru formÃ¡tu BMP (komprimovanÃ½ obrÃ¡zek dekomprimuje) (FALSE=chyba)
 
 bool CPicture::SaveFile(CText jmeno) const
 {
-// dekomprimace dat obrázku
+// dekomprimace dat obrÃ¡zku
 	if (!DeComp()) return false;
 
-// vytvoøení souboru
+// vytvoÅ™enÃ­ souboru
 	CFile file;
 	file.Name(jmeno);
 	if (!file.Create()) return false;
 
-// pøíprava velikosti záhlaví souboru
+// pÅ™Ã­prava velikosti zÃ¡hlavÃ­ souboru
 	int headsize = sizeof(BITMAPFILEHEADER) + 
 					sizeof(BITMAPINFOHEADER) +
 					StdColors*sizeof(RGBQUAD);
 
-// pøíprava bufferu pro obrázek
+// pÅ™Ã­prava bufferu pro obrÃ¡zek
 	BYTE* buf = (BYTE*)MemGet(headsize + (pData->Width+6)*pData->Height*2 + 1000);
 	if (buf == NULL)
 	{
@@ -1348,77 +1348,77 @@ bool CPicture::SaveFile(CText jmeno) const
 // komprese dat
 	int size = KompRLE8(buf + headsize, pData->Data, pData->Width, pData->Height);
 
-// naplnìní záhlaví popisovaèe souboru
+// naplnÄ›nÃ­ zÃ¡hlavÃ­ popisovaÄe souboru
 	BITMAPFILEHEADER* head = (BITMAPFILEHEADER*) buf;
 	buf[0] = 'B';								// identifikace souboru
 	buf[1] = 'M';
 	head->bfSize = headsize + size;				// velikost souboru
 	head->bfOffBits = headsize;					// offset dat
 
-// naplnìní záhlaví popisovaèe dat obrázku
+// naplnÄ›nÃ­ zÃ¡hlavÃ­ popisovaÄe dat obrÃ¡zku
 	BITMAPINFOHEADER* bmp = (BITMAPINFOHEADER*)(buf + sizeof(BITMAPFILEHEADER));
 	bmp->biSize = sizeof(BITMAPINFOHEADER);		// velikost struktury
-	bmp->biWidth = pData->Width;				// šíøka
-	bmp->biHeight = pData->Height;				// vıška
-	bmp->biPlanes = 1;							// poèet barevnıch rovin
-	bmp->biBitCount = 8;						// poèet bitù na bod
+	bmp->biWidth = pData->Width;				// Å¡Ã­Å™ka
+	bmp->biHeight = pData->Height;				// vÃ½Å¡ka
+	bmp->biPlanes = 1;							// poÄet barevnÃ½ch rovin
+	bmp->biBitCount = 8;						// poÄet bitÅ¯ na bod
 	bmp->biCompression = BI_RLE8;				// komprese
-	bmp->biSizeImage = size;					// velikost dat obrázku
-	bmp->biClrUsed = StdColors;					// poèet pouitıch palet
-	bmp->biClrImportant = StdColors;			// poèet dùleitıch palet
+	bmp->biSizeImage = size;					// velikost dat obrÃ¡zku
+	bmp->biClrUsed = StdColors;					// poÄet pouÅ¾itÃ½ch palet
+	bmp->biClrImportant = StdColors;			// poÄet dÅ¯leÅ¾itÃ½ch palet
 
-// pøenesení palet
+// pÅ™enesenÃ­ palet
 	MemCopy(buf + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER),
 				StdBitmapInfo->bmiColors, StdColors*sizeof(RGBQUAD));
 
-// uloení souboru
+// uloÅ¾enÃ­ souboru
 	BOOL result = file.Write(buf, size + headsize);
 
-// uzavøení souboru
+// uzavÅ™enÃ­ souboru
 	file.Close();
 
-// zrušení bufferu
+// zruÅ¡enÃ­ bufferu
 	MemFree(buf);
 
-// pøi chybì zrušení souboru
+// pÅ™i chybÄ› zruÅ¡enÃ­ souboru
 	if (!result)
 	{
 		file.Delete();
 		return false;
 	}
 
-// pøíznak - uloeno OK
+// pÅ™Ã­znak - uloÅ¾eno OK
 	return true;
 }
 */
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CPicture& CPicture::operator= (const CPicture& src)
 {
-	detach(pData);				// zrušení starıch dat
-	attach(src.pData);		// pøiøazení novıch dat
+	detach(pData);				// zruÅ¡enÃ­ starÃ½ch dat
+	attach(src.pData);		// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
 const CPicture& CPicture::operator= (PICTUREDATA* src)
 {
-	detach(pData);				// zrušení starıch dat
-	attach(src);				// pøiøazení novıch dat
+	detach(pData);				// zruÅ¡enÃ­ starÃ½ch dat
+	attach(src);				// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vygenerování obrázku pro taení (pøi chybì vrací NULL)
+// vygenerovÃ¡nÃ­ obrÃ¡zku pro taÅ¾enÃ­ (pÅ™i chybÄ› vracÃ­ NULL)
 /*
 HIMAGELIST CPicture::GenerDrag(const CText& text)
 {
-// dekomprimace dat obrázku
+// dekomprimace dat obrÃ¡zku
 	if (!DeComp()) return NULL;
 
-// pøíprava bufferu textu
+// pÅ™Ã­prava bufferu textu
 	char* textbuf = NULL;				// buffer s textem
 	if (text.IsNotEmpty())
 	{
@@ -1431,16 +1431,16 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 #endif
 	}
 
-// pøíprava rozmìrù
-	int width = pData->Width;			// šíøka obrázku
-	int height = pData->Height;			// vıška obrázku
-	int widtht = 0;						// šíøka textové èásti
-	int len = 0;						// délka textu
+// pÅ™Ã­prava rozmÄ›rÅ¯
+	int width = pData->Width;			// Å¡Ã­Å™ka obrÃ¡zku
+	int height = pData->Height;			// vÃ½Å¡ka obrÃ¡zku
+	int widtht = 0;						// Å¡Ã­Å™ka textovÃ© ÄÃ¡sti
+	int len = 0;						// dÃ©lka textu
 
-// zjištìní šíøky textové èásti a délky textu (s omezením - pøi TRUECOLOR nefunguje pøi velikosti 512*32 bodù)
+// zjiÅ¡tÄ›nÃ­ Å¡Ã­Å™ky textovÃ© ÄÃ¡sti a dÃ©lky textu (s omezenÃ­m - pÅ™i TRUECOLOR nefunguje pÅ™i velikosti 512*32 bodÅ¯)
 	if (text.IsNotEmpty())
 	{
-		widtht = 6 + 16;				// šíøka pro úvodní a koncovou mezeru
+		widtht = 6 + 16;				// Å¡Ã­Å™ka pro ÃºvodnÃ­ a koncovou mezeru
 
 		for (; ((len < text.Length()) && (widtht < (512-width-16-32))); len++)
 		{
@@ -1450,9 +1450,9 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		if (height < 16) height = 16;
 	}
 
-// celková šíøka obrázku s textem
-	int widthc = width + widtht;		// celková šíøka obrázku s textem
-	int widthbyte = (widthc + 3) & ~3;	// délka linky barevné bitmapy
+// celkovÃ¡ Å¡Ã­Å™ka obrÃ¡zku s textem
+	int widthc = width + widtht;		// celkovÃ¡ Å¡Ã­Å™ka obrÃ¡zku s textem
+	int widthbyte = (widthc + 3) & ~3;	// dÃ©lka linky barevnÃ© bitmapy
 
 // buffer pro barevnou bitmapu
 	int datasize = (widthbyte+8) * height;
@@ -1465,10 +1465,10 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		return NULL;
 	}
 
-// vymazání bufferu (pokud bude text)
+// vymazÃ¡nÃ­ bufferu (pokud bude text)
 	if (widtht > 0) MemFill(data, datasize, BackCol);
 
-// vytvoøení dat barevné bitmapy
+// vytvoÅ™enÃ­ dat barevnÃ© bitmapy
 	BYTE* dst = data;
 	BYTE* src = pData->Data;
 	for (int i = pData->Height; i > 0; i--)
@@ -1478,7 +1478,7 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		src += width;
 	}
 
-// dekódování textu
+// dekÃ³dovÃ¡nÃ­ textu
 	if (widtht > 0)
 	{
 		BYTE* dst2 = data + width + 6 + (height - 16)/2*widthbyte;
@@ -1505,7 +1505,7 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 #endif
 
 // buffer pro mono bitmapu
-	int dstinc = ((widthc + 15) & ~0xf) / 8;	// délka linky mono bitmapy
+	int dstinc = ((widthc + 15) & ~0xf) / 8;	// dÃ©lka linky mono bitmapy
 	BYTE* mono = (BYTE*)MemGet(dstinc * height);
 	if (mono == NULL)
 	{
@@ -1513,7 +1513,7 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		return NULL;
 	}
 
-// vygenerování mono bitmapy
+// vygenerovÃ¡nÃ­ mono bitmapy
 	dst = mono;
 	BYTE maska2 = 0xAA;
 
@@ -1547,7 +1547,7 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		maska2 ^= 0xff;
 	}
 
-// vytvoøení mono bitmapy (maska)
+// vytvoÅ™enÃ­ mono bitmapy (maska)
 	HBITMAP bmpMono = ::CreateBitmap(widthc, height, 1, 1, mono);
 	ASSERT (bmpMono != NULL);
 	if (bmpMono == NULL)
@@ -1557,40 +1557,40 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		return NULL;
 	}
 
-// otevøení DC displeje
+// otevÅ™enÃ­ DC displeje
 	HDC dc = ::GetDC(0);
 	ASSERT(dc != NULL);
 
-// vıbìr a realizace vlastních palet 
+// vÃ½bÄ›r a realizace vlastnÃ­ch palet 
 	HPALETTE OldPal = ::SelectPalette(dc, StdPalette, FALSE);
 	::RealizePalette(dc);
 
-// pøíprava záhlaví BMP
+// pÅ™Ã­prava zÃ¡hlavÃ­ BMP
 	StdBitmapInfo->bmiHeader.biWidth = widthc;
 	StdBitmapInfo->bmiHeader.biHeight = height;
 
-// vytvoøení barevné bitmapy
+// vytvoÅ™enÃ­ barevnÃ© bitmapy
 	HBITMAP bmp = ::CreateDIBitmap(dc, &(StdBitmapInfo->bmiHeader),
 		CBM_INIT, data, StdBitmapInfo, DIB_RGB_COLORS);
 	ASSERT(bmp != NULL);
 
-// vytvoøení seznamu
+// vytvoÅ™enÃ­ seznamu
 	HIMAGELIST hImg = ::ImageList_Create(widthc, height, ILC_COLORDDB | ILC_MASK, 1, 1);
 	ASSERT(hImg != NULL);
 
-// pøidání bitmapy k seznamu
+// pÅ™idÃ¡nÃ­ bitmapy k seznamu
 	int result = ::ImageList_Add(hImg, bmp, bmpMono);
 	ASSERT(result != -1);
 
-// zrušení bitmap
+// zruÅ¡enÃ­ bitmap
 	if (bmp != NULL) ::DeleteObject(bmp);
 	::DeleteObject(bmpMono);
 
-// uvolnìní palet a DC displeje
+// uvolnÄ›nÃ­ palet a DC displeje
 	if (OldPal != NULL) ::SelectPalette(dc,OldPal,FALSE);
 	::ReleaseDC(0,dc);
 
-// zrušení pracovních bufferù s daty
+// zruÅ¡enÃ­ pracovnÃ­ch bufferÅ¯ s daty
 	MemFree(mono);
 	MemFree(data);
 
@@ -1601,7 +1601,7 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 		hImg = NULL;
 	}
 
-// navrácení seznamu
+// navrÃ¡cenÃ­ seznamu
 	return hImg;
 }
 */

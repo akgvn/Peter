@@ -1,7 +1,7 @@
 
 /***************************************************************************\
 *																			*
-*							Buffer reálnıch èísel							*
+*							Buffer reÃ¡lnÃ½ch ÄÃ­sel							*
 *																			*
 \***************************************************************************/
 
@@ -22,13 +22,13 @@ public:
 class CBufReal : public CBuffer<CReal>
 {
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
-// naètení èísla ze souboru (naèítá do promìnné, TRUE=operace OK)
+// naÄtenÃ­ ÄÃ­sla ze souboru (naÄÃ­tÃ¡ do promÄ›nnÃ©, TRUE=operace OK)
 	bool LoadFile(double& data, CText jmeno);
 
-// uloení èísla do souboru formátu NUM (FALSE=chyba)
+// uloÅ¾enÃ­ ÄÃ­sla do souboru formÃ¡tu NUM (FALSE=chyba)
 	bool SaveFile(double data, CText jmeno) const;
 };

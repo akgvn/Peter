@@ -1,16 +1,16 @@
 
 /***************************************************************************\
 *																			*
-*								Obsluha pamìti								*
+*								Obsluha pamÄ›ti								*
 *																			*
 \***************************************************************************/
 
 //////////////////////////////////////////////////////////////////////////////
-// pøepínaèe preprocesoru:
+// pÅ™epÃ­naÄe preprocesoru:
 //	_DEBUG ............. je debugger
 //	_OPTIM ............. je optimalizace
-//	_MT ................ vícetokovı reim
-//	_UNICODE ........... kódování znakù UNICODE
+//	_MT ................ vÃ­cetokovÃ½ reÅ¾im
+//	_UNICODE ........... kÃ³dovÃ¡nÃ­ znakÅ¯ UNICODE
 //
 //	_M_IX86 ............ procesor Intel 86
 //	_M_ALPHA ........... procesor DEC Alpha
@@ -19,43 +19,43 @@
 //	_M_PPC ............. procesor PowerPC
 
 
-extern BOOL MemoryError;		// pøíznak chyby pamìti
+extern BOOL MemoryError;		// pÅ™Ã­znak chyby pamÄ›ti
 
-extern BOOL MemoryOK;			// pøíznak platného správce pamìti
+extern BOOL MemoryOK;			// pÅ™Ã­znak platnÃ©ho sprÃ¡vce pamÄ›ti
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace správce pamìti (TRUE=inicializace OK)
+// inicializace sprÃ¡vce pamÄ›ti (TRUE=inicializace OK)
 
 BOOL MemInit();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení správce pamìti
+// ukonÄenÃ­ sprÃ¡vce pamÄ›ti
 
 void MemTerm();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøidìlení bloku pamìti (povolena 0 - vrátí malı blok) (vrací NULL=chyba)
+// pÅ™idÄ›lenÃ­ bloku pamÄ›ti (povolena 0 - vrÃ¡tÃ­ malÃ½ blok) (vracÃ­ NULL=chyba)
 
 void* _fastcall MemGet(int size);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uvolnìní bloku pamìti (povolena adresa NULL - ignoruje se)
+// uvolnÄ›nÃ­ bloku pamÄ›ti (povolena adresa NULL - ignoruje se)
 
 void _fastcall MemFree(void* adr);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zmìna velikosti bloku pamìti (adresa NULL = vytvoøení, velikost 0 = zrušení)
-// vrací NULL=pøíznak chyby (nebo zrušen), starı blok pøi chybì nebude zmìnìn
+// zmÄ›na velikosti bloku pamÄ›ti (adresa NULL = vytvoÅ™enÃ­, velikost 0 = zruÅ¡enÃ­)
+// vracÃ­ NULL=pÅ™Ã­znak chyby (nebo zruÅ¡en), starÃ½ blok pÅ™i chybÄ› nebude zmÄ›nÄ›n
 
 void* _fastcall MemSize(void* adr, int size);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vícetoková inkrementace èísla LONG INT
+// vÃ­cetokovÃ¡ inkrementace ÄÃ­sla LONG INT
 
 #ifdef _MT
 #ifdef _M_IX86
@@ -81,7 +81,7 @@ inline void LongIncrement(long* num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vícetoková dekrementace èísla LONG INT (vrací TRUE = vısledek je 0)
+// vÃ­cetokovÃ¡ dekrementace ÄÃ­sla LONG INT (vracÃ­ TRUE = vÃ½sledek je 0)
 
 #ifdef _MT
 #ifdef _M_IX86
@@ -107,7 +107,7 @@ inline BOOL LongDecrement(long* num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naplnìní bloku pamìti konstantou (pøi optimalizaci je nahrazeno instrukcí REP STOS)
+// naplnÄ›nÃ­ bloku pamÄ›ti konstantou (pÅ™i optimalizaci je nahrazeno instrukcÃ­ REP STOS)
 
 inline void _fastcall MemFill(void* dst, int count, char val)
 {
@@ -145,11 +145,11 @@ inline void _fastcall MemFillLong(void* dst, int count, long val)
 
 /////////////////////////////////////////////////////////////////////////////
 // kopie bloku dat 
-// 1) Pozor - delka nesmí bıt záporná (délka je èíslo bez znaménka)!!!!!
-// 2) kopie probíhá vdy od niších adres k vyšším
-// 3) Pøi optimalizaci je nahrazeno instrukcí REP MOVS. Data se pøenáší
-//    po dvojslovech a proto se mírnì liší od kopie bloku dat po bajtech
-//	  v pøípadì, e zdrojová adresa je vyšší ne cílová o 1 a 3 (pøekryv)
+// 1) Pozor - delka nesmÃ­ bÃ½t zÃ¡pornÃ¡ (dÃ©lka je ÄÃ­slo bez znamÃ©nka)!!!!!
+// 2) kopie probÃ­hÃ¡ vÅ¾dy od niÅ¾Å¡Ã­ch adres k vyÅ¡Å¡Ã­m
+// 3) PÅ™i optimalizaci je nahrazeno instrukcÃ­ REP MOVS. Data se pÅ™enÃ¡Å¡Ã­
+//    po dvojslovech a proto se mÃ­rnÄ› liÅ¡Ã­ od kopie bloku dat po bajtech
+//	  v pÅ™Ã­padÄ›, Å¾e zdrojovÃ¡ adresa je vyÅ¡Å¡Ã­ neÅ¾ cÃ­lovÃ¡ o 1 aÅ¾ 3 (pÅ™ekryv)
 
 inline void _fastcall MemCopy(void* dst, const void* src, DWORD count)
 {
@@ -182,7 +182,7 @@ inline void _fastcall MemCopy(void* dst, const void* src, DWORD count)
 #endif
 }	
 
-// Pozn.: MemCopyShort by byl pøeloen stejnì jako MemCopy, nemá proto vıznam
+// Pozn.: MemCopyShort by byl pÅ™eloÅ¾en stejnÄ› jako MemCopy, nemÃ¡ proto vÃ½znam
 
 //inline void _fastcall MemCopyLong(void* dst, const void* src, DWORD count)
 //{
@@ -204,8 +204,8 @@ inline void _fastcall MemCopy(void* dst, const void* src, DWORD count)
 //#define MemCopyInt MemCopyLong
 
 /////////////////////////////////////////////////////////////////////////////
-// posun bloku dat bez pøekryvu (nahoru nebo dolù)
-// (funkce se pouívá málo, není proto pøíliš optimalizována)
+// posun bloku dat bez pÅ™ekryvu (nahoru nebo dolÅ¯)
+// (funkce se pouÅ¾Ã­vÃ¡ mÃ¡lo, nenÃ­ proto pÅ™Ã­liÅ¡ optimalizovÃ¡na)
 
 inline void MemMove(void* dst, const void* src, int count)
 {
@@ -234,7 +234,7 @@ inline void MemMove(void* dst, const void* src, int count)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// porovnání bloku dat (pøi shodì nebo pro délku <= 0 vrací TRUE)
+// porovnÃ¡nÃ­ bloku dat (pÅ™i shodÄ› nebo pro dÃ©lku <= 0 vracÃ­ TRUE)
 
 inline BOOL _fastcall MemCompare(const void* buf1, const void* buf2, int count)
 {

@@ -1,7 +1,7 @@
 
 /***************************************************************************\
 *																			*
-*								Buffery	objekt˘ X souboru					*
+*								Buffery	objekt≈Ø X souboru					*
 *																			*
 \***************************************************************************/
 
@@ -9,15 +9,15 @@
 #ifndef _MINI
 
 /////////////////////////////////////////////////////////////////////////////
-// naËtenÌ objektu z bufferu
+// naƒçten√≠ objektu z bufferu
 
 void ReadMesh(BYTE* data, int size, CString path);
 
 /////////////////////////////////////////////////////////////////////////////
-// duplikace datovÈho bloku
+// duplikace datov√©ho bloku
 
 void DuplikData(void** adr, int size);
 
 
 #endif // _MINI
-// --------------------- konec vypnutÌ pro MINI verzi -------------------
+// --------------------- konec vypnut√≠ pro MINI verzi -------------------

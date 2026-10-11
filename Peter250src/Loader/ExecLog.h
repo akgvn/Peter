@@ -1,13 +1,13 @@
 
 /***************************************************************************\
 *																			*
-*						Provádìní programu - logickı vıraz					*
+*						ProvÃ¡dÄ›nÃ­ programu - logickÃ½ vÃ½raz					*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inline volání pøíkazu - logickı vıraz
+// inline volÃ¡nÃ­ pÅ™Ã­kazu - logickÃ½ vÃ½raz
 
 inline bool FBool()
 {
@@ -17,215 +17,215 @@ inline bool FBool()
 
 
 // funkce
-bool FBoolFunc();				// funkce s návratem logické hodnoty
+bool FBoolFunc();				// funkce s nÃ¡vratem logickÃ© hodnoty
 
-// promìnné
+// promÄ›nnÃ©
 bool FTrue();					// konstanta TRUE
 bool FFalse();					// konstanta FALSE
-bool FBoolObj();				// globální promìnná (Data = index)
-bool FBoolObjList();			// globalní promìnná v seznamu (Data = index, List = seznam)
-bool FBoolLoc();				// lokální promìnná (Data = index)
-bool FBoolLocList();			// lokální promìnná v seznamu (Data = index, List = seznam)
-bool FGetSpriteMove();			// pohyb globálního sprajtu (Data = index)
+bool FBoolObj();				// globÃ¡lnÃ­ promÄ›nnÃ¡ (Data = index)
+bool FBoolObjList();			// globalnÃ­ promÄ›nnÃ¡ v seznamu (Data = index, List = seznam)
+bool FBoolLoc();				// lokÃ¡lnÃ­ promÄ›nnÃ¡ (Data = index)
+bool FBoolLocList();			// lokÃ¡lnÃ­ promÄ›nnÃ¡ v seznamu (Data = index, List = seznam)
+bool FGetSpriteMove();			// pohyb globÃ¡lnÃ­ho sprajtu (Data = index)
 bool FGetSpriteMoveList();		// pohyb sprajtu v seznamu (Data = index, List = seznam)
-bool FGetSpriteMoveLoc();		// pohyb lokálního sprajtu (Data = index)
-bool FGetSpriteMoveLocList();	// pohyb lokálního sprajtu v seznamu (Data = index, List = seznam)
-bool FGetSpriteVis();			// viditelnost globálního sprajtu (Data = index)
+bool FGetSpriteMoveLoc();		// pohyb lokÃ¡lnÃ­ho sprajtu (Data = index)
+bool FGetSpriteMoveLocList();	// pohyb lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
+bool FGetSpriteVis();			// viditelnost globÃ¡lnÃ­ho sprajtu (Data = index)
 bool FGetSpriteVisList();		// viditelnost sprajtu v seznamu (Data = index, List = seznam)
-bool FGetSpriteVisLoc();		// viditelnost lokálního sprajtu (Data = index)
-bool FGetSpriteVisLocList();	// viditelnost lokálního sprajtu v seznamu (Data = index, List = seznam)
+bool FGetSpriteVisLoc();		// viditelnost lokÃ¡lnÃ­ho sprajtu (Data = index)
+bool FGetSpriteVisLocList();	// viditelnost lokÃ¡lnÃ­ho sprajtu v seznamu (Data = index, List = seznam)
 
-// matematické operátory
-bool FEqu1();					// operátor EQU - pro 1 prvek (porovná èíslo s nulou)
-bool FEqu();					// operátor EQU (Data = poèet prvkù - 1)
-bool FNEqu1();					// operátor NEQU - pro 1 prvek (porovná èíslo s nulou)
-bool FNEqu();					// operátor NEQU (Data = poèet prvkù - 1)
-bool FEqGr1();					// operátor EQGR - pro 1 prvek (porovná èíslo s nulou)
-bool FEqGr();					// operátor EQGR (Data = poèet prvkù - 1)
-bool FEqLt1();					// operátor EQLT - pro 1 prvek (porovná èíslo s nulou)
-bool FEqLt();					// operátor EQLT (Data = poèet prvkù - 1)
-bool FGr1();					// operátor GR - pro 1 prvek (porovná èíslo s nulou)
-bool FGr();						// operátor GR (Data = poèet prvkù - 1)
-bool FLt1();					// operátor LT - pro 1 prvek (porovná èíslo s nulou)
-bool FLt();						// operátor LT (Data = poèet prvkù - 1)
+// matematickÃ© operÃ¡tory
+bool FEqu1();					// operÃ¡tor EQU - pro 1 prvek (porovnÃ¡ ÄÃ­slo s nulou)
+bool FEqu();					// operÃ¡tor EQU (Data = poÄet prvkÅ¯ - 1)
+bool FNEqu1();					// operÃ¡tor NEQU - pro 1 prvek (porovnÃ¡ ÄÃ­slo s nulou)
+bool FNEqu();					// operÃ¡tor NEQU (Data = poÄet prvkÅ¯ - 1)
+bool FEqGr1();					// operÃ¡tor EQGR - pro 1 prvek (porovnÃ¡ ÄÃ­slo s nulou)
+bool FEqGr();					// operÃ¡tor EQGR (Data = poÄet prvkÅ¯ - 1)
+bool FEqLt1();					// operÃ¡tor EQLT - pro 1 prvek (porovnÃ¡ ÄÃ­slo s nulou)
+bool FEqLt();					// operÃ¡tor EQLT (Data = poÄet prvkÅ¯ - 1)
+bool FGr1();					// operÃ¡tor GR - pro 1 prvek (porovnÃ¡ ÄÃ­slo s nulou)
+bool FGr();						// operÃ¡tor GR (Data = poÄet prvkÅ¯ - 1)
+bool FLt1();					// operÃ¡tor LT - pro 1 prvek (porovnÃ¡ ÄÃ­slo s nulou)
+bool FLt();						// operÃ¡tor LT (Data = poÄet prvkÅ¯ - 1)
 
-// logické operátory
-bool FAnd1();					// operátor AND - pro 1 prvek (jenom vrátí hodnotu beze zmìny)
-bool FAnd();					// operátor AND (Data = poèet prvkù - 1)
-inline bool FOr1() { return FAnd1(); }	// operátor OR - pro 1 prvek (jenom vrátí hodnotu beze zmìny)
-bool FOr();						// operátor OR (Data = poèet prvkù - 1)
-inline bool FXor1() { return FAnd1(); }	// operátor XOR - pro 1 prvek (jenom vrátí hodnotu beze zmìny)
-bool FXor();					// operátor XOR (Data = poèet prvkù - 1)
-bool FNot();					// operátor NOT
+// logickÃ© operÃ¡tory
+bool FAnd1();					// operÃ¡tor AND - pro 1 prvek (jenom vrÃ¡tÃ­ hodnotu beze zmÄ›ny)
+bool FAnd();					// operÃ¡tor AND (Data = poÄet prvkÅ¯ - 1)
+inline bool FOr1() { return FAnd1(); }	// operÃ¡tor OR - pro 1 prvek (jenom vrÃ¡tÃ­ hodnotu beze zmÄ›ny)
+bool FOr();						// operÃ¡tor OR (Data = poÄet prvkÅ¯ - 1)
+inline bool FXor1() { return FAnd1(); }	// operÃ¡tor XOR - pro 1 prvek (jenom vrÃ¡tÃ­ hodnotu beze zmÄ›ny)
+bool FXor();					// operÃ¡tor XOR (Data = poÄet prvkÅ¯ - 1)
+bool FNot();					// operÃ¡tor NOT
 
 // obsluha ikon
-bool FCompEqIco1();				// porovnání jedné ikony, zda je prázdná
-bool FCompEqIco();				// porovnání shodnosti ikon
+bool FCompEqIco1();				// porovnÃ¡nÃ­ jednÃ© ikony, zda je prÃ¡zdnÃ¡
+bool FCompEqIco();				// porovnÃ¡nÃ­ shodnosti ikon
 
-bool FCompEqMap1();				// porovnání jedné plochy, zda je prázdná
-bool FCompEqMap();				// porovnání shodnosti ploch
-bool FCompEqPic1();				// porovnání jednoho obrázku, zda je prázdnı
-bool FCompEqPic();				// porovnání shodnosti obrázkù
-bool FCompEqSpr1();				// porovnání jednoho sprajtu, zda je prázdnı
-bool FCompEqSpr();				// porovnání shodnosti sprajtù
-bool FCompEqSnd1();				// porovnání jednoho zvuku, zda je prázdnı
-bool FCompEqSnd();				// porovnání shodnosti zvukù
-bool FCompEqMus1();				// porovnání jedné hudby, zda je prázdná
-bool FCompEqMus();				// porovnání shodnosti hudeb
+bool FCompEqMap1();				// porovnÃ¡nÃ­ jednÃ© plochy, zda je prÃ¡zdnÃ¡
+bool FCompEqMap();				// porovnÃ¡nÃ­ shodnosti ploch
+bool FCompEqPic1();				// porovnÃ¡nÃ­ jednoho obrÃ¡zku, zda je prÃ¡zdnÃ½
+bool FCompEqPic();				// porovnÃ¡nÃ­ shodnosti obrÃ¡zkÅ¯
+bool FCompEqSpr1();				// porovnÃ¡nÃ­ jednoho sprajtu, zda je prÃ¡zdnÃ½
+bool FCompEqSpr();				// porovnÃ¡nÃ­ shodnosti sprajtÅ¯
+bool FCompEqSnd1();				// porovnÃ¡nÃ­ jednoho zvuku, zda je prÃ¡zdnÃ½
+bool FCompEqSnd();				// porovnÃ¡nÃ­ shodnosti zvukÅ¯
+bool FCompEqMus1();				// porovnÃ¡nÃ­ jednÃ© hudby, zda je prÃ¡zdnÃ¡
+bool FCompEqMus();				// porovnÃ¡nÃ­ shodnosti hudeb
 
-// obsluha textù
-bool FCompEqTxt1();				// porovnání jednoho textu, zda je prázdnı
-bool FCompEqTxt();				// porovnání textù na shodnost (Data = poèet textù - 1)
-bool FCompGtTxt1();				// porovnání jednoho textu, zda je neprázdnı
-bool FCompGtTxt();				// porovnání textù na neshodnost (Data = poèet textù - 1)
+// obsluha textÅ¯
+bool FCompEqTxt1();				// porovnÃ¡nÃ­ jednoho textu, zda je prÃ¡zdnÃ½
+bool FCompEqTxt();				// porovnÃ¡nÃ­ textÅ¯ na shodnost (Data = poÄet textÅ¯ - 1)
+bool FCompGtTxt1();				// porovnÃ¡nÃ­ jednoho textu, zda je neprÃ¡zdnÃ½
+bool FCompGtTxt();				// porovnÃ¡nÃ­ textÅ¯ na neshodnost (Data = poÄet textÅ¯ - 1)
 
 // obsluha Petra a Petry
-bool FGetVisible();				// naètení viditelnosti Petra
-bool FGetVisible2();			// naètení viditelnosti Petry
+bool FGetVisible();				// naÄtenÃ­ viditelnosti Petra
+bool FGetVisible2();			// naÄtenÃ­ viditelnosti Petry
 
-bool FGetSwc1();				// pøepínaè 1 - Petr
-bool FGetSwc2();				// pøepínaè 2 - Petr
-bool FGetSwc3();				// pøepínaè 3 - Petr
-bool FGetSwc4();				// pøepínaè 4 - Petr
-bool FGetSwc5();				// pøepínaè 5 - Petr
+bool FGetSwc1();				// pÅ™epÃ­naÄ 1 - Petr
+bool FGetSwc2();				// pÅ™epÃ­naÄ 2 - Petr
+bool FGetSwc3();				// pÅ™epÃ­naÄ 3 - Petr
+bool FGetSwc4();				// pÅ™epÃ­naÄ 4 - Petr
+bool FGetSwc5();				// pÅ™epÃ­naÄ 5 - Petr
 
-bool FGetSwc12();				// pøepínaè 1 - Petra
-bool FGetSwc22();				// pøepínaè 2 - Petra
-bool FGetSwc32();				// pøepínaè 3 - Petra
-bool FGetSwc42();				// pøepínaè 4 - Petra
-bool FGetSwc52();				// pøepínaè 5 - Petra
+bool FGetSwc12();				// pÅ™epÃ­naÄ 1 - Petra
+bool FGetSwc22();				// pÅ™epÃ­naÄ 2 - Petra
+bool FGetSwc32();				// pÅ™epÃ­naÄ 3 - Petra
+bool FGetSwc42();				// pÅ™epÃ­naÄ 4 - Petra
+bool FGetSwc52();				// pÅ™epÃ­naÄ 5 - Petra
 
-// obsluha klávesnice
-bool FKeyTest();				// test stisku klávesy
+// obsluha klÃ¡vesnice
+bool FKeyTest();				// test stisku klÃ¡vesy
 bool FStatusNumLock();			// test stavu Num Lock
 bool FStatusCapsLock();			// test stavu Caps Lock
 bool FStatusScrollLock();		// test stavu Scroll Lock
 bool FStatusInsert();			// test stavu Insert
 
-// obsluha myši
-bool FMouseL();					// test stisku levého tlaèítka myši
-bool FMouseR();					// test stisku pravého tlaèítka myši
-bool FMouseLClick();			// test kliku levım tlaèítkem myši
-bool FMouseRClick();			// test kliku pravım tlaèítkem myši
-bool FMouseLDClick();			// test dvojkliku levım tlaèítkem myši
-bool FMouseRDClick();			// test dvojkliku pravım tlaèítkem myši
-bool FMouseRegion();			// test myši v oblasti
-bool FMouseItem();				// test myši v dialogovém prvku
+// obsluha myÅ¡i
+bool FMouseL();					// test stisku levÃ©ho tlaÄÃ­tka myÅ¡i
+bool FMouseR();					// test stisku pravÃ©ho tlaÄÃ­tka myÅ¡i
+bool FMouseLClick();			// test kliku levÃ½m tlaÄÃ­tkem myÅ¡i
+bool FMouseRClick();			// test kliku pravÃ½m tlaÄÃ­tkem myÅ¡i
+bool FMouseLDClick();			// test dvojkliku levÃ½m tlaÄÃ­tkem myÅ¡i
+bool FMouseRDClick();			// test dvojkliku pravÃ½m tlaÄÃ­tkem myÅ¡i
+bool FMouseRegion();			// test myÅ¡i v oblasti
+bool FMouseItem();				// test myÅ¡i v dialogovÃ©m prvku
 
 // obsluha zvuku
-bool FSoundTest();				// test pøehrávání jakéhokoliv zvuku
-bool FSoundTest1();				// test pøehrávání konkrétního zvuku
-bool FGetSoundStereo();			// pøíznak stereo
-bool FSoundTestPause();			// test zapauzování zvuku
+bool FSoundTest();				// test pÅ™ehrÃ¡vÃ¡nÃ­ jakÃ©hokoliv zvuku
+bool FSoundTest1();				// test pÅ™ehrÃ¡vÃ¡nÃ­ konkrÃ©tnÃ­ho zvuku
+bool FGetSoundStereo();			// pÅ™Ã­znak stereo
+bool FSoundTestPause();			// test zapauzovÃ¡nÃ­ zvuku
 
 // obsluha hudby
-bool FMusicTest();				// test pøehrávání hudby
-bool FMusicTestPause();			// test zapauzování hudby
+bool FMusicTest();				// test pÅ™ehrÃ¡vÃ¡nÃ­ hudby
+bool FMusicTestPause();			// test zapauzovÃ¡nÃ­ hudby
 
-// obsluha CD diskù
+// obsluha CD diskÅ¯
 bool FCDGetPause();				// test pauzy CD
-bool FCDTest();					// test pøehrávání CD
-bool FCDGetEject();				// test vysunutí CD
+bool FCDTest();					// test pÅ™ehrÃ¡vÃ¡nÃ­ CD
+bool FCDGetEject();				// test vysunutÃ­ CD
 
-// obsluha souborù
-bool FBoolFileNew();			// vytvoøení souboru
-bool FBoolDirNew();				// vytvoøení adresáøe
-bool FBoolFileDelete();			// zrušení souboru/adresáøe
-bool FFileTest();				// test existence disku/souboru/adresáøe
-bool FBoolFileCopy();			// kopie souborù
-bool FBoolFileMove();			// pøesun souborù
-bool FGetFileRO();				// naètení atributu R/O souboru
-bool FGetFileHID();				// naètení atributu HID souboru
-bool FGetFileSYS();				// naètení atributu SYS souboru
-bool FGetFileDIR();				// naètení atributu DIR souboru
-bool FGetFileARC();				// naètení atributu ARC souboru
-bool FGetFileTMP();				// naètení atributu TMP souboru
-bool FGetFileCMP();				// naètení atributu CMP souboru
-bool FGetFileOFF();				// naètení atributu OFF souboru
-bool FGetFileError();			// poskytnutí pøíznaku chyby souborù
-bool FGetFileTextUnicode();		// poskytnutí pøíznaku textu UNICODE
-bool FGetFileLogic();			// naètení logické hodnoty
+// obsluha souborÅ¯
+bool FBoolFileNew();			// vytvoÅ™enÃ­ souboru
+bool FBoolDirNew();				// vytvoÅ™enÃ­ adresÃ¡Å™e
+bool FBoolFileDelete();			// zruÅ¡enÃ­ souboru/adresÃ¡Å™e
+bool FFileTest();				// test existence disku/souboru/adresÃ¡Å™e
+bool FBoolFileCopy();			// kopie souborÅ¯
+bool FBoolFileMove();			// pÅ™esun souborÅ¯
+bool FGetFileRO();				// naÄtenÃ­ atributu R/O souboru
+bool FGetFileHID();				// naÄtenÃ­ atributu HID souboru
+bool FGetFileSYS();				// naÄtenÃ­ atributu SYS souboru
+bool FGetFileDIR();				// naÄtenÃ­ atributu DIR souboru
+bool FGetFileARC();				// naÄtenÃ­ atributu ARC souboru
+bool FGetFileTMP();				// naÄtenÃ­ atributu TMP souboru
+bool FGetFileCMP();				// naÄtenÃ­ atributu CMP souboru
+bool FGetFileOFF();				// naÄtenÃ­ atributu OFF souboru
+bool FGetFileError();			// poskytnutÃ­ pÅ™Ã­znaku chyby souborÅ¯
+bool FGetFileTextUnicode();		// poskytnutÃ­ pÅ™Ã­znaku textu UNICODE
+bool FGetFileLogic();			// naÄtenÃ­ logickÃ© hodnoty
 
 // obsluha plochy
-bool FGetMapSwc1();				// naètení pøepínaèe 1 z plochy
-bool FGetMapSwc2();				// naètení pøepínaèe 2 z plochy
-bool FGetMapSwc3();				// naètení pøepínaèe 3 z plochy
-bool FGetMapSwc4();				// naètení pøepínaèe 4 z plochy
-bool FGetMapSwc5();				// naètení pøepínaèe 5 z plochy
+bool FGetMapSwc1();				// naÄtenÃ­ pÅ™epÃ­naÄe 1 z plochy
+bool FGetMapSwc2();				// naÄtenÃ­ pÅ™epÃ­naÄe 2 z plochy
+bool FGetMapSwc3();				// naÄtenÃ­ pÅ™epÃ­naÄe 3 z plochy
+bool FGetMapSwc4();				// naÄtenÃ­ pÅ™epÃ­naÄe 4 z plochy
+bool FGetMapSwc5();				// naÄtenÃ­ pÅ™epÃ­naÄe 5 z plochy
 
 // konzola
-bool FGetConsoleOn();			// reim konzoly
+bool FGetConsoleOn();			// reÅ¾im konzoly
 
 // joystick
-bool FJoystick1();				// tlaèítko 1
-bool FJoystick2();				// tlaèítko 2
-bool FJoystick3();				// tlaèítko 3
-bool FJoystick4();				// tlaèítko 4
+bool FJoystick1();				// tlaÄÃ­tko 1
+bool FJoystick2();				// tlaÄÃ­tko 2
+bool FJoystick3();				// tlaÄÃ­tko 3
+bool FJoystick4();				// tlaÄÃ­tko 4
 
 // dialogy
-//bool FGetDialogOn();			// reim dialogu
+//bool FGetDialogOn();			// reÅ¾im dialogu
 bool FGetWindowVisible();		// viditelnost okna
-bool FGetWindowDisable();		// zákaz okna
-bool FButtonClick();			// kliknutí na tlaèítko
-bool FGetCheckBoxOn();			// stav pøepínaèe
+bool FGetWindowDisable();		// zÃ¡kaz okna
+bool FButtonClick();			// kliknutÃ­ na tlaÄÃ­tko
+bool FGetCheckBoxOn();			// stav pÅ™epÃ­naÄe
 bool FGetButton3On();
-bool FGetFontBold();			// zvıraznìné písmo
-bool FGetFontFixed();			// písmo s pevnou rozteèí
-bool FGetFontItalic();			// šikmé písmo
-bool FGetFontUnder();			// podtrené písmo
-bool FGetFontStrike();			// pøeškrtnuté písmo
-bool FGetFontSerif();			// patièkové písmo
-bool FGetFullScreen();			// celoobrazovkovı reim
-bool FGetWindowFrame();			// naètení pøepínaèe rámeèku okna
-bool FGetWindowCaption();		// naètení pøepínaèe nadpisu okna
-bool FGetWindowTop();			// naètení pøepínaèe okna vdy nahoøe
-bool FGetWindowSize();			// naètení pøepínaèe okna mìnitelné velikosti
-bool FGetWindowMayClose();		// poadavek o uzavøení okna
-bool FGetWindowMaxim();			// zjištìní maximalizace okna
-bool FGetWindowMinim();			// zjištìní minimalizace okna
+bool FGetFontBold();			// zvÃ½raznÄ›nÃ© pÃ­smo
+bool FGetFontFixed();			// pÃ­smo s pevnou rozteÄÃ­
+bool FGetFontItalic();			// Å¡ikmÃ© pÃ­smo
+bool FGetFontUnder();			// podtrÅ¾enÃ© pÃ­smo
+bool FGetFontStrike();			// pÅ™eÅ¡krtnutÃ© pÃ­smo
+bool FGetFontSerif();			// patiÄkovÃ© pÃ­smo
+bool FGetFullScreen();			// celoobrazovkovÃ½ reÅ¾im
+bool FGetWindowFrame();			// naÄtenÃ­ pÅ™epÃ­naÄe rÃ¡meÄku okna
+bool FGetWindowCaption();		// naÄtenÃ­ pÅ™epÃ­naÄe nadpisu okna
+bool FGetWindowTop();			// naÄtenÃ­ pÅ™epÃ­naÄe okna vÅ¾dy nahoÅ™e
+bool FGetWindowSize();			// naÄtenÃ­ pÅ™epÃ­naÄe okna mÄ›nitelnÃ© velikosti
+bool FGetWindowMayClose();		// poÅ¾adavek o uzavÅ™enÃ­ okna
+bool FGetWindowMaxim();			// zjiÅ¡tÄ›nÃ­ maximalizace okna
+bool FGetWindowMinim();			// zjiÅ¡tÄ›nÃ­ minimalizace okna
 
 // DirectPlay
-bool FGetGameL1();				// zjištìní pøepínaèe hry 1
-bool FGetGameL2();				// zjištìní pøepínaèe hry 2
-bool FGetGameL3();				// zjištìní pøepínaèe hry 3
-bool FGetGameL4();				// zjištìní pøepínaèe hry 4
-bool FGetGameL5();				// zjištìní pøepínaèe hry 5
-bool FGetGameL6();				// zjištìní pøepínaèe hry 6
-bool FGetGameL7();				// zjištìní pøepínaèe hry 7
-bool FGetGameL8();				// zjištìní pøepínaèe hry 8
-bool FGameHost();				// zjištìní pøíznaku hostitele
-bool FGetGameDataL();			// naètení pøepínaèe z paketu
+bool FGetGameL1();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 1
+bool FGetGameL2();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 2
+bool FGetGameL3();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 3
+bool FGetGameL4();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 4
+bool FGetGameL5();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 5
+bool FGetGameL6();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 6
+bool FGetGameL7();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 7
+bool FGetGameL8();				// zjiÅ¡tÄ›nÃ­ pÅ™epÃ­naÄe hry 8
+bool FGameHost();				// zjiÅ¡tÄ›nÃ­ pÅ™Ã­znaku hostitele
+bool FGetGameDataL();			// naÄtenÃ­ pÅ™epÃ­naÄe z paketu
 
 // porty
-bool FGetComStop();				// zjištìní stopbitù
-bool FComIn();					// test pøijatého znaku
-bool FGetComSend();				// test povolení vysílání
-bool FGetComReceive();			// test povolení pøíjmu
+bool FGetComStop();				// zjiÅ¡tÄ›nÃ­ stopbitÅ¯
+bool FComIn();					// test pÅ™ijatÃ©ho znaku
+bool FGetComSend();				// test povolenÃ­ vysÃ­lÃ¡nÃ­
+bool FGetComReceive();			// test povolenÃ­ pÅ™Ã­jmu
 
-bool FGetDialogGraph();			// zjištìní módu grafického pozadí
+bool FGetDialogGraph();			// zjiÅ¡tÄ›nÃ­ mÃ³du grafickÃ©ho pozadÃ­
 
 // Direct3D
-bool FGetD3DWireframe();		// zjištìní nastavení vyplòování ploch
-bool FGetD3DLighton();			// zjištìní nastavení osvìtlení
-bool FGetD3DShades();			// zjištìní nastavení plynulého stínování
-bool FGetD3DMinFilter();		// zjištìní filtrace zmenšenıch textur
-bool FGetD3DMagFilter();		// zjištìní filtrace zvìtšenıch textur
-bool FGetD3DMipFilter();		// zjištìní filtrace vzdálenıch textur
-bool FGetD3DOWireframe();		// zjištìní nastavení vyplòování ploch objektu
-bool FGetD3DOLighton();			// zjištìní nastavení osvìtlení objektu
-bool FGetD3DOShades();			// zjištìní nastavení plynulého stínování objektu
-bool FGetD3DOMinFilter();		// zjištìní filtrace zmenšenıch textur objektu
-bool FGetD3DOMagFilter();		// zjištìní filtrace zvìtšenıch textur objektu
-bool FGetD3DOMipFilter();		// zjištìní filtrace vzdálenıch textur objektu
-bool FGetD3DVisible();			// zjištìní viditelnosti objektu Direct3D
-bool FGetD3DUpper();			// tvoøit horní podstavu
-bool FGetD3DLower();			// tvoøit dolní podstavu
-bool FGetD3DZWrite();			// zjištìní hloubkového zápisu
-bool FGetD3DZSort();			// zjištìní hloubkového tøídìní
+bool FGetD3DWireframe();		// zjiÅ¡tÄ›nÃ­ nastavenÃ­ vyplÅˆovÃ¡nÃ­ ploch
+bool FGetD3DLighton();			// zjiÅ¡tÄ›nÃ­ nastavenÃ­ osvÄ›tlenÃ­
+bool FGetD3DShades();			// zjiÅ¡tÄ›nÃ­ nastavenÃ­ plynulÃ©ho stÃ­novÃ¡nÃ­
+bool FGetD3DMinFilter();		// zjiÅ¡tÄ›nÃ­ filtrace zmenÅ¡enÃ½ch textur
+bool FGetD3DMagFilter();		// zjiÅ¡tÄ›nÃ­ filtrace zvÄ›tÅ¡enÃ½ch textur
+bool FGetD3DMipFilter();		// zjiÅ¡tÄ›nÃ­ filtrace vzdÃ¡lenÃ½ch textur
+bool FGetD3DOWireframe();		// zjiÅ¡tÄ›nÃ­ nastavenÃ­ vyplÅˆovÃ¡nÃ­ ploch objektu
+bool FGetD3DOLighton();			// zjiÅ¡tÄ›nÃ­ nastavenÃ­ osvÄ›tlenÃ­ objektu
+bool FGetD3DOShades();			// zjiÅ¡tÄ›nÃ­ nastavenÃ­ plynulÃ©ho stÃ­novÃ¡nÃ­ objektu
+bool FGetD3DOMinFilter();		// zjiÅ¡tÄ›nÃ­ filtrace zmenÅ¡enÃ½ch textur objektu
+bool FGetD3DOMagFilter();		// zjiÅ¡tÄ›nÃ­ filtrace zvÄ›tÅ¡enÃ½ch textur objektu
+bool FGetD3DOMipFilter();		// zjiÅ¡tÄ›nÃ­ filtrace vzdÃ¡lenÃ½ch textur objektu
+bool FGetD3DVisible();			// zjiÅ¡tÄ›nÃ­ viditelnosti objektu Direct3D
+bool FGetD3DUpper();			// tvoÅ™it hornÃ­ podstavu
+bool FGetD3DLower();			// tvoÅ™it dolnÃ­ podstavu
+bool FGetD3DZWrite();			// zjiÅ¡tÄ›nÃ­ hloubkovÃ©ho zÃ¡pisu
+bool FGetD3DZSort();			// zjiÅ¡tÄ›nÃ­ hloubkovÃ©ho tÅ™Ã­dÄ›nÃ­
 
-bool FGetActive();				// test, zda to je aktivní aplikace
+bool FGetActive();				// test, zda to je aktivnÃ­ aplikace
 
-bool FPicPrint();				// tisk obrázku
+bool FPicPrint();				// tisk obrÃ¡zku
 
 // obsluha DLL
-bool FGetMemoryBool();			// logická hodnota
+bool FGetMemoryBool();			// logickÃ¡ hodnota

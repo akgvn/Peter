@@ -3,11 +3,11 @@
 
 /***************************************************************************\
 *																			*
-*						Provádìní programu - sprajt							*
+*						ProvÃ¡dÄ›nÃ­ programu - sprajt							*
 *																			*
 \***************************************************************************/
 
-#pragma optimize("t", on)			// optimalizace na maximální rychlost
+#pragma optimize("t", on)			// optimalizace na maximÃ¡lnÃ­ rychlost
 
 
 /***************************************************************************\
@@ -17,76 +17,76 @@
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// funkce s návratem sprajtu
+// funkce s nÃ¡vratem sprajtu
 
 void _fastcall FSpriteFunc(CSprite& sprite)
 {
-// úschova indexu volané funkce
+// Ãºschova indexu volanÃ© funkce
 	int data = ExecItem[-1].Data;
 
-// úschova indexu promìnné s návratovou hodnotou
+// Ãºschova indexu promÄ›nnÃ© s nÃ¡vratovou hodnotou
 	int res = ExecItem[-1].List;
 
-// inicializace lokálních promìnnıch
+// inicializace lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 	FCommand();
 
-// úschova ukazatele programu
+// Ãºschova ukazatele programu
 	EXECITEM* oldexe = ExecItem;
 
-// nová adresa programu
+// novÃ¡ adresa programu
 	ExecItem = ProgBuf + data;
 
-// kontrola hloubky vnoøení
+// kontrola hloubky vnoÅ™enÃ­
 	Hloubka--;
 	if (Hloubka >= 0)
 	{
 
-// vyvolání funkce
+// vyvolÃ¡nÃ­ funkce
 		FCommand();
 	}
 	Hloubka++;
 
-// návrat adresy programu
+// nÃ¡vrat adresy programu
 	ExecItem = oldexe;
 
-// zrušení poadavku o pøerušení
+// zruÅ¡enÃ­ poÅ¾adavku o pÅ™eruÅ¡enÃ­
 	Break &= ~(BREAKFUNC | BREAKWHILE);
 
-// návrat vısledku operace
+// nÃ¡vrat vÃ½sledku operace
 	sprite = Sprite[Sprite.Num() - res];
 
-// zrušení lokálních promìnnıch
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 	FCommand();
 }
 
 
 /***************************************************************************\
 *																			*
-*								promìnné									*
+*								promÄ›nnÃ©									*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// prázdnı sprajt
+// prÃ¡zdnÃ½ sprajt
 
 void _fastcall FSpriteEmpty(CSprite& sprite) { sprite.Empty(); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// globální sprajt (Data = index)
+// globÃ¡lnÃ­ sprajt (Data = index)
 
 void _fastcall FSpriteObj(CSprite& sprite)
 {
 // index sprajtu
 	int inx = ExecItem[-1].Data;
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	sprite = Sprite[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// globalní sprajt v seznamu (Data = index, List = seznam)
+// globalnÃ­ sprajt v seznamu (Data = index, List = seznam)
 
 void _fastcall FSpriteObjList(CSprite& sprite)
 {
@@ -97,26 +97,26 @@ void _fastcall FSpriteObjList(CSprite& sprite)
 	int inx = ExecItem[-1].Data;
 	inx += List.AutoIncInx(list);
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	sprite = Sprite[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// lokální sprajt (Data = index)
+// lokÃ¡lnÃ­ sprajt (Data = index)
 
 void _fastcall FSpriteLoc(CSprite& sprite)
 {
 // index sprajtu
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	sprite = Sprite[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// lokální sprajt v seznamu (Data = index, List = seznam)
+// lokÃ¡lnÃ­ sprajt v seznamu (Data = index, List = seznam)
 
 void _fastcall FSpriteLocList(CSprite& sprite)
 {
@@ -127,12 +127,12 @@ void _fastcall FSpriteLocList(CSprite& sprite)
 	int inx = Sprite.Num() - ExecItem[-1].Data;
 	inx += List.AutoIncInx(list);
 
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 	sprite = Sprite[inx];
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení sprajtu ze souboru
+// naÄtenÃ­ sprajtu ze souboru
 
 void _fastcall FGetFileSprite(CSprite& sprite)
 {

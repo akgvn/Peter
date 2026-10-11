@@ -12,35 +12,35 @@ namespace HistEdit
 {
 
 /////////////////////////////////////////////////////////////////////////////
-// poloka historie editace
+// poloÅ¾ka historie editace
 
 typedef struct HISTITEM_ {
-	int		BufID;						// editovanı buffer
-	int		Index;						// editovaná poloka (-2 = obrázek sprajtu)
-	int		Select;						// aktivní poloka editoru programu
-	int		First;						// horní øádek v programu
-	int		Left;						// levı poèátek obrázku
-	int		Bottom;						// spodní poèátek obrázku
-	int		Sprite;						// index sprajtu editovaného obrázku
-	int		Picture;					// editovanı obrázek sprajtu (relativnì)
+	int		BufID;						// editovanÃ½ buffer
+	int		Index;						// editovanÃ¡ poloÅ¾ka (-2 = obrÃ¡zek sprajtu)
+	int		Select;						// aktivnÃ­ poloÅ¾ka editoru programu
+	int		First;						// hornÃ­ Å™Ã¡dek v programu
+	int		Left;						// levÃ½ poÄÃ¡tek obrÃ¡zku
+	int		Bottom;						// spodnÃ­ poÄÃ¡tek obrÃ¡zku
+	int		Sprite;						// index sprajtu editovanÃ©ho obrÃ¡zku
+	int		Picture;					// editovanÃ½ obrÃ¡zek sprajtu (relativnÄ›)
 } HISTITEM;
 
-#define SIZEOFHISTITEM (8*sizeof(int))	// velikost poloky
+#define SIZEOFHISTITEM (8*sizeof(int))	// velikost poloÅ¾ky
 
-#define MAXHISTITEM 128					// maximální poèet poloek v bufferu
+#define MAXHISTITEM 128					// maximÃ¡lnÃ­ poÄet poloÅ¾ek v bufferu
 
 /////////////////////////////////////////////////////////////////////////////
 // parametry
 
-HISTITEM*	m_Buf = NULL;				// buffer poloek historie
-int			m_Num = 0;					// poèet poloek v bufferu historie
+HISTITEM*	m_Buf = NULL;				// buffer poloÅ¾ek historie
+int			m_Num = 0;					// poÄet poloÅ¾ek v bufferu historie
 int			m_Max = 0;					// velikost bufferu historie
-int			m_Akt = 0;					// aktivní poloka v bufferu
-int			m_Fill = FALSE;				// probíhá navracení historie
+int			m_Akt = 0;					// aktivnÃ­ poloÅ¾ka v bufferu
+int			m_Fill = FALSE;				// probÃ­hÃ¡ navracenÃ­ historie
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vynulování bufferu historie
+// vynulovÃ¡nÃ­ bufferu historie
 
 void DelAll()
 {
@@ -55,7 +55,7 @@ void DelAll()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení jedné poloky z bufferu
+// zruÅ¡enÃ­ jednÃ© poloÅ¾ky z bufferu
 
 void Del(int index)
 {
@@ -74,24 +74,24 @@ void Del(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení poloek v bufferu (vèetnì editované) podle dat (pro sprajt pic=-1 všechny obrázky)
-// pøi chybì pamìti vrací FALSE
+// zruÅ¡enÃ­ poloÅ¾ek v bufferu (vÄetnÄ› editovanÃ©) podle dat (pro sprajt pic=-1 vÅ¡echny obrÃ¡zky)
+// pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE
 
 bool Del(int bufID, int index, int sprite, int pic)
 {
-// kontrola, zda je reim editace a zda je to platnı buffer
+// kontrola, zda je reÅ¾im editace a zda je to platnÃ½ buffer
 	if (!ProgMode || (bufID < 0)) return true;
 
-// pøíprava ukazatele poloek
+// pÅ™Ã­prava ukazatele poloÅ¾ek
 	BOOL update = FALSE;
 	int i = m_Num - 1;
 	HISTITEM* item = m_Buf + i;
 
-// cyklus pøes všechny poloky dolù
+// cyklus pÅ™es vÅ¡echny poloÅ¾ky dolÅ¯
 	for (; i >= 0; i--)
 	{
 
-// kontrola, zda je to hledaná poloka
+// kontrola, zda je to hledanÃ¡ poloÅ¾ka
 		if	(
 				(item->Index == index) &&
 				(item->BufID == bufID) &&
@@ -108,7 +108,7 @@ bool Del(int bufID, int index, int sprite, int pic)
 				)
 			)
 
-// vypuštìní poloky z bufferu
+// vypuÅ¡tÄ›nÃ­ poloÅ¾ky z bufferu
 		{
 			Del(i);
 			item = m_Buf + i;
@@ -117,7 +117,7 @@ bool Del(int bufID, int index, int sprite, int pic)
 		item--;
 	}
 
-// redukce duplikovanıch poloek
+// redukce duplikovanÃ½ch poloÅ¾ek
 	if (update)
 	{
 		i = m_Num - 1;
@@ -144,7 +144,7 @@ bool Del(int bufID, int index, int sprite, int pic)
 		}
 	}
 
-// kontrola, zda to je editovaná poloka
+// kontrola, zda to je editovanÃ¡ poloÅ¾ka
 	if	(
 			(EditItem == index) &&
 			(EditBuf == bufID) &&
@@ -162,7 +162,7 @@ bool Del(int bufID, int index, int sprite, int pic)
 		)
 	{
 
-// není-li v bufferu ádná poloka, navrácení hlavního editoru
+// nenÃ­-li v bufferu Å¾Ã¡dnÃ¡ poloÅ¾ka, navrÃ¡cenÃ­ hlavnÃ­ho editoru
 		if (m_Num == 0)
 		{
 			m_Fill = TRUE;
@@ -173,7 +173,7 @@ bool Del(int bufID, int index, int sprite, int pic)
 		}
 		else
 
-// jinak navrácení z aktivního ukazatele
+// jinak navrÃ¡cenÃ­ z aktivnÃ­ho ukazatele
 		{
 			if (m_Akt >= m_Num)
 			{
@@ -195,7 +195,7 @@ bool Del(int bufID, int index, int sprite, int pic)
 
 void Update()
 {
-// kontrola, zda je reim editace
+// kontrola, zda je reÅ¾im editace
 	if (!ProgMode) return;
 
 // update voleb
@@ -205,24 +205,24 @@ void Update()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení editovaného prvku do bufferu historie
+// uloÅ¾enÃ­ editovanÃ©ho prvku do bufferu historie
 
 void Push()
 {
-// kontrola, zda je reim editace
+// kontrola, zda je reÅ¾im editace
 	if (!ProgMode) return;
 
-// kontrola, zda není ukládání pøíp. zda to není první editace
+// kontrola, zda nenÃ­ uklÃ¡dÃ¡nÃ­ pÅ™Ã­p. zda to nenÃ­ prvnÃ­ editace
 	if (m_Fill || (EditBuf < 0)) return;
 
-// omezení poètu poloek v bufferu
+// omezenÃ­ poÄtu poloÅ¾ek v bufferu
 	if (m_Num >= MAXHISTITEM)
 	{
 		Del(0);
 		Update();
 	}
 
-// kontrola, zda to není stejná poloka
+// kontrola, zda to nenÃ­ stejnÃ¡ poloÅ¾ka
 	if (m_Akt > 0)
 	{
 		HISTITEM* item = m_Buf + m_Akt - 1;
@@ -246,10 +246,10 @@ void Push()
 		}
 	}
 
-// zrušení poloek za aktivním ukazatelem
+// zruÅ¡enÃ­ poloÅ¾ek za aktivnÃ­m ukazatelem
 	m_Num = m_Akt + 1;
 
-// zvìtšení bufferu
+// zvÄ›tÅ¡enÃ­ bufferu
 	if (m_Num > m_Max)
 	{
 		m_Max += 128;
@@ -265,7 +265,7 @@ void Push()
 		m_Buf = buf;
 	}
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	HISTITEM* item = m_Buf + m_Akt;
 	item->BufID = EditBuf;
 	item->Index = EditItem;
@@ -277,7 +277,7 @@ void Push()
 		item->Select = BufEdi.Select();
 	}
 
-// zvıšení ukazatele poloek
+// zvÃ½Å¡enÃ­ ukazatele poloÅ¾ek
 	m_Akt++;
 
 // aktualizace voleb
@@ -286,20 +286,20 @@ void Push()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// návrat editovaného prvku z bufferu historie (z aktivního ukazatele)
+// nÃ¡vrat editovanÃ©ho prvku z bufferu historie (z aktivnÃ­ho ukazatele)
 
 void Pop()
 {
-// kontrola, zda je reim editace
+// kontrola, zda je reÅ¾im editace
 	if (!ProgMode) return;
 
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (m_Fill || (m_Akt >= m_Num)) return;
 
-// pøíznak probíhající zmìny
+// pÅ™Ã­znak probÃ­hajÃ­cÃ­ zmÄ›ny
 	m_Fill = TRUE;
 
-// nastavení editované poloky
+// nastavenÃ­ editovanÃ© poloÅ¾ky
 	HISTITEM* item = m_Buf + m_Akt;
 	if ((item->BufID == BufPicID) && (item->Index == -2))
 	{
@@ -317,7 +317,7 @@ void Pop()
 // aktualizace fokusu
 	ProgSetFocus();
 
-// pøíznak ukonèení zmìny
+// pÅ™Ã­znak ukonÄenÃ­ zmÄ›ny
 	m_Fill = FALSE;
 
 // aktualizace voleb
@@ -326,24 +326,24 @@ void Pop()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøedešlá historie
+// pÅ™edeÅ¡lÃ¡ historie
 
 void OnPrev() 
 {
-// kontrola, zda je reim editace
+// kontrola, zda je reÅ¾im editace
 	if (!ProgMode) return;
 
 // kontrola, zda je co navracet
 	if (m_Akt == 0) return;
 
-// úschova aktuálního stavu, je-li na konci
+// Ãºschova aktuÃ¡lnÃ­ho stavu, je-li na konci
 	if (m_Akt == m_Num)
 	{
 		Push();
 		m_Akt = m_Num-1;
 	}
 
-// úschova kurzoru v bufferu
+// Ãºschova kurzoru v bufferu
 	if ((m_Akt < m_Num) &&
 		(EditMode == BufEdiID) &&
 		(m_Buf[m_Akt].BufID < PROGBUFNUM))
@@ -356,23 +356,23 @@ void OnPrev()
 	m_Akt--;
 	if (m_Akt < 0) m_Akt = 0;
 
-// obnovení poloky
+// obnovenÃ­ poloÅ¾ky
 	Pop();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// následující historie
+// nÃ¡sledujÃ­cÃ­ historie
 
 void OnNext() 
 {
-// kontrola, zda je reim editace
+// kontrola, zda je reÅ¾im editace
 	if (!ProgMode) return;
 
 // kontrola, zda je co navracet
 	if (m_Akt >= m_Num - 1) return;
 
-// úschova kurzoru v bufferu
+// Ãºschova kurzoru v bufferu
 	if ((m_Akt < m_Num) &&
 		(EditMode == BufEdiID) &&
 		(m_Buf[m_Akt].BufID < PROGBUFNUM))
@@ -384,7 +384,7 @@ void OnNext()
 // posun ukazatele
 	m_Akt++;
 
-// obnovení poloky
+// obnovenÃ­ poloÅ¾ky
 	Pop();
 }
 

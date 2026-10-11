@@ -7,117 +7,117 @@
 
 namespace EditMap
 {
-extern	BOOL	MDraging;				// pøíznak taení ikony editoru plochy
+extern	BOOL	MDraging;				// pÅ™Ã­znak taÅ¾enÃ­ ikony editoru plochy
 
-// inicializace pøi startu
+// inicializace pÅ™i startu
 	void StartInit();
 
-// zahájení editace
+// zahÃ¡jenÃ­ editace
 	void BegEdit(int index);
 
-// nastavení rozmìrù plochy
+// nastavenÃ­ rozmÄ›rÅ¯ plochy
 	void OnDimen();
 
-// ----------- obsluha zobrazení ------------
+// ----------- obsluha zobrazenÃ­ ------------
 
-// pøepoèet rozmìrù editoru ikon a obrázkù
+// pÅ™epoÄet rozmÄ›rÅ¯ editoru ikon a obrÃ¡zkÅ¯
 	void ReCalc();
 
-// zobrazení celého okna editoru
+// zobrazenÃ­ celÃ©ho okna editoru
 	void Disp();
 
-// aktualizaèní pøekreslení plochy (s pøepoètem rozmìrù)
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ plochy (s pÅ™epoÄtem rozmÄ›rÅ¯)
 	void ReDisp();
 
-// aktualizaèní pøekreslení plochy
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ plochy
 	void DispAkt(HDC dc);
 
-// zapnutí/vypnutí rastru
+// zapnutÃ­/vypnutÃ­ rastru
 	void OnRastr();
 
-// obsluha zobrazení kurzoru myši (TRUE=obsloueno)
+// obsluha zobrazenÃ­ kurzoru myÅ¡i (TRUE=obslouÅ¾eno)
 	BOOL OnSetCursor(int x, int y);
 
-// ---------------- obsluha posuvníkù ---------
+// ---------------- obsluha posuvnÃ­kÅ¯ ---------
 
-// pøesun posuvníkù pøi zmìnì rozmìrù okna
+// pÅ™esun posuvnÃ­kÅ¯ pÅ™i zmÄ›nÄ› rozmÄ›rÅ¯ okna
 	HDWP MoveScroll(HDWP hdwp);
 
-// aktualizace zobrazení posuvníkù
+// aktualizace zobrazenÃ­ posuvnÃ­kÅ¯
 	void SetScroll();
 
-// aktualizace pozice editaèního pole
+// aktualizace pozice editaÄnÃ­ho pole
 	void SetEditMapNum();
 
-// horizontální posuvník
+// horizontÃ¡lnÃ­ posuvnÃ­k
 	void OnHScroll(int code, int pos);
 
-// vertikální posuvník
+// vertikÃ¡lnÃ­ posuvnÃ­k
 	void OnVScroll(int code, int pos);
 
 // -------------- obsluha editace -----------
 
-// zahájení editace èíselného parametru
+// zahÃ¡jenÃ­ editace ÄÃ­selnÃ©ho parametru
 	void BegEditSwcNum(int x, int y);
 
-// zmìna editovaného èísla
+// zmÄ›na editovanÃ©ho ÄÃ­sla
 	void OnChangeEditSwcNum();
 
-// ukonèení editace èísla
+// ukonÄenÃ­ editace ÄÃ­sla
 	void EndEditSwcNum();
 
-// ukonèení taení
+// ukonÄenÃ­ taÅ¾enÃ­
 	void EndDrag();
 
-// stisk tlaèítka myši (TRUE = obsloueno)
+// stisk tlaÄÃ­tka myÅ¡i (TRUE = obslouÅ¾eno)
 	BOOL OnButtonDown(UINT flags, int x, int y, BOOL right, BOOL dclick);
 
-// posun myši
+// posun myÅ¡i
 	void OnMouseMove(UINT flags, int x, int y);
 
-// uvolnìní tlaèítka myši
+// uvolnÄ›nÃ­ tlaÄÃ­tka myÅ¡i
 	void OnButtonUp(UINT keys, BOOL right);
 
-// poloení ikony zvnìjšku
+// poloÅ¾enÃ­ ikony zvnÄ›jÅ¡ku
 	void DragDrop(int icon);
 
-// vstup klávesy z klávesnice (TRUE=obsloueno)
+// vstup klÃ¡vesy z klÃ¡vesnice (TRUE=obslouÅ¾eno)
 	BOOL OnKeyDown(int key);
 
-// nastavení editaèního módu
+// nastavenÃ­ editaÄnÃ­ho mÃ³du
 	void SetMode(int mode);
 
-// aktualizace voleb vıbìru módu
+// aktualizace voleb vÃ½bÄ›ru mÃ³du
 	void UpdateMenu();
 
 // -------------- obsluha bloku -----------
 
-// vıbìr všeho
+// vÃ½bÄ›r vÅ¡eho
 	void SelectAll();
 
-// zrušení bloku
+// zruÅ¡enÃ­ bloku
 	void Delete();
 
 // kopie bloku
 	void Copy();
 
-// vystøíení bloku
+// vystÅ™Ã­Å¾enÃ­ bloku
 	void Cut();
 
-// navrácení bloku
+// navrÃ¡cenÃ­ bloku
 	void Paste();
 
 // aktualizace voleb bloku
 	void UpdateClipboard();
 
-// mód vıplnì
+// mÃ³d vÃ½plnÄ›
 	void OnFillMap();
 
-// editaèní mód
+// editaÄnÃ­ mÃ³d
 	void OnEditMap();
 
 // -------------- obsluha UNDO -------------
 
-// úschova plochy pro UNDO
+// Ãºschova plochy pro UNDO
 	void PushUndo();
 }

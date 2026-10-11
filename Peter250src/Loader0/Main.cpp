@@ -1,18 +1,18 @@
 
-#pragma warning ( disable: 4201)		// hlášení - nepojmenovaná struktura
-#include <windows.h>					// základní definice WINDOWS
-#pragma warning ( default: 4201)		// hlášení - nepojmenovaná struktura
+#pragma warning ( disable: 4201)		// hlÃ¡Å¡enÃ­ - nepojmenovanÃ¡ struktura
+#include <windows.h>					// zÃ¡kladnÃ­ definice WINDOWS
+#pragma warning ( default: 4201)		// hlÃ¡Å¡enÃ­ - nepojmenovanÃ¡ struktura
 
-#pragma warning ( disable: 4100)		// hlášení - nepouitı formální parametr
-#pragma warning ( disable: 4514)		// hlášení - odstranìna inline funkce
+#pragma warning ( disable: 4100)		// hlÃ¡Å¡enÃ­ - nepouÅ¾itÃ½ formÃ¡lnÃ­ parametr
+#pragma warning ( disable: 4514)		// hlÃ¡Å¡enÃ­ - odstranÄ›na inline funkce
 
 #include "Resource.h"
 
 //////////////////////////////////////////////////////////////////////////////
-// Data v datovém bloku jsou nutná, aby bylo dost sekcí pro vytvoøení sekce Petra
-char DATAsize[] =									// buffer importù od pøekladaèe
+// Data v datovÃ©m bloku jsou nutnÃ¡, aby bylo dost sekcÃ­ pro vytvoÅ™enÃ­ sekce Petra
+char DATAsize[] =									// buffer importÅ¯ od pÅ™ekladaÄe
 {
-	"DATAsize"										// sem bude uloena adresa a velikost dat, souèasnì je to identifikátor
+	"DATAsize"										// sem bude uloÅ¾ena adresa a velikost dat, souÄasnÄ› je to identifikÃ¡tor
 };
 
 LPCTSTR ProductKey0 = "Software\\Gemtree Software\\Peter";
@@ -22,7 +22,7 @@ void WinMainCRTStartup()
 	DWORD num = 0;
 	HKEY hkey;
 
-// zjištìní jazyku spuštìného Petra
+// zjiÅ¡tÄ›nÃ­ jazyku spuÅ¡tÄ›nÃ©ho Petra
 	if (::RegOpenKeyEx(
 		HKEY_LOCAL_MACHINE,
 		ProductKey0,
@@ -54,13 +54,13 @@ void WinMainCRTStartup()
 
 	switch (num)
 	{
-// èesky
+// Äesky
 	case 0x05:
-		nadp = "Nespustitelnı program";
-		text = "Tento program byl vytvoøen programovacím nástrojem Petr\na je nyní uloen v nespustitelné formì.";
+		nadp = "NespustitelnÃ½ program";
+		text = "Tento program byl vytvoÅ™en programovacÃ­m nÃ¡strojem Petr\na je nynÃ­ uloÅ¾en v nespustitelnÃ© formÄ›.";
 		break;
 
-// nìmecky
+// nÄ›mecky
 	case 0x07:
 		nadp = "Speicherplatzmangel";
 		text = "Dieses Programm wurde mit dem Programmiermittel Peter hergestellt.\nJetzt ist es in einer nicht startbaren Form gespeichert.";
@@ -68,8 +68,8 @@ void WinMainCRTStartup()
 
 // slovensky
 	case 0x1b:
-		nadp = "Nespustite¾nı program";
-		text = "Tento program bol vytvorenı programovacím nástrojom Peter\na je teraz uloenı v nespustite¾nej forme.";
+		nadp = "NespustiteÄ¾nÃ½ program";
+		text = "Tento program bol vytvorenÃ½ programovacÃ­m nÃ¡strojom Peter\na je teraz uloÅ¾enÃ½ v nespustiteÄ¾nej forme.";
 		break;
 
 // anglicky

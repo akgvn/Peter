@@ -5,96 +5,96 @@
 /***************************************************************************\
 *																			*
 *							Komprese/dekomprese dat							*
-*					(pozor - nepodporuje vícetokovı reim!)					*
+*					(pozor - nepodporuje vÃ­cetokovÃ½ reÅ¾im!)					*
 *																			*
 \***************************************************************************/
 
 
 //////////////////////////////////////////////////////////////////////////////
-// kódovací diagram:
+// kÃ³dovacÃ­ diagram:
 /*
 						  |
 	+----------0--------(1 bit)-----1-----------+
- pøenos										opakování
-následujícího									|
+ pÅ™enos										opakovÃ¡nÃ­
+nÃ¡sledujÃ­cÃ­ho									|
   bajtu						+-----------0----(1 bit)-----------1----------------+
-						opakování											opakování
-						pøedešlého											pøedešlé
+						opakovÃ¡nÃ­											opakovÃ¡nÃ­
+						pÅ™edeÅ¡lÃ©ho											pÅ™edeÅ¡lÃ©
 						  bajtu												  linky
 						    |													|
 			+-------0-----(1 bit)---1---+							+-----0--(1 bit)------1-----+
-		poèet=1							|						 délka=1						|
+		poÄet=1							|						 dÃ©lka=1						|
 						+-----000----(3 bity)---jinak---+					 +-----000-----(3 bity)----jinak---+
 						|				|				|					 |					|			   |
 						|			   001				|					 |				   001			   |
-					 poèet=15			|		 poèet=2 a 7			délka=15				|		   délka=2 a 7
-									1x opakování										  1x opakování
-								  pøed-pøedešlého										 dalšího bajtu
-									  bajtu												 pøedešlé linky
+					 poÄet=15			|		 poÄet=2 aÅ¾ 7			dÃ©lka=15				|		   dÃ©lka=2 aÅ¾ 7
+									1x opakovÃ¡nÃ­										  1x opakovÃ¡nÃ­
+								  pÅ™ed-pÅ™edeÅ¡lÃ©ho										 dalÅ¡Ã­ho bajtu
+									  bajtu												 pÅ™edeÅ¡lÃ© linky
 */
 
-#define SUBSTLEN 22		// náhradní délka (pro kód = 0)
+#define SUBSTLEN 22		// nÃ¡hradnÃ­ dÃ©lka (pro kÃ³d = 0)
 
 //////////////////////////////////////////////////////////////////////////////
-// lokální promìnné pro kompresi
+// lokÃ¡lnÃ­ promÄ›nnÃ© pro kompresi
 
-// vıstupní buffer
-BYTE*	DstBuf;					// adresa vıstupního bufferu
-BYTE*	DstAdr;					// ukládací adresa do vıstupního bufferu
-int		DstNum;					// velikost zbylıch vıstupních dat (pøi dekompresi)
+// vÃ½stupnÃ­ buffer
+BYTE*	DstBuf;					// adresa vÃ½stupnÃ­ho bufferu
+BYTE*	DstAdr;					// uklÃ¡dacÃ­ adresa do vÃ½stupnÃ­ho bufferu
+int		DstNum;					// velikost zbylÃ½ch vÃ½stupnÃ­ch dat (pÅ™i dekompresi)
 
-// vstupní buffer
-BYTE*	SrcBuf;					// adresa vstupního bufferu
-BYTE*	SrcAdr;					// ètecí adresa ze vstupního bufferu
-int		SrcNum;					// velikost zbylıch vstupních dat (pøi kompresi)
+// vstupnÃ­ buffer
+BYTE*	SrcBuf;					// adresa vstupnÃ­ho bufferu
+BYTE*	SrcAdr;					// ÄtecÃ­ adresa ze vstupnÃ­ho bufferu
+int		SrcNum;					// velikost zbylÃ½ch vstupnÃ­ch dat (pÅ™i kompresi)
 
-// kompresní buffer (první 2 bajty je stavové slovo støadaèe bitù)
-int		BitBit;					// poèet bitù ve stavovém slovì
-int		BitNum;					// poèet bajtù ve vyrovnávacím bufferu
-BYTE	BitBuf[100];			// vyrovnávací vıstupní buffer
+// kompresnÃ­ buffer (prvnÃ­ 2 bajty je stavovÃ© slovo stÅ™adaÄe bitÅ¯)
+int		BitBit;					// poÄet bitÅ¯ ve stavovÃ©m slovÄ›
+int		BitNum;					// poÄet bajtÅ¯ ve vyrovnÃ¡vacÃ­m bufferu
+BYTE	BitBuf[100];			// vyrovnÃ¡vacÃ­ vÃ½stupnÃ­ buffer
 
-// dekompresní buffer
-WORD	StatBit;				// stavové slovo
+// dekompresnÃ­ buffer
+WORD	StatBit;				// stavovÃ© slovo
 
 //////////////////////////////////////////////////////////////////////////////
-// zápis vyrovnávacího bufferu øetìzce
+// zÃ¡pis vyrovnÃ¡vacÃ­ho bufferu Å™etÄ›zce
 
 void WriteBuf()
 {
-	int n = BitNum;				// poèet bajtù ve vyrovnávacím bufferu
-	MemCopy(DstAdr, BitBuf, n);	// zápis dat do bufferu
-	DstAdr += n;				// posun ukládací adresy do bufferu
-	BitNum = 2;					// novı poèet bajtù v bufferu (= stavové slovo)
+	int n = BitNum;				// poÄet bajtÅ¯ ve vyrovnÃ¡vacÃ­m bufferu
+	MemCopy(DstAdr, BitBuf, n);	// zÃ¡pis dat do bufferu
+	DstAdr += n;				// posun uklÃ¡dacÃ­ adresy do bufferu
+	BitNum = 2;					// novÃ½ poÄet bajtÅ¯ v bufferu (= stavovÃ© slovo)
 }
 
 
 //////////////////////////////////////////////////////////////////////////////
-// zápis skupiny bitù do stavového slova
+// zÃ¡pis skupiny bitÅ¯ do stavovÃ©ho slova
 
 void _fastcall WriteBit(int data, int num)
 {
-// pøidání bitù ke støadaèi bitù
-	int i = BitBit;				// starı poèet bitù ve stavovém slovì
-	data <<= i;					// rotace novıch dat na pozici
-	*(WORD*)BitBuf |= (WORD)data; // pøidání novıch dat
+// pÅ™idÃ¡nÃ­ bitÅ¯ ke stÅ™adaÄi bitÅ¯
+	int i = BitBit;				// starÃ½ poÄet bitÅ¯ ve stavovÃ©m slovÄ›
+	data <<= i;					// rotace novÃ½ch dat na pozici
+	*(WORD*)BitBuf |= (WORD)data; // pÅ™idÃ¡nÃ­ novÃ½ch dat
 
-// pøi pøeteèení poètu bitù zápis øetìzce
-	i += num;					// novı poèet bitù
+// pÅ™i pÅ™eteÄenÃ­ poÄtu bitÅ¯ zÃ¡pis Å™etÄ›zce
+	i += num;					// novÃ½ poÄet bitÅ¯
 	if (i > 16)
 	{
-		WriteBuf();				// zápis vyrovnávacího bufferu
-		i -= 16;				// sníenı poèet bitù ve støadaèi
-		data >>= 16;			// neuloená data
-		*(WORD*)BitBuf = (WORD)data; // zbylé neuloené bity
+		WriteBuf();				// zÃ¡pis vyrovnÃ¡vacÃ­ho bufferu
+		i -= 16;				// snÃ­Å¾enÃ½ poÄet bitÅ¯ ve stÅ™adaÄi
+		data >>= 16;			// neuloÅ¾enÃ¡ data
+		*(WORD*)BitBuf = (WORD)data; // zbylÃ© neuloÅ¾enÃ© bity
 	}
 
-// novı poèet bitù støadaèe
+// novÃ½ poÄet bitÅ¯ stÅ™adaÄe
 	BitBit = i;
 }
 
 
 //////////////////////////////////////////////////////////////////////////////
-// pøenos bajtu beze zmìny
+// pÅ™enos bajtu beze zmÄ›ny
 
 void WriteByte()
 {
@@ -108,38 +108,38 @@ void WriteByte()
 
 //////////////////////////////////////////////////////////////////////////////
 // komprese dat
-//		dst = vıstupní buffer (mìl by bıt minimálnì o 1/8 vìtší ne vstupní buffer)
-//		src = vstupní buffer s daty
+//		dst = vÃ½stupnÃ­ buffer (mÄ›l by bÃ½t minimÃ¡lnÄ› o 1/8 vÄ›tÅ¡Ã­ neÅ¾ vstupnÃ­ buffer)
+//		src = vstupnÃ­ buffer s daty
 //		size = velikost dat ke kompresi
-//		width = délka linky bitmapy (pro offset pøedešlé linky)
-// vıstup: velikost dat ve vıstupním bufferu
+//		width = dÃ©lka linky bitmapy (pro offset pÅ™edeÅ¡lÃ© linky)
+// vÃ½stup: velikost dat ve vÃ½stupnÃ­m bufferu
 
 int Compress(BYTE* dst, BYTE* src, int size, int width)
 {
-// vıstupní buffer
+// vÃ½stupnÃ­ buffer
 	DstBuf = dst;
 	DstAdr = dst;
 
-// vstupní buffer
+// vstupnÃ­ buffer
 	SrcBuf = src;
 	SrcAdr = src;
 	SrcNum = size;
 	if (size <= 0) return 0;
 	if ((width > size) || (width <= 1)) width = size;
 
-// vyrovnávací buffer øetìzce
-	BitBit = 0;					// poèet bitù ve stavovém slovì
-	BitNum = 2;					// poèet bajtù ve vyrovnávacím bufferu
-	*(WORD*)BitBuf = 0;			// stavové slovo (støadaè bitù)
+// vyrovnÃ¡vacÃ­ buffer Å™etÄ›zce
+	BitBit = 0;					// poÄet bitÅ¯ ve stavovÃ©m slovÄ›
+	BitNum = 2;					// poÄet bajtÅ¯ ve vyrovnÃ¡vacÃ­m bufferu
+	*(WORD*)BitBuf = 0;			// stavovÃ© slovo (stÅ™adaÄ bitÅ¯)
 
-// první bajt se pøenese beze zmìny
+// prvnÃ­ bajt se pÅ™enese beze zmÄ›ny
 	WriteByte();
 
-// cyklus komprese pro první linku
+// cyklus komprese pro prvnÃ­ linku
 	for (int i = width; (i > 0) && (SrcNum > 0); i--)
 	{
 
-// opakování pøedešlého bajtu
+// opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ©ho bajtu
 		BYTE d = SrcAdr[-1];
 
 		for (int j = 0; (j < SrcNum) && (d == SrcAdr[j]); j++) {};
@@ -176,7 +176,7 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 		else
 		{
 
-// opakování pøed-pøedešlého bajtu
+// opakovÃ¡nÃ­ pÅ™ed-pÅ™edeÅ¡lÃ©ho bajtu
 			if ((SrcAdr > SrcBuf + 1) && (SrcAdr[0] == SrcAdr[-2]))
 			{
 				WriteBit(0xd, 6);
@@ -186,7 +186,7 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 			else
 			{
 
-// pøenos bajtu beze zmìny
+// pÅ™enos bajtu beze zmÄ›ny
 				WriteByte();
 			}
 		}
@@ -196,20 +196,20 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 	for (; SrcNum > 0;)
 	{
 
-// zjištìní délky opakování pøedešlého bajtu
+// zjiÅ¡tÄ›nÃ­ dÃ©lky opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ©ho bajtu
 		BYTE d = SrcAdr[-1];
 		int j;
 		for (j = 0; (j < SrcNum) && (d == SrcAdr[j]); j++) {};
 
-// zjištìní délky opakování pøedešlé linky
+// zjiÅ¡tÄ›nÃ­ dÃ©lky opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ© linky
 		int  k;
 		for (k = 0; (k < SrcNum) && (SrcAdr[k-width] == SrcAdr[k]); k++) {};
 
-// test, zda bude opakování
+// test, zda bude opakovÃ¡nÃ­
 		if ((j > 0) || (k > 0))
 		{
 
-// bude opakování pøedešlého bajtu
+// bude opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ©ho bajtu
 			if (j >= k)
 			{
 				SrcAdr += j;
@@ -240,7 +240,7 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 				}
 			}
 
-// bude opakování pøedešlé linky
+// bude opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ© linky
 			else
 			{
 				SrcAdr += k;
@@ -274,7 +274,7 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 		else
 		{
 
-// opakování pøed-pøedešlého bajtu
+// opakovÃ¡nÃ­ pÅ™ed-pÅ™edeÅ¡lÃ©ho bajtu
 			if (SrcAdr[0] == SrcAdr[-2])
 			{
 				WriteBit(0xd, 6);
@@ -284,7 +284,7 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 			else
 			{
 
-// opakování dalšího bajtu pøedešlé linky
+// opakovÃ¡nÃ­ dalÅ¡Ã­ho bajtu pÅ™edeÅ¡lÃ© linky
 				if (SrcAdr[0] == SrcAdr[1-width])
 				{
 					WriteBit(0xf, 6);
@@ -294,23 +294,23 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 				else
 				{
 
-// pøenos bajtu beze zmìny
+// pÅ™enos bajtu beze zmÄ›ny
 					WriteByte();
 				}
 			}
 		}
 	}
 
-// vyprázdnìní zbytku dat
+// vyprÃ¡zdnÄ›nÃ­ zbytku dat
 	WriteBuf();
 
-// poèet bajtù ve vıstupním bufferu
+// poÄet bajtÅ¯ ve vÃ½stupnÃ­m bufferu
 	return (DstAdr-DstBuf);
 }
 
 
 //////////////////////////////////////////////////////////////////////////////
-// naètení bitu pøi dekompresi
+// naÄtenÃ­ bitu pÅ™i dekompresi
 
 BOOL ReadBit()
 {
@@ -332,18 +332,18 @@ BOOL ReadBit()
 
 //////////////////////////////////////////////////////////////////////////////
 // dekomprese dat
-//		dst = vıstupní buffer
-//		src = vstupní buffer s daty
-//		size = velikost vıstupních dat (nezkomprimovanıch)
-//		width = délka linky bitmapy (pro offset pøedešlé linky)
+//		dst = vÃ½stupnÃ­ buffer
+//		src = vstupnÃ­ buffer s daty
+//		size = velikost vÃ½stupnÃ­ch dat (nezkomprimovanÃ½ch)
+//		width = dÃ©lka linky bitmapy (pro offset pÅ™edeÅ¡lÃ© linky)
 
 void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 {
-// vıstupní buffer
+// vÃ½stupnÃ­ buffer
 	DstBuf = dst;
 	DstAdr = dst;
 
-// vstupní buffer
+// vstupnÃ­ buffer
 	SrcBuf = src;
 	SrcAdr = src;
 	SrcNum = size;
@@ -352,11 +352,11 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 
 	StatBit = 0;
 
-// cyklus pøes poadovaná data
+// cyklus pÅ™es poÅ¾adovanÃ¡ data
 	for (; size > 0;)
 	{
 
-// pøenos bajtu beze zmìny
+// pÅ™enos bajtu beze zmÄ›ny
 		if (!ReadBit())
 		{
 			*DstAdr = *SrcAdr;
@@ -365,15 +365,15 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 			size--;
 		}
 
-// bude opakování
+// bude opakovÃ¡nÃ­
 		else
 		{
 
-// bude opakování pøedešlého bajtu
+// bude opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ©ho bajtu
 			if (!ReadBit())
 			{
 
-// opakování jednoho bajtu
+// opakovÃ¡nÃ­ jednoho bajtu
 				if (!ReadBit())
 				{
 					*DstAdr = DstAdr[-1];
@@ -381,7 +381,7 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 					size--;
 				}
 
-// naètení délky dat
+// naÄtenÃ­ dÃ©lky dat
 				else
 				{
 					int n = 0;
@@ -389,7 +389,7 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 					if (ReadBit()) n |= 2;
 					if (ReadBit()) n |= 4;
 
-// opakování bajtu
+// opakovÃ¡nÃ­ bajtu
 					switch (n)
 					{
 					case 1:
@@ -416,11 +416,11 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 				}
 			}
 
-// bude opakování pøedešlé linky
+// bude opakovÃ¡nÃ­ pÅ™edeÅ¡lÃ© linky
 			else
 			{
 
-// opakování jednoho bajtu
+// opakovÃ¡nÃ­ jednoho bajtu
 				if (!ReadBit())
 				{
 					*DstAdr = DstAdr[width];
@@ -428,7 +428,7 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 					size--;
 				}
 
-// naètení délky dat
+// naÄtenÃ­ dÃ©lky dat
 				else
 				{
 					int n = 0;
@@ -436,7 +436,7 @@ void DeCompress(BYTE* dst, BYTE* src, int size, int width)
 					if (ReadBit()) n |= 2;
 					if (ReadBit()) n |= 4;
 
-// opakování bajtu
+// opakovÃ¡nÃ­ bajtu
 					switch (n)
 					{
 					case 1:

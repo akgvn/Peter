@@ -7,38 +7,38 @@
 
 namespace EditText
 {
-	extern	int		Index;						// editovaná poloka
+	extern	int		Index;						// editovanÃ¡ poloÅ¾ka
 
-// opakovaná inicializace po zmìnì jazyku
+// opakovanÃ¡ inicializace po zmÄ›nÄ› jazyku
 	void StartReInit();
 
-// inicializace pøi startu
+// inicializace pÅ™i startu
 	void StartInit();
 
-// zahájení editace
+// zahÃ¡jenÃ­ editace
 	void BegEdit(int index);
 
-// pøesun editaèního pole
+// pÅ™esun editaÄnÃ­ho pole
 	HDWP MoveEdit(HDWP hdwp);
 
-// vıbìr všeho
+// vÃ½bÄ›r vÅ¡eho
 	void SelectAll();
 
-// zrušení bloku
+// zruÅ¡enÃ­ bloku
 	void Delete();
 
 // kopie bloku
 	void Copy();
 
-// vystøíení bloku
+// vystÅ™Ã­Å¾enÃ­ bloku
 	void Cut();
 
-// navrácení bloku
+// navrÃ¡cenÃ­ bloku
 	void Paste();
 
 // aktualizace voleb bloku
 	void UpdateClipboard();
 
-// zmìna textu
+// zmÄ›na textu
 	void OnChange();
 }

@@ -5,34 +5,34 @@
 *																			*
 \***************************************************************************/
 
-// poloka UNDO/REDO bufferu (32 bajtù)
+// poloÅ¾ka UNDO/REDO bufferu (32 bajtÅ¯)
 typedef struct UNDOITEM_
 {
-	BOOL	Stop;					// (4) pøíznak konce záznamu operace
-	long	Oper;					// (4) provádìná operace
-	long	BufID;					// (4) ID bufferu, ve kterém se operace provádí
-	long	Index;					// (4) index poloky, se kterou se operace provádí
-	long	DatBufID;				// (4) ID bufferu uschovanıch dat (-1 = není)
-	long	DatIndex;				// (4) index uschovanıch dat (-1 = nejsou data)
-	long	Param1;					// (4) parametr 1 (pøi pøesunu pùvodní rodiè)
-	long	Param2;					// (4) parametr 2 (pøi pøesunu pùvodní pøedchozí poloka)
+	BOOL	Stop;					// (4) pÅ™Ã­znak konce zÃ¡znamu operace
+	long	Oper;					// (4) provÃ¡dÄ›nÃ¡ operace
+	long	BufID;					// (4) ID bufferu, ve kterÃ©m se operace provÃ¡dÃ­
+	long	Index;					// (4) index poloÅ¾ky, se kterou se operace provÃ¡dÃ­
+	long	DatBufID;				// (4) ID bufferu uschovanÃ½ch dat (-1 = nenÃ­)
+	long	DatIndex;				// (4) index uschovanÃ½ch dat (-1 = nejsou data)
+	long	Param1;					// (4) parametr 1 (pÅ™i pÅ™esunu pÅ¯vodnÃ­ rodiÄ)
+	long	Param2;					// (4) parametr 2 (pÅ™i pÅ™esunu pÅ¯vodnÃ­ pÅ™edchozÃ­ poloÅ¾ka)
 } UNDOITEM;
 
-#define SIZEOFUNDOITEM	(sizeof(BOOL) + 7*sizeof(long)) // velikost poloky
+#define SIZEOFUNDOITEM	(sizeof(BOOL) + 7*sizeof(long)) // velikost poloÅ¾ky
 
 enum UndoOper {
-	UNDO_DELETE,					// zrušení poloky
-	UNDO_INSERT,					// vloení poloky
-	UNDO_MOVE,						// pøesun poloky v bufferu
-	UNDO_LOCK,						// pøepnutí pøiznaku LOCK poloky
-	UNDO_OFF,						// pøepnutí pøíznaku OFF poloky
-	UNDO_NAME,						// zmìna jména poloky
-	UNDO_NAMESET,					// nastavení jména poloky
-	UNDO_ICON,						// zmìna ikony poloky
-	UNDO_SET,						// zmìna dat
-	UNDO_SETFIX,					// zmìna dat zafixovaná proti minimalizaci
-	UNDO_SETICON,					// zmìna ikony plochy
-	UNDO_SETPIC,					// zmìna obrázku sprajtu
+	UNDO_DELETE,					// zruÅ¡enÃ­ poloÅ¾ky
+	UNDO_INSERT,					// vloÅ¾enÃ­ poloÅ¾ky
+	UNDO_MOVE,						// pÅ™esun poloÅ¾ky v bufferu
+	UNDO_LOCK,						// pÅ™epnutÃ­ pÅ™iznaku LOCK poloÅ¾ky
+	UNDO_OFF,						// pÅ™epnutÃ­ pÅ™Ã­znaku OFF poloÅ¾ky
+	UNDO_NAME,						// zmÄ›na jmÃ©na poloÅ¾ky
+	UNDO_NAMESET,					// nastavenÃ­ jmÃ©na poloÅ¾ky
+	UNDO_ICON,						// zmÄ›na ikony poloÅ¾ky
+	UNDO_SET,						// zmÄ›na dat
+	UNDO_SETFIX,					// zmÄ›na dat zafixovanÃ¡ proti minimalizaci
+	UNDO_SETICON,					// zmÄ›na ikony plochy
+	UNDO_SETPIC,					// zmÄ›na obrÃ¡zku sprajtu
 };
 
 
@@ -42,70 +42,70 @@ enum UndoOper {
 class CBufUndo
 {
 
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
-	UNDOITEM*	m_UndoData;			// ukazatel na buffer UNDO poloek
-	int			m_UndoNum;			// poèet UNDO poloek v bufferu
-	int			m_UndoMax;			// velikost UNDO bufferu (poloek)
-	int			m_UndoSize;			// celková velikost dat pro UNDO
-	int			m_UndoLimit;		// omezení velikosti dat pro UNDO
-	int			m_UndoRecs;			// poèet záznamù v UNDO bufferu
+// promÄ›nnÃ©
+	UNDOITEM*	m_UndoData;			// ukazatel na buffer UNDO poloÅ¾ek
+	int			m_UndoNum;			// poÄet UNDO poloÅ¾ek v bufferu
+	int			m_UndoMax;			// velikost UNDO bufferu (poloÅ¾ek)
+	int			m_UndoSize;			// celkovÃ¡ velikost dat pro UNDO
+	int			m_UndoLimit;		// omezenÃ­ velikosti dat pro UNDO
+	int			m_UndoRecs;			// poÄet zÃ¡znamÅ¯ v UNDO bufferu
 
-	UNDOITEM*	m_RedoData;			// ukazatel na buffer REDO poloek
-	int			m_RedoNum;			// poèet REDO poloek v bufferu
-	int			m_RedoMax;			// velikost REDO bufferu (poloek)
-	int			m_RedoRecs;			// poèet záznamù v REDO bufferu
+	UNDOITEM*	m_RedoData;			// ukazatel na buffer REDO poloÅ¾ek
+	int			m_RedoNum;			// poÄet REDO poloÅ¾ek v bufferu
+	int			m_RedoMax;			// velikost REDO bufferu (poloÅ¾ek)
+	int			m_RedoRecs;			// poÄet zÃ¡znamÅ¯ v REDO bufferu
 
-	CBufProg	m_Prog;				// (BufEdiID) programovı buffer
-	CBufReal	m_Real;				// (BufNumID) buffer èísel
-	CBufMultiText	m_Text;			// (BufTxtID) buffer textù
-	CBufBool	m_Bool;				// (BufLogID) buffer logickıch hodnot
+	CBufProg	m_Prog;				// (BufEdiID) programovÃ½ buffer
+	CBufReal	m_Real;				// (BufNumID) buffer ÄÃ­sel
+	CBufMultiText	m_Text;			// (BufTxtID) buffer textÅ¯
+	CBufBool	m_Bool;				// (BufLogID) buffer logickÃ½ch hodnot
 	CBufIcon	m_Icon;				// (BufIcoID) buffer ikon
 	CBufMap		m_Map;				// (BufMapID) buffer ploch
-	CBufPic		m_Picture;			// (BufPicID) buffer obrázkù
-	CBufSprite	m_Sprite;			// (BufSprID) buffer sprajtù
-	CBufSound	m_Sound;			// (BufSndID) buffer zvukù
+	CBufPic		m_Picture;			// (BufPicID) buffer obrÃ¡zkÅ¯
+	CBufSprite	m_Sprite;			// (BufSprID) buffer sprajtÅ¯
+	CBufSound	m_Sound;			// (BufSndID) buffer zvukÅ¯
 	CBufMusic	m_Music;			// (BufMusID) buffer hudby
 
-	BOOL		m_Play;				// probíhá pøehrávání UNDO/REDO záznamu
-	BOOL		m_Undo;				// zaznamenávat do UNDO bufferu (jinak REDO)
-	BOOL		m_Redraw[PROGBUFNUM]; // pøíznaky zapnutí pøekreslení
+	BOOL		m_Play;				// probÃ­hÃ¡ pÅ™ehrÃ¡vÃ¡nÃ­ UNDO/REDO zÃ¡znamu
+	BOOL		m_Undo;				// zaznamenÃ¡vat do UNDO bufferu (jinak REDO)
+	BOOL		m_Redraw[PROGBUFNUM]; // pÅ™Ã­znaky zapnutÃ­ pÅ™ekreslenÃ­
 
-	int			m_EditMode;			// buffer editaèního módu
-	int			m_EditIndex;		// index editaèního módu
-	int			m_SelectMode;		// buffer k vıbìru
-	int			m_SelectIndex;		// index k vıbìru
-	int			m_MapMode;			// mód k nastavení v ploše
+	int			m_EditMode;			// buffer editaÄnÃ­ho mÃ³du
+	int			m_EditIndex;		// index editaÄnÃ­ho mÃ³du
+	int			m_SelectMode;		// buffer k vÃ½bÄ›ru
+	int			m_SelectIndex;		// index k vÃ½bÄ›ru
+	int			m_MapMode;			// mÃ³d k nastavenÃ­ v ploÅ¡e
 
-// zjištìní pøibliné velikosti datové poloky (jen kvùli kontrole pøeteèení)
+// zjiÅ¡tÄ›nÃ­ pÅ™ibliÅ¾nÃ© velikosti datovÃ© poloÅ¾ky (jen kvÅ¯li kontrole pÅ™eteÄenÃ­)
 	int _fastcall GetSize(int bufID, int index);
 
-// pøiètení velikosti poloky (jen pokud je záznam do UNDO)
+// pÅ™iÄtenÃ­ velikosti poloÅ¾ky (jen pokud je zÃ¡znam do UNDO)
 	void _fastcall AddSize(UNDOITEM* item);
 
-// zrušení datové poloky z bufferù
+// zruÅ¡enÃ­ datovÃ© poloÅ¾ky z bufferÅ¯
 	void _fastcall DelData(int bufID, int index);
 
-// vypnutí pøíznakù pøekreslení okna
+// vypnutÃ­ pÅ™Ã­znakÅ¯ pÅ™ekreslenÃ­ okna
 	void NulRedraw();
 
-// vypnutí/zapnutí pøekreslování okna
+// vypnutÃ­/zapnutÃ­ pÅ™ekreslovÃ¡nÃ­ okna
 	void SetRedraw(int bufID, BOOL redraw);
 
-// vyprázdnìní bufferu REDO (není-li pøehrávání)
+// vyprÃ¡zdnÄ›nÃ­ bufferu REDO (nenÃ­-li pÅ™ehrÃ¡vÃ¡nÃ­)
 	void NulRedo();
 
-// test, zda je poloka pro zmìnu dat ji v bufferu
+// test, zda je poloÅ¾ka pro zmÄ›nu dat jiÅ¾ v bufferu
 	bool TestSet(int bufID, int index);
 
-// oznaèení editované poloky
+// oznaÄenÃ­ editovanÃ© poloÅ¾ky
 	void SelectEdit(int bufID, int index);
 
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
@@ -113,48 +113,48 @@ public:
 	CBufUndo();
 	~CBufUndo();
 
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 	void Init();
 	void Term();
 
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 	void DelAll();
 
-// poskytnutí dat undo
+// poskytnutÃ­ dat undo
 	inline UNDOITEM* DataUndo() const { return m_UndoData; };
 
-// poskytnutí dat redo
+// poskytnutÃ­ dat redo
 	inline UNDOITEM* DataRedo() const { return m_RedoData; };
 
-// poskytnutí poètu poloek undo
+// poskytnutÃ­ poÄtu poloÅ¾ek undo
 	inline int NumUndo() const { return m_UndoNum; };
 
-// poskytnutí poètu poloek redo
+// poskytnutÃ­ poÄtu poloÅ¾ek redo
 	inline int NumRedo() const { return m_RedoNum; };
 
-// poskytnutí velikosti bufferu undo
+// poskytnutÃ­ velikosti bufferu undo
 	inline int MaxUndo() const { return m_UndoMax; };
 
-// poskytnutí velikosti bufferu redo
+// poskytnutÃ­ velikosti bufferu redo
 	inline int MaxRedo() const { return m_RedoMax; };
 
-// poskytnutí poètu záznamù undo
+// poskytnutÃ­ poÄtu zÃ¡znamÅ¯ undo
 	inline int RecsUndo() const { return m_UndoRecs; };
 
-// poskytnutí poètu záznamù redo
+// poskytnutÃ­ poÄtu zÃ¡znamÅ¯ redo
 	inline int RecsRedo() const { return m_RedoRecs; };
 
-// poskytnutí velikosti dat
+// poskytnutÃ­ velikosti dat
 	inline int Size() const { return m_UndoSize; };
 
-// poskytnutí/nastavení omezení velikosti dat
+// poskytnutÃ­/nastavenÃ­ omezenÃ­ velikosti dat
 	inline int Limit() const { return m_UndoLimit; };
 	inline void Limit(int limit) { m_UndoLimit = limit; };
 
-// poskytnutí pøíznaku, e probíhá pøehrávání záznamu
+// poskytnutÃ­ pÅ™Ã­znaku, Å¾e probÃ­hÃ¡ pÅ™ehrÃ¡vÃ¡nÃ­ zÃ¡znamu
 	inline BOOL Play() const { return m_Play; };
 
-// kontrola platnosti poloky
+// kontrola platnosti poloÅ¾ky
 	inline BOOL IsValidUndo(const int index) const
 		{ return ((DWORD)index < (DWORD)m_UndoMax); };
 
@@ -167,7 +167,7 @@ public:
 	inline BOOL IsNotValidRedo(const int index) const
 		{ return ((DWORD)index >= (DWORD)m_RedoMax); };
 
-// poskytnutí pøístupu k poloce (bez kontroly indexu)
+// poskytnutÃ­ pÅ™Ã­stupu k poloÅ¾ce (bez kontroly indexu)
 	inline UNDOITEM& AtUndo(const int index)
 		{ ASSERT(IsValidUndo(index)); return m_UndoData[index]; }
 
@@ -180,155 +180,155 @@ public:
 	inline const UNDOITEM& AtRedo(const int index) const
 		{ ASSERT(IsValidRedo(index)); return m_RedoData[index]; }
 
-// zrušení poslední poloky z undo/redo
+// zruÅ¡enÃ­ poslednÃ­ poloÅ¾ky z undo/redo
 	void DelUndo();
 	void DelRedo();
 
-// vytvoøení nové poloky (vrací NULL=chyba pamìti)
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky (vracÃ­ NULL=chyba pamÄ›ti)
 	UNDOITEM* New();
 
 // redukce velikosti UNDO bufferu
 	void Reduct();
 
-// ukonèení záznamu operací (nastaví pøíznak konce posloupnosti)
+// ukonÄenÃ­ zÃ¡znamu operacÃ­ (nastavÃ­ pÅ™Ã­znak konce posloupnosti)
 	void Stop();
 
 // aktualizace voleb undo a redo
 	void UpdateUndoRedo();
 
-// provedení operace UNDO
+// provedenÃ­ operace UNDO
 	void Undo();
 
-// provedení operace REDO
+// provedenÃ­ operace REDO
 	void Redo();
 
-// záznam o pøidání poloky do programového bufferu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do programovÃ©ho bufferu (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgIns(int bufID, int index);
 
-// záznam o zrušení poloky z programového bufferu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z programovÃ©ho bufferu (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgDel(int bufID, int index, PROGITEM* data);
 
-// záznam o pøesunu poloky v programovém bufferu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™esunu poloÅ¾ky v programovÃ©m bufferu (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgMove(int bufID, int index, int oldparent, int oldprev);
 
-// záznam o zmìnì pøíznaku LOCK prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› pÅ™Ã­znaku LOCK prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgLock(int bufID, int index);
 
-// záznam o zmìnì pøíznaku OFF prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› pÅ™Ã­znaku OFF prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgOff(int bufID, int index);
 
-// záznam o zmìnì jména prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› jmÃ©na prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgName(int bufID, int index, int name);
 
-// záznam o nastavení jména prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o nastavenÃ­ jmÃ©na prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgNameSet(int bufID, int index, const CMultiText& data);
 	bool AddProgNameSet(int bufID, int index, const CText& data);
 
-// záznam o zmìnì ikony prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› ikony prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddProgIcon(int bufID, int index, int icon);
 
-// záznam o pøidání poloky do bufferu èísel (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu ÄÃ­sel (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddRealIns(int index);
 
-// záznam o zrušení poloky z bufferu èísel (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu ÄÃ­sel (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddRealDel(int index, double data);
 	inline bool AddDel(int index, double data) { return AddRealDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddRealSet(int index, double data);
 
-// záznam o pøidání poloky do bufferu textù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu textÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddTextIns(int index);
 
-// záznam o zrušení poloky z bufferu textù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu textÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddTextDel(int index, const CMultiText& data);
 	bool AddTextDel(int index, const CText& data);
 	inline bool AddDel(int index, const CMultiText& data) { return AddTextDel(index, data); }
 	inline bool AddDel(int index, const CText& data) { return AddTextDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddTextSet(int index, const CMultiText& data);
 	bool AddTextSet(int index, const CText& data);
 
-// záznam o pøidání poloky do bufferu logickıch hodnot (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu logickÃ½ch hodnot (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddBoolIns(int index);
 
-// záznam o zrušení poloky z bufferu logickıch hodnot (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu logickÃ½ch hodnot (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddBoolDel(int index, BOOL data);
 	inline bool AddDel(int index, const BOOL& data) { return AddBoolDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddBoolSet(int index, BOOL data);
 
-// záznam o pøidání poloky do bufferu ikon (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu ikon (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddIconIns(int index);
 
-// záznam o zrušení poloky z bufferu ikon (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu ikon (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddIconDel(int index, const CIcon& data);
 	inline bool AddDel(int index, const CIcon& data) { return AddIconDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddIconSet(int index, const CIcon& data);
 
-// záznam o pøidání poloky do bufferu ploch (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu ploch (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMapIns(int index);
 
-// záznam o zrušení poloky z bufferu ploch (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu ploch (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMapDel(int index, const CMap& data);
 	inline bool AddDel(int index, const CMap& data) { return AddMapDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMapSet(int index, const CMap& data, int mode);
 
-// záznam o zmìnì ikony v ploše (pøi zrušení ikony z plochy) (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› ikony v ploÅ¡e (pÅ™i zruÅ¡enÃ­ ikony z plochy) (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMapIcoSet(int index, int offs, int icon);
 
-// záznam o pøidání poloky do bufferu obrázkù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu obrÃ¡zkÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddPicIns(int index);
 
-// záznam o zrušení poloky z bufferu obrázkù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu obrÃ¡zkÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddPicDel(int index, const CPicture& data);
 	inline bool AddDel(int index, const CPicture& data) { return AddPicDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddPicSet(int index, const CPicture& data);
 
-// záznam o pøidání poloky do bufferu sprajtù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu sprajtÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSprIns(int index);
 
-// záznam o zrušení poloky z bufferu sprajtù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu sprajtÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSprDel(int index, const CSprite& data);
 	inline bool AddDel(int index, const CSprite& data) { return AddSprDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSprSet(int index, const CSprite& data);
 
-// záznam o zmìnì dat - obrázek sprajtu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat - obrÃ¡zek sprajtu (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSprPicSet(int index, int pic, CPicture& data);
 
-// záznam o pøidání poloky do bufferu zvukù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu zvukÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSndIns(int index);
 
-// záznam o zrušení poloky z bufferu zvukù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu zvukÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSndDel(int index, const CSound& data);
 	inline bool AddDel(int index, const CSound& data) { return AddSndDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddSndSet(int index, const CSound& data);
 
-// záznam o pøidání poloky do bufferu hudby (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu hudby (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMusIns(int index);
 
-// záznam o zrušení poloky z bufferu hudby (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu hudby (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMusDel(int index, const CMusic& data);
 	inline bool AddDel(int index, const CMusic& data) { return AddMusDel(index, data); }
 
-// záznam o zmìnì dat (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat (vracÃ­ FALSE=chyba pamÄ›ti)
 	bool AddMusSet(int index, const CMusic& data);
 
-// zafixování posledního záznamu o zmìnì dat prodi minimalizaci
+// zafixovÃ¡nÃ­ poslednÃ­ho zÃ¡znamu o zmÄ›nÄ› dat prodi minimalizaci
 	void Fixup();
 
-// pøehrátí jedné poloky
+// pÅ™ehrÃ¡tÃ­ jednÃ© poloÅ¾ky
 	void Play(UNDOITEM* item);
 };

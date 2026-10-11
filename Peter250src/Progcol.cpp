@@ -3,43 +3,43 @@
 
 /***************************************************************************\
 *																			*
-*									V˝bÏr barvy								*
+*									V√Ωbƒõr barvy								*
 *																			*
 \***************************************************************************/
 
 namespace ProgCol
 {
 
-BYTE	ColInd = WhiteCol;				// vybran· barva
+BYTE	ColInd = WhiteCol;				// vybran√° barva
 
-int		ColsLeft = 0;					// poË·tek pole barev X
-int		ColsWidth = 200;				// zobrazen· öÌ¯ka pole barev
-int		ColsHeight = 150;				// zobrazen· v˝öka pole barev
-int		ColsIncX = 10;					// p¯Ìrustek barev X
-int		ColsIncY = 5;					// p¯Ìrustek barev Y
+int		ColsLeft = 0;					// poƒç√°tek pole barev X
+int		ColsWidth = 200;				// zobrazen√° ≈°√≠≈ôka pole barev
+int		ColsHeight = 150;				// zobrazen√° v√Ω≈°ka pole barev
+int		ColsIncX = 10;					// p≈ô√≠rustek barev X
+int		ColsIncY = 5;					// p≈ô√≠rustek barev Y
 
 
 /////////////////////////////////////////////////////////////////////////////
-// p¯epoËet velikosti
+// p≈ôepoƒçet velikosti
 
 void OnSize(HWND hWnd)
 {
 	RECT rc;
 	::GetClientRect(hWnd, &rc);
 
-// v˝poËet horizont·lnÌch parametr˘ pole pro v˝bÏr barev
-	ColsIncX = (rc.right - 2) / ColCol;		// p¯Ìrustek barev X
-	ColsWidth = ColsIncX * ColCol;			// zobrazen· öÌ¯ka pole barev
-	ColsLeft = (rc.right - ColsWidth)/2;	// lev˝ okraj pole barev
+// v√Ωpoƒçet horizont√°ln√≠ch parametr≈Ø pole pro v√Ωbƒõr barev
+	ColsIncX = (rc.right - 2) / ColCol;		// p≈ô√≠rustek barev X
+	ColsWidth = ColsIncX * ColCol;			// zobrazen√° ≈°√≠≈ôka pole barev
+	ColsLeft = (rc.right - ColsWidth)/2;	// lev√Ω okraj pole barev
 
-// v˝poËet vertik·lnÌch parametr˘ pole pro v˝bÏr barev
-	ColsIncY = (rc.bottom - 36) / ColLev;	// p¯Ìrustek barev Y
-	ColsHeight = ColsIncY * ColLev;			// zobrazen· öÌ¯ka pole barev
+// v√Ωpoƒçet vertik√°ln√≠ch parametr≈Ø pole pro v√Ωbƒõr barev
+	ColsIncY = (rc.bottom - 36) / ColLev;	// p≈ô√≠rustek barev Y
+	ColsHeight = ColsIncY * ColLev;			// zobrazen√° ≈°√≠≈ôka pole barev
 }
 			
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha dialogu hled·nÌ textu
+// obsluha dialogu hled√°n√≠ textu
 
 BOOL CALLBACK ProgColDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -70,32 +70,32 @@ BOOL CALLBACK ProgColDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lPar
 			for (int col = StdColors-1; col >= ResCols; col--)
 			{
 
-// sou¯adnice pro barvu
+// sou≈ôadnice pro barvu
 				RECT rc;
 				rc.left = ColsLeft + ((col-ResCols)/ColLev) * ColsIncX;
 				rc.top = ((col-ResCols) % ColLev) * ColsIncY;
 				rc.right = rc.left + ColsIncX;
 				rc.bottom = rc.top + ColsIncY;
 
-// zobrazenÌ r·meËku indik·toru aktivnÌ barvy
+// zobrazen√≠ r√°meƒçku indik√°toru aktivn√≠ barvy
 				if (col == ColInd)
 				{
 					::DrawEdge(dc, &rc, EDGE_RAISED, BF_RECT);
 				}
 				else
 
-// zobrazenÌ r·mu kolem polÌËka
+// zobrazen√≠ r√°mu kolem pol√≠ƒçka
 				{
 					::DrawEdge(dc, &rc, EDGE_SUNKEN, BF_RECT);
 				}
 
-// korekce ¯·mu polÌËka pro barvu
+// korekce ≈ô√°mu pol√≠ƒçka pro barvu
 				rc.left += 2;
 				rc.top += 2;
 				rc.right -= 2;
 				rc.bottom -= 2;
 
-// zobrazenÌ barvy polÌËka
+// zobrazen√≠ barvy pol√≠ƒçka
 				HBRUSH brush = ::CreateSolidBrush(PALETTEINDEX((WORD)col));
 				::FillRect(dc, &rc, brush);
 				::DeleteObject(brush);
@@ -145,18 +145,18 @@ BOOL CALLBACK ProgColDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lPar
 
 
 /////////////////////////////////////////////////////////////////////////////
-// v˝bÏr barvy
+// v√Ωbƒõr barvy
 
 void SelectColor(int index)
 {
 // index ikony
 	int icon = BufEdi.GetIcon(index);
 
-// p¯Ìprava aktu·lnÌ barvy
+// p≈ô√≠prava aktu√°ln√≠ barvy
 	BYTE oldcol = Icon[icon][ICONWIDTH/2 + ICONHEIGHT/2*ICONWIDTH];
 	ColInd = oldcol;
 
-// zad·nÌ barvy
+// zad√°n√≠ barvy
 	if (::DialogBoxParam(
 				hInstance,
 				MAKEINTRESOURCE(IDN_SELECT_COLOR),
@@ -166,7 +166,7 @@ void SelectColor(int index)
 
 	if (oldcol == ColInd) return;
 
-// p¯ivlastnÏnÌ ikony
+// p≈ôivlastnƒõn√≠ ikony
 	PROGITEM* item = &BufEdi[index];
 
 	if (item->Icon < 0)
@@ -176,7 +176,7 @@ void SelectColor(int index)
 		item->Icon = icon;
 	}
 
-// v˝plÚ
+// v√Ωpl≈à
 	Undo.AddIconSet(icon, Icon[icon]);
 	Icon[icon].CopyWrite();
 	BYTE* dst = Icon[icon].DataData() + 6*ICONWIDTH + 6;
@@ -198,19 +198,19 @@ void SelectColor(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// menu nastavenÌ fontu
+// menu nastaven√≠ fontu
 
-CFont	SetupFont;							// pracovnÌ parametry fontu
-HFONT	SetupVzorFont = NULL;				// font pouûit˝ ve vzorku
+CFont	SetupFont;							// pracovn√≠ parametry fontu
+HFONT	SetupVzorFont = NULL;				// font pou≈æit√Ω ve vzorku
 
-BOOL	NewSetupFill = FALSE;				// probÌh· programovÈ plnÏnÌ dialogu nastavenÌ
+BOOL	NewSetupFill = FALSE;				// prob√≠h√° programov√© plnƒõn√≠ dialogu nastaven√≠
 
-CBufText FontList;							// seznam font˘
+CBufText FontList;							// seznam font≈Ø
 
-BOOL	OldScroll = FALSE;					// p˘vodnÌ scrolov·nÌ
-BOOL	OldScrollValid = FALSE;				// p¯Ìznak platnosti ˙daje scrolov·nÌ
+BOOL	OldScroll = FALSE;					// p≈Øvodn√≠ scrolov√°n√≠
+BOOL	OldScrollValid = FALSE;				// p≈ô√≠znak platnosti √∫daje scrolov√°n√≠
 
-// zjiötÏnÌ seznamu font˘
+// zji≈°tƒõn√≠ seznamu font≈Ø
 int CALLBACK EnumFontFamProc(const LOGFONT* lpelf, const TEXTMETRIC* lpntm, DWORD FontType, LPARAM lParam)
 {
 	CText txt = lpelf->lfFaceName;
@@ -283,7 +283,7 @@ void SetupSetSwc(HWND wnd)
 	::EnableWindow(::GetDlgItem(wnd, IDN_SETUP_SERIF), enable);
 	::EnableWindow(::GetDlgItem(wnd, IDN_SETUP_USER), enable);
 
-// nastavenÌ v˝öky fontu v editoru
+// nastaven√≠ v√Ω≈°ky fontu v editoru
 	w = ::GetDlgItem(wnd, IDN_SETUP_HEIGHT2);
 	::EnableWindow(w, enable);
 
@@ -294,7 +294,7 @@ void SetupSetSwc(HWND wnd)
 		txt.SetWindowText(w);
 	}
 
-// nastavenÌ öÌ¯ky fontu v editoru
+// nastaven√≠ ≈°√≠≈ôky fontu v editoru
 	w = ::GetDlgItem(wnd, IDN_SETUP_WIDTH2);
 	::EnableWindow(w, enable);
 
@@ -306,19 +306,19 @@ void SetupSetSwc(HWND wnd)
 		txt.SetWindowText(w);
 	}
 
-// povolenÌ okna typu fontu
+// povolen√≠ okna typu fontu
 	enable = !SetupFont.Standard && SetupFont.Serif && SetupFont.Fixed;
 	w = ::GetDlgItem(wnd, IDN_SETUP_TYP2);
 	::EnableWindow(w, enable);
 	::InvalidateRect(w, NULL, TRUE);
 
-// v˝bÏr aktivnÌho typu fontu
+// v√Ωbƒõr aktivn√≠ho typu fontu
 	if (w != foc)
 	{
 		::SendMessage(w, LB_SELECTSTRING, (WPARAM)-1, (LPARAM)(LPCTSTR)SetupFont.User);
 	}
 
-// konec plnÏnÌ
+// konec plnƒõn√≠
 	NewSetupFill = FALSE;
 }
 
@@ -446,7 +446,7 @@ BOOL CALLBACK ProgSetupDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 
 			CText txt;
 
-// zjiötÏnÌ font˘
+// zji≈°tƒõn√≠ font≈Ø
 			if (FontList.Num() == 0)
 			{
 				HDC dc = ::GetDC(MainFrame);
@@ -454,7 +454,7 @@ BOOL CALLBACK ProgSetupDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 				::ReleaseDC(MainFrame, dc);
 			}
 
-// naplnÏnÌ seznamu font˘
+// naplnƒõn√≠ seznamu font≈Ø
 			HWND lst = ::GetDlgItem(hWnd, IDN_SETUP_TYP2);
 			::SendMessage(lst, LB_RESETCONTENT, 0, 0);
 
@@ -466,7 +466,7 @@ BOOL CALLBACK ProgSetupDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 				}
 			}
 
-// naplnÏnÌ seznamu velikostÌ
+// naplnƒõn√≠ seznamu velikost√≠
 			lst = ::GetDlgItem(hWnd, IDN_SETUP_HEIGHT2);
 			::SendMessage(lst, CB_RESETCONTENT, 0, 0);
 
@@ -478,7 +478,7 @@ BOOL CALLBACK ProgSetupDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 				hgh++;
 			}
 
-// naplnÏnÌ seznamu öÌ¯ek
+// naplnƒõn√≠ seznamu ≈°√≠≈ôek
 			lst = ::GetDlgItem(hWnd, IDN_SETUP_WIDTH2);
 			::SendMessage(lst, CB_RESETCONTENT, 0, 0);
 
@@ -513,7 +513,7 @@ BOOL CALLBACK ProgSetupDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 			DialogCustomText(hWnd, IDN_SETUP_HEIGHT);
 			DialogCustomText(hWnd, IDN_SETUP_WIDTH);
 
-// tlaËÌtko Storno
+// tlaƒç√≠tko Storno
 			txt.Load(IDN_CANCEL0);
 			txt.SetDialogTextFont(hWnd, IDCANCEL);
 
@@ -750,7 +750,7 @@ setdlg:
 
 void ProgOnSetup(int id)
 {
-// p¯Ìprava p¯epÌnaË˘
+// p≈ô√≠prava p≈ôep√≠naƒç≈Ø
 	switch (id)
 	{
 	case IDN_SETUP1:
@@ -777,14 +777,14 @@ void ProgOnSetup(int id)
 		return;
 	}
 
-// ˙schova skrolov·nÌ
+// √∫schova skrolov√°n√≠
 	OldScrollValid = ::SystemParametersInfo(SPI_GETLISTBOXSMOOTHSCROLLING, 0, &OldScroll, 0);
 	if (OldScrollValid)
 	{
 		::SystemParametersInfo(SPI_SETLISTBOXSMOOTHSCROLLING, 0, (void*)FALSE, 0);
 	}
 
-// zad·nÌ pÌsma
+// zad√°n√≠ p√≠sma
 	int res = ::DialogBoxParam(
 				hInstance,
 				MAKEINTRESOURCE(IDN_SETUP),
@@ -792,14 +792,14 @@ void ProgOnSetup(int id)
 				(DLGPROC)ProgSetupDialogProc,
 				(LPARAM)IDN_SETUP);
 
-// navr·cenÌ skrolov·nÌ
+// navr√°cen√≠ skrolov√°n√≠
 	if (OldScrollValid)
 	{
 		::SystemParametersInfo(SPI_SETLISTBOXSMOOTHSCROLLING, 0, (void*)OldScroll, 0);
 	}
 	if (res != IDOK) return;
 
-// uloûenÌ a aktualizace font˘
+// ulo≈æen√≠ a aktualizace font≈Ø
 	switch (id)
 	{
 	case IDN_SETUP1:

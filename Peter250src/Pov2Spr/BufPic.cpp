@@ -3,15 +3,15 @@
 
 /***************************************************************************\
 *																			*
-*								Obr·zkovÈ promÏnnÈ							*
+*								Obr√°zkov√© promƒõnn√©							*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaËnÌ pr·zdn˝ obr·zek (modifikuje se poËet referencÌ!)
+// inicializaƒçn√≠ pr√°zdn√Ω obr√°zek (modifikuje se poƒçet referenc√≠!)
 
-// Pr·zdn˝ obr·zek musÌ mÌt rozmÏry ICONSIZE kv˘li vytvo¯enÌ novÈho sprajtu!
+// Pr√°zdn√Ω obr√°zek mus√≠ m√≠t rozmƒõry ICONSIZE kv≈Øli vytvo≈ôen√≠ nov√©ho sprajtu!
 
 PICTUREDATA	EmptyPictureData		= { 1, ICONWIDTH, ICONHEIGHT, NULL };
 
@@ -41,7 +41,7 @@ CPicture::~CPicture()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statick˝ konstruktor a destruktor
+// statick√Ω konstruktor a destruktor
 
 void CPicture::Init()
 { 
@@ -65,24 +65,24 @@ void CPicture::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie do vlastnÌho bufferu p¯ed modifikacÌ
+// kopie do vlastn√≠ho bufferu p≈ôed modifikac√≠
 
 void CPicture::CopyWrite()
 {
-	PICTUREDATA* data = pData;		// adresa star˝ch dat
-	long* refer = &(data->Refer);	// poËet referencÌ
+	PICTUREDATA* data = pData;		// adresa star√Ωch dat
+	long* refer = &(data->Refer);	// poƒçet referenc√≠
 
-	if (*refer > 1)					// je nÏjak˝ jin˝ majitel?
+	if (*refer > 1)					// je nƒõjak√Ω jin√Ω majitel?
 	{
-		NewBuffer(data->Width, data->Height);	// vytvo¯enÌ novÈho bufferu
+		NewBuffer(data->Width, data->Height);	// vytvo≈ôen√≠ nov√©ho bufferu
 		MemCopy(pData->Data, data->Data, data->Width * data->Height);
 
-// odpojenÌ star˝ch dat - v multithread m˘ûe nastat i zruöenÌ
+// odpojen√≠ star√Ωch dat - v multithread m≈Ø≈æe nastat i zru≈°en√≠
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
 			MemFree(data->Data);
-			MemFree(data);			// p¯ÌpadnÈ zruöenÌ dat
+			MemFree(data);			// p≈ô√≠padn√© zru≈°en√≠ dat
 #endif	// _MT
 		}
 	}
@@ -90,50 +90,50 @@ void CPicture::CopyWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvo¯enÌ novÈho obr·zku (p¯ipraveno k z·pisu, data jsou n·hodn·)
+// vytvo≈ôen√≠ nov√©ho obr√°zku (p≈ôipraveno k z√°pisu, data jsou n√°hodn√°)
 
 void CPicture::New(int width, int height)
 {
-	Detach();						// odpojenÌ starÈho obr·zku
-	NewBuffer(width, height);		// vytvo¯enÌ novÈho bufferu
+	Detach();						// odpojen√≠ star√©ho obr√°zku
+	NewBuffer(width, height);		// vytvo≈ôen√≠ nov√©ho bufferu
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavenÌ nov˝ch rozmÏr˘ obr·zku
+// nastaven√≠ nov√Ωch rozmƒõr≈Ø obr√°zku
 
 void CPicture::Resize(int width, int height)
 {
 	if ((width != pData->Width) || (height != pData->Height))
 	{
-// vytvo¯enÌ novÈho bufferu (star˝ se zatÌm jen uschov·)
+// vytvo≈ôen√≠ nov√©ho bufferu (star√Ω se zat√≠m jen uschov√°)
 		PICTUREDATA* olddata = pData;
 		NewBuffer(width, height);
 		PICTUREDATA* newdata = pData;
 
-// p¯Ìprava poËtu linek ke kopii
+// p≈ô√≠prava poƒçtu linek ke kopii
 		int i = newdata->Height;
 		if (olddata->Height < i) i = olddata->Height;
 
-// p¯Ìprava dÈlky linky ke kopii
+// p≈ô√≠prava d√©lky linky ke kopii
 		int j = newdata->Width;
 		if (olddata->Width < j) j = olddata->Width;
 
-// p¯Ìprava zbytku linky k vymaz·nÌ
+// p≈ô√≠prava zbytku linky k vymaz√°n√≠
 		int k = newdata->Width - j;
 
-// p¯Ìrustek zdrojovÈ a cÌlovÈ adresy
+// p≈ô√≠rustek zdrojov√© a c√≠lov√© adresy
 		int srcinc = olddata->Width;
 		int dstinc = newdata->Width;
 
-// p¯Ìprava zdrojovÈ a cÌlovÈ adresy
+// p≈ô√≠prava zdrojov√© a c√≠lov√© adresy
 		BYTE* src = olddata->Data;
 		BYTE* dst = newdata->Data;
 
-// barva k vymaz·nÌ pozadÌ
+// barva k vymaz√°n√≠ pozad√≠
 		BYTE col = BackCol;
 
-// kopie platn˝ch linek
+// kopie platn√Ωch linek
 		if (srcinc == dstinc)
 		{
 			i *= dstinc;
@@ -164,14 +164,14 @@ void CPicture::Resize(int width, int height)
 			}
 		}
 
-// vymaz·nÌ zbyl˝ch linek
+// vymaz√°n√≠ zbyl√Ωch linek
 		i = newdata->Height - olddata->Height;
 		if (i > 0)
 		{
 			MemFill(dst, i*dstinc, col);
 		}
 
-// odpojenÌ starÈho bufferu
+// odpojen√≠ star√©ho bufferu
 		pData = olddata;
 		Detach();
 		pData = newdata;
@@ -181,19 +181,19 @@ void CPicture::Resize(int width, int height)
 
 void CPicture::HalfSize()
 {
-// starÈ a novÈ rozmÏry
+// star√© a nov√© rozmƒõry
 	int oldwidth = Width();
 	int oldheight = Height();
 	int newwidth = oldwidth/2;
 	int newheight = oldheight/2;
 	if ((newwidth <= 0) || (newheight <= 0)) return;
 
-// vytvo¯enÌ novÈho bufferu
+// vytvo≈ôen√≠ nov√©ho bufferu
 	PICTUREDATA* olddata = pData;
 	NewBuffer(newwidth, newheight);
 	PICTUREDATA* newdata = pData;
 
-// konverze obr·zku
+// konverze obr√°zku
 	BYTE* src = olddata->Data;
 	BYTE* dst = newdata->Data;
 
@@ -231,7 +231,7 @@ void CPicture::HalfSize()
 		src += 2*(oldwidth - newwidth);
 	}
 
-// odpojenÌ starÈho bufferu
+// odpojen√≠ star√©ho bufferu
 	pData = olddata;
 	Detach();
 	pData = newdata;
@@ -239,33 +239,33 @@ void CPicture::HalfSize()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// poskytnutÌ bodu (s kontrolou platnosti offsetu/indexu)
+// poskytnut√≠ bodu (s kontrolou platnosti offsetu/indexu)
 
 BYTE _fastcall CPicture::Get(const int off) const
 {
-	if (IsValid(off))				// je offset platn˝?
+	if (IsValid(off))				// je offset platn√Ω?
 	{
-		return pData->Data[off];	// bod na danÈm offsetu
+		return pData->Data[off];	// bod na dan√©m offsetu
 	}
-	return BackCol;					// neplatn˝ offset
+	return BackCol;					// neplatn√Ω offset
 }
 
 BYTE _fastcall CPicture::Get(const int x, const int y) const
 {
-	if (IsValid(x, y))				// je index platn˝?
+	if (IsValid(x, y))				// je index platn√Ω?
 	{
 		return pData->Data[x + y*Width()];	// prvek
 	}
-	return BackCol;					// neplatn˝ offset
+	return BackCol;					// neplatn√Ω offset
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// nastavenÌ bodu (s kontrolou platnosti offsetu/indexu)
+// nastaven√≠ bodu (s kontrolou platnosti offsetu/indexu)
 
 void _fastcall CPicture::Set(const int off, const BYTE data)
 {
-	if (IsValid(off))				// je offset platn˝?
+	if (IsValid(off))				// je offset platn√Ω?
 	{
 		pData->Data[off] = data;
 	}
@@ -273,7 +273,7 @@ void _fastcall CPicture::Set(const int off, const BYTE data)
 
 void _fastcall CPicture::Set(const int x, const int y, const BYTE data)
 {
-	if (IsValid(x, y))				// je index platn˝?
+	if (IsValid(x, y))				// je index platn√Ω?
 	{
 		pData->Data[x + y*Width()] = data;
 	}
@@ -281,70 +281,70 @@ void _fastcall CPicture::Set(const int x, const int y, const BYTE data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie nov˝ch dat obr·zku (rozmÏry z˘stanou nezmÏnÏny) - zajistÌ odpojenÌ dat
+// kopie nov√Ωch dat obr√°zku (rozmƒõry z≈Østanou nezmƒõnƒõny) - zajist√≠ odpojen√≠ dat
 
 void CPicture::CopyData(BYTE* src)
 {
 	ASSERT(src);
-	PICTUREDATA* data = pData;		// adresa star˝ch dat (z·hlavÌ)
-	long* refer = &(data->Refer);	// poËet referencÌ
-	int width = data->Width;		// öÌ¯ka obr·zku
-	int height = data->Height;		// v˝öka obr·zku;
+	PICTUREDATA* data = pData;		// adresa star√Ωch dat (z√°hlav√≠)
+	long* refer = &(data->Refer);	// poƒçet referenc√≠
+	int width = data->Width;		// ≈°√≠≈ôka obr√°zku
+	int height = data->Height;		// v√Ω≈°ka obr√°zku;
 
-	if (*refer > 1)					// je nÏjak˝ jin˝ majitel?
+	if (*refer > 1)					// je nƒõjak√Ω jin√Ω majitel?
 	{
-		NewBuffer(width, height);	// vytvo¯enÌ novÈho bufferu
+		NewBuffer(width, height);	// vytvo≈ôen√≠ nov√©ho bufferu
 
-// odpojenÌ star˝ch dat - v multithread m˘ûe nastat i zruöenÌ
+// odpojen√≠ star√Ωch dat - v multithread m≈Ø≈æe nastat i zru≈°en√≠
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
-			MemFree(data->Data);	// p¯ÌpadnÈ zruöenÌ dat
-			MemFree(data);			// p¯ÌpadnÈ zruöenÌ z·hlavÌ
+			MemFree(data->Data);	// p≈ô√≠padn√© zru≈°en√≠ dat
+			MemFree(data);			// p≈ô√≠padn√© zru≈°en√≠ z√°hlav√≠
 #endif	// _MT
 		}
 	}
 
-	MemCopy(pData->Data, src, width*height); // kopie obsahu obr·zku
+	MemCopy(pData->Data, src, width*height); // kopie obsahu obr√°zku
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie nov˝ch dat obr·zku s konverzÌ (rozmÏry z˘stanou nezmÏnÏny) - zajistÌ odpojenÌ dat
+// kopie nov√Ωch dat obr√°zku s konverz√≠ (rozmƒõry z≈Østanou nezmƒõnƒõny) - zajist√≠ odpojen√≠ dat
 
 void CPicture::CopyKonvData(BYTE* src)
 {
 	ASSERT(src);
-	PICTUREDATA* data = pData;		// adresa star˝ch dat (z·hlavÌ)
-	long* refer = &(data->Refer);	// poËet referencÌ
-	int width = data->Width;		// öÌ¯ka obr·zku
-	int height = data->Height;		// v˝öka obr·zku;
+	PICTUREDATA* data = pData;		// adresa star√Ωch dat (z√°hlav√≠)
+	long* refer = &(data->Refer);	// poƒçet referenc√≠
+	int width = data->Width;		// ≈°√≠≈ôka obr√°zku
+	int height = data->Height;		// v√Ω≈°ka obr√°zku;
 
-	if (*refer > 1)					// je nÏjak˝ jin˝ majitel?
+	if (*refer > 1)					// je nƒõjak√Ω jin√Ω majitel?
 	{
-		NewBuffer(width, height);	// vytvo¯enÌ novÈho bufferu
+		NewBuffer(width, height);	// vytvo≈ôen√≠ nov√©ho bufferu
 
-// odpojenÌ star˝ch dat - v multithread m˘ûe nastat i zruöenÌ
+// odpojen√≠ star√Ωch dat - v multithread m≈Ø≈æe nastat i zru≈°en√≠
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
-			MemFree(data->Data);	// p¯ÌpadnÈ zruöenÌ dat
-			MemFree(data);			// p¯ÌpadnÈ zruöenÌ z·hlavÌ
+			MemFree(data->Data);	// p≈ô√≠padn√© zru≈°en√≠ dat
+			MemFree(data);			// p≈ô√≠padn√© zru≈°en√≠ z√°hlav√≠
 #endif	// _MT
 		}
 	}
 
-	KonvCopy(pData->Data, src, width*height); // kopie obsahu obr·zku
+	KonvCopy(pData->Data, src, width*height); // kopie obsahu obr√°zku
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naËtenÌ obr·zku ze souboru s poloviËnÌ velikostÌ (TRUE=operace OK)
+// naƒçten√≠ obr√°zku ze souboru s poloviƒçn√≠ velikost√≠ (TRUE=operace OK)
 
 BOOL CPicture::LoadFile2(CString jmeno)
 {
 
-// otev¯enÌ souboru
+// otev≈ôen√≠ souboru
 	HANDLE hFile = ::CreateFile(jmeno, GENERIC_READ, 
 		FILE_SHARE_READ, NULL, OPEN_EXISTING, 
 		FILE_ATTRIBUTE_NORMAL, NULL);
@@ -355,48 +355,48 @@ BOOL CPicture::LoadFile2(CString jmeno)
 		return FALSE;
 	}
 
-// naËtenÌ z·hlavÌ souboru
+// naƒçten√≠ z√°hlav√≠ souboru
 	char hd[14];
 	DWORD read;
 	::ReadFile(hFile, hd, 14, &read, NULL);
 
-// zjiötÏnÌ velikosti souboru (bez z·hlavÌ 14 bajt˘)
+// zji≈°tƒõn√≠ velikosti souboru (bez z√°hlav√≠ 14 bajt≈Ø)
 	int size = (int)::SetFilePointer(hFile, 0, NULL, FILE_END) - 14;
 	::SetFilePointer(hFile, 14, NULL, FILE_BEGIN);
 
-// kontrola velikosti souboru a z·hlavÌ
+// kontrola velikosti souboru a z√°hlav√≠
 	if ((size < 50) || (size > 20000000) ||	(hd[0] != 'B') || (hd[1] != 'M'))
 	{
-		::CloseHandle(hFile);		// uzav¯enÌ souboru
+		::CloseHandle(hFile);		// uzav≈ôen√≠ souboru
 		return FALSE;
 	}
 
-// p¯Ìprava bufferu k naËtenÌ souboru
+// p≈ô√≠prava bufferu k naƒçten√≠ souboru
 	BITMAPINFO* bmp = (BITMAPINFO*)MemGet(size);
 
-// naËtenÌ souboru do bufferu
+// naƒçten√≠ souboru do bufferu
 	::ReadFile(hFile, bmp, size, &read, NULL);
 
-// uzav¯enÌ souboru
-	::CloseHandle(hFile);		// uzav¯enÌ souboru
+// uzav≈ôen√≠ souboru
+	::CloseHandle(hFile);		// uzav≈ôen√≠ souboru
 
-// kontrola spr·vnosti operace ËtenÌ, kontrola platnosti souboru
+// kontrola spr√°vnosti operace ƒçten√≠, kontrola platnosti souboru
 	if ((read != (DWORD)size) || !TestBMP(bmp))
 	{
-		MemFree(bmp);				// uvolnÏnÌ bufferu
+		MemFree(bmp);				// uvolnƒõn√≠ bufferu
 		return FALSE;
 	}
 
-// p¯Ìprava parametr˘ bitmapy
-	int width = bmp->bmiHeader.biWidth;			// öÌ¯ka
+// p≈ô√≠prava parametr≈Ø bitmapy
+	int width = bmp->bmiHeader.biWidth;			// ≈°√≠≈ôka
 	int width2 = width/2;
-	int height = bmp->bmiHeader.biHeight;		// v˝öka
+	int height = bmp->bmiHeader.biHeight;		// v√Ω≈°ka
 	int height2 = height/2;
-	int bits = bmp->bmiHeader.biBitCount;		// poËet bit˘ na bod
-	int colors = bmp->bmiHeader.biClrUsed;		// poËet pouûit˝ch barev
-	if (colors <= 0) colors = (1 << bits);		// implicitnÌ poËet barev
+	int bits = bmp->bmiHeader.biBitCount;		// poƒçet bit≈Ø na bod
+	int colors = bmp->bmiHeader.biClrUsed;		// poƒçet pou≈æit√Ωch barev
+	if (colors <= 0) colors = (1 << bits);		// implicitn√≠ poƒçet barev
 	if (bits > 8) colors = 0;					// pro TRUE COLOR nejsou palety
-	int sizehead = sizeof(BITMAPINFOHEADER) + colors*sizeof(RGBQUAD); // velikost z·hlavÌ
+	int sizehead = sizeof(BITMAPINFOHEADER) + colors*sizeof(RGBQUAD); // velikost z√°hlav√≠
 	size -= sizehead;							// oprava velikosti dat
 	if (size < 0) size = 0;
 
@@ -428,10 +428,10 @@ BOOL CPicture::LoadFile2(CString jmeno)
 		size = newsize;
 	}
 
-// ˙schova p˘vodnÌho obr·zku
+// √∫schova p≈Øvodn√≠ho obr√°zku
 	CPicture pic(*this);
 
-// vytvo¯enÌ novÈho obr·zku
+// vytvo≈ôen√≠ nov√©ho obr√°zku
 	if (bits == 24)
 	{
 		New(width2, height2);
@@ -441,13 +441,13 @@ BOOL CPicture::LoadFile2(CString jmeno)
 		New(width, height);
 	}
 
-// vygenerov·nÌ konverznÌ tabulky palet
+// vygenerov√°n√≠ konverzn√≠ tabulky palet
 	if (bits <= 8)
 	{
 		GenKonvPal(bmp);
 	}
 
-// p¯Ìprava bufferu odchylky pro dithering
+// p≈ô√≠prava bufferu odchylky pro dithering
 	int* odch = NULL;
 	if (Dither)
 	{
@@ -455,39 +455,39 @@ BOOL CPicture::LoadFile2(CString jmeno)
 		MemFill(odch, (3*width + 6) * sizeof(int), 0);
 	}
 
-// p¯Ìprava parametr˘ ke konverzi
-	BYTE* dst = pData->Data;				// ukl·dacÌ adresa
-	BYTE* src = (BYTE*)bmp + sizehead;		// ËtecÌ adresa
-	int srcinc;								// p¯Ìrustek zdrojovÈ adresy
-	int i, j;								// pracovnÌ ËÌtaËe
-	BYTE r, g, b;							// barevnÈ sloûky
-	WORD srcdat;							// zdrojov· data 16 bit˘
+// p≈ô√≠prava parametr≈Ø ke konverzi
+	BYTE* dst = pData->Data;				// ukl√°dac√≠ adresa
+	BYTE* src = (BYTE*)bmp + sizehead;		// ƒçtec√≠ adresa
+	int srcinc;								// p≈ô√≠rustek zdrojov√© adresy
+	int i, j;								// pracovn√≠ ƒç√≠taƒçe
+	BYTE r, g, b;							// barevn√© slo≈æky
+	WORD srcdat;							// zdrojov√° data 16 bit≈Ø
 
-// rozliöenÌ podle poËtu bod˘
+// rozli≈°en√≠ podle poƒçtu bod≈Ø
 	switch (bits)
 	{
 
 // 1 bit
 	case 1:
-		srcinc = ((width+7)/8 + 1) & ~1;	// p¯Ìrustek zdrojovÈ adresy
+		srcinc = ((width+7)/8 + 1) & ~1;	// p≈ô√≠rustek zdrojov√© adresy
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			for (j = 0; j < width; j++)
 			{
 				*dst = KonvPal[(src[j/8] >> (7 - (j & 7))) & 1];
 				dst++;
 			}
-			src += srcinc;					// zv˝öenÌ zdrojovÈ adresy
+			src += srcinc;					// zv√Ω≈°en√≠ zdrojov√© adresy
 		}
 		HalfSize();
 		break;
 
 // 4 bity
 	case 4:
-		srcinc = ((width+1)/2 + 3) & ~3;	// p¯Ìrustek zdrojovÈ adresy
+		srcinc = ((width+1)/2 + 3) & ~3;	// p≈ô√≠rustek zdrojov√© adresy
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			for (j = 0; j < width; j++)
 			{
@@ -501,30 +501,30 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				}
 				dst++;
 			}
-			src += srcinc;					// zv˝öenÌ zdrojovÈ adresy
+			src += srcinc;					// zv√Ω≈°en√≠ zdrojov√© adresy
 		}
 		HalfSize();
 		break;
 
-// 8 bit˘
+// 8 bit≈Ø
 	case 8:
-		srcinc = ((width + 3) & ~3) - width; // p¯Ìrustek zdrojovÈ adresy
+		srcinc = ((width + 3) & ~3) - width; // p≈ô√≠rustek zdrojov√© adresy
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+				for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 				{
-				// bod k z·pisu
+				// bod k z√°pisu
 					BYTE col = *src;
 					src++;
 					if (col >= colors) col = 0;
 					RGBQUAD* rgb = bmp->bmiColors + col;
 
-				// pozadÌ
+				// pozad√≠
 					if ((*(int*)rgb & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
 						col = BackCol;
@@ -539,7 +539,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					else
 					{	
 
-				// stÌn
+				// st√≠n
 					  if ((*(int*)rgb & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						col = ShadCol;
@@ -554,17 +554,17 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					  else
 					  {	
 
-				// poûadovan· barva
-						b = rgb->rgbBlue;			// modr· sloûka
-						g = rgb->rgbGreen;			// zelen· sloûka
-						r = rgb->rgbRed;			// Ëerven· sloûka
+				// po≈æadovan√° barva
+						b = rgb->rgbBlue;			// modr√° slo≈æka
+						g = rgb->rgbGreen;			// zelen√° slo≈æka
+						r = rgb->rgbRed;			// ƒçerven√° slo≈æka
 
-				// zkorigovan· barva
-						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr· sloûka
-						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen· sloûka
-						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// Ëerven· sloûka
+				// zkorigovan√° barva
+						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr√° slo≈æka
+						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen√° slo≈æka
+						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ƒçerven√° slo≈æka
 
-				// omezenÌ p¯eteËenÌ barvy
+				// omezen√≠ p≈ôeteƒçen√≠ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -575,7 +575,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				// import barvy
 						col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktu·lnÌho bodu od poûadovanÈ barvy
+				// odchylka aktu√°ln√≠ho bodu od po≈æadovan√© barvy
 						rgb = StdBitmapInfo->bmiColors + col;
 						*odch0 = rgb->rgbBlue - b;
 						odch0++;
@@ -588,9 +588,9 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					  }
 					}
 
-				// uloûenÌ bodu
+				// ulo≈æen√≠ bodu
 					*dst = col;
-					dst++;						// zv˝öenÌ cÌlovÈ adresy
+					dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 				}
 			}
 			else
@@ -599,43 +599,43 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				src += width;
 				dst += width;
 			}
-			src += srcinc;					// zv˝öenÌ zdrojovÈ adresy
+			src += srcinc;					// zv√Ω≈°en√≠ zdrojov√© adresy
 		}
 		HalfSize();
 		break;
 
-// 16 bit˘
+// 16 bit≈Ø
 	case 16:
 		srcinc = ((2*width + 3) & ~3) - 2*width;
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus p¯es vöechny body na lince
+				for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body na lince
 				{
 
-				// poûadovan· barva
+				// po≈æadovan√° barva
 					srcdat = *(WORD*)src;		// data jednoho bodu
-					b = (BYTE)(srcdat & 0x1F);	// modr· sloûka
+					b = (BYTE)(srcdat & 0x1F);	// modr√° slo≈æka
 					b = (BYTE)(b*8 + b/4);
-					srcdat >>= 5;				// zruöenÌ bit˘ modrÈ sloûky
-					g = (BYTE)(srcdat & 0x1F);	// zelen· sloûka
+					srcdat >>= 5;				// zru≈°en√≠ bit≈Ø modr√© slo≈æky
+					g = (BYTE)(srcdat & 0x1F);	// zelen√° slo≈æka
 					g = (BYTE)(g*8 + g/4);
-					srcdat >>= 5;				// zruöenÌ bit˘ zelenÈ sloûky
-					r = (BYTE)(srcdat & 0x1F);	// Ëerven· sloûka
+					srcdat >>= 5;				// zru≈°en√≠ bit≈Ø zelen√© slo≈æky
+					r = (BYTE)(srcdat & 0x1F);	// ƒçerven√° slo≈æka
 					r = (BYTE)(r*8 + r/4);
-					src++;						// zv˝öenÌ zdrojovÈ adresy
-					src++;						// zv˝öenÌ zdrojovÈ adresy
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
 
-				// zkorigovan· barva
-					int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr· sloûka
-					int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen· sloûka
-					int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// Ëerven· sloûka
+				// zkorigovan√° barva
+					int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr√° slo≈æka
+					int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen√° slo≈æka
+					int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ƒçerven√° slo≈æka
 
-				// omezenÌ p¯eteËenÌ barvy
+				// omezen√≠ p≈ôeteƒçen√≠ barvy
 					if (b2 < 0) b2 = 0;
 					if (b2 > 255) b2 = 255;
 					if (g2 < 0) g2 = 0;
@@ -646,7 +646,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				// import barvy
 					BYTE col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktu·lnÌho bodu od poûadovanÈ barvy
+				// odchylka aktu√°ln√≠ho bodu od po≈æadovan√© barvy
 					RGBQUAD* rgb = StdBitmapInfo->bmiColors + col;
 					*odch0 = rgb->rgbBlue - b;
 					odch0++;
@@ -657,28 +657,28 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					*odch0 = rgb->rgbRed - r;
 					odch0++;
 
-				// uloûenÌ bodu
-					*dst = col;	// import barvy do vlastnÌch palet
-					dst++;						// zv˝öenÌ cÌlovÈ adresy
+				// ulo≈æen√≠ bodu
+					*dst = col;	// import barvy do vlastn√≠ch palet
+					dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 				}
 			}
 			else
 			{
-				for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+				for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 				{
 					srcdat = *(WORD*)src;		// data jednoho bodu
-					b = (BYTE)(srcdat & 0x1F);	// modr· sloûka
+					b = (BYTE)(srcdat & 0x1F);	// modr√° slo≈æka
 					b = (BYTE)(b*8 + b/4);
-					srcdat >>= 5;				// zruöenÌ bit˘ modrÈ sloûky
-					g = (BYTE)(srcdat & 0x1F);	// zelen· sloûka
+					srcdat >>= 5;				// zru≈°en√≠ bit≈Ø modr√© slo≈æky
+					g = (BYTE)(srcdat & 0x1F);	// zelen√° slo≈æka
 					g = (BYTE)(g*8 + g/4);
-					srcdat >>= 5;				// zruöenÌ bit˘ zelenÈ sloûky
-					r = (BYTE)(srcdat & 0x1F);	// Ëerven· sloûka
+					srcdat >>= 5;				// zru≈°en√≠ bit≈Ø zelen√© slo≈æky
+					r = (BYTE)(srcdat & 0x1F);	// ƒçerven√° slo≈æka
 					r = (BYTE)(r*8 + r/4);
-					*dst = PalImport(r, g, b);	// import barvy do vlastnÌch palet
-					src++;						// zv˝öenÌ zdrojovÈ adresy
+					*dst = PalImport(r, g, b);	// import barvy do vlastn√≠ch palet
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
 					src++;
-					dst++;						// zv˝öenÌ cÌlovÈ adresy
+					dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 				}
 			}
 			src += srcinc;
@@ -686,21 +686,21 @@ BOOL CPicture::LoadFile2(CString jmeno)
 		HalfSize();
 		break;
 
-// 24 bit˘
+// 24 bit≈Ø
 	case 24:
 		srcinc = (3*width + 3) & ~3;
 
-		for (i = height2; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height2; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-			for (j = width2; j > 0; j--)		// cyklus p¯es vöechny body
+			for (j = width2; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 			{
-				int			r = 0;									// Ëerven· sloûka
-				int			g = 0;									// zelen· sloûka
-				int			b = 0;									// modr· sloûka
-				BYTE		n = 0;									// poËet platn˝ch bod˘
-				int			s = 0;									// poËet stin˘
+				int			r = 0;									// ƒçerven√° slo≈æka
+				int			g = 0;									// zelen√° slo≈æka
+				int			b = 0;									// modr√° slo≈æka
+				BYTE		n = 0;									// poƒçet platn√Ωch bod≈Ø
+				int			s = 0;									// poƒçet stin≈Ø
 
 				if ((*(int*)src & 0xffffff) != (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 				{
@@ -710,10 +710,10 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				  }
 				  else
 				  {
-					n++;											// zv˝öenÌ ËÌtaËe bod˘
-					r = src[2];										// Ëerven· sloûka
-					g = src[1];										// zelen· sloûka
-					b = src[0];										// modr· sloûka
+					n++;											// zv√Ω≈°en√≠ ƒç√≠taƒçe bod≈Ø
+					r = src[2];										// ƒçerven√° slo≈æka
+					g = src[1];										// zelen√° slo≈æka
+					b = src[0];										// modr√° slo≈æka
 				  }
 				}
 
@@ -725,10 +725,10 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				  }
 				  else
 				  {
-					n++;											// zv˝öenÌ ËÌtaËe bod˘
-					r += src[5];									// Ëerven· sloûka
-					g += src[4];									// zelen· sloûka
-					b += src[3];									// modr· sloûka
+					n++;											// zv√Ω≈°en√≠ ƒç√≠taƒçe bod≈Ø
+					r += src[5];									// ƒçerven√° slo≈æka
+					g += src[4];									// zelen√° slo≈æka
+					b += src[3];									// modr√° slo≈æka
 				  }
 				}
 
@@ -740,10 +740,10 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				  }
 				  else
 				  {
-					n++;											// zv˝öenÌ ËÌtaËe bod˘
-					r += src[srcinc+2];								// Ëerven· sloûka
-					g += src[srcinc+1];								// zelen· sloûka
-					b += src[srcinc+0];								// modr· sloûka
+					n++;											// zv√Ω≈°en√≠ ƒç√≠taƒçe bod≈Ø
+					r += src[srcinc+2];								// ƒçerven√° slo≈æka
+					g += src[srcinc+1];								// zelen√° slo≈æka
+					b += src[srcinc+0];								// modr√° slo≈æka
 				  }
 				}
 
@@ -755,10 +755,10 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				  }
 				  else
 				  {
-					n++;											// zv˝öenÌ ËÌtaËe bod˘
-					r += src[srcinc+5];								// Ëerven· sloûka
-					g += src[srcinc+4];								// zelen· sloûka
-					b += src[srcinc+3];								// modr· sloûka
+					n++;											// zv√Ω≈°en√≠ ƒç√≠taƒçe bod≈Ø
+					r += src[srcinc+5];								// ƒçerven√° slo≈æka
+					g += src[srcinc+4];								// zelen√° slo≈æka
+					b += src[srcinc+3];								// modr√° slo≈æka
 				  }
 				}
 
@@ -800,12 +800,12 @@ BOOL CPicture::LoadFile2(CString jmeno)
 						g /= n;
 						b /= n;
 
-				// zkorigovan· barva
-						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr· sloûka
-						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen· sloûka
-						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// Ëerven· sloûka
+				// zkorigovan√° barva
+						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr√° slo≈æka
+						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen√° slo≈æka
+						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ƒçerven√° slo≈æka
 
-				// omezenÌ p¯eteËenÌ barvy
+				// omezen√≠ p≈ôeteƒçen√≠ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -816,7 +816,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				// import barvy
 						BYTE col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktu·lnÌho bodu od poûadovanÈ barvy
+				// odchylka aktu√°ln√≠ho bodu od po≈æadovan√© barvy
 						RGBQUAD* rgb = StdBitmapInfo->bmiColors + col;
 						*odch0 = rgb->rgbBlue - b;
 						odch0++;
@@ -827,8 +827,8 @@ BOOL CPicture::LoadFile2(CString jmeno)
 						*odch0 = rgb->rgbRed - r;
 						odch0++;
 
-				// uloûenÌ bodu
-						*dst = col;	// import barvy do vlastnÌch palet
+				// ulo≈æen√≠ bodu
+						*dst = col;	// import barvy do vlastn√≠ch palet
 					}
 					else
 					{
@@ -836,25 +836,25 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					}
 				}
 
-				dst++;						// zv˝öenÌ cÌlovÈ adresy
+				dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 				src += 6;
 			}
 			src += 2*srcinc - 6*width2;
 		}
 		break;
 
-// 32 bit˘
+// 32 bit≈Ø
 	case 32:
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			if (Dither)
 			{
 				int* odch0 = odch + 3;			// ukazatel v bufferu odchylek
 
-				for (j = width; j > 0; j--)		// cyklus p¯es vöechny body na lince
+				for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body na lince
 				{
 
-				// pozadÌ
+				// pozad√≠
 					if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
 						*dst = BackCol;
@@ -870,7 +870,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					else
 					{	
 
-				// stÌn
+				// st√≠n
 					  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						*dst = ShadCol;
@@ -886,21 +886,21 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					  else
 					  {	
 
-				// poûadovan· barva
-						b = *src;					// modr· sloûka
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						g = *src;					// zelen· sloûka
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						r = *src;					// Ëerven· sloûka
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						src++;						// zv˝öenÌ zdrojovÈ adresy
+				// po≈æadovan√° barva
+						b = *src;					// modr√° slo≈æka
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						g = *src;					// zelen√° slo≈æka
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						r = *src;					// ƒçerven√° slo≈æka
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
 
-				// zkorigovan· barva
-						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr· sloûka
-						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen· sloûka
-						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// Ëerven· sloûka
+				// zkorigovan√° barva
+						int b2 = b - (odch0[-3] + odch0[0] + odch0[3])*5/8;		// modr√° slo≈æka
+						int g2 = g - (odch0[-2] + odch0[1] + odch0[4])*5/8;		// zelen√° slo≈æka
+						int r2 = r - (odch0[-1] + odch0[2] + odch0[5])*5/8;		// ƒçerven√° slo≈æka
 
-				// omezenÌ p¯eteËenÌ barvy
+				// omezen√≠ p≈ôeteƒçen√≠ barvy
 						if (b2 < 0) b2 = 0;
 						if (b2 > 255) b2 = 255;
 						if (g2 < 0) g2 = 0;
@@ -911,7 +911,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 				// import barvy
 						BYTE col = PalImport((BYTE)r2, (BYTE)g2, (BYTE)b2);
 
-				// odchylka aktu·lnÌho bodu od poûadovanÈ barvy
+				// odchylka aktu√°ln√≠ho bodu od po≈æadovan√© barvy
 						RGBQUAD* rgb = StdBitmapInfo->bmiColors + col;
 						*odch0 = rgb->rgbBlue - b;
 						odch0++;
@@ -922,16 +922,16 @@ BOOL CPicture::LoadFile2(CString jmeno)
 						*odch0 = rgb->rgbRed - r;
 						odch0++;
 
-				// uloûenÌ bodu
-						*dst = col;	// import barvy do vlastnÌch palet
+				// ulo≈æen√≠ bodu
+						*dst = col;	// import barvy do vlastn√≠ch palet
 					  }
 					}
-					dst++;						// zv˝öenÌ cÌlovÈ adresy
+					dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 				}
 			}
 			else
 			{
-				for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+				for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 				{
 					if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 					{
@@ -940,7 +940,7 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					}
 					else
 					{
-				// stÌn
+				// st√≠n
 					  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 					  {
 						*dst = ShadCol;
@@ -948,17 +948,17 @@ BOOL CPicture::LoadFile2(CString jmeno)
 					  }
 					  else
 					  {	
-						b = *src;					// modr· sloûka
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						g = *src;					// zelen· sloûka
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						r = *src;					// Ëerven· sloûka
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						src++;						// zv˝öenÌ zdrojovÈ adresy
-						*dst = PalImport(r, g, b);	// import barvy do vlastnÌch palet
+						b = *src;					// modr√° slo≈æka
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						g = *src;					// zelen√° slo≈æka
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						r = *src;					// ƒçerven√° slo≈æka
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+						*dst = PalImport(r, g, b);	// import barvy do vlastn√≠ch palet
 					  }
 					}
-					dst++;						// zv˝öenÌ cÌlovÈ adresy
+					dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 				}
 			}
 		}
@@ -966,24 +966,24 @@ BOOL CPicture::LoadFile2(CString jmeno)
 		break;
 	}
 
-// uvolnÏnÌ bufferu odchylky pro dithering
+// uvolnƒõn√≠ bufferu odchylky pro dithering
 	MemFree(odch);
 
-// uvolnÏnÌ bufferu
+// uvolnƒõn√≠ bufferu
 	MemFree(bmp);
 
-// p¯Ìznak - obr·zek naËten OK
+// p≈ô√≠znak - obr√°zek naƒçten OK
 	return TRUE;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naËtenÌ obr·zku ze souboru (TRUE=operace OK)
+// naƒçten√≠ obr√°zku ze souboru (TRUE=operace OK)
 /*
 BOOL CPicture::LoadFile(CString jmeno)
 {
 
-// otev¯enÌ souboru
+// otev≈ôen√≠ souboru
 	HANDLE hFile = ::CreateFile(jmeno, GENERIC_READ, 
 		FILE_SHARE_READ, NULL, OPEN_EXISTING, 
 		FILE_ATTRIBUTE_NORMAL, NULL);
@@ -994,46 +994,46 @@ BOOL CPicture::LoadFile(CString jmeno)
 		return FALSE;
 	}
 
-// naËtenÌ z·hlavÌ souboru
+// naƒçten√≠ z√°hlav√≠ souboru
 	char hd[14];
 	DWORD read;
 	::ReadFile(hFile, hd, 14, &read, NULL);
 
-// zjiötÏnÌ velikosti souboru (bez z·hlavÌ 14 bajt˘)
+// zji≈°tƒõn√≠ velikosti souboru (bez z√°hlav√≠ 14 bajt≈Ø)
 	int size = (int)::SetFilePointer(hFile, 0, NULL, FILE_END) - 14;
 	::SetFilePointer(hFile, 14, NULL, FILE_BEGIN);
 
-// kontrola velikosti souboru a z·hlavÌ
+// kontrola velikosti souboru a z√°hlav√≠
 	if ((size < 50) || (size > 20000000) ||	(hd[0] != 'B') || (hd[1] != 'M'))
 	{
-		::CloseHandle(hFile);		// uzav¯enÌ souboru
+		::CloseHandle(hFile);		// uzav≈ôen√≠ souboru
 		return FALSE;
 	}
 
-// p¯Ìprava bufferu k naËtenÌ souboru
+// p≈ô√≠prava bufferu k naƒçten√≠ souboru
 	BITMAPINFO* bmp = (BITMAPINFO*)MemGet(size);
 
-// naËtenÌ souboru do bufferu
+// naƒçten√≠ souboru do bufferu
 	::ReadFile(hFile, bmp, size, &read, NULL);
 
-// uzav¯enÌ souboru
-	::CloseHandle(hFile);		// uzav¯enÌ souboru
+// uzav≈ôen√≠ souboru
+	::CloseHandle(hFile);		// uzav≈ôen√≠ souboru
 
-// kontrola spr·vnosti operace ËtenÌ, kontrola platnosti souboru
+// kontrola spr√°vnosti operace ƒçten√≠, kontrola platnosti souboru
 	if ((read != (DWORD)size) || !TestBMP(bmp))
 	{
-		MemFree(bmp);				// uvolnÏnÌ bufferu
+		MemFree(bmp);				// uvolnƒõn√≠ bufferu
 		return FALSE;
 	}
 
-// p¯Ìprava parametr˘ bitmapy
-	int width = bmp->bmiHeader.biWidth;			// öÌ¯ka
-	int height = bmp->bmiHeader.biHeight;		// v˝öka
-	int bits = bmp->bmiHeader.biBitCount;		// poËet bit˘ na bod
-	int colors = bmp->bmiHeader.biClrUsed;		// poËet pouûit˝ch barev
-	if (colors <= 0) colors = (1 << bits);		// implicitnÌ poËet barev
+// p≈ô√≠prava parametr≈Ø bitmapy
+	int width = bmp->bmiHeader.biWidth;			// ≈°√≠≈ôka
+	int height = bmp->bmiHeader.biHeight;		// v√Ω≈°ka
+	int bits = bmp->bmiHeader.biBitCount;		// poƒçet bit≈Ø na bod
+	int colors = bmp->bmiHeader.biClrUsed;		// poƒçet pou≈æit√Ωch barev
+	if (colors <= 0) colors = (1 << bits);		// implicitn√≠ poƒçet barev
 	if (bits > 8) colors = 0;					// pro TRUE COLOR nejsou palety
-	int sizehead = sizeof(BITMAPINFOHEADER) + colors*sizeof(RGBQUAD); // velikost z·hlavÌ
+	int sizehead = sizeof(BITMAPINFOHEADER) + colors*sizeof(RGBQUAD); // velikost z√°hlav√≠
 	size -= sizehead;							// oprava velikosti dat
 	if (size < 0) size = 0;
 
@@ -1065,50 +1065,50 @@ BOOL CPicture::LoadFile(CString jmeno)
 		size = newsize;
 	}
 
-// ˙schova p˘vodnÌho obr·zku
+// √∫schova p≈Øvodn√≠ho obr√°zku
 	CPicture pic(*this);
 
-// vytvo¯enÌ novÈho obr·zku
+// vytvo≈ôen√≠ nov√©ho obr√°zku
 	New(width, height);
 
-// vygenerov·nÌ konverznÌ tabulky palet
+// vygenerov√°n√≠ konverzn√≠ tabulky palet
 	if (bits <= 8)
 	{
 		GenKonvPal(bmp);
 	}
 
-// p¯Ìprava parametr˘ ke konverzi
-	BYTE* dst = pData->Data;				// ukl·dacÌ adresa
-	BYTE* src = (BYTE*)bmp + sizehead;		// ËtecÌ adresa
-	int srcinc;								// p¯Ìrustek zdrojovÈ adresy
-	int i, j;								// pracovnÌ ËÌtaËe
-	BYTE r, g, b;							// barevnÈ sloûky
-	WORD srcdat;							// zdrojov· data 16 bit˘
+// p≈ô√≠prava parametr≈Ø ke konverzi
+	BYTE* dst = pData->Data;				// ukl√°dac√≠ adresa
+	BYTE* src = (BYTE*)bmp + sizehead;		// ƒçtec√≠ adresa
+	int srcinc;								// p≈ô√≠rustek zdrojov√© adresy
+	int i, j;								// pracovn√≠ ƒç√≠taƒçe
+	BYTE r, g, b;							// barevn√© slo≈æky
+	WORD srcdat;							// zdrojov√° data 16 bit≈Ø
 
-// rozliöenÌ podle poËtu bod˘
+// rozli≈°en√≠ podle poƒçtu bod≈Ø
 	switch (bits)
 	{
 
 // 1 bit
 	case 1:
-		srcinc = ((width+7)/8 + 1) & ~1;	// p¯Ìrustek zdrojovÈ adresy
+		srcinc = ((width+7)/8 + 1) & ~1;	// p≈ô√≠rustek zdrojov√© adresy
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			for (j = 0; j < width; j++)
 			{
 				*dst = KonvPal[(src[j/8] >> (7 - (j & 7))) & 1];
 				dst++;
 			}
-			src += srcinc;					// zv˝öenÌ zdrojovÈ adresy
+			src += srcinc;					// zv√Ω≈°en√≠ zdrojov√© adresy
 		}
 		break;
 
 // 4 bity
 	case 4:
-		srcinc = ((width+1)/2 + 3) & ~3;	// p¯Ìrustek zdrojovÈ adresy
+		srcinc = ((width+1)/2 + 3) & ~3;	// p≈ô√≠rustek zdrojov√© adresy
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
 			for (j = 0; j < width; j++)
 			{
@@ -1122,17 +1122,17 @@ BOOL CPicture::LoadFile(CString jmeno)
 				}
 				dst++;
 			}
-			src += srcinc;					// zv˝öenÌ zdrojovÈ adresy
+			src += srcinc;					// zv√Ω≈°en√≠ zdrojov√© adresy
 		}
 		break;
 
-// 8 bit˘
+// 8 bit≈Ø
 	case 8:
-		srcinc = ((width + 3) & ~3) - width; // p¯Ìrustek zdrojovÈ adresy
+		srcinc = ((width + 3) & ~3) - width; // p≈ô√≠rustek zdrojov√© adresy
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
-			for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+			for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 			{
 				if (Dither)
 				{
@@ -1144,53 +1144,53 @@ BOOL CPicture::LoadFile(CString jmeno)
 					*dst = PalImport(bmp->bmiColors[*src].rgbRed,
 							bmp->bmiColors[*src].rgbGreen, bmp->bmiColors[*src].rgbBlue);
 				}
-				src++;						// zv˝öenÌ zdrojovÈ adresy
-				dst++;						// zv˝öenÌ cÌlovÈ adresy
+				src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+				dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 			}
-			src += srcinc;					// zv˝öenÌ zdrojovÈ adresy
+			src += srcinc;					// zv√Ω≈°en√≠ zdrojov√© adresy
 		}
 		break;
 
-// 16 bit˘
+// 16 bit≈Ø
 	case 16:
 		srcinc = ((2*width + 3) & ~3) - 2*width;
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
-			for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+			for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 			{
 				srcdat = *(WORD*)src;		// data jednoho bodu
-				b = (BYTE)(srcdat & 0x1F);	// modr· sloûka
+				b = (BYTE)(srcdat & 0x1F);	// modr√° slo≈æka
 				b = (BYTE)(b*8 + b/4);
-				srcdat >>= 5;				// zruöenÌ bit˘ modrÈ sloûky
-				g = (BYTE)(srcdat & 0x1F);	// zelen· sloûka
+				srcdat >>= 5;				// zru≈°en√≠ bit≈Ø modr√© slo≈æky
+				g = (BYTE)(srcdat & 0x1F);	// zelen√° slo≈æka
 				g = (BYTE)(g*8 + g/4);
-				srcdat >>= 5;				// zruöenÌ bit˘ zelenÈ sloûky
-				r = (BYTE)(srcdat & 0x1F);	// Ëerven· sloûka
+				srcdat >>= 5;				// zru≈°en√≠ bit≈Ø zelen√© slo≈æky
+				r = (BYTE)(srcdat & 0x1F);	// ƒçerven√° slo≈æka
 				r = (BYTE)(r*8 + r/4);
 				if (Dither)
 				{
-					*dst = PalImportDither(r, g, b, j, i);	// import barvy do vlastnÌch palet
+					*dst = PalImportDither(r, g, b, j, i);	// import barvy do vlastn√≠ch palet
 				}
 				else
 				{
-					*dst = PalImport(r, g, b);	// import barvy do vlastnÌch palet
+					*dst = PalImport(r, g, b);	// import barvy do vlastn√≠ch palet
 				}
-				src++;						// zv˝öenÌ zdrojovÈ adresy
+				src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
 				src++;
-				dst++;						// zv˝öenÌ cÌlovÈ adresy
+				dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 			}
 			src += srcinc;
 		}
 		break;
 
-// 24 bit˘
+// 24 bit≈Ø
 	case 24:
 		srcinc = ((3*width + 3) & ~3) - 3*width;
 
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
-			for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+			for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 			{
 				if ((*(int*)src & 0xffffff) == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 				{
@@ -1200,7 +1200,7 @@ BOOL CPicture::LoadFile(CString jmeno)
 				else
 				{
 				
-				// stÌn
+				// st√≠n
 				  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 				  {
 					*dst = ShadCol;
@@ -1208,33 +1208,33 @@ BOOL CPicture::LoadFile(CString jmeno)
 				  }
 				  else
 				  {	
-					b = *src;					// modr· sloûka
-					src++;						// zv˝öenÌ zdrojovÈ adresy
-					g = *src;					// zelen· sloûka
-					src++;						// zv˝öenÌ zdrojovÈ adresy
-					r = *src;					// Ëerven· sloûka
-					src++;						// zv˝öenÌ zdrojovÈ adresy
+					b = *src;					// modr√° slo≈æka
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+					g = *src;					// zelen√° slo≈æka
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+					r = *src;					// ƒçerven√° slo≈æka
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
 					if (Dither)
 					{
-						*dst = PalImportDither(r, g, b, j, i);	// import barvy do vlastnÌch palet
+						*dst = PalImportDither(r, g, b, j, i);	// import barvy do vlastn√≠ch palet
 					}
 					else
 					{
-						*dst = PalImport(r, g, b);	// import barvy do vlastnÌch palet
+						*dst = PalImport(r, g, b);	// import barvy do vlastn√≠ch palet
 					}
 				  }
 				}
-				dst++;						// zv˝öenÌ cÌlovÈ adresy
+				dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 			}
 			src += srcinc;
 		}
 		break;
 
-// 32 bit˘
+// 32 bit≈Ø
 	case 32:
-		for (i = height; i > 0; i--)		// cyklus p¯es vöechny linky
+		for (i = height; i > 0; i--)		// cyklus p≈ôes v≈°echny linky
 		{
-			for (j = width; j > 0; j--)		// cyklus p¯es vöechny body
+			for (j = width; j > 0; j--)		// cyklus p≈ôes v≈°echny body
 			{
 				if (*(int*)src == (BACKCOLOR_BLUE | (BACKCOLOR_GREEN*256) | (BACKCOLOR_RED*256*256)))
 				{
@@ -1243,7 +1243,7 @@ BOOL CPicture::LoadFile(CString jmeno)
 				}
 				else
 				{
-				// stÌn
+				// st√≠n
 				  if ((*(int*)src & 0xffffff) == (SHADCOLOR_BLUE | (SHADCOLOR_GREEN*256) | (SHADCOLOR_RED*256*256)))
 				  {
 					*dst = ShadCol;
@@ -1251,64 +1251,64 @@ BOOL CPicture::LoadFile(CString jmeno)
 				  }
 				  else
 				  {	
-					b = *src;					// modr· sloûka
-					src++;						// zv˝öenÌ zdrojovÈ adresy
-					g = *src;					// zelen· sloûka
-					src++;						// zv˝öenÌ zdrojovÈ adresy
-					r = *src;					// Ëerven· sloûka
-					src++;						// zv˝öenÌ zdrojovÈ adresy
-					src++;						// zv˝öenÌ zdrojovÈ adresy
+					b = *src;					// modr√° slo≈æka
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+					g = *src;					// zelen√° slo≈æka
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+					r = *src;					// ƒçerven√° slo≈æka
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
+					src++;						// zv√Ω≈°en√≠ zdrojov√© adresy
 					if (Dither)
 					{
-						*dst = PalImportDither(r, g, b, j, i);	// import barvy do vlastnÌch palet
+						*dst = PalImportDither(r, g, b, j, i);	// import barvy do vlastn√≠ch palet
 					}
 					else
 					{
-						*dst = PalImport(r, g, b);	// import barvy do vlastnÌch palet
+						*dst = PalImport(r, g, b);	// import barvy do vlastn√≠ch palet
 					}
 				  }
 				}
-				dst++;						// zv˝öenÌ cÌlovÈ adresy
+				dst++;						// zv√Ω≈°en√≠ c√≠lov√© adresy
 			}
 		}
 		break;
 	}
 
-// uvolnÏnÌ bufferu
+// uvolnƒõn√≠ bufferu
 	MemFree(bmp);
 
-// p¯Ìznak - obr·zek naËten OK
+// p≈ô√≠znak - obr√°zek naƒçten OK
 	return TRUE;
 }
 */
 
 /////////////////////////////////////////////////////////////////////////////
-// uloûenÌ do souboru form·tu BMP (FALSE=chyba)
+// ulo≈æen√≠ do souboru form√°tu BMP (FALSE=chyba)
 
 BOOL CPicture::SaveFile(CString jmeno) const
 {
-// otev¯enÌ souboru
+// otev≈ôen√≠ souboru
 	HANDLE hFile = ::CreateFile(jmeno, GENERIC_WRITE,
 		0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-// test, zda byl soubor vytvo¯en
+// test, zda byl soubor vytvo≈ôen
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		return FALSE;
 	}
 
-// p¯Ìprava velikosti z·hlavÌ souboru
+// p≈ô√≠prava velikosti z√°hlav√≠ souboru
 	int headsize = sizeof(BITMAPFILEHEADER) + 
 					sizeof(BITMAPINFOHEADER) +
 					StdColors*sizeof(RGBQUAD);
 
-// p¯Ìprava bufferu pro obr·zek
+// p≈ô√≠prava bufferu pro obr√°zek
 	BYTE* buf = (BYTE*)MemGet(headsize + (pData->Width+6)*pData->Height*2 + 1000);
 
 // komprese dat
 	int size = KompRLE8(buf + headsize, pData->Data, pData->Width, pData->Height);
 
-// naplnÏnÌ z·hlavÌ popisovaËe souboru
+// naplnƒõn√≠ z√°hlav√≠ popisovaƒçe souboru
 	BITMAPFILEHEADER* head = (BITMAPFILEHEADER*) buf;
 	buf[0] = 'B';								// identifikace souboru
 	buf[1] = 'M';
@@ -1317,90 +1317,90 @@ BOOL CPicture::SaveFile(CString jmeno) const
 	head->bfReserved2 = 0;
 	head->bfOffBits = headsize;					// offset dat
 
-// naplnÏnÌ z·hlavÌ popisovaËe dat obr·zku
+// naplnƒõn√≠ z√°hlav√≠ popisovaƒçe dat obr√°zku
 	BITMAPINFOHEADER* bmp = (BITMAPINFOHEADER*)(buf + sizeof(BITMAPFILEHEADER));
 	bmp->biSize = sizeof(BITMAPINFOHEADER);		// velikost struktury
-	bmp->biWidth = pData->Width;				// öÌ¯ka
-	bmp->biHeight = pData->Height;				// v˝öka
-	bmp->biPlanes = 1;							// poËet barevn˝ch rovin
-	bmp->biBitCount = 8;						// poËet bit˘ na bod
+	bmp->biWidth = pData->Width;				// ≈°√≠≈ôka
+	bmp->biHeight = pData->Height;				// v√Ω≈°ka
+	bmp->biPlanes = 1;							// poƒçet barevn√Ωch rovin
+	bmp->biBitCount = 8;						// poƒçet bit≈Ø na bod
 	bmp->biCompression = BI_RLE8;				// komprese
-	bmp->biSizeImage = size;					// velikost dat obr·zku
-	bmp->biXPelsPerMeter = 0;					// horizont·lnÌ rozliöenÌ
-	bmp->biYPelsPerMeter = 0;					// vertik·lnÌ rozliöenÌ
-	bmp->biClrUsed = StdColors;					// poËet pouûit˝ch palet
-	bmp->biClrImportant = StdColors;			// poËet d˘leûit˝ch palet
+	bmp->biSizeImage = size;					// velikost dat obr√°zku
+	bmp->biXPelsPerMeter = 0;					// horizont√°ln√≠ rozli≈°en√≠
+	bmp->biYPelsPerMeter = 0;					// vertik√°ln√≠ rozli≈°en√≠
+	bmp->biClrUsed = StdColors;					// poƒçet pou≈æit√Ωch palet
+	bmp->biClrImportant = StdColors;			// poƒçet d≈Øle≈æit√Ωch palet
 
-// p¯enesenÌ palet
+// p≈ôenesen√≠ palet
 	MemCopy(buf + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER),
 				StdBitmapInfo->bmiColors, StdColors*sizeof(RGBQUAD));
 
-// uloûenÌ souboru
+// ulo≈æen√≠ souboru
 	size += headsize;
 	DWORD write;
 	BOOL result = ::WriteFile(hFile, buf, size, &write, NULL);
 
-// uzav¯enÌ souboru
+// uzav≈ôen√≠ souboru
 	::CloseHandle(hFile);
 
-// zruöenÌ bufferu
+// zru≈°en√≠ bufferu
 	MemFree(buf);
 
-// p¯i chybÏ zruöenÌ souboru
+// p≈ôi chybƒõ zru≈°en√≠ souboru
 	if (!result || (write != (DWORD)size))
 	{
 		::DeleteFile(jmeno);
 		return FALSE;
 	}
 
-// p¯Ìznak - uloûeno OK
+// p≈ô√≠znak - ulo≈æeno OK
 	return TRUE;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// oper·tor p¯i¯azenÌ
+// oper√°tor p≈ôi≈ôazen√≠
 
 const CPicture& CPicture::operator= (const CPicture& src)
 {
-	Detach();				// zruöenÌ star˝ch dat
-	Attach(src.pData);		// p¯i¯azenÌ nov˝ch dat
+	Detach();				// zru≈°en√≠ star√Ωch dat
+	Attach(src.pData);		// p≈ôi≈ôazen√≠ nov√Ωch dat
 	return *this;
 }
 
 
 /***************************************************************************\
 *																			*
-*								Buffer obr·zk˘								*
+*								Buffer obr√°zk≈Ø								*
 *																			*
 \***************************************************************************/
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvo¯enÌ nov˝ch dat
+// vytvo≈ôen√≠ nov√Ωch dat
 
-#define NEWDATANUM 256				// poËet novÏ vytvo¯en˝ch poloûek (1 KB)
+#define NEWDATANUM 256				// poƒçet novƒõ vytvo≈ôen√Ωch polo≈æek (1 KB)
 
 void CBufPic::NewData()
 {
-	int i = NEWDATANUM;			// poËet nov˝ch poloûek
-	int next = m_Max;			// p¯ÌötÌ poloûka - 1
-	m_Max = next + i;			// zv˝öenÌ poËtu poloûek (o 1 KB)
+	int i = NEWDATANUM;			// poƒçet nov√Ωch polo≈æek
+	int next = m_Max;			// p≈ô√≠≈°t√≠ polo≈æka - 1
+	m_Max = next + i;			// zv√Ω≈°en√≠ poƒçtu polo≈æek (o 1 KB)
 
-	MemBuf(m_Data, m_Max);		// zv˝öenÌ velikosti bufferu
+	MemBuf(m_Data, m_Max);		// zv√Ω≈°en√≠ velikosti bufferu
 
-	MemBuf(m_Valid, m_Max);		// zv˝öenÌ velikosti bufferu platnosti
-	MemFill(m_Valid + next, NEWDATANUM, FALSE); // nastavenÌ p¯Ìznak˘ na neplatnÈ poloûky
+	MemBuf(m_Valid, m_Max);		// zv√Ω≈°en√≠ velikosti bufferu platnosti
+	MemFill(m_Valid + next, NEWDATANUM, FALSE); // nastaven√≠ p≈ô√≠znak≈Ø na neplatn√© polo≈æky
 
 	CPicture* data = m_Data + next - 1; // ukazatel dat - 1
 	for (; i > 0; i--)
 	{
-		data++;					// zv˝öenÌ ukazatele poloûek
-		next++;					// zv˝öenÌ indexu p¯ÌötÌ poloûky
-		*(int*)data = next;		// odkaz na p¯ÌötÌ poloûku
+		data++;					// zv√Ω≈°en√≠ ukazatele polo≈æek
+		next++;					// zv√Ω≈°en√≠ indexu p≈ô√≠≈°t√≠ polo≈æky
+		*(int*)data = next;		// odkaz na p≈ô√≠≈°t√≠ polo≈æku
 	}
-	*(int*)data = m_Next;		// nav·z·nÌ na dalöÌ poloûku
-	m_Next = m_Max-NEWDATANUM;	// odkaz na prvnÌ novou poloûku
+	*(int*)data = m_Next;		// nav√°z√°n√≠ na dal≈°√≠ polo≈æku
+	m_Next = m_Max-NEWDATANUM;	// odkaz na prvn√≠ novou polo≈æku
 };
 
 
@@ -1409,165 +1409,165 @@ void CBufPic::NewData()
 
 CBufPic::CBufPic()
 {
-	m_Data = NULL;			// nenÌ buffer dat
-	m_Valid = NULL;			// nenÌ buffer platnosti
-	m_Num = 0;				// nenÌ û·dn· platn· poloûka
-	m_Max = 0;				// nenÌ buffer poloûek
-	m_Next = -1;			// p¯iötÌ voln· poloûka (-1=nenÌ)
+	m_Data = NULL;			// nen√≠ buffer dat
+	m_Valid = NULL;			// nen√≠ buffer platnosti
+	m_Num = 0;				// nen√≠ ≈æ√°dn√° platn√° polo≈æka
+	m_Max = 0;				// nen√≠ buffer polo≈æek
+	m_Next = -1;			// p≈ôi≈°t√≠ voln√° polo≈æka (-1=nen√≠)
 }
 
 CBufPic::~CBufPic()
 {
-	DelAll();				// zruöenÌ vöech poloûek
+	DelAll();				// zru≈°en√≠ v≈°ech polo≈æek
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// statick˝ konstruktor a destruktor
+// statick√Ω konstruktor a destruktor
 
 void CBufPic::Init()
 {
-	m_Data = NULL;			// nenÌ buffer dat
-	m_Valid = NULL;			// nenÌ buffer platnosti
-	m_Num = 0;				// nenÌ û·dn· platn· poloûka
-	m_Max = 0;				// nenÌ buffer poloûek
-	m_Next = -1;			// p¯iötÌ voln· poloûka (-1=nenÌ)
+	m_Data = NULL;			// nen√≠ buffer dat
+	m_Valid = NULL;			// nen√≠ buffer platnosti
+	m_Num = 0;				// nen√≠ ≈æ√°dn√° platn√° polo≈æka
+	m_Max = 0;				// nen√≠ buffer polo≈æek
+	m_Next = -1;			// p≈ôi≈°t√≠ voln√° polo≈æka (-1=nen√≠)
 }
 
 void CBufPic::Term()
 {
-	DelAll();				// zruöenÌ vöech poloûek
+	DelAll();				// zru≈°en√≠ v≈°ech polo≈æek
 }
 
 ////////////////////////////////////////////////////////////////////
-// zruöenÌ vöech poloûek v bufferu (ukl·d·nÌ zaËne opÏt po ¯adÏ)
+// zru≈°en√≠ v≈°ech polo≈æek v bufferu (ukl√°d√°n√≠ zaƒçne opƒõt po ≈ôadƒõ)
 
 void CBufPic::DelAll()
 {
-// zruöenÌ poloûek
+// zru≈°en√≠ polo≈æek
 	for (int i = m_Max-1; i >= 0; i--)
 	{
 		Del(i);
 	}
 
-// zruöenÌ bufferu
-	MemBuf(m_Data, 0);			// zruöenÌ bufferu dat
-	MemBuf(m_Valid, 0);			// zruöenÌ bufferu platnosti
-	m_Num = 0;					// nenÌ û·dn· platn· poloûka
-	m_Max = 0;					// nenÌ û·dn· poloûka v bufferu
-	m_Next = -1;				// nenÌ p¯ÌötÌ poloûka
+// zru≈°en√≠ bufferu
+	MemBuf(m_Data, 0);			// zru≈°en√≠ bufferu dat
+	MemBuf(m_Valid, 0);			// zru≈°en√≠ bufferu platnosti
+	m_Num = 0;					// nen√≠ ≈æ√°dn√° platn√° polo≈æka
+	m_Max = 0;					// nen√≠ ≈æ√°dn√° polo≈æka v bufferu
+	m_Next = -1;				// nen√≠ p≈ô√≠≈°t√≠ polo≈æka
 }
 
 ////////////////////////////////////////////////////////////////////
-// poskytnutÌ poloûky (s kontrolou platnosti indexu)
+// poskytnut√≠ polo≈æky (s kontrolou platnosti indexu)
 
 const CPicture& _fastcall CBufPic::Get(const int index) const
 {
-	if (IsValid(index))			// je index platn˝?
+	if (IsValid(index))			// je index platn√Ω?
 	{
-		return m_Data[index];	// poloûka na danÈm indexu
+		return m_Data[index];	// polo≈æka na dan√©m indexu
 	}
-	return EmptyPicture;		// pro neplatn˝ index vr·tÌ pr·zdn˝ obr·zek
+	return EmptyPicture;		// pro neplatn√Ω index vr√°t√≠ pr√°zdn√Ω obr√°zek
 }
 
 ////////////////////////////////////////////////////////////////////
-// nastavenÌ poloûky (s kontrolou platnosti indexu)
+// nastaven√≠ polo≈æky (s kontrolou platnosti indexu)
 
 void _fastcall CBufPic::Set(const int index, const CPicture& data)
 {
-	if (IsValid(index))			// je index platn˝?
+	if (IsValid(index))			// je index platn√Ω?
 	{
 		m_Data[index] = data;
 	}
 }
 
 ////////////////////////////////////////////////////////////////////
-// zruöenÌ poloûky (s kontrolou platnosti indexu)
+// zru≈°en√≠ polo≈æky (s kontrolou platnosti indexu)
 
 void _fastcall CBufPic::Del(const int index)
 {
-	if (IsValid(index))						// je index platn˝?
+	if (IsValid(index))						// je index platn√Ω?
 	{
-		m_Data[index].Term();				// ukonËenÌ objektu
-		*(int*)(m_Data + index) = m_Next;	// p¯ÌötÌ voln· poloûka
-		m_Valid[index] = FALSE;				// zruöenÌ p¯Ìznaku platnosti
-		m_Num--;							// snÌûenÌ ËÌtaËe platn˝ch poloûek
-		m_Next = index;						// odkaz na tuto poloûku
+		m_Data[index].Term();				// ukonƒçen√≠ objektu
+		*(int*)(m_Data + index) = m_Next;	// p≈ô√≠≈°t√≠ voln√° polo≈æka
+		m_Valid[index] = FALSE;				// zru≈°en√≠ p≈ô√≠znaku platnosti
+		m_Num--;							// sn√≠≈æen√≠ ƒç√≠taƒçe platn√Ωch polo≈æek
+		m_Next = index;						// odkaz na tuto polo≈æku
 	}
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvo¯enÌ poloûky (vracÌ index poloûky)
+// vytvo≈ôen√≠ polo≈æky (vrac√≠ index polo≈æky)
 
 int CBufPic::New()
 {
-	int result = NewItem();		// vytvo¯enÌ novÈ poloûky
-	m_Data[result].Init();		// inicializace poloûky
+	int result = NewItem();		// vytvo≈ôen√≠ nov√© polo≈æky
+	m_Data[result].Init();		// inicializace polo≈æky
 	return result;
 }
 
 int CBufPic::New(int width, int height)
 {
-	int result = NewItem();		// vytvo¯enÌ novÈ poloûky
-	m_Data[result].Init(width, height);	// inicializace poloûky
-	m_Data[result].Clear();		// vymaz·nÌ obr·zku
+	int result = NewItem();		// vytvo≈ôen√≠ nov√© polo≈æky
+	m_Data[result].Init(width, height);	// inicializace polo≈æky
+	m_Data[result].Clear();		// vymaz√°n√≠ obr√°zku
 	return result;
 }
 
 ////////////////////////////////////////////////////////////////////
-// p¯id·nÌ poloûky (vracÌ index poloûky)
+// p≈ôid√°n√≠ polo≈æky (vrac√≠ index polo≈æky)
 
 int _fastcall CBufPic::Add(const CPicture& data)
 {
-	int result = NewItem();		// vytvo¯enÌ novÈ poloûky
-	m_Data[result].Init(data.Data());	// inicializace poloûky
+	int result = NewItem();		// vytvo≈ôen√≠ nov√© polo≈æky
+	m_Data[result].Init(data.Data());	// inicializace polo≈æky
 	return result;
 }
 
 int _fastcall CBufPic::Add(PICTUREDATA* data)
 {
-	int result = NewItem();		// vytvo¯enÌ novÈ poloûky
-	m_Data[result].Init(data);	// inicializace poloûky
+	int result = NewItem();		// vytvo≈ôen√≠ nov√© polo≈æky
+	m_Data[result].Init(data);	// inicializace polo≈æky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// duplikace poloûky (s kontrolou platnosti indexu, vracÌ index poloûky)
+// duplikace polo≈æky (s kontrolou platnosti indexu, vrac√≠ index polo≈æky)
 
 int _fastcall CBufPic::Dup(const int index)
 {
-	int result = NewItem();		// vytvo¯enÌ novÈ poloûky
+	int result = NewItem();		// vytvo≈ôen√≠ nov√© polo≈æky
 
-	if (IsValid(index))			// je index platn˝?
+	if (IsValid(index))			// je index platn√Ω?
 	{
-		m_Data[result].Init(m_Data[index].Data());	// kopie poloûky
+		m_Data[result].Init(m_Data[index].Data());	// kopie polo≈æky
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatnÈ poloûky
+		m_Data[result].Init();		// inicializace neplatn√© polo≈æky
 	}
 	return result;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// oper·tor p¯i¯azenÌ
+// oper√°tor p≈ôi≈ôazen√≠
 
 const CBufPic& CBufPic::operator= (const CBufPic& src)
 {
-	DelAll();					// zruöenÌ star˝ch dat
-	int index = 0;				// index naËÌtanÈ poloûky
-	int i = src.Max();			// velikost zdrojovÈho bufferu
+	DelAll();					// zru≈°en√≠ star√Ωch dat
+	int index = 0;				// index naƒç√≠tan√© polo≈æky
+	int i = src.Max();			// velikost zdrojov√©ho bufferu
 
-	for (; i > 0; i--)			// pro vöechny poloûky v bufferu
+	for (; i > 0; i--)			// pro v≈°echny polo≈æky v bufferu
 	{
-		if (src.m_Valid[index])	// je to platn· poloûka?
+		if (src.m_Valid[index])	// je to platn√° polo≈æka?
 		{
-			Add(src[index]);	// kopie poloûky
+			Add(src[index]);	// kopie polo≈æky
 		}
-		index++;				// inkrementace ËtecÌho indexu
+		index++;				// inkrementace ƒçtec√≠ho indexu
 	}
 	ASSERT(m_Num == src.Num());
 	return *this;

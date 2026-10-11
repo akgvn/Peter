@@ -5,73 +5,73 @@
 *																			*
 \***************************************************************************/
 
-#define	SOUNDDEFSAMPLES		22050				// implicitní pøenosová rychlost
-#define	SOUNDDEFFORMAT		WAVE_FORMAT_PCM		// implicitní formát dat
-#define	SOUNDDEFCHANNELS	1					// implicitní poèet kanálù
-#define	SOUNDDEFBITS		16					// implicitní poèet bitù
+#define	SOUNDDEFSAMPLES		22050				// implicitnÃ­ pÅ™enosovÃ¡ rychlost
+#define	SOUNDDEFFORMAT		WAVE_FORMAT_PCM		// implicitnÃ­ formÃ¡t dat
+#define	SOUNDDEFCHANNELS	1					// implicitnÃ­ poÄet kanÃ¡lÅ¯
+#define	SOUNDDEFBITS		16					// implicitnÃ­ poÄet bitÅ¯
 #define	SOUNDDEFALIGN		(SOUNDDEFCHANNELS * (SOUNDDEFBITS/8))	
-												// implicitní zarovávání
+												// implicitnÃ­ zarovÃ¡vÃ¡nÃ­
 #define	SOUNDDEFRATE		(SOUNDDEFSAMPLES * SOUNDDEFCHANNELS * (SOUNDDEFBITS/8))
-												 // implicitní rychlost pøenosu
+												 // implicitnÃ­ rychlost pÅ™enosu
 
 /////////////////////////////////////////////////////////////////////////////
-// struktura poloky dat zvuku (32 bajtù)
-// pro jinı formát ne PCM je na zaèátku dat popisovaè formátu WAVEFORMATEX s udanou
-// velikostí doplòujících dat "cbSize", za popisovaèem bezprostøednì následují data
+// struktura poloÅ¾ky dat zvuku (32 bajtÅ¯)
+// pro jinÃ½ formÃ¡t neÅ¾ PCM je na zaÄÃ¡tku dat popisovaÄ formÃ¡tu WAVEFORMATEX s udanou
+// velikostÃ­ doplÅˆujÃ­cÃ­ch dat "cbSize", za popisovaÄem bezprostÅ™ednÄ› nÃ¡sledujÃ­ data
 
 typedef struct SOUNDDATA_
 {
-	long	Refer;					// (4) èítaè referencí
-	long	Size;					// (4) velikost dat (bajtù)	- vèetnì pøípadného popisovaèe WAVEFORMATEX
-	long	Samples;				// (4) vzorkovací kmitoèet - vzorkù za sekundu
+	long	Refer;					// (4) ÄÃ­taÄ referencÃ­
+	long	Size;					// (4) velikost dat (bajtÅ¯)	- vÄetnÄ› pÅ™Ã­padnÃ©ho popisovaÄe WAVEFORMATEX
+	long	Samples;				// (4) vzorkovacÃ­ kmitoÄet - vzorkÅ¯ za sekundu
 									//		(pro PCM jsou jen hodnoty 11025/22050/44100)
-	long	Format;					// (4) formát dat (1 = PCM, pro jinı formát je na zaèátku dat záhlaví WAVEFORMATEX)
-	short	Channels;				// (2) poèet kanálù (pro PCM jsou jen hodnoty 1 = mono, 2 = stereo)
-	short	Bits;					// (2) poèet bitù na vzorek kanálu (pro PCM jsou jen hodnoty 8 nebo 16)
-	IDirectSoundBuffer* DSBuffer;	// (4) DirectSound buffer (NULL=není)
-	long	SizeHead;				// (4) velikost záhlaví WAVEFORMATEX na zaèátku dat (pro PCM je = 0)
-	BYTE*	Data;					// (4) ukazatel na data (s pøípadnım popisovaèem WAVEFORMATEX na zaèátku)
+	long	Format;					// (4) formÃ¡t dat (1 = PCM, pro jinÃ½ formÃ¡t je na zaÄÃ¡tku dat zÃ¡hlavÃ­ WAVEFORMATEX)
+	short	Channels;				// (2) poÄet kanÃ¡lÅ¯ (pro PCM jsou jen hodnoty 1 = mono, 2 = stereo)
+	short	Bits;					// (2) poÄet bitÅ¯ na vzorek kanÃ¡lu (pro PCM jsou jen hodnoty 8 nebo 16)
+	IDirectSoundBuffer* DSBuffer;	// (4) DirectSound buffer (NULL=nenÃ­)
+	long	SizeHead;				// (4) velikost zÃ¡hlavÃ­ WAVEFORMATEX na zaÄÃ¡tku dat (pro PCM je = 0)
+	BYTE*	Data;					// (4) ukazatel na data (s pÅ™Ã­padnÃ½m popisovaÄem WAVEFORMATEX na zaÄÃ¡tku)
 
 } SOUNDDATA;
 
-// velikost poloky dat zvuku (bez dat)
+// velikost poloÅ¾ky dat zvuku (bez dat)
 #define SIZEOFSOUNDDATA	(5*sizeof(long) + 2*sizeof(short) + sizeof(IDirectSoundBuffer*) + sizeof(BYTE*))
 
-extern SOUNDDATA EmptySoundData;			// data prázdného zvuku
+extern SOUNDDATA EmptySoundData;			// data prÃ¡zdnÃ©ho zvuku
 
 
 /////////////////////////////////////////////////////////////////////////////
-// standardní popisovaè pro export/import
+// standardnÃ­ popisovaÄ pro export/import
 
 #pragma pack( push )
 #pragma pack( 2 )
 
-// popisovaè dat souboru WAV (8 B)
+// popisovaÄ dat souboru WAV (8 B)
 typedef struct WAVDATA_ {
 	char			tDataIdent[4];		// (4) identifikace dat "data"
-	DWORD			nDataSize;			// (4) velikost následujících dat zvuku
+	DWORD			nDataSize;			// (4) velikost nÃ¡sledujÃ­cÃ­ch dat zvuku
 } WAVDATA;
 
-// popisovaè formátu souboru WAV (28 B)
+// popisovaÄ formÃ¡tu souboru WAV (28 B)
 typedef struct WAVFORMAT_ {
-	char			tFormatIdent[8];	// (8) identifikace záhlaví formátu (= "WAVEfmt ")
-	DWORD			nFormatSize;		// (4) velikost následujících dat formátu
+	char			tFormatIdent[8];	// (8) identifikace zÃ¡hlavÃ­ formÃ¡tu (= "WAVEfmt ")
+	DWORD			nFormatSize;		// (4) velikost nÃ¡sledujÃ­cÃ­ch dat formÃ¡tu
 
-	WORD			wFormatTag;			// (2) formát dat (1 = PCM)
-	WORD			nChannels;			// (2) poèet kanálù (1 = mono, 2 = stereo)
-	DWORD			nSamplesPerSec;		// (4) vzorkovací kmitoèet (vzorkù za sekundu)
-	DWORD			nAvgBytesPerSec;	// (4) pøenosová rychlost (bajtù za sekundu)
-	WORD			nBlockAlign;		// (2) zarovnávání dat (bity*kanály/8)
+	WORD			wFormatTag;			// (2) formÃ¡t dat (1 = PCM)
+	WORD			nChannels;			// (2) poÄet kanÃ¡lÅ¯ (1 = mono, 2 = stereo)
+	DWORD			nSamplesPerSec;		// (4) vzorkovacÃ­ kmitoÄet (vzorkÅ¯ za sekundu)
+	DWORD			nAvgBytesPerSec;	// (4) pÅ™enosovÃ¡ rychlost (bajtÅ¯ za sekundu)
+	WORD			nBlockAlign;		// (2) zarovnÃ¡vÃ¡nÃ­ dat (bity*kanÃ¡ly/8)
 
-	WORD			wBitsPerSample;		// (2) poèet bitù na jeden vzorek
+	WORD			wBitsPerSample;		// (2) poÄet bitÅ¯ na jeden vzorek
 } WAVFORMAT;
 
 // struktura souboru WAV (44 B)
 typedef struct WAVHEAD_ {
 	char		tWavIdent[4];		// (4) identifikace souboru (= "RIFF")
-	DWORD		nFileSize;			// (4) velikost následujících dat souboru
+	DWORD		nFileSize;			// (4) velikost nÃ¡sledujÃ­cÃ­ch dat souboru
 
-	WAVFORMAT	WavFormat;			// blok popisovaèe formátu
+	WAVFORMAT	WavFormat;			// blok popisovaÄe formÃ¡tu
 	WAVDATA		WavData;			// blok dat zvuku
 } WAVHEAD;
 
@@ -83,14 +83,14 @@ typedef struct WAVHEAD_ {
 
 class CSound
 {
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné - pouze ukazatel na data
-	SOUNDDATA*		pData;					// ukazatel na záhlaví zvuku
+// promÄ›nnÃ© - pouze ukazatel na data
+	SOUNDDATA*		pData;					// ukazatel na zÃ¡hlavÃ­ zvuku
 
-// pøipojení dat
+// pÅ™ipojenÃ­ dat
 	inline void Attach(SOUNDDATA* data)
 	{
 		ASSERT(data);
@@ -98,7 +98,7 @@ private:
 		LongIncrement(&(data->Refer));
 	}
 
-// odpojení (a zrušení) dat
+// odpojenÃ­ (a zruÅ¡enÃ­) dat
 	inline void Detach()
 	{
 		ASSERT(pData);
@@ -121,142 +121,142 @@ private:
 		}
 	}
 
-// vytvoøení nového bufferu - starı buffer musí bıt odpojen!
+// vytvoÅ™enÃ­ novÃ©ho bufferu - starÃ½ buffer musÃ­ bÃ½t odpojen!
 	inline void NewBuffer(int size)
 	{
 		ASSERT(size >= 0);
 		if (size < 0) size = 0;
 		SOUNDDATA* data = (SOUNDDATA*)MemGet(SIZEOFSOUNDDATA);
 		pData = data;						// adresa dat
-		data->Refer = 1;					// poèet referencí
+		data->Refer = 1;					// poÄet referencÃ­
 		data->Size = size;					// velikost dat
-		data->Samples = SOUNDDEFSAMPLES;	// vzorkovací kmitoèet
-		data->Format = SOUNDDEFFORMAT;		// formát dat
-		data->Channels = SOUNDDEFCHANNELS;	// poèet kanálù
-		data->Bits = SOUNDDEFBITS;			// poèet bitù na vzorek
-		data->DSBuffer = NULL;				// není DirectSound buffer
-		data->SizeHead = 0;					// velikost záhlaví WAVEFORMATEX
-		data->Data = (BYTE*)MemGet(size);	// vytvoøení bufferu pro data
+		data->Samples = SOUNDDEFSAMPLES;	// vzorkovacÃ­ kmitoÄet
+		data->Format = SOUNDDEFFORMAT;		// formÃ¡t dat
+		data->Channels = SOUNDDEFCHANNELS;	// poÄet kanÃ¡lÅ¯
+		data->Bits = SOUNDDEFBITS;			// poÄet bitÅ¯ na vzorek
+		data->DSBuffer = NULL;				// nenÃ­ DirectSound buffer
+		data->SizeHead = 0;					// velikost zÃ¡hlavÃ­ WAVEFORMATEX
+		data->Data = (BYTE*)MemGet(size);	// vytvoÅ™enÃ­ bufferu pro data
 	}
 
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
 // konstruktor a destruktor
-	CSound();								// standardní konstruktor
-	CSound(const CSound& src);				// kopírovací konstruktor
-	CSound(int size);						// konstruktor s vytvoøením dat
-	~CSound();								// standardní destruktor
+	CSound();								// standardnÃ­ konstruktor
+	CSound(const CSound& src);				// kopÃ­rovacÃ­ konstruktor
+	CSound(int size);						// konstruktor s vytvoÅ™enÃ­m dat
+	~CSound();								// standardnÃ­ destruktor
 
-// statickı konstruktor a destruktor
-	void Init();							// statickı konstruktor
-	void Init(SOUNDDATA* data);				// statickı konstruktor se zadáním dat
-	void Init(int size);					// statickı konstruktor s vytvoøením dat
-	void Term();							// statickı destruktor
+// statickÃ½ konstruktor a destruktor
+	void Init();							// statickÃ½ konstruktor
+	void Init(SOUNDDATA* data);				// statickÃ½ konstruktor se zadÃ¡nÃ­m dat
+	void Init(int size);					// statickÃ½ konstruktor s vytvoÅ™enÃ­m dat
+	void Term();							// statickÃ½ destruktor
 
-// pøipojení/odpojení dat
-	void NewBufferData(int size);			// vytvoøení nového bufferu
-	void AttachData(SOUNDDATA* data);		// pøipojení dat
-	void DetachData();						// odpojení dat
+// pÅ™ipojenÃ­/odpojenÃ­ dat
+	void NewBufferData(int size);			// vytvoÅ™enÃ­ novÃ©ho bufferu
+	void AttachData(SOUNDDATA* data);		// pÅ™ipojenÃ­ dat
+	void DetachData();						// odpojenÃ­ dat
 
-// poskytnutí ukazatele na data
+// poskytnutÃ­ ukazatele na data
 	inline SOUNDDATA* Data() const { return pData; };
 	inline BYTE* DataData() const { return pData->Data; };
 
-// poskytnutí velikosti dat zvuku (bez záhlaví)
+// poskytnutÃ­ velikosti dat zvuku (bez zÃ¡hlavÃ­)
 	inline int Size() const { return pData->Size; };
 
-// poskytnutí/nastavení vzorkovacího kmitoètu
+// poskytnutÃ­/nastavenÃ­ vzorkovacÃ­ho kmitoÄtu
 	inline int Samples() const { return pData->Samples; };
 	inline void Samples(int samples) { pData->Samples = samples; };
 //	inline BOOL LowRate() const { return pData->Samples <= 22050*3/4; };
 //	inline BOOL HighRate() const { return pData->Samples >= 22050*3/2; };
 
-// poskytnutí/nastavení formátu dat
+// poskytnutÃ­/nastavenÃ­ formÃ¡tu dat
 	inline int Format() const { return pData->Format; };
 	inline void Format(int format) { pData->Format = format; };
 
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	void _fastcall DeComp();
 
-// poskytnutí velikosti záhlaví WAVEFORMATEX
+// poskytnutÃ­ velikosti zÃ¡hlavÃ­ WAVEFORMATEX
 	inline int SizeHead() const { return pData->SizeHead; };
 
-// poskytnutí/nastavení poètu kanálù (obsluhováno jen 1 nebo 2)
+// poskytnutÃ­/nastavenÃ­ poÄtu kanÃ¡lÅ¯ (obsluhovÃ¡no jen 1 nebo 2)
 	inline int Channels() const { return pData->Channels; };
 	inline void Channels(int channels) { pData->Channels = (short)channels; };
 	inline BOOL Stereo() const { return (pData->Channels == 2); };
 	inline BOOL Mono() const { return (pData->Channels == 1); };
 
-// poskytnutí/nastavení poètu bitù na vzorek (obsluhováno jen 8 nebo 16)
+// poskytnutÃ­/nastavenÃ­ poÄtu bitÅ¯ na vzorek (obsluhovÃ¡no jen 8 nebo 16)
 	inline int Bits() const { return pData->Bits; };
 	inline void Bits(int bits) { pData->Bits = (short)bits; };
 	inline int Bytes() const { return pData->Bits/8; };
 
-// poskytnutí zarovnávání dat
+// poskytnutÃ­ zarovnÃ¡vÃ¡nÃ­ dat
 	inline int Align() const { return pData->Channels * (pData->Bits/8); };
 
-// poskytnutí pøenosové rychlosti dat (bajtù za sekundu)
+// poskytnutÃ­ pÅ™enosovÃ© rychlosti dat (bajtÅ¯ za sekundu)
 	inline int DataRate() const { return pData->Samples * pData->Channels * (pData->Bits/8); };
 
-// kopie do vlastního bufferu pøed modifikací
+// kopie do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­
 	void CopyWrite();
 
-// duplikace zvuku (pøíp. pøivlastnìní)
+// duplikace zvuku (pÅ™Ã­p. pÅ™ivlastnÄ›nÃ­)
 //	void DupCopy();
 
-// vyprázdnìní zvuku (uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ zvuku (uvolnÄ›nÃ­ dat)
 	void Empty();
 
-// test, zda je zvuk prázdnı
+// test, zda je zvuk prÃ¡zdnÃ½
 	inline BOOL IsEmpty() { return ((DWORD)pData == (DWORD)&EmptySoundData); };
 	inline BOOL IsNotEmpty() { return ((DWORD)pData != (DWORD)&EmptySoundData); };
 
-// vytvoøení nového zvuku (pøipraveno k zápisu, data jsou náhodná)
+// vytvoÅ™enÃ­ novÃ©ho zvuku (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
 	void New(int size);
 
-// nastavení velikosti zvuku
+// nastavenÃ­ velikosti zvuku
 	void ReSize(int size);
 
-// naètení zvuku ze souboru
+// naÄtenÃ­ zvuku ze souboru
 	void LoadFile();
 
-// uloení do souboru
+// uloÅ¾enÃ­ do souboru
 	void SaveFile() const;
 
-// konverze formátu na 8 bitù
+// konverze formÃ¡tu na 8 bitÅ¯
 	void _fastcall Conv8Bit();
 
-// konverze formátu na 16 bitù
+// konverze formÃ¡tu na 16 bitÅ¯
 	void _fastcall Conv16Bit();
 
-// konverze formátu na stereo
+// konverze formÃ¡tu na stereo
 	void _fastcall ConvStereo();
 
-// konverze formátu na mono
+// konverze formÃ¡tu na mono
 	void _fastcall ConvMono();
 
 // inverze zvuku
 	void _fastcall ConvInv();
 
-// konverze vzorkovací frekvence
+// konverze vzorkovacÃ­ frekvence
 	void _fastcall ConvRate(int rate);
 
-// konverze rychlosti zvuku (1=beze zmìny)
+// konverze rychlosti zvuku (1=beze zmÄ›ny)
 	void _fastcall ConvSpeed(double koef);
 
-// pøiètení zvuku
+// pÅ™iÄtenÃ­ zvuku
 	void _fastcall Add(CSound src);
 
-// vygenerování tónu
+// vygenerovÃ¡nÃ­ tÃ³nu
 	void _fastcall TonGen(double freq, double len);
 
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 	const CSound& operator= (const CSound& src);
 
-// operátory porovnání
+// operÃ¡tory porovnÃ¡nÃ­
 	friend inline BOOL operator==(const CSound& s1, const CSound& s2)
 		{ return (DWORD)s1.pData == (DWORD)s2.pData; };
 
@@ -272,33 +272,33 @@ public:
 
 class CBufSound
 {
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
+// promÄ›nnÃ©
 	CSound*		m_Data;		// ukazatel na data
-	int			m_Num;		// poèet platnıch poloek v bufferu
-	int			m_Max;		// velikost bufferu (poloek)
+	int			m_Num;		// poÄet platnÃ½ch poloÅ¾ek v bufferu
+	int			m_Max;		// velikost bufferu (poloÅ¾ek)
 
-// vytvoøení nové poloky
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 	inline int NewItem()
 	{
 		int i = m_Num;
 		if (i >= m_Max)
 		{
-			NewData();				// vytvoøení novıch dat
+			NewData();				// vytvoÅ™enÃ­ novÃ½ch dat
 		}
 
 		m_Num = i + 1;
 		return i;
 	};
 
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 	void NewData();
 
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
@@ -306,30 +306,30 @@ public:
 	CBufSound();
 	~CBufSound();
 
-// statickı konstruktor a destruktor
-	void Init();			// statickı konstruktor
-	void Term();			// statickı destruktor
+// statickÃ½ konstruktor a destruktor
+	void Init();			// statickÃ½ konstruktor
+	void Term();			// statickÃ½ destruktor
 
-// zrušení všech poloek v bufferu (ukládání zaène opìt po øadì od zaèátku)
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu (uklÃ¡dÃ¡nÃ­ zaÄne opÄ›t po Å™adÄ› od zaÄÃ¡tku)
 	void DelAll();
 
-// poskytnutí bufferu zvukù
+// poskytnutÃ­ bufferu zvukÅ¯
 	inline CSound* Data() const { return m_Data; };
 
-// poskytnutí poètu platnıch poloek v bufferu
+// poskytnutÃ­ poÄtu platnÃ½ch poloÅ¾ek v bufferu
 	inline int Num() const { return m_Num; };
 
-// poskytnutí velikosti bufferu
+// poskytnutÃ­ velikosti bufferu
 	inline int Max() const { return m_Max; };
 
-// kontrola platnosti poloky
+// kontrola platnosti poloÅ¾ky
 	inline BOOL IsValid(const int index) const
 		{ return ((DWORD)index < (DWORD)m_Num); };
 
 	inline BOOL IsNotValid(const int index) const
 		{ return ((DWORD)index >= (DWORD)m_Num); };
 
-// poskytnutí pøístupu k poloce (bez kontroly indexu)
+// poskytnutÃ­ pÅ™Ã­stupu k poloÅ¾ce (bez kontroly indexu)
 	inline CSound& operator[] (const int index)
 		{ ASSERT(IsValid(index)); return m_Data[index]; }
 
@@ -342,31 +342,31 @@ public:
 	inline const CSound& At(const int index) const
 		{ ASSERT(IsValid(index)); return m_Data[index]; }
 
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 	const CSound& _fastcall Get(const int index) const;
 
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 	void _fastcall Set(const int index, const CSound& data);
 
-// vyprázdnìní poloky (bez jejího zrušení - jen pro uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ poloÅ¾ky (bez jejÃ­ho zruÅ¡enÃ­ - jen pro uvolnÄ›nÃ­ dat)
 	void _fastcall Empty(const int index);
 
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 	void _fastcall Del(int num);
 
-// vytvoøení prázdné poloky (vrací index poloky)
+// vytvoÅ™enÃ­ prÃ¡zdnÃ© poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 	int New();
 	int New(int size);
 
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 	int _fastcall Add(const CSound& data);
 	int _fastcall Add(SOUNDDATA* data);
 
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 	int _fastcall Dup(const int index);
 	int _fastcall Dup(const int index, int num);
 
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 	const CBufSound& operator= (const CBufSound& src);
 };
 

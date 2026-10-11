@@ -7,7 +7,7 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøidání jednoho prvku do bufferu programu (vrací index prvku)
+// pÅ™idÃ¡nÃ­ jednoho prvku do bufferu programu (vracÃ­ index prvku)
 
 inline int CompAddItem(PROCMAP func)
 	{ return CompAddItem((PROCCOM)func); }
@@ -20,13 +20,13 @@ inline int CompAddItem(PROCMAP func, int data, int list)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøeklad vırazu s plochou (vrací true = operace OK)
+// pÅ™eklad vÃ½razu s plochou (vracÃ­ true = operace OK)
 
 bool _fastcall CompMap(int index);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøeklad pøíkazu s parametrem plochy
+// pÅ™eklad pÅ™Ã­kazu s parametrem plochy
 
 bool CompMapPar(int index, PROCCOM func, int data);
 
@@ -119,13 +119,13 @@ inline bool CompMapPar(int index, PROCMUS func)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøeklad pøíkazu se skupinou ploch (data = poèet vırazù - 1)
+// pÅ™eklad pÅ™Ã­kazu se skupinou ploch (data = poÄet vÃ½razÅ¯ - 1)
 
 inline bool CompMapGrp(int index, PROCLOG func, PROCLOG func1)
 	{ return CompGroup(CompMap, index, (PROCCOM)func, (PROCCOM)func1); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøeklad pøíkazu s podparametrem plochy (hledanım podle identifikace)
+// pÅ™eklad pÅ™Ã­kazu s podparametrem plochy (hledanÃ½m podle identifikace)
 
 void CompMapSubPar(int index, int idf);

@@ -1,7 +1,7 @@
 
 /***************************************************************************\
 *																			*
-*							Editor logickıch hodnot							*
+*							Editor logickÃ½ch hodnot							*
 *																			*
 \***************************************************************************/
 
@@ -9,18 +9,18 @@
 
 namespace EditLog
 {
-// inicializace pøi startu
+// inicializace pÅ™i startu
 	void StartInit();
 
-// zahájení editace
+// zahÃ¡jenÃ­ editace
 	void BegEdit(int index);
 
-// pøesun editaèního pole
+// pÅ™esun editaÄnÃ­ho pole
 	HDWP MoveEdit(HDWP hdwp);
 
-// zobrazení
+// zobrazenÃ­
 	void Disp();
 
-// pøepnutí pøepínaèe
+// pÅ™epnutÃ­ pÅ™epÃ­naÄe
 	void Switch();
 }

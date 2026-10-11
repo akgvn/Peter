@@ -1,199 +1,199 @@
 
 /***************************************************************************\
 *																			*
-*							Provádìní programu								*
+*							ProvÃ¡dÄ›nÃ­ programu								*
 *																			*
 \***************************************************************************/
 
 // ------- konstanty
 
-// øízení programu
-#define WHILEOUT	50				// èítaè time-out cyklu
-#define REDISPOUT	4				// èítaè time-out pøekreslení displeje
-#define MODULMERITKA 32				// modul rozlišení mìøítka (musí bıt dìlitelem 32 !!!!)
-#define MODULMERITKA2 4				// modul rozlišení mìøítka pro celoobrazovkovı mód
-#define DEFCOLOR 0x00ffffff			// implicitní barva pro grafiku
-#define MAXHLOUBKA	200				// maximální hloubka vnoøení volání funkcí
+// Å™Ã­zenÃ­ programu
+#define WHILEOUT	50				// ÄÃ­taÄ time-out cyklu
+#define REDISPOUT	4				// ÄÃ­taÄ time-out pÅ™ekreslenÃ­ displeje
+#define MODULMERITKA 32				// modul rozliÅ¡enÃ­ mÄ›Å™Ã­tka (musÃ­ bÃ½t dÄ›litelem 32 !!!!)
+#define MODULMERITKA2 4				// modul rozliÅ¡enÃ­ mÄ›Å™Ã­tka pro celoobrazovkovÃ½ mÃ³d
+#define DEFCOLOR 0x00ffffff			// implicitnÃ­ barva pro grafiku
+#define MAXHLOUBKA	200				// maximÃ¡lnÃ­ hloubka vnoÅ™enÃ­ volÃ¡nÃ­ funkcÃ­
 
-// obsluha souborù
-#define FILECLOSETIME	10;			// èas pro uzavøení souborù
-#define FILEBUFFER		0xf000		// velikost souborového bufferu
+// obsluha souborÅ¯
+#define FILECLOSETIME	10;			// Äas pro uzavÅ™enÃ­ souborÅ¯
+#define FILEBUFFER		0xf000		// velikost souborovÃ©ho bufferu
 
-// bity pro pøerušení (Break)
-#define BREAKPROG	0x1				// úplné pøerušení programu
-#define BREAKFUNC	0x2				// pøerušení funkce
-#define BREAKWHILE	0x4				// pøerušení cyklu
+// bity pro pÅ™eruÅ¡enÃ­ (Break)
+#define BREAKPROG	0x1				// ÃºplnÃ© pÅ™eruÅ¡enÃ­ programu
+#define BREAKFUNC	0x2				// pÅ™eruÅ¡enÃ­ funkce
+#define BREAKWHILE	0x4				// pÅ™eruÅ¡enÃ­ cyklu
 
-// obsluha klávesnice
-#define KEYBUFSIZE		20			// velikost bufferu kláves
-#define KEYMAPSIZE		256			// velikost mapy stisknutıch kláves
-#define VK_RETURN_NUM	0xad		// ENTER v numerické klávesnici
+// obsluha klÃ¡vesnice
+#define KEYBUFSIZE		20			// velikost bufferu klÃ¡ves
+#define KEYMAPSIZE		256			// velikost mapy stisknutÃ½ch klÃ¡ves
+#define VK_RETURN_NUM	0xad		// ENTER v numerickÃ© klÃ¡vesnici
 
-// ------ promìnné
+// ------ promÄ›nnÃ©
 
-// buffer provádìného programu
-extern	int			ProgStart;		// index volání hlavní funkce
+// buffer provÃ¡dÄ›nÃ©ho programu
+extern	int			ProgStart;		// index volÃ¡nÃ­ hlavnÃ­ funkce
 extern	EXECITEM*	ProgBuf;		// buffer programu
-extern	int			ProgNum;		// poèet poloek programu
+extern	int			ProgNum;		// poÄet poloÅ¾ek programu
 extern	int			ProgMax;		// velikost bufferu programu
-extern	EXECITEM*	ExecItem;		// ukazatel provádìného programu
-extern	int			Hloubka;		// hloubka vnoøení do funkcí
+extern	EXECITEM*	ExecItem;		// ukazatel provÃ¡dÄ›nÃ©ho programu
+extern	int			Hloubka;		// hloubka vnoÅ™enÃ­ do funkcÃ­
 
-// buffer obrázkù
-extern BYTE*	BackBuf;			// buffer obrázku pozadí
-extern BYTE*	PicBuf;				// buffer obrázku sestavy (s ikonami a sprajty)
-extern BYTE*	TextBuf;			// buffer pro vıstup textu
+// buffer obrÃ¡zkÅ¯
+extern BYTE*	BackBuf;			// buffer obrÃ¡zku pozadÃ­
+extern BYTE*	PicBuf;				// buffer obrÃ¡zku sestavy (s ikonami a sprajty)
+extern BYTE*	TextBuf;			// buffer pro vÃ½stup textu
 
-// aktualizace pøekreslení ikon
-extern bool*	AktBuf;				// buffer poadavkù k pøekreslení ikon
+// aktualizace pÅ™ekreslenÃ­ ikon
+extern bool*	AktBuf;				// buffer poÅ¾adavkÅ¯ k pÅ™ekreslenÃ­ ikon
 
-extern int		AktLeft;			// levı okraj k pøekreslení - vèetnì (v bodech)
-extern int		AktTop;				// horní okraj k pøekreslení - vèetnì (v bodech)
-extern int		AktRight;			// pravı okraj k pøekreslení - bez (v bodech)
-extern int		AktBottom;			// dolní okraj k pøekreslení - bez (v bodech)
+extern int		AktLeft;			// levÃ½ okraj k pÅ™ekreslenÃ­ - vÄetnÄ› (v bodech)
+extern int		AktTop;				// hornÃ­ okraj k pÅ™ekreslenÃ­ - vÄetnÄ› (v bodech)
+extern int		AktRight;			// pravÃ½ okraj k pÅ™ekreslenÃ­ - bez (v bodech)
+extern int		AktBottom;			// dolnÃ­ okraj k pÅ™ekreslenÃ­ - bez (v bodech)
 
-extern	bool	IsOverlay;			// zobrazeno pøekryvné okno Windows (otevøení souborù atd.)
+extern	bool	IsOverlay;			// zobrazeno pÅ™ekryvnÃ© okno Windows (otevÅ™enÃ­ souborÅ¯ atd.)
 
-// aktivní zobrazená plocha
-extern int		WidthN;				// šíøka plochy v ikonách
-extern int		HeightN;			// vıška plochy v ikonách
-extern int		Width;				// šíøka plochy v bodech
-extern int		Height;				// vıška plochy v bodech
-extern int		WidthByte;			// délka linky v bajtech
-extern int		RowByte;			// délka øádku ikon v bajtech
-extern int		DispLeft;			// levı okraj k zobrazení v oknì
-extern int		DispTop;			// horní okraj k zobrazení v oknì
-extern int		DispWidth;			// zobrazená šiøka v bodech
-extern int		DispHeight;			// zobrazená vıška v bodech
+// aktivnÃ­ zobrazenÃ¡ plocha
+extern int		WidthN;				// Å¡Ã­Å™ka plochy v ikonÃ¡ch
+extern int		HeightN;			// vÃ½Å¡ka plochy v ikonÃ¡ch
+extern int		Width;				// Å¡Ã­Å™ka plochy v bodech
+extern int		Height;				// vÃ½Å¡ka plochy v bodech
+extern int		WidthByte;			// dÃ©lka linky v bajtech
+extern int		RowByte;			// dÃ©lka Å™Ã¡dku ikon v bajtech
+extern int		DispLeft;			// levÃ½ okraj k zobrazenÃ­ v oknÄ›
+extern int		DispTop;			// hornÃ­ okraj k zobrazenÃ­ v oknÄ›
+extern int		DispWidth;			// zobrazenÃ¡ Å¡iÅ™ka v bodech
+extern int		DispHeight;			// zobrazenÃ¡ vÃ½Å¡ka v bodech
 
-extern	double	Meritko;			// mìøítko zobrazení
-extern	double	Meritko0;			// uschované mìøítko zobrazení pro normální okno
+extern	double	Meritko;			// mÄ›Å™Ã­tko zobrazenÃ­
+extern	double	Meritko0;			// uschovanÃ© mÄ›Å™Ã­tko zobrazenÃ­ pro normÃ¡lnÃ­ okno
 
-// zobrazení textu
-extern	int		GraphAreaWidth;		// šíøka pole k zobrazení textu centrovanì (v bodech)
+// zobrazenÃ­ textu
+extern	int		GraphAreaWidth;		// Å¡Ã­Å™ka pole k zobrazenÃ­ textu centrovanÄ› (v bodech)
 
-// nadpis a stavovı øádek
-extern	bool	CaptionAkt;			// poadavek k pøekreslení nadpisu okna
-extern	CString	CaptionText;		// novı text titulku k nastavení
-extern	bool	StatusAkt;			// poadavek k pøekreslení stavového øádku
-extern	CString	StatusText;			// novı stavovı text k nastavení
+// nadpis a stavovÃ½ Å™Ã¡dek
+extern	bool	CaptionAkt;			// poÅ¾adavek k pÅ™ekreslenÃ­ nadpisu okna
+extern	CString	CaptionText;		// novÃ½ text titulku k nastavenÃ­
+extern	bool	StatusAkt;			// poÅ¾adavek k pÅ™ekreslenÃ­ stavovÃ©ho Å™Ã¡dku
+extern	CString	StatusText;			// novÃ½ stavovÃ½ text k nastavenÃ­
 
-// buffer sprajtù
-extern	CBufInt	SpriteVisible;		// buffer indexù viditelnıch sprajtù
-extern	CBufInt	SpriteMoving;		// buffer indexù pohybujících se sprajtù
-extern	CBufInt	SpriteDispReq;		// buffer sprajtù vyadujících pøekreslení
-extern	CBufInt	SpriteDispLevel;	// hladiny sprajtù vyadujících pøekreslení
+// buffer sprajtÅ¯
+extern	CBufInt	SpriteVisible;		// buffer indexÅ¯ viditelnÃ½ch sprajtÅ¯
+extern	CBufInt	SpriteMoving;		// buffer indexÅ¯ pohybujÃ­cÃ­ch se sprajtÅ¯
+extern	CBufInt	SpriteDispReq;		// buffer sprajtÅ¯ vyÅ¾adujÃ­cÃ­ch pÅ™ekreslenÃ­
+extern	CBufInt	SpriteDispLevel;	// hladiny sprajtÅ¯ vyÅ¾adujÃ­cÃ­ch pÅ™ekreslenÃ­
 
-extern	int		SpriteWinX1;		// levı okraj okna sprajtù
-extern	int		SpriteWinY1;		// dolní okraj okna sprajtù
-extern	int		SpriteWinX2;		// pravı okraj okna sprajtù
-extern	int		SpriteWinY2;		// horní okraj okna sprajtù
+extern	int		SpriteWinX1;		// levÃ½ okraj okna sprajtÅ¯
+extern	int		SpriteWinY1;		// dolnÃ­ okraj okna sprajtÅ¯
+extern	int		SpriteWinX2;		// pravÃ½ okraj okna sprajtÅ¯
+extern	int		SpriteWinY2;		// hornÃ­ okraj okna sprajtÅ¯
 
-extern	int		WhileOut;			// èítaè time-out cyklu
-extern	int		ReDispOut;			// èítaè time-out pøekreslení displeje
+extern	int		WhileOut;			// ÄÃ­taÄ time-out cyklu
+extern	int		ReDispOut;			// ÄÃ­taÄ time-out pÅ™ekreslenÃ­ displeje
 
-// obsluha myši
-extern	bool	MouseValid;			// pøíznak platnosti údajù o myši
+// obsluha myÅ¡i
+extern	bool	MouseValid;			// pÅ™Ã­znak platnosti ÃºdajÅ¯ o myÅ¡i
 
-// obsluha èasovaèe
-extern	UINT	TimerID;			// ID èasovaèe
-extern	bool	TimerReq;			// pøišel signál od èasovaèe
+// obsluha ÄasovaÄe
+extern	UINT	TimerID;			// ID ÄasovaÄe
+extern	bool	TimerReq;			// pÅ™iÅ¡el signÃ¡l od ÄasovaÄe
 
-extern	bool	Pause;				// pøíznak zapaouzování programu
-extern	volatile int Break;			// pøíznaky pøerušení (0 = není pøerušení)
+extern	bool	Pause;				// pÅ™Ã­znak zapaouzovÃ¡nÃ­ programu
+extern	volatile int Break;			// pÅ™Ã­znaky pÅ™eruÅ¡enÃ­ (0 = nenÃ­ pÅ™eruÅ¡enÃ­)
 
-extern	double		MouseX;			// souøadnice myši X (v ikonovıch souøadnicích)
-extern	double		MouseY;			// souøadnice myši Y (v ikonovıch souøadnicích)
+extern	double		MouseX;			// souÅ™adnice myÅ¡i X (v ikonovÃ½ch souÅ™adnicÃ­ch)
+extern	double		MouseY;			// souÅ™adnice myÅ¡i Y (v ikonovÃ½ch souÅ™adnicÃ­ch)
 
 // obsluha CD
-#define CDAKTTIME		18			// èas pro aktualizace údajù o CD
-#define CDERRORTIME		(3*18)		// èas pro novı pokus pøi chybì
-#define CDCLOSETIME		30			// èas pro uzavøení pøístupu k CD (a zneplatnìní informací o disku)
-#define CDDEFLENGTH		(60*60*1000) // implicitní délka CD
-#define CDMAXLENGTH		(24*60*60*1000) // maximální délka CD
-#define CDMAXTRACKS		999			// maximální poèet stop CD
+#define CDAKTTIME		18			// Äas pro aktualizace ÃºdajÅ¯ o CD
+#define CDERRORTIME		(3*18)		// Äas pro novÃ½ pokus pÅ™i chybÄ›
+#define CDCLOSETIME		30			// Äas pro uzavÅ™enÃ­ pÅ™Ã­stupu k CD (a zneplatnÄ›nÃ­ informacÃ­ o disku)
+#define CDDEFLENGTH		(60*60*1000) // implicitnÃ­ dÃ©lka CD
+#define CDMAXLENGTH		(24*60*60*1000) // maximÃ¡lnÃ­ dÃ©lka CD
+#define CDMAXTRACKS		999			// maximÃ¡lnÃ­ poÄet stop CD
 
-extern	UINT	CDDevice;			// ID zaøízení MCI pro pøehrávání CD (0=není otevøeno)
-extern	int		CDError;			// èítaè pro novı pokus pøi chybì (musí bıt < 0)
-extern	int		CDValidTime;		// èítaè platnosti údajù o CD (musí bıt > 0)
-extern	bool	CDDiskValid;		// údaje o disku jsou platné (nebyl vymìnìn disk)
-extern	int		CDStart;			// startovací pozice CD v ms
-extern	int		CDLength;			// délka CD v ms
-extern	int		CDTracks;			// poèet stop CD
-extern	int		CDPos;				// pøehrávaná pozice CD v ms
-extern	int		CDTrack;			// pøehrávaná stopa
-extern	int		CDTrackLength;		// délka pøehrávané stopy v ms
-extern	int		CDTrackPos;			// pozice v pøehrávané stopì v ms
-extern	bool	CDPlaing;			// pøíznak pøehrávání CD
-extern	bool	CDPausing;			// pøíznak pauzy CD
+extern	UINT	CDDevice;			// ID zaÅ™Ã­zenÃ­ MCI pro pÅ™ehrÃ¡vÃ¡nÃ­ CD (0=nenÃ­ otevÅ™eno)
+extern	int		CDError;			// ÄÃ­taÄ pro novÃ½ pokus pÅ™i chybÄ› (musÃ­ bÃ½t < 0)
+extern	int		CDValidTime;		// ÄÃ­taÄ platnosti ÃºdajÅ¯ o CD (musÃ­ bÃ½t > 0)
+extern	bool	CDDiskValid;		// Ãºdaje o disku jsou platnÃ© (nebyl vymÄ›nÄ›n disk)
+extern	int		CDStart;			// startovacÃ­ pozice CD v ms
+extern	int		CDLength;			// dÃ©lka CD v ms
+extern	int		CDTracks;			// poÄet stop CD
+extern	int		CDPos;				// pÅ™ehrÃ¡vanÃ¡ pozice CD v ms
+extern	int		CDTrack;			// pÅ™ehrÃ¡vanÃ¡ stopa
+extern	int		CDTrackLength;		// dÃ©lka pÅ™ehrÃ¡vanÃ© stopy v ms
+extern	int		CDTrackPos;			// pozice v pÅ™ehrÃ¡vanÃ© stopÄ› v ms
+extern	bool	CDPlaing;			// pÅ™Ã­znak pÅ™ehrÃ¡vÃ¡nÃ­ CD
+extern	bool	CDPausing;			// pÅ™Ã­znak pauzy CD
 
-// obsluha klávesnice
-extern	int		KeyBufWrite;		// ukládací index do bufferu klávesnice
-extern	int		KeyBufRead;			// ètecí index z bufferu klávesnice
-extern	int		KeyBuf[KEYBUFSIZE];	// buffer klávesnice
+// obsluha klÃ¡vesnice
+extern	int		KeyBufWrite;		// uklÃ¡dacÃ­ index do bufferu klÃ¡vesnice
+extern	int		KeyBufRead;			// ÄtecÃ­ index z bufferu klÃ¡vesnice
+extern	int		KeyBuf[KEYBUFSIZE];	// buffer klÃ¡vesnice
 
-extern	int		CharBufWrite;		// ukládací index do bufferu znakù
-extern	int		CharBufRead;		// ètecí index z bufferu znakù
-extern	int		CharBuf[KEYBUFSIZE];// buffer znakù
+extern	int		CharBufWrite;		// uklÃ¡dacÃ­ index do bufferu znakÅ¯
+extern	int		CharBufRead;		// ÄtecÃ­ index z bufferu znakÅ¯
+extern	int		CharBuf[KEYBUFSIZE];// buffer znakÅ¯
 
-extern	bool	CtrlAgain;			// pøíznak opakovaného stisku Ctrl
+extern	bool	CtrlAgain;			// pÅ™Ã­znak opakovanÃ©ho stisku Ctrl
 
-extern	int		KeyMapNum;			// poèet stisknutıch kláves
-extern	bool	KeyMap[KEYMAPSIZE];	// mapa stisknutıch kláves
+extern	int		KeyMapNum;			// poÄet stisknutÃ½ch klÃ¡ves
+extern	bool	KeyMap[KEYMAPSIZE];	// mapa stisknutÃ½ch klÃ¡ves
 
 extern	bool	NumLock;			// stav Num Lock
 extern	bool	CapsLock;			// stav Caps Lock
 extern	bool	ScrollLock;			// stav Scroll Lock
 extern	bool	InsertLock;			// stav Insert
 
-extern	bool	AktNumLock;			// poadavek nastavení Num Lock
-extern	bool	AktCapsLock;		// poadavek nastavení Caps Lock
-extern	bool	AktScrollLock;		// poadavek nastavení Scroll Lock
-extern	bool	AktInsertLock;		// poadavek nastavení Insert
+extern	bool	AktNumLock;			// poÅ¾adavek nastavenÃ­ Num Lock
+extern	bool	AktCapsLock;		// poÅ¾adavek nastavenÃ­ Caps Lock
+extern	bool	AktScrollLock;		// poÅ¾adavek nastavenÃ­ Scroll Lock
+extern	bool	AktInsertLock;		// poÅ¾adavek nastavenÃ­ Insert
 
-// obsluha souborù
-extern	bool	FileError;			// pøíznak chyby souborù
-extern	int		FileCloseTime;		// èítaè èasu pro uzavøení souborù
-extern	int		FileTextNLen;		// délka textu s pevnou délkou
-extern	bool	FileTextUnicode;	// text je v kódu UNICODE
+// obsluha souborÅ¯
+extern	bool	FileError;			// pÅ™Ã­znak chyby souborÅ¯
+extern	int		FileCloseTime;		// ÄÃ­taÄ Äasu pro uzavÅ™enÃ­ souborÅ¯
+extern	int		FileTextNLen;		// dÃ©lka textu s pevnou dÃ©lkou
+extern	bool	FileTextUnicode;	// text je v kÃ³du UNICODE
 
-extern	CString	FileRead;			// jméno souboru pro ètení
-extern	HANDLE	FileReadHandle;		// handle souboru pro ètení
-extern	int		FileReadOff;		// offset v souboru pro ètení
-extern	BYTE*	FileReadBuf;		// buffer pro ètení
-extern	int		FileReadBufOff;		// offset bufferu pro ètení
-extern	int		FileReadBufN;		// poèet bajtù v bufferu pro ètení
+extern	CString	FileRead;			// jmÃ©no souboru pro ÄtenÃ­
+extern	HANDLE	FileReadHandle;		// handle souboru pro ÄtenÃ­
+extern	int		FileReadOff;		// offset v souboru pro ÄtenÃ­
+extern	BYTE*	FileReadBuf;		// buffer pro ÄtenÃ­
+extern	int		FileReadBufOff;		// offset bufferu pro ÄtenÃ­
+extern	int		FileReadBufN;		// poÄet bajtÅ¯ v bufferu pro ÄtenÃ­
 
-extern	CString	FileWrite;			// jméno souboru pro zápis
-extern	HANDLE	FileWriteHandle;	// handle souboru pro zápis
-extern	int		FileWriteOff;		// offset v souboru pro zápis
-extern	BYTE*	FileWriteBuf;		// buffer pro zápis
-extern	int		FileWriteBufOff;	// offset bufferu pro zápis
-extern	int		FileWriteBufN;		// poèet bajtù v bufferu pro zápis
+extern	CString	FileWrite;			// jmÃ©no souboru pro zÃ¡pis
+extern	HANDLE	FileWriteHandle;	// handle souboru pro zÃ¡pis
+extern	int		FileWriteOff;		// offset v souboru pro zÃ¡pis
+extern	BYTE*	FileWriteBuf;		// buffer pro zÃ¡pis
+extern	int		FileWriteBufOff;	// offset bufferu pro zÃ¡pis
+extern	int		FileWriteBufN;		// poÄet bajtÅ¯ v bufferu pro zÃ¡pis
 
-extern	CString	AliasName;			// jméno souboru ALIASES
-extern	CString	AliasKey;			// klíè ALIASES
+extern	CString	AliasName;			// jmÃ©no souboru ALIASES
+extern	CString	AliasKey;			// klÃ­Ä ALIASES
 extern	CString	AliasGroup;			// skupina ALIASES
 
 extern	__int64	DiskSize;			// velikost disku (z funkce GetDiskSpace)
-extern	__int64	DiskFree;			// volné místo disku (z funkce GetDiskSpace)
-extern	__int64	DiskFreeUser;		// volné místo uivatele (z funkce GetDiskSpace)
+extern	__int64	DiskFree;			// volnÃ© mÃ­sto disku (z funkce GetDiskSpace)
+extern	__int64	DiskFreeUser;		// volnÃ© mÃ­sto uÅ¾ivatele (z funkce GetDiskSpace)
 
 // konzola
-extern	bool	ConsoleOn;			// pøíznak reimu konzoly
+extern	bool	ConsoleOn;			// pÅ™Ã­znak reÅ¾imu konzoly
 
 // joystick
-#define MAXJOYSTICK 4						// max. poèet joystickù
-#define JOYSTICKTIME (5*18)					// doba do dalšího testu joysticku
-extern	int		JoystickNext[MAXJOYSTICK];	// èítaè do dalšího testu (musí bıt < 0)
-extern	bool	JoystickValid[MAXJOYSTICK];	// pøíznak platnosti údajù joysticku
-extern	double	JoystickX[MAXJOYSTICK];		// souøadnice X
-extern	double	JoystickY[MAXJOYSTICK];		// souøadnice Y
-extern	double	JoystickZ[MAXJOYSTICK];		// souøadnice Z
-extern	bool	Joystick1[MAXJOYSTICK];		// tlaèítko 1
-extern	bool	Joystick2[MAXJOYSTICK];		// tlaèítko 2
-extern	bool	Joystick3[MAXJOYSTICK];		// tlaèítko 3
-extern	bool	Joystick4[MAXJOYSTICK];		// tlaèítko 4
+#define MAXJOYSTICK 4						// max. poÄet joystickÅ¯
+#define JOYSTICKTIME (5*18)					// doba do dalÅ¡Ã­ho testu joysticku
+extern	int		JoystickNext[MAXJOYSTICK];	// ÄÃ­taÄ do dalÅ¡Ã­ho testu (musÃ­ bÃ½t < 0)
+extern	bool	JoystickValid[MAXJOYSTICK];	// pÅ™Ã­znak platnosti ÃºdajÅ¯ joysticku
+extern	double	JoystickX[MAXJOYSTICK];		// souÅ™adnice X
+extern	double	JoystickY[MAXJOYSTICK];		// souÅ™adnice Y
+extern	double	JoystickZ[MAXJOYSTICK];		// souÅ™adnice Z
+extern	bool	Joystick1[MAXJOYSTICK];		// tlaÄÃ­tko 1
+extern	bool	Joystick2[MAXJOYSTICK];		// tlaÄÃ­tko 2
+extern	bool	Joystick3[MAXJOYSTICK];		// tlaÄÃ­tko 3
+extern	bool	Joystick4[MAXJOYSTICK];		// tlaÄÃ­tko 4
 
 // prvky oken
 extern	CString ButtonClassName;
@@ -204,91 +204,91 @@ extern	CString ComboBoxClassName;
 extern	CString StaticClassName;
 extern	CString TabsClassName;
 
-extern	bool	DialogGraph;			// je grafické pozadí hlavního dialogového okna
+extern	bool	DialogGraph;			// je grafickÃ© pozadÃ­ hlavnÃ­ho dialogovÃ©ho okna
 
-extern	bool	DialogMode;				// dialogovı mód
-extern	int		DialogParent;			// aktivní rodièovské okno
-extern	int		WindowID;				// aktivní prvek (-1 = neplatnı)
-extern	int		WindowFocus;			// prvek s fokusem (-1 = není nebo neznámı)
-extern	int		ButtonEsc;				// tlaèítko pro Esc
+extern	bool	DialogMode;				// dialogovÃ½ mÃ³d
+extern	int		DialogParent;			// aktivnÃ­ rodiÄovskÃ© okno
+extern	int		WindowID;				// aktivnÃ­ prvek (-1 = neplatnÃ½)
+extern	int		WindowFocus;			// prvek s fokusem (-1 = nenÃ­ nebo neznÃ¡mÃ½)
+extern	int		ButtonEsc;				// tlaÄÃ­tko pro Esc
 
-extern	int		StdColorBtnFace;		// systémová barva podkladu tlaèítek
-extern	int		StdColorBtnText;		// systémová barva textu tlaèítek
-extern	HBRUSH	StdBrushBtn;			// štìtec pozadí tlaèítek
+extern	int		StdColorBtnFace;		// systÃ©movÃ¡ barva podkladu tlaÄÃ­tek
+extern	int		StdColorBtnText;		// systÃ©movÃ¡ barva textu tlaÄÃ­tek
+extern	HBRUSH	StdBrushBtn;			// Å¡tÄ›tec pozadÃ­ tlaÄÃ­tek
 
-extern	int		StdColorWindow;			// systémová barva podkladu editoru
-extern	int		StdColorWindowText;		// systémová barva textu editoru
-extern	HBRUSH	StdBrushWindow;			// štìtec pozadí editoru
+extern	int		StdColorWindow;			// systÃ©movÃ¡ barva podkladu editoru
+extern	int		StdColorWindowText;		// systÃ©movÃ¡ barva textu editoru
+extern	HBRUSH	StdBrushWindow;			// Å¡tÄ›tec pozadÃ­ editoru
 
-extern	int		StdColorHighlightText;	// systémová barva textu kurzoru
-extern	int		StdColorHighlight;		// systémová barva pozadí kurzoru
-extern	HBRUSH	StdBrushHighlight;		// štìtec pozadí kurzoru
+extern	int		StdColorHighlightText;	// systÃ©movÃ¡ barva textu kurzoru
+extern	int		StdColorHighlight;		// systÃ©movÃ¡ barva pozadÃ­ kurzoru
+extern	HBRUSH	StdBrushHighlight;		// Å¡tÄ›tec pozadÃ­ kurzoru
 
-// správce fontù
+// sprÃ¡vce fontÅ¯
 typedef struct FONTITEM_
 {
-	bool	Bold;					// je zvıraznìní
-	bool	Italic;					// je kurzíva
-	bool	Underline;				// je podtrení
-	bool	Strikeout;				// je pøeškrtnutí
-	bool	Serif;					// jsou patièky
-	bool	Fixed;					// je pevná rozteè
-	int		Height;					// bodová vıška znakù (0=bìná)
-	double	Width;					// relativní šíøka znakù (0=bìná, 1=základní)
-	double	Angle;					// úhel sklonu v radiánech (0=bìnı)
-	HFONT	Font;					// vytvoøenı font (NULL=volná poloka)
-	DWORD	CharSet;				// znaková sada fontu
-	CString	UserFont;				// jméno uivatelského fontu
-	int		Used;					// èítaè pouití fontu (blokování proti zrušení)
+	bool	Bold;					// je zvÃ½raznÄ›nÃ­
+	bool	Italic;					// je kurzÃ­va
+	bool	Underline;				// je podtrÅ¾enÃ­
+	bool	Strikeout;				// je pÅ™eÅ¡krtnutÃ­
+	bool	Serif;					// jsou patiÄky
+	bool	Fixed;					// je pevnÃ¡ rozteÄ
+	int		Height;					// bodovÃ¡ vÃ½Å¡ka znakÅ¯ (0=bÄ›Å¾nÃ¡)
+	double	Width;					// relativnÃ­ Å¡Ã­Å™ka znakÅ¯ (0=bÄ›Å¾nÃ¡, 1=zÃ¡kladnÃ­)
+	double	Angle;					// Ãºhel sklonu v radiÃ¡nech (0=bÄ›Å¾nÃ½)
+	HFONT	Font;					// vytvoÅ™enÃ½ font (NULL=volnÃ¡ poloÅ¾ka)
+	DWORD	CharSet;				// znakovÃ¡ sada fontu
+	CString	UserFont;				// jmÃ©no uÅ¾ivatelskÃ©ho fontu
+	int		Used;					// ÄÃ­taÄ pouÅ¾itÃ­ fontu (blokovÃ¡nÃ­ proti zruÅ¡enÃ­)
 } FONTITEM;
 
-#define FONTTABSIZE	64				// velikost tabulky fontù
-#define	FONTTABSTD	4				// poèet standardních fontù na zaèátku tabulky
-extern	int			FontNext;		// index pøíštího volného fontu k uloení
-extern	FONTITEM*	FontTab;		// tabulka fontù
-extern	HFONT		FontDefault;	// implicitní systémovı font (pøi chybì fontù)
-extern	CString		UserFont;		// uivatelskı font
-extern	CString		FontList;		// seznam systémovıch fontù
+#define FONTTABSIZE	64				// velikost tabulky fontÅ¯
+#define	FONTTABSTD	4				// poÄet standardnÃ­ch fontÅ¯ na zaÄÃ¡tku tabulky
+extern	int			FontNext;		// index pÅ™Ã­Å¡tÃ­ho volnÃ©ho fontu k uloÅ¾enÃ­
+extern	FONTITEM*	FontTab;		// tabulka fontÅ¯
+extern	HFONT		FontDefault;	// implicitnÃ­ systÃ©movÃ½ font (pÅ™i chybÄ› fontÅ¯)
+extern	CString		UserFont;		// uÅ¾ivatelskÃ½ font
+extern	CString		FontList;		// seznam systÃ©movÃ½ch fontÅ¯
 
-// oblasti kurzoru myši
+// oblasti kurzoru myÅ¡i
 typedef struct MOUSEREG_
 {
-	int			x1;						// (4) poèátek oblasti vlevo (vèetnì)
-	int			y1;						// (4) poèátek oblasti dole (vèetnì)
+	int			x1;						// (4) poÄÃ¡tek oblasti vlevo (vÄetnÄ›)
+	int			y1;						// (4) poÄÃ¡tek oblasti dole (vÄetnÄ›)
 	int			x2;						// (4) konec oblasti vpravo (bez)
-	int			y2;						// (4) konec oblasti nahoøe (bez)
-	HCURSOR		Cursor;					// (4) handle kurzoru myši
-	int			res;					// (4) ... rezerva pro zarovnání
+	int			y2;						// (4) konec oblasti nahoÅ™e (bez)
+	HCURSOR		Cursor;					// (4) handle kurzoru myÅ¡i
+	int			res;					// (4) ... rezerva pro zarovnÃ¡nÃ­
 } MOUSEREG;
 
-extern	MOUSEREG*	MouseReg;			// regiony kurzoru myši
-extern	int			MouseRegNum;		// poèet regionù kurzoru myši
-extern	int			MouseRegMax;		// velikost bufferu regionù kurzoru myši
+extern	MOUSEREG*	MouseReg;			// regiony kurzoru myÅ¡i
+extern	int			MouseRegNum;		// poÄet regionÅ¯ kurzoru myÅ¡i
+extern	int			MouseRegMax;		// velikost bufferu regionÅ¯ kurzoru myÅ¡i
 
 // DirectPlay
 // --------------------- vypnuto pro MINI verzi --------------------
 #ifndef _MINI
 
-extern	bool		Coinit;				// probìhla inicializace COM knihovny
+extern	bool		Coinit;				// probÄ›hla inicializace COM knihovny
 
-extern	CString	DirectPlayConnects;		// seznam spojení DirectPlay
-extern	CString	DirectPlayConnectsAkt;	// aktivní spojení (prázdné = nevybráno)
+extern	CString	DirectPlayConnects;		// seznam spojenÃ­ DirectPlay
+extern	CString	DirectPlayConnectsAkt;	// aktivnÃ­ spojenÃ­ (prÃ¡zdnÃ© = nevybrÃ¡no)
 extern	CString	DirectPlayGames;		// seznam her DirectPlay
-extern	CString	DirectPlayGamesAkt;		// aktivní hra (prázdné = nevybráno)
-extern	DWORD	DirectPlayGamesParam[4];// parametry hry (15 bitù èíslo + 0x4000, 16. bit = pøíznak)
-extern	bool	DirectPlayGamesHost;	// poèítaè je hostitelem
-extern	int		DirectPlayPlayersMax;	// maximální poèet hráèù (0 = neomezeno)
-extern	CString	DirectPlayPlayers;		// seznam hráèù DirectPlay
-extern	CString	DirectPlayPlayersAkt;	// aktivní hráè (prázdné = nevybrán)
-extern	int		DirectPlayPlayersAktN;	// aktivní hráè (-1 = není)
-extern	BYTE*	DirectPlayDataIn;		// datovı blok vstupních dat (první 2 bajty = odesílatel)
-extern	int		DirectPlayDataInN;		// velikost vstupních dat
-extern	int		DirectPlayDataInO;		// offset ètení ze vstupních dat
+extern	CString	DirectPlayGamesAkt;		// aktivnÃ­ hra (prÃ¡zdnÃ© = nevybrÃ¡no)
+extern	DWORD	DirectPlayGamesParam[4];// parametry hry (15 bitÅ¯ ÄÃ­slo + 0x4000, 16. bit = pÅ™Ã­znak)
+extern	bool	DirectPlayGamesHost;	// poÄÃ­taÄ je hostitelem
+extern	int		DirectPlayPlayersMax;	// maximÃ¡lnÃ­ poÄet hrÃ¡ÄÅ¯ (0 = neomezeno)
+extern	CString	DirectPlayPlayers;		// seznam hrÃ¡ÄÅ¯ DirectPlay
+extern	CString	DirectPlayPlayersAkt;	// aktivnÃ­ hrÃ¡Ä (prÃ¡zdnÃ© = nevybrÃ¡n)
+extern	int		DirectPlayPlayersAktN;	// aktivnÃ­ hrÃ¡Ä (-1 = nenÃ­)
+extern	BYTE*	DirectPlayDataIn;		// datovÃ½ blok vstupnÃ­ch dat (prvnÃ­ 2 bajty = odesÃ­latel)
+extern	int		DirectPlayDataInN;		// velikost vstupnÃ­ch dat
+extern	int		DirectPlayDataInO;		// offset ÄtenÃ­ ze vstupnÃ­ch dat
 
-extern	GUID DirectPlayGuidData;		// identifikátor spojení DirectPlay
-extern	CString	DirectPlayGuidText;		// identifikaèní text pro DirectPlay
+extern	GUID DirectPlayGuidData;		// identifikÃ¡tor spojenÃ­ DirectPlay
+extern	CString	DirectPlayGuidText;		// identifikaÄnÃ­ text pro DirectPlay
 
-// WSA 1.1 rozhraní pro DirectPlay a UDP
+// WSA 1.1 rozhranÃ­ pro DirectPlay a UDP
 typedef	int (PASCAL FAR *WSASTARTUP) (WORD wVersionRequired, LPWSADATA lpWSAData);
 typedef	int (PASCAL FAR *WSACLEANUP) ();
 typedef	int (PASCAL FAR *WSAGETHOSTNAME) (char FAR* name, int namelen);
@@ -300,10 +300,10 @@ extern	WSACLEANUP	pWSACleanup;		// funkce "WSACleanup"
 extern	WSAGETHOSTNAME	pWSAGetHostName;// funkce "gethostname"
 extern	WSAGETHOSTBYNAME pWSAGetHostByName;// funkce "gethostbyname"
 extern	WSAINET_NTOA pWSAInetNtoa;		// funkce "inet_ntoa"
-// PC formát IP adresy: první èíslo je nejvıše, tj. napø. 127.0.0.1 je 0x7f000001
-// WSA formát IP adresy je v MAC formátu: napø. 127.0.0.1 je 0x0100007f
+// PC formÃ¡t IP adresy: prvnÃ­ ÄÃ­slo je nejvÃ½Å¡e, tj. napÅ™. 127.0.0.1 je 0x7f000001
+// WSA formÃ¡t IP adresy je v MAC formÃ¡tu: napÅ™. 127.0.0.1 je 0x0100007f
 
-// rozšíøení pro UDP
+// rozÅ¡Ã­Å™enÃ­ pro UDP
 typedef SOCKET (PASCAL FAR *WSASOCKET) (int af, int type, int protocol);
 typedef WORD (PASCAL FAR *WSAHTONS) (WORD hostshort);
 typedef int (PASCAL FAR *WSASETSOCKOPT) (SOCKET s, int level, int optname,
@@ -319,7 +319,7 @@ typedef int (PASCAL FAR *WSASELECT) (int nfds, fd_set FAR * readfds, fd_set FAR 
 				fd_set FAR *exceptfds, const struct timeval FAR * timeout);
 
 extern	WSASOCKET pWSASocket;			// funkce "socket"
-extern	WSAHTONS pWSAhtons;				// funkce "htons" (pøevede WORD èíslo portu - na PC prohodí bajty)
+extern	WSAHTONS pWSAhtons;				// funkce "htons" (pÅ™evede WORD ÄÃ­slo portu - na PC prohodÃ­ bajty)
 extern	WSASETSOCKOPT pWSASetSockOpt;	// funkce "setsockopt"
 extern	WSABIND pWSABind;				// funkce "bind"
 extern	WSACLOSESOCKET pWSACloseSocket;	// funkce "closesocket"
@@ -330,425 +330,425 @@ extern	WSASELECT pWSASelect;			// funkce "select"
 
 // knihovna WSA
 extern	HINSTANCE WSALibrary;			// WSA knihovna
-extern	bool	Wsaload;				// knihovna WSA byla naèítána
-extern	bool	Wsainit;				// knihovna WSA 1.1 úspìšnì inicializována
-extern	bool	Wsainit2;				// rozšíøení pro UDP úspìšnì inicializováno
+extern	bool	Wsaload;				// knihovna WSA byla naÄÃ­tÃ¡na
+extern	bool	Wsainit;				// knihovna WSA 1.1 ÃºspÄ›Å¡nÄ› inicializovÃ¡na
+extern	bool	Wsainit2;				// rozÅ¡Ã­Å™enÃ­ pro UDP ÃºspÄ›Å¡nÄ› inicializovÃ¡no
 extern	WSADATA	Wsadata;				// data knihovny WSA
-extern	CString	HostIP;					// IP adresa poèítaèe
-extern	int		HostIPValid;			// èítaè platnosti IP adresy poèítaèe (je-li > 0)
+extern	CString	HostIP;					// IP adresa poÄÃ­taÄe
+extern	int		HostIPValid;			// ÄÃ­taÄ platnosti IP adresy poÄÃ­taÄe (je-li > 0)
 
-// porty (není u MINI verze)
+// porty (nenÃ­ u MINI verze)
 typedef struct COMITEM_
 {
-	HANDLE		File;					// identifikátor (INVALID_HANDLE_VALUE = nepouitı)
+	HANDLE		File;					// identifikÃ¡tor (INVALID_HANDLE_VALUE = nepouÅ¾itÃ½)
 	DCB			Dcb;					// informace o portu
 } COMITEM;
 
-#define	COMSMAX		64					// max. poèet portù
-extern	COMITEM*	Coms;				// tabulky portù
-extern	int			ComAkt;				// aktivní port
+#define	COMSMAX		64					// max. poÄet portÅ¯
+extern	COMITEM*	Coms;				// tabulky portÅ¯
+extern	int			ComAkt;				// aktivnÃ­ port
 
-// mixer (není u MINI verze)
+// mixer (nenÃ­ u MINI verze)
 typedef struct MIXDEV_
 {
-	CString	Name;						// jméno mixáního zaøízení
-	int		Dest;						// poèet cílovıch signálù
+	CString	Name;						// jmÃ©no mixÃ¡Å¾nÃ­ho zaÅ™Ã­zenÃ­
+	int		Dest;						// poÄet cÃ­lovÃ½ch signÃ¡lÅ¯
 } MIXDEV;
 
 typedef struct MIXLINE_
 {
-	CString Name;						// jméno signálu
-	int		Dest;						// index cílového signálu
-	int		Source;						// index zdrojového signálu (-1=jen cílovı)
-	int		SourceI;					// index poèáteèního zdrojového signálu
-	DWORD	LineID;						// identifikátor signálu
-	DWORD	Type;						// typ signálu
-	int		Channels;					// poèet samostatnıch kanálù
-	int		Sources;					// poèet pøipojenıch zdrojovıch signálù
-	int		Controls;					// poèet ovládacích prvkù signálu
+	CString Name;						// jmÃ©no signÃ¡lu
+	int		Dest;						// index cÃ­lovÃ©ho signÃ¡lu
+	int		Source;						// index zdrojovÃ©ho signÃ¡lu (-1=jen cÃ­lovÃ½)
+	int		SourceI;					// index poÄÃ¡teÄnÃ­ho zdrojovÃ©ho signÃ¡lu
+	DWORD	LineID;						// identifikÃ¡tor signÃ¡lu
+	DWORD	Type;						// typ signÃ¡lu
+	int		Channels;					// poÄet samostatnÃ½ch kanÃ¡lÅ¯
+	int		Sources;					// poÄet pÅ™ipojenÃ½ch zdrojovÃ½ch signÃ¡lÅ¯
+	int		Controls;					// poÄet ovlÃ¡dacÃ­ch prvkÅ¯ signÃ¡lu
 } MIXLINE;
 
 typedef struct MIXCTRL_
 {
-	CString	Name;						// jméno ovládacího prvku
-	DWORD	ControlID;					// identifikátor ovládacího prvku
-	DWORD	Type;						// typ ovládacího prvku
-	int		Steps;						// poèet krokù nastavení hodnoty bez poèáteèní 0 (0=maximálnì)
-	int		Channels;					// poèet samostatnıch kanálù
-	int		List;						// poèet prvkù pro seznam (1=není seznam)
-	double	Min;						// minimální hodnota prvku
-	double	Max;						// maximální hodnota prvku
+	CString	Name;						// jmÃ©no ovlÃ¡dacÃ­ho prvku
+	DWORD	ControlID;					// identifikÃ¡tor ovlÃ¡dacÃ­ho prvku
+	DWORD	Type;						// typ ovlÃ¡dacÃ­ho prvku
+	int		Steps;						// poÄet krokÅ¯ nastavenÃ­ hodnoty bez poÄÃ¡teÄnÃ­ 0 (0=maximÃ¡lnÄ›)
+	int		Channels;					// poÄet samostatnÃ½ch kanÃ¡lÅ¯
+	int		List;						// poÄet prvkÅ¯ pro seznam (1=nenÃ­ seznam)
+	double	Min;						// minimÃ¡lnÃ­ hodnota prvku
+	double	Max;						// maximÃ¡lnÃ­ hodnota prvku
 	double	Rozsah;						// rozsah hodnot prvku
-	double	Inc;						// pøírustek kroku prvku
+	double	Inc;						// pÅ™Ã­rustek kroku prvku
 } MIXCTRL;
 
-extern	int		MixDevN;				// poèet mixáních zaøízení
-extern	int		MixDevA;				// aktivní mixání zaøízení (-1=není)
-extern	CString	MixDevT;				// víceøádkovı seznam mixáních zaøízení
-extern	MIXDEV*	MixDev;					// seznam mixáních zaøízení
-extern	HMIXER	MixDevH;				// handle mixeru (NULL=není)
+extern	int		MixDevN;				// poÄet mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+extern	int		MixDevA;				// aktivnÃ­ mixÃ¡Å¾nÃ­ zaÅ™Ã­zenÃ­ (-1=nenÃ­)
+extern	CString	MixDevT;				// vÃ­ceÅ™Ã¡dkovÃ½ seznam mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+extern	MIXDEV*	MixDev;					// seznam mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+extern	HMIXER	MixDevH;				// handle mixeru (NULL=nenÃ­)
 
-extern	int		MixDest;				// poèet cílovıch signálù mixeru
-extern	int		MixLineN;				// poèet signálù mixeru
-extern	MIXLINE* MixLine;				// seznam signálù (na zaèátku jsou cílové)
-extern	CString	MixLineDT;				// víceøádkovı seznam cílovıch signálù
-extern	CString	MixLineST;				// víceøádkovı seznam zdrojovıch signálù
+extern	int		MixDest;				// poÄet cÃ­lovÃ½ch signÃ¡lÅ¯ mixeru
+extern	int		MixLineN;				// poÄet signÃ¡lÅ¯ mixeru
+extern	MIXLINE* MixLine;				// seznam signÃ¡lÅ¯ (na zaÄÃ¡tku jsou cÃ­lovÃ©)
+extern	CString	MixLineDT;				// vÃ­ceÅ™Ã¡dkovÃ½ seznam cÃ­lovÃ½ch signÃ¡lÅ¯
+extern	CString	MixLineST;				// vÃ­ceÅ™Ã¡dkovÃ½ seznam zdrojovÃ½ch signÃ¡lÅ¯
 
-extern	int		MixLineDA;				// aktivní cílovı signál
-extern	int		MixLineSA;				// aktivní zdrojovı signál (-1=jen cílovı)
-extern	int		MixLineA;				// aktivní signál absolutnì (v tabulce)
+extern	int		MixLineDA;				// aktivnÃ­ cÃ­lovÃ½ signÃ¡l
+extern	int		MixLineSA;				// aktivnÃ­ zdrojovÃ½ signÃ¡l (-1=jen cÃ­lovÃ½)
+extern	int		MixLineA;				// aktivnÃ­ signÃ¡l absolutnÄ› (v tabulce)
 
-extern	int		MixCtrlN;				// poèet ovládacích prvkù signálu
-extern	MIXCTRL* MixCtrl;				// seznam ovládacích prvkù
-extern	CString	MixCtrlT;				// víceøádkovı seznam ovládacích prvkù
-extern	int		MixCtrlA;				// aktivní ovládací prvek (-1=není)
-extern	int		MixChannel;				// nastavovanı kanál (-1=všechny)
+extern	int		MixCtrlN;				// poÄet ovlÃ¡dacÃ­ch prvkÅ¯ signÃ¡lu
+extern	MIXCTRL* MixCtrl;				// seznam ovlÃ¡dacÃ­ch prvkÅ¯
+extern	CString	MixCtrlT;				// vÃ­ceÅ™Ã¡dkovÃ½ seznam ovlÃ¡dacÃ­ch prvkÅ¯
+extern	int		MixCtrlA;				// aktivnÃ­ ovlÃ¡dacÃ­ prvek (-1=nenÃ­)
+extern	int		MixChannel;				// nastavovanÃ½ kanÃ¡l (-1=vÅ¡echny)
 
-extern	int		MixValN;				// poèet hodnot prvku (1=není seznam hodnot)
-extern	CString* MixVal;				// buffer jmen ovládacích prvkù
+extern	int		MixValN;				// poÄet hodnot prvku (1=nenÃ­ seznam hodnot)
+extern	CString* MixVal;				// buffer jmen ovlÃ¡dacÃ­ch prvkÅ¯
 extern	CString	MixValT;				// seznam hodnot prvku seznamu
-extern	int		MixValA;				// aktivní prvek seznamu
+extern	int		MixValA;				// aktivnÃ­ prvek seznamu
 
 // obsluha DDE
-extern	CString		DDEDefApp;			// implicitní jméno aplikace pro DDE
+extern	CString		DDEDefApp;			// implicitnÃ­ jmÃ©no aplikace pro DDE
 
-typedef struct DDEAPPITEM_				// poloka aplikace
+typedef struct DDEAPPITEM_				// poloÅ¾ka aplikace
 {
-	CString		AppName;				// jméno aplikace
-	int			ServFirst;				// index prvního serveru s tímto jménem aplikace
+	CString		AppName;				// jmÃ©no aplikace
+	int			ServFirst;				// index prvnÃ­ho serveru s tÃ­mto jmÃ©nem aplikace
 } DDEAPPITEM;
 
-extern	DDEAPPITEM*	DDEAppList;			// seznam aplikací
-extern	int			DDEAppNum;			// poèet aplikací
-extern	int			DDEAppMax;			// velikost bufferu aplikací
-extern	bool		DDEAppLoad;			// naèítá se seznam aplikací
+extern	DDEAPPITEM*	DDEAppList;			// seznam aplikacÃ­
+extern	int			DDEAppNum;			// poÄet aplikacÃ­
+extern	int			DDEAppMax;			// velikost bufferu aplikacÃ­
+extern	bool		DDEAppLoad;			// naÄÃ­tÃ¡ se seznam aplikacÃ­
 
-extern	int			DDEAppAkt;			// aktivní aplikace (-1=všechny)
-extern	int			DDEServAkt;			// aktivní server (-1=všechny)
-extern	CString		DDEAppAktName;		// jméno zadané aktivní aplikace/serveru
+extern	int			DDEAppAkt;			// aktivnÃ­ aplikace (-1=vÅ¡echny)
+extern	int			DDEServAkt;			// aktivnÃ­ server (-1=vÅ¡echny)
+extern	CString		DDEAppAktName;		// jmÃ©no zadanÃ© aktivnÃ­ aplikace/serveru
 
-typedef	struct DDESERVITEM_				// poloka serveru
+typedef	struct DDESERVITEM_				// poloÅ¾ka serveru
 {
 	int			AppIndex;				// index aplikace
-	CString		ServName;				// plné jméno serveru s handle okna ([12345678] Name)
-	int			ServNext;				// index dalšího serveru s tímto jménem aplikace (-1=není)
+	CString		ServName;				// plnÃ© jmÃ©no serveru s handle okna ([12345678] Name)
+	int			ServNext;				// index dalÅ¡Ã­ho serveru s tÃ­mto jmÃ©nem aplikace (-1=nenÃ­)
 	HWND		ServHandle;				// handle okna serveru
-	int			ServServ;				// poèet témat, pro které je to aktivní server
-	CString		Execute;				// pøíkaz k provedení	
-	int			TopicFirst;				// index prvního tématu tohoto serveru
+	int			ServServ;				// poÄet tÃ©mat, pro kterÃ© je to aktivnÃ­ server
+	CString		Execute;				// pÅ™Ã­kaz k provedenÃ­	
+	int			TopicFirst;				// index prvnÃ­ho tÃ©matu tohoto serveru
 } DDESERVITEM;
 
-extern	DDESERVITEM* DDEServList;		// seznam severù
-extern	int			DDEServNum;			// poèet serverù
-extern	int			DDEServMax;			// velikost bufferu serverù
+extern	DDESERVITEM* DDEServList;		// seznam severÅ¯
+extern	int			DDEServNum;			// poÄet serverÅ¯
+extern	int			DDEServMax;			// velikost bufferu serverÅ¯
 
-typedef struct DDETOPITEM_				// poloka tématu
+typedef struct DDETOPITEM_				// poloÅ¾ka tÃ©matu
 {
 	int			ServIndex;				// index serveru
-	CString		TopicName;				// jméno tématu
-	int			TopicNext;				// index dalšího tématu serveru (-1=není)
-	int			TopicServ;				// poèet poloek, pro které je téma serverem
-	int			DataFirst;				// index první poloky tohoto tématu (-1=není)
+	CString		TopicName;				// jmÃ©no tÃ©matu
+	int			TopicNext;				// index dalÅ¡Ã­ho tÃ©matu serveru (-1=nenÃ­)
+	int			TopicServ;				// poÄet poloÅ¾ek, pro kterÃ© je tÃ©ma serverem
+	int			DataFirst;				// index prvnÃ­ poloÅ¾ky tohoto tÃ©matu (-1=nenÃ­)
 } DDETOPITEM;
 
-extern	DDETOPITEM*	DDETopList;			// seznam témat
-extern	int			DDETopNum;			// poèet témat
-extern	int			DDETopMax;			// velikost bufferu témat
-extern	int			DDETopAkt;			// aktivní téma (-1=všechny)
+extern	DDETOPITEM*	DDETopList;			// seznam tÃ©mat
+extern	int			DDETopNum;			// poÄet tÃ©mat
+extern	int			DDETopMax;			// velikost bufferu tÃ©mat
+extern	int			DDETopAkt;			// aktivnÃ­ tÃ©ma (-1=vÅ¡echny)
 
-typedef struct DDEDATAITEM_				// poloka tabulky prvkù DDE
+typedef struct DDEDATAITEM_				// poloÅ¾ka tabulky prvkÅ¯ DDE
 {
-	int			TopicIndex;				// index tématu
-	CString		DataName;				// jméno prvku
-	int			DataNext;				// index dalšího prvku tématu (-1=není)
-	int			DataType;				// typ prvku (0 a 7, -1=neplatnı)
-	double		DataNumber;				// 0: èíslo
-	bool		DataBool;				// 1: pøíznak
+	int			TopicIndex;				// index tÃ©matu
+	CString		DataName;				// jmÃ©no prvku
+	int			DataNext;				// index dalÅ¡Ã­ho prvku tÃ©matu (-1=nenÃ­)
+	int			DataType;				// typ prvku (0 aÅ¾ 7, -1=neplatnÃ½)
+	double		DataNumber;				// 0: ÄÃ­slo
+	bool		DataBool;				// 1: pÅ™Ã­znak
 	bool		Server;					// prvek je serverem
 	bool		res2;
 	bool		res3;
 	CString		DataText;				// 2: text
 	CIcon		DataIcon;				// 3: ikona
-	CPicture	DataPicture;			// 4: obrázek
+	CPicture	DataPicture;			// 4: obrÃ¡zek
 	CSound		DataSound;				// 5: zvuk
 	CMusic		DataMusic;				// 6: hudba
 	CSprite		DataSprite;				// 7: sprajt
 
 } DDEDATAITEM;
 
-extern	DDEDATAITEM* DDEDataList;		// seznam datovıch poloek
-extern	int			DDEDataNum;			// poèet datovıch poloek
-extern	int			DDEDataMax;			// velikost bufferu datovıch poloek
-extern	int			DDEDataAkt;			// aktivní poloka (-1=všechny)
+extern	DDEDATAITEM* DDEDataList;		// seznam datovÃ½ch poloÅ¾ek
+extern	int			DDEDataNum;			// poÄet datovÃ½ch poloÅ¾ek
+extern	int			DDEDataMax;			// velikost bufferu datovÃ½ch poloÅ¾ek
+extern	int			DDEDataAkt;			// aktivnÃ­ poloÅ¾ka (-1=vÅ¡echny)
 
 // obsluha DLL
-extern	void*		DLLMemoryRead;		// ukazatel ètení z pamìti
-extern	void*		DLLMemoryWrite;		// ukazatel zápisu do pamìti
-extern	int			DLLMemoryTextNLen;	// délka textu s pevnou délkou
+extern	void*		DLLMemoryRead;		// ukazatel ÄtenÃ­ z pamÄ›ti
+extern	void*		DLLMemoryWrite;		// ukazatel zÃ¡pisu do pamÄ›ti
+extern	int			DLLMemoryTextNLen;	// dÃ©lka textu s pevnou dÃ©lkou
 
 // konfigurace
-extern CString		INIFile;			// jméno konfiguraèního souboru
-extern CString		INISection;			// jméno konfiguraèní sekce
-extern CString		INIKey;				// jméno konfiguraèního parametru
-extern int			REGKey;				// skupina registrù (1=CURRENT_USER, 2=LOCAL_MACHINE)
-extern CString		REGSubkey;			// jméno klíèe
-extern CString		REGValue;			// jméno poloky
+extern CString		INIFile;			// jmÃ©no konfiguraÄnÃ­ho souboru
+extern CString		INISection;			// jmÃ©no konfiguraÄnÃ­ sekce
+extern CString		INIKey;				// jmÃ©no konfiguraÄnÃ­ho parametru
+extern int			REGKey;				// skupina registrÅ¯ (1=CURRENT_USER, 2=LOCAL_MACHINE)
+extern CString		REGSubkey;			// jmÃ©no klÃ­Äe
+extern CString		REGValue;			// jmÃ©no poloÅ¾ky
 
 // UDP
-extern SOCKET		UDPSocket;			// UDP soket (INVALID_SOCKET = není)
-extern SOCKADDR_IN	UDPSendAddr;		// vysílací adresa UDP
-extern SOCKADDR_IN	UDPRecAddr;			// pøijímací adresa UDP
-extern SOCKADDR_IN	UDPRecRecAddr;		// pøijatá adresa UDP
-extern char*		UDPRecBuf;			// pøijímací buffer UDP
-extern int			UDPRecBufSize;		// velikost pøijímacího bufferu UDP
+extern SOCKET		UDPSocket;			// UDP soket (INVALID_SOCKET = nenÃ­)
+extern SOCKADDR_IN	UDPSendAddr;		// vysÃ­lacÃ­ adresa UDP
+extern SOCKADDR_IN	UDPRecAddr;			// pÅ™ijÃ­macÃ­ adresa UDP
+extern SOCKADDR_IN	UDPRecRecAddr;		// pÅ™ijatÃ¡ adresa UDP
+extern char*		UDPRecBuf;			// pÅ™ijÃ­macÃ­ buffer UDP
+extern int			UDPRecBufSize;		// velikost pÅ™ijÃ­macÃ­ho bufferu UDP
 
 /////////////////////////////////////////////////////////////////////////////
 // obsluha DDE
 
-void DDEAppListLoad();					// naètení seznamu aplikací
+void DDEAppListLoad();					// naÄtenÃ­ seznamu aplikacÃ­
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha mixeru (není u MINI verze)
+// obsluha mixeru (nenÃ­ u MINI verze)
 
-bool MixDevInit();						// inicializace mixáních zaøízení (vrací TRUE=OK)
-bool MixDevSet(int mix);				// nastavení aktivního mixeru (vrací TRUE=OK)
-void MixDstSet(int dst);				// nastavení cílového signálu (-1=ádnı)
-void MixSrcSet(int src);				// nastavení zdrojového signálu (-1=jen cílovı)
-void MixCtrlSet(int ctrl);				// nastavení ovládacího prvku (-1=ádnı)
-double GetMixCtrlVal();					// zjištìní hodnoty ovládacího prvku
-void SetMixCtrlVal(double val);			// nastavení hodnoty ovládacího prvku
-
-/////////////////////////////////////////////////////////////////////////////
-// obsluha portù (není u MINI verze)
-
-void ComReinit();						// inicializace pøíjmu dat
-void ComClose(int i);					// uzavøení portu (i=platnı index)
-void GetComDCB();						// naètení DCB aktivního portu
-void SetComDCB();						// nastavení DCB aktivního portu
-void ComSend(BYTE data);				// vyslání bajtu na komunikaèní port
-BYTE ComReceive();						// pøíjem bajtu z komunikaèního portu (0=nejsou data)
+bool MixDevInit();						// inicializace mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­ (vracÃ­ TRUE=OK)
+bool MixDevSet(int mix);				// nastavenÃ­ aktivnÃ­ho mixeru (vracÃ­ TRUE=OK)
+void MixDstSet(int dst);				// nastavenÃ­ cÃ­lovÃ©ho signÃ¡lu (-1=Å¾Ã¡dnÃ½)
+void MixSrcSet(int src);				// nastavenÃ­ zdrojovÃ©ho signÃ¡lu (-1=jen cÃ­lovÃ½)
+void MixCtrlSet(int ctrl);				// nastavenÃ­ ovlÃ¡dacÃ­ho prvku (-1=Å¾Ã¡dnÃ½)
+double GetMixCtrlVal();					// zjiÅ¡tÄ›nÃ­ hodnoty ovlÃ¡dacÃ­ho prvku
+void SetMixCtrlVal(double val);			// nastavenÃ­ hodnoty ovlÃ¡dacÃ­ho prvku
 
 /////////////////////////////////////////////////////////////////////////////
-// DirectPlay (není u MINI verze)
+// obsluha portÅ¯ (nenÃ­ u MINI verze)
 
-void DirectSendData(BYTE* data, int n);	// zápis dat do vıstupního bufferu
-void DirectSend(int id);				// vyslání bloku dat (-1 = všem)
-void DirectReceiveData(BYTE* data, int n); // ètení dat ze vstupního bufferu (pøi nedostatku dat doplní nulami)
-int DirectReceive();					// pøíjem bloku dat (-1 = není)
-void SetPlayerAct(CString txt);			// nastavení aktivního hráèe
-bool DirectPlayEnumPlayers();			// seznam hráèù (FALSE=chyba)
-void SetPlayerMax(int n);				// nastavení max. hráèù (0=neomezeno)
-void GetGameDesc();						// naètení parametrù hry
-void SetGameN(int n, int i);			// nastavení èíselné hodnoty hry (n = rozsah -16384 a +16383, i = index 0 a 7)
-void SetGameL(bool n, int i);			// nastavení pøepínaèe hry (i = index 0 a 7)
-void SetGameAct(CString txt);			// nastavení aktivní hry
+void ComReinit();						// inicializace pÅ™Ã­jmu dat
+void ComClose(int i);					// uzavÅ™enÃ­ portu (i=platnÃ½ index)
+void GetComDCB();						// naÄtenÃ­ DCB aktivnÃ­ho portu
+void SetComDCB();						// nastavenÃ­ DCB aktivnÃ­ho portu
+void ComSend(BYTE data);				// vyslÃ¡nÃ­ bajtu na komunikaÄnÃ­ port
+BYTE ComReceive();						// pÅ™Ã­jem bajtu z komunikaÄnÃ­ho portu (0=nejsou data)
+
+/////////////////////////////////////////////////////////////////////////////
+// DirectPlay (nenÃ­ u MINI verze)
+
+void DirectSendData(BYTE* data, int n);	// zÃ¡pis dat do vÃ½stupnÃ­ho bufferu
+void DirectSend(int id);				// vyslÃ¡nÃ­ bloku dat (-1 = vÅ¡em)
+void DirectReceiveData(BYTE* data, int n); // ÄtenÃ­ dat ze vstupnÃ­ho bufferu (pÅ™i nedostatku dat doplnÃ­ nulami)
+int DirectReceive();					// pÅ™Ã­jem bloku dat (-1 = nenÃ­)
+void SetPlayerAct(CString txt);			// nastavenÃ­ aktivnÃ­ho hrÃ¡Äe
+bool DirectPlayEnumPlayers();			// seznam hrÃ¡ÄÅ¯ (FALSE=chyba)
+void SetPlayerMax(int n);				// nastavenÃ­ max. hrÃ¡ÄÅ¯ (0=neomezeno)
+void GetGameDesc();						// naÄtenÃ­ parametrÅ¯ hry
+void SetGameN(int n, int i);			// nastavenÃ­ ÄÃ­selnÃ© hodnoty hry (n = rozsah -16384 aÅ¾ +16383, i = index 0 aÅ¾ 7)
+void SetGameL(bool n, int i);			// nastavenÃ­ pÅ™epÃ­naÄe hry (i = index 0 aÅ¾ 7)
+void SetGameAct(CString txt);			// nastavenÃ­ aktivnÃ­ hry
 bool DirectPlayEnumGames();				// seznam her (FALSE=chyba)
-void SetConnectAct(CString txt);		// nastavení aktivního spojení
-bool DirectPlayConInit();				// inicializace seznamu spojení (FALSE=chyba)
-void DirectPlayConUninit();				// ukonèení seznamu spojení
+void SetConnectAct(CString txt);		// nastavenÃ­ aktivnÃ­ho spojenÃ­
+bool DirectPlayConInit();				// inicializace seznamu spojenÃ­ (FALSE=chyba)
+void DirectPlayConUninit();				// ukonÄenÃ­ seznamu spojenÃ­
 bool DirectPlayInit();					// inicializace objektu DirectPlay (FALSE=chyba)
-void DirectPlayUninit();				// uvolnìní objektu DirectPlay
+void DirectPlayUninit();				// uvolnÄ›nÃ­ objektu DirectPlay
 bool COMInit();							// inicializace knihovny COM (FALSE=chyba)
-void COMUninit();						// uvolnìní knihovny COM
+void COMUninit();						// uvolnÄ›nÃ­ knihovny COM
 
 /////////////////////////////////////////////////////////////////////////////
 // UDP
 
 void WSAInitialize();					// inicializace WSA knihovny
-bool WSAInitialize1();					// inicializace WSA 1.1 knihovny (vrací TRUE je-li OK)
-bool WSAInitialize2();					// inicializace WSA 2.2 knihovny (vrací TRUE je-li OK)
+bool WSAInitialize1();					// inicializace WSA 1.1 knihovny (vracÃ­ TRUE je-li OK)
+bool WSAInitialize2();					// inicializace WSA 2.2 knihovny (vracÃ­ TRUE je-li OK)
 void WSADeinitialize();					// deinicializace WSA knihovny
 
-void InitUDP();							// inicializace obsluhy UDP (inicializace bufferù)
-bool OpenUDP();							// otevøení soketu UDP (pøi chybì vrací FALSE)
-void CloseUDP();						// zavøení soketu UDP
-void SendUDP(const void* data, int len);// odeslání UDP paketu
-int RecUDP();							// pøíjem UDP paketu (vrací velikost dat v pøijímacím bufferu)
+void InitUDP();							// inicializace obsluhy UDP (inicializace bufferÅ¯)
+bool OpenUDP();							// otevÅ™enÃ­ soketu UDP (pÅ™i chybÄ› vracÃ­ FALSE)
+void CloseUDP();						// zavÅ™enÃ­ soketu UDP
+void SendUDP(const void* data, int len);// odeslÃ¡nÃ­ UDP paketu
+int RecUDP();							// pÅ™Ã­jem UDP paketu (vracÃ­ velikost dat v pÅ™ijÃ­macÃ­m bufferu)
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 /////////////////////////////////////////////////////////////////////////////
 // dialogy
 
-void DialogOn(bool on);					// reim dialogu
-void WindowNew(int typ, int styl);		// vytvoøení okna
+void DialogOn(bool on);					// reÅ¾im dialogu
+void WindowNew(int typ, int styl);		// vytvoÅ™enÃ­ okna
 HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout,
-			  bool serif, bool fixed, int height, double width, double angle); // vytvoøení fontu (nutné uvolnìní pomocí FreeFont)
-void FreeFont(HFONT font);				// uvolnìní fontu pøidìleného s GetFont
+			  bool serif, bool fixed, int height, double width, double angle); // vytvoÅ™enÃ­ fontu (nutnÃ© uvolnÄ›nÃ­ pomocÃ­ FreeFont)
+void FreeFont(HFONT font);				// uvolnÄ›nÃ­ fontu pÅ™idÄ›lenÃ©ho s GetFont
 void WindowSetFont(WINITEM* item);	// aktualizace fontu
-void WindowItemNew(int typ, CString& classname, int width, int height, int style, int exstyle); // vytvoøení prvku okna
-void WindowDel(int inx);				// zrušení prvku
-void FocusNext();						// posun fokusu na další prvek
-void FocusPrev();						// posun fokusu na pøedchozí prvek
-void RadioNext();						// posun fokusu na další pøepínaè
-void RadioPrev();						// posun fokusu na pøedchozí pøepínaè
-void RadioSet(int inx);					// nastavení pøepínaèe
+void WindowItemNew(int typ, CString& classname, int width, int height, int style, int exstyle); // vytvoÅ™enÃ­ prvku okna
+void WindowDel(int inx);				// zruÅ¡enÃ­ prvku
+void FocusNext();						// posun fokusu na dalÅ¡Ã­ prvek
+void FocusPrev();						// posun fokusu na pÅ™edchozÃ­ prvek
+void RadioNext();						// posun fokusu na dalÅ¡Ã­ pÅ™epÃ­naÄ
+void RadioPrev();						// posun fokusu na pÅ™edchozÃ­ pÅ™epÃ­naÄ
+void RadioSet(int inx);					// nastavenÃ­ pÅ™epÃ­naÄe
 
 
 /////////////////////////////////////////////////////////////////////////////
 // joystick
 
-void AktJoystick(int inx);				// aktualizace údajù o joysticku
+void AktJoystick(int inx);				// aktualizace ÃºdajÅ¯ o joysticku
 
 
 /////////////////////////////////////////////////////////////////////////////
 // konzola
 
-void ConsoleOnSet(bool on);			// zapnutí/vypnutí konzoly
-void ConsoleOut(const CString& text);	// vıstup na konzolu
-void ConsoleErr(const CString& text);	// chybovı vıstup na konzolu
+void ConsoleOnSet(bool on);			// zapnutÃ­/vypnutÃ­ konzoly
+void ConsoleOut(const CString& text);	// vÃ½stup na konzolu
+void ConsoleErr(const CString& text);	// chybovÃ½ vÃ½stup na konzolu
 void ConsoleIn(CString& text);		// vstup textu z konzoly
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha CD diskù
+// obsluha CD diskÅ¯
 
-void CDPlay(int stopa);				// zahájení pøehrávání od zadané stopy
-void CDSetTrack(int stopa);			// nastavení stopy
-void CDStop();						// zastavení pøehrávání CD
-void CDEject(bool eject);			// vysunutí CD
+void CDPlay(int stopa);				// zahÃ¡jenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ od zadanÃ© stopy
+void CDSetTrack(int stopa);			// nastavenÃ­ stopy
+void CDStop();						// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ CD
+void CDEject(bool eject);			// vysunutÃ­ CD
 void CDPause();						// pauza CD
-void CDSetPos(int pozice);			// nastavení pozice CD v ms + pøehrávání
-void CDSetTrackPos(int pozice);		// nastavení pozice v aktivní stopì CD v ms + pøehrávání
-void CDClose();						// uzavøení ovladaèe CD
-bool CDOpen();						// otevøení ovladaèe CD
-bool CDAkt();						// aktualizace údajù o CD disku
+void CDSetPos(int pozice);			// nastavenÃ­ pozice CD v ms + pÅ™ehrÃ¡vÃ¡nÃ­
+void CDSetTrackPos(int pozice);		// nastavenÃ­ pozice v aktivnÃ­ stopÄ› CD v ms + pÅ™ehrÃ¡vÃ¡nÃ­
+void CDClose();						// uzavÅ™enÃ­ ovladaÄe CD
+bool CDOpen();						// otevÅ™enÃ­ ovladaÄe CD
+bool CDAkt();						// aktualizace ÃºdajÅ¯ o CD disku
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní informací o velikosti a volném místu aktivního disku
+// zjiÅ¡tÄ›nÃ­ informacÃ­ o velikosti a volnÃ©m mÃ­stu aktivnÃ­ho disku
 
 void GetDiskSpace();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha souborù
+// obsluha souborÅ¯
 
-bool FileReadOpen();				// otevøení souboru pro ètení
-bool FileWriteOpen();				// otevøení souboru pro zápis
-bool FileWriteFlush();				// vyprázdnìní zápisového bufferu
-void _fastcall FileWriteBlok(BYTE* buf, int size); // zápis bloku do souboru
-void FileWriteByte(BYTE data);		// zápis bajtu do vıstupního souboru
-void FileWriteWord(WORD data);		// zápis slova do vıstupního souboru
-void FileWriteDWord(DWORD data);	// zápis dvojslova do vıstupního souboru
-WORD FileReadWord();				// ètení slova ze vstupního souboru
-BYTE FileReadByte();				// ètení bajtu ze vstupního souboru
-void FileClose();					// uzavøení souborù
-void FileReadBlok(BYTE* buf, int size); //naètení bloku ze souboru
-void _fastcall InitAlias(CString name);		// pøíprava jména ALIAS
+bool FileReadOpen();				// otevÅ™enÃ­ souboru pro ÄtenÃ­
+bool FileWriteOpen();				// otevÅ™enÃ­ souboru pro zÃ¡pis
+bool FileWriteFlush();				// vyprÃ¡zdnÄ›nÃ­ zÃ¡pisovÃ©ho bufferu
+void _fastcall FileWriteBlok(BYTE* buf, int size); // zÃ¡pis bloku do souboru
+void FileWriteByte(BYTE data);		// zÃ¡pis bajtu do vÃ½stupnÃ­ho souboru
+void FileWriteWord(WORD data);		// zÃ¡pis slova do vÃ½stupnÃ­ho souboru
+void FileWriteDWord(DWORD data);	// zÃ¡pis dvojslova do vÃ½stupnÃ­ho souboru
+WORD FileReadWord();				// ÄtenÃ­ slova ze vstupnÃ­ho souboru
+BYTE FileReadByte();				// ÄtenÃ­ bajtu ze vstupnÃ­ho souboru
+void FileClose();					// uzavÅ™enÃ­ souborÅ¯
+void FileReadBlok(BYTE* buf, int size); //naÄtenÃ­ bloku ze souboru
+void _fastcall InitAlias(CString name);		// pÅ™Ã­prava jmÃ©na ALIAS
 void _fastcall InitAliasGroup(int lan);		// inicializace skupiny ALIAS
 
 /////////////////////////////////////////////////////////////////////////////
-// provádìní programu
+// provÃ¡dÄ›nÃ­ programu
 
 void Exec();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení souøadnic myši
+// naÄtenÃ­ souÅ™adnic myÅ¡i
 
 void GetAktMousePos();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace informací o ploše
+// inicializace informacÃ­ o ploÅ¡e
 
 void ExecInitMap();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavování rozmìrù okna
+// nastavovÃ¡nÃ­ rozmÄ›rÅ¯ okna
 
 void OnSizing(RECT* rc, int side);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace rozmìrù okna
+// aktualizace rozmÄ›rÅ¯ okna
 
 void _fastcall OnSize(WINITEM* item);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøekreslení okna
+// pÅ™ekreslenÃ­ okna
 
 void _fastcall OnPaint(WINITEM* item, int inx);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøekreslení celého okna
+// pÅ™ekreslenÃ­ celÃ©ho okna
 
 void _fastcall RePaint(WINITEM* item);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizaèní pøekreslení okna
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ okna
 
 void ReDisp();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání po zadanou dobu
+// ÄekÃ¡nÃ­ po zadanou dobu
 
 void _fastcall TimeWait(int count);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha èasovaèe
+// obsluha ÄasovaÄe
 
 void BackTimer();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// test èasovaèe
+// test ÄasovaÄe
 
 BOOL TestTimer();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání na signál od èasovaèe s obsluhou zpráv
+// ÄekÃ¡nÃ­ na signÃ¡l od ÄasovaÄe s obsluhou zprÃ¡v
 
 void WaitTimer(bool wait);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøesun sprajtu
+// pÅ™esun sprajtu
 
 void SpriteMove(int index, double cilx, double cily);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru sprajtu
+// nastavenÃ­ smÄ›ru sprajtu
 
 void SetSpriteSmer(int index, double smer);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti sprajtu
+// nastavenÃ­ viditelnosti sprajtu
 
 void SetSpriteVisible(int index, bool visible);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 
 void SetSprite(int inx, const CSprite& src);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní pøíští fáze sprajtu (pro promìnnou fáze sprajtu)
+// zjiÅ¡tÄ›nÃ­ pÅ™Ã­Å¡tÃ­ fÃ¡ze sprajtu (pro promÄ›nnou fÃ¡ze sprajtu)
 
 int SpriteNextFaze(int index);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zajištìní vymazání sprajtu (poadavek pøekreslení ikon)
+// zajiÅ¡tÄ›nÃ­ vymazÃ¡nÃ­ sprajtu (poÅ¾adavek pÅ™ekreslenÃ­ ikon)
 
 void _fastcall SpriteClear(int index);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadavku pøekreslení ikony (bez kontroly souøadnic)
+// nastavenÃ­ poÅ¾adavku pÅ™ekreslenÃ­ ikony (bez kontroly souÅ™adnic)
 
 inline void SetAktIcon(int x, int y, bool b)
 {
@@ -757,13 +757,13 @@ inline void SetAktIcon(int x, int y, bool b)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadavku pøekreslení všech ikon
+// nastavenÃ­ poÅ¾adavku pÅ™ekreslenÃ­ vÅ¡ech ikon
 
 void AktAllIcon();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadavku pøekreslení ikony v intervalu (vèetnì koncovıch bodù)
+// nastavenÃ­ poÅ¾adavku pÅ™ekreslenÃ­ ikony v intervalu (vÄetnÄ› koncovÃ½ch bodÅ¯)
 
 void _fastcall AktIconBoxG(int x1, int y1, int x2, int y2);
 void _fastcall AktIconBox(int x1, int y1, int x2, int y2);

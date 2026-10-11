@@ -3,183 +3,183 @@
 
 /***************************************************************************\
 *																			*
-*							Provádìní programu								*
+*							ProvÃ¡dÄ›nÃ­ programu								*
 *																			*
 \***************************************************************************/
 
-#pragma optimize("t", on)			// optimalizace na maximální rychlost
+#pragma optimize("t", on)			// optimalizace na maximÃ¡lnÃ­ rychlost
 
-// buffer provádìného programu
-int			ProgStart = 0;		// index volání hlavní funkce
+// buffer provÃ¡dÄ›nÃ©ho programu
+int			ProgStart = 0;		// index volÃ¡nÃ­ hlavnÃ­ funkce
 EXECITEM*	ProgBuf = NULL;		// buffer programu
-int			ProgNum = 0;		// poèet poloek programu
+int			ProgNum = 0;		// poÄet poloÅ¾ek programu
 int			ProgMax = 0;		// velikost bufferu programu
-EXECITEM*	ExecItem = NULL;	// ukazatel provádìného programu
-int			Hloubka = MAXHLOUBKA;	// hloubka vnoøení do funkcí
+EXECITEM*	ExecItem = NULL;	// ukazatel provÃ¡dÄ›nÃ©ho programu
+int			Hloubka = MAXHLOUBKA;	// hloubka vnoÅ™enÃ­ do funkcÃ­
 
-// buffer obrázkù
-BYTE*	BackBuf = NULL;			// buffer obrázku pozadí
-BYTE*	PicBuf = NULL;			// buffer obrázku sestavy (s ikonami)
-BYTE*	TextBuf = NULL;			// buffer pro vıstup textu
+// buffer obrÃ¡zkÅ¯
+BYTE*	BackBuf = NULL;			// buffer obrÃ¡zku pozadÃ­
+BYTE*	PicBuf = NULL;			// buffer obrÃ¡zku sestavy (s ikonami)
+BYTE*	TextBuf = NULL;			// buffer pro vÃ½stup textu
 
-// aktualizace pøekreslení ikon
-bool*	AktBuf;					// buffer poadavkù k pøekreslení ikon
+// aktualizace pÅ™ekreslenÃ­ ikon
+bool*	AktBuf;					// buffer poÅ¾adavkÅ¯ k pÅ™ekreslenÃ­ ikon
 
-int		AktLeft;				// levı okraj k pøekreslení - vèetnì (v bodech)
-int		AktTop;					// horní okraj k pøekreslení - vèetnì (v bodech)
-int		AktRight;				// pravı okraj k pøekreslení - bez (v bodech)
-int		AktBottom;				// dolní okraj k pøekreslení - bez (v bodech)
+int		AktLeft;				// levÃ½ okraj k pÅ™ekreslenÃ­ - vÄetnÄ› (v bodech)
+int		AktTop;					// hornÃ­ okraj k pÅ™ekreslenÃ­ - vÄetnÄ› (v bodech)
+int		AktRight;				// pravÃ½ okraj k pÅ™ekreslenÃ­ - bez (v bodech)
+int		AktBottom;				// dolnÃ­ okraj k pÅ™ekreslenÃ­ - bez (v bodech)
 
-bool	IsOverlay = false;		// zobrazeno pøekryvné okno Windows (otevøení souborù atd.)
+bool	IsOverlay = false;		// zobrazeno pÅ™ekryvnÃ© okno Windows (otevÅ™enÃ­ souborÅ¯ atd.)
 
-// aktivní zobrazená plocha
-int		WidthN = 0;				// šíøka plochy v ikonách
-int		HeightN = 0;			// vıška plochy v ikonách
-int		Width = 0;				// šíøka plochy v bodech
-int		Height = 0;				// vıška plochy v bodech
-int		WidthByte = 0;			// délka linky v bajtech
-int		RowByte = 0;			// délka øádku ikon v bajtech
+// aktivnÃ­ zobrazenÃ¡ plocha
+int		WidthN = 0;				// Å¡Ã­Å™ka plochy v ikonÃ¡ch
+int		HeightN = 0;			// vÃ½Å¡ka plochy v ikonÃ¡ch
+int		Width = 0;				// Å¡Ã­Å™ka plochy v bodech
+int		Height = 0;				// vÃ½Å¡ka plochy v bodech
+int		WidthByte = 0;			// dÃ©lka linky v bajtech
+int		RowByte = 0;			// dÃ©lka Å™Ã¡dku ikon v bajtech
 
-// vıstupní buffer
-bool	DispBufUse = false;		// pouívá se vıstupní buffer (je jiné mìøítko ne 1:1)
-bool	DispBufUse2 = false;	// pouívá se vıstupní buffer v TRUE COLOR (je mìøítko 2:1)
-BYTE*	DispBuf = NULL;			// vıstupní buffer
-int		DispBufSize = 0;		// aktuální velikost vıstupního bufferu
-int*	DispMapX = NULL;		// buffer mapování z bodu obrázku na vıstupní bod
-int*	DispMapY = NULL;		// buffer mapování z linky obrázku na vıstupní linku
-int*	DispRemapX = NULL;		// buffer zpìtného mapování vıstupního bodu na offset v lince obrázku
-int*	DispRemapY = NULL;		// buffer zpìtného mapování vıstupní linky na offset v obrázku
+// vÃ½stupnÃ­ buffer
+bool	DispBufUse = false;		// pouÅ¾Ã­vÃ¡ se vÃ½stupnÃ­ buffer (je jinÃ© mÄ›Å™Ã­tko neÅ¾ 1:1)
+bool	DispBufUse2 = false;	// pouÅ¾Ã­vÃ¡ se vÃ½stupnÃ­ buffer v TRUE COLOR (je mÄ›Å™Ã­tko 2:1)
+BYTE*	DispBuf = NULL;			// vÃ½stupnÃ­ buffer
+int		DispBufSize = 0;		// aktuÃ¡lnÃ­ velikost vÃ½stupnÃ­ho bufferu
+int*	DispMapX = NULL;		// buffer mapovÃ¡nÃ­ z bodu obrÃ¡zku na vÃ½stupnÃ­ bod
+int*	DispMapY = NULL;		// buffer mapovÃ¡nÃ­ z linky obrÃ¡zku na vÃ½stupnÃ­ linku
+int*	DispRemapX = NULL;		// buffer zpÄ›tnÃ©ho mapovÃ¡nÃ­ vÃ½stupnÃ­ho bodu na offset v lince obrÃ¡zku
+int*	DispRemapY = NULL;		// buffer zpÄ›tnÃ©ho mapovÃ¡nÃ­ vÃ½stupnÃ­ linky na offset v obrÃ¡zku
 
-int		DispLeft = 0;			// levı okraj k zobrazení v oknì
-int		DispTop = 0;			// horní okraj k zobrazení v oknì
-int		DispWidth = 1;			// zobrazená šiøka v bodech
-int		DispWidthByte = 0;		// šíøka linky vıstupního bufferu v bajtech
-int		DispHeight = 1;			// zobrazená vıška v bodech
+int		DispLeft = 0;			// levÃ½ okraj k zobrazenÃ­ v oknÄ›
+int		DispTop = 0;			// hornÃ­ okraj k zobrazenÃ­ v oknÄ›
+int		DispWidth = 1;			// zobrazenÃ¡ Å¡iÅ™ka v bodech
+int		DispWidthByte = 0;		// Å¡Ã­Å™ka linky vÃ½stupnÃ­ho bufferu v bajtech
+int		DispHeight = 1;			// zobrazenÃ¡ vÃ½Å¡ka v bodech
 
-double	Meritko = 1;			// aktuální mìøítko zobrazení
-double	Meritko0 = 1;			// uschované mìøítko zobrazení pro normální okno
+double	Meritko = 1;			// aktuÃ¡lnÃ­ mÄ›Å™Ã­tko zobrazenÃ­
+double	Meritko0 = 1;			// uschovanÃ© mÄ›Å™Ã­tko zobrazenÃ­ pro normÃ¡lnÃ­ okno
 
-// zobrazení textu
-int		GraphAreaWidth = 0;		// šíøka pole k zobrazení textu centrovanì (v bodech)
+// zobrazenÃ­ textu
+int		GraphAreaWidth = 0;		// Å¡Ã­Å™ka pole k zobrazenÃ­ textu centrovanÄ› (v bodech)
 
-// stavovı øádek
-bool	CaptionAkt = false;		// poadavek k pøekreslení nadpisu okna
-CString	CaptionText;			// novı text titulku k nastavení
-bool	StatusAkt = false;		// poadavek k pøekreslení stavového øádku
-CString	StatusText;				// novı stavovı text k nastavení
+// stavovÃ½ Å™Ã¡dek
+bool	CaptionAkt = false;		// poÅ¾adavek k pÅ™ekreslenÃ­ nadpisu okna
+CString	CaptionText;			// novÃ½ text titulku k nastavenÃ­
+bool	StatusAkt = false;		// poÅ¾adavek k pÅ™ekreslenÃ­ stavovÃ©ho Å™Ã¡dku
+CString	StatusText;				// novÃ½ stavovÃ½ text k nastavenÃ­
 
-// buffer sprajtù
-CBufInt	SpriteVisible;			// buffer indexù viditelnıch sprajtù
-CBufInt	SpriteMoving;			// buffer indexù pohybujících se sprajtù
-CBufInt	SpriteKlid;				// buffer sprajtù animovanıch v klidu
-CBufInt	SpriteDispReq;			// buffer sprajtù vyadujících pøekreslení
-CBufInt	SpriteDispLevel;		// hladiny sprajtù vyadujících pøekreslení
-CBufReal SpriteDispY;			// souøadnice sprajtù Y 
+// buffer sprajtÅ¯
+CBufInt	SpriteVisible;			// buffer indexÅ¯ viditelnÃ½ch sprajtÅ¯
+CBufInt	SpriteMoving;			// buffer indexÅ¯ pohybujÃ­cÃ­ch se sprajtÅ¯
+CBufInt	SpriteKlid;				// buffer sprajtÅ¯ animovanÃ½ch v klidu
+CBufInt	SpriteDispReq;			// buffer sprajtÅ¯ vyÅ¾adujÃ­cÃ­ch pÅ™ekreslenÃ­
+CBufInt	SpriteDispLevel;		// hladiny sprajtÅ¯ vyÅ¾adujÃ­cÃ­ch pÅ™ekreslenÃ­
+CBufReal SpriteDispY;			// souÅ™adnice sprajtÅ¯ Y 
 
-int		SpriteWinX1 = 0;		// levı okraj okna sprajtù
-int		SpriteWinY1 = 0;		// dolní okraj okna sprajtù
-int		SpriteWinX2 = 1000000*ICONWIDTH;	// pravı okraj okna sprajtù
-int		SpriteWinY2 = 1000000*ICONHEIGHT;	// horní okraj okna sprajtù
+int		SpriteWinX1 = 0;		// levÃ½ okraj okna sprajtÅ¯
+int		SpriteWinY1 = 0;		// dolnÃ­ okraj okna sprajtÅ¯
+int		SpriteWinX2 = 1000000*ICONWIDTH;	// pravÃ½ okraj okna sprajtÅ¯
+int		SpriteWinY2 = 1000000*ICONHEIGHT;	// hornÃ­ okraj okna sprajtÅ¯
 
-int		WhileOut = WHILEOUT;	// èítaè time-out cyklu
-int		ReDispOut = REDISPOUT;	// èítaè time-out pøekreslení displeje
+int		WhileOut = WHILEOUT;	// ÄÃ­taÄ time-out cyklu
+int		ReDispOut = REDISPOUT;	// ÄÃ­taÄ time-out pÅ™ekreslenÃ­ displeje
 
-// obsluha èasovaèe
-UINT	TimerID = 0;			// ID èasovaèe
+// obsluha ÄasovaÄe
+UINT	TimerID = 0;			// ID ÄasovaÄe
 
-bool	Pause = false;			// pøíznak zapaouzování programu
-volatile int Break;				// pøíznaky pøerušení (0 = není pøerušení)
+bool	Pause = false;			// pÅ™Ã­znak zapaouzovÃ¡nÃ­ programu
+volatile int Break;				// pÅ™Ã­znaky pÅ™eruÅ¡enÃ­ (0 = nenÃ­ pÅ™eruÅ¡enÃ­)
 
-double		MouseX = 0;			// souøadnice myši X (v ikonovıch souøadnicích)
-double		MouseY = 0;			// souøadnice myši Y (v ikonovıch souøadnicích)
+double		MouseX = 0;			// souÅ™adnice myÅ¡i X (v ikonovÃ½ch souÅ™adnicÃ­ch)
+double		MouseY = 0;			// souÅ™adnice myÅ¡i Y (v ikonovÃ½ch souÅ™adnicÃ­ch)
 
 // obsluha CD
-UINT	CDDevice = 0;			// ID zaøízení MCI pro pøehrávání CD (0=není otevøeno)
-int		CDError = -1;			// èítaè pro novı pokus pøi chybì (musí bıt < 0)
-int		CDValidTime = 0;		// èítaè platnosti údajù o CD (musí bıt > 0)
-bool	CDDiskValid = false;	// údaje o disku jsou platné, pøíznak vloení disku
-int		CDStart = 2000;			// startovací pozice CD v ms
-int		CDLength = CDDEFLENGTH;	// délka CD v ms
-int		CDTracks = 1;			// poèet stop CD
-int		CDPos = 0;				// pøehrávaná pozice CD v ms
-int		CDTrack = 1;			// pøehrávaná stopa
-int		CDTrackLength = CDDEFLENGTH;// délka pøehrávané stopy v ms
-int		CDTrackPos = 0;			// pozice v pøehrávané stopì v ms
-bool	CDPlaing = false;		// pøíznak pøehrávání CD
-bool	CDPausing = false;		// pøíznak pauzy CD
+UINT	CDDevice = 0;			// ID zaÅ™Ã­zenÃ­ MCI pro pÅ™ehrÃ¡vÃ¡nÃ­ CD (0=nenÃ­ otevÅ™eno)
+int		CDError = -1;			// ÄÃ­taÄ pro novÃ½ pokus pÅ™i chybÄ› (musÃ­ bÃ½t < 0)
+int		CDValidTime = 0;		// ÄÃ­taÄ platnosti ÃºdajÅ¯ o CD (musÃ­ bÃ½t > 0)
+bool	CDDiskValid = false;	// Ãºdaje o disku jsou platnÃ©, pÅ™Ã­znak vloÅ¾enÃ­ disku
+int		CDStart = 2000;			// startovacÃ­ pozice CD v ms
+int		CDLength = CDDEFLENGTH;	// dÃ©lka CD v ms
+int		CDTracks = 1;			// poÄet stop CD
+int		CDPos = 0;				// pÅ™ehrÃ¡vanÃ¡ pozice CD v ms
+int		CDTrack = 1;			// pÅ™ehrÃ¡vanÃ¡ stopa
+int		CDTrackLength = CDDEFLENGTH;// dÃ©lka pÅ™ehrÃ¡vanÃ© stopy v ms
+int		CDTrackPos = 0;			// pozice v pÅ™ehrÃ¡vanÃ© stopÄ› v ms
+bool	CDPlaing = false;		// pÅ™Ã­znak pÅ™ehrÃ¡vÃ¡nÃ­ CD
+bool	CDPausing = false;		// pÅ™Ã­znak pauzy CD
 
-// obsluha klávesnice
-int		KeyBufWrite = 0;		// ukládací index do bufferu klávesnice
-int		KeyBufRead = 0;			// ètecí index z bufferu klávesnice
-int		KeyBuf[KEYBUFSIZE];		// buffer klávesnice
+// obsluha klÃ¡vesnice
+int		KeyBufWrite = 0;		// uklÃ¡dacÃ­ index do bufferu klÃ¡vesnice
+int		KeyBufRead = 0;			// ÄtecÃ­ index z bufferu klÃ¡vesnice
+int		KeyBuf[KEYBUFSIZE];		// buffer klÃ¡vesnice
 
-int		CharBufWrite = 0;		// ukládací index do bufferu znakù
-int		CharBufRead = 0;		// ètecí index z bufferu znakù
-int		CharBuf[KEYBUFSIZE];	// buffer znakù
+int		CharBufWrite = 0;		// uklÃ¡dacÃ­ index do bufferu znakÅ¯
+int		CharBufRead = 0;		// ÄtecÃ­ index z bufferu znakÅ¯
+int		CharBuf[KEYBUFSIZE];	// buffer znakÅ¯
 
-bool	CtrlAgain = false;		// pøíznak opakovaného stisku Ctrl
+bool	CtrlAgain = false;		// pÅ™Ã­znak opakovanÃ©ho stisku Ctrl
 
-int		KeyMapNum = 0;			// poèet stisknutıch kláves
-bool	KeyMap[KEYMAPSIZE];		// mapa stisknutıch kláves
+int		KeyMapNum = 0;			// poÄet stisknutÃ½ch klÃ¡ves
+bool	KeyMap[KEYMAPSIZE];		// mapa stisknutÃ½ch klÃ¡ves
 
 bool	NumLock = false;		// stav Num Lock
 bool	CapsLock = false;		// stav Caps Lock
 bool	ScrollLock = false;		// stav Scroll Lock
 bool	InsertLock = false;		// stav Insert
 
-bool	AktNumLock = false;		// poadavek nastavení Num Lock
-bool	AktCapsLock = false;	// poadavek nastavení Caps Lock
-bool	AktScrollLock = false;	// poadavek nastavení Scroll Lock
-bool	AktInsertLock = false;	// poadavek nastavení Insert
+bool	AktNumLock = false;		// poÅ¾adavek nastavenÃ­ Num Lock
+bool	AktCapsLock = false;	// poÅ¾adavek nastavenÃ­ Caps Lock
+bool	AktScrollLock = false;	// poÅ¾adavek nastavenÃ­ Scroll Lock
+bool	AktInsertLock = false;	// poÅ¾adavek nastavenÃ­ Insert
 
-// obsluha souborù
-bool	FileError = false;		// pøíznak chyby souborù
-int		FileCloseTime = 0;		// èítaè èasu pro uzavøení souborù
-int		FileTextNLen = 10;		// délka textu s pevnou délkou
-bool	FileTextUnicode = false; // text je v kódu UNICODE
+// obsluha souborÅ¯
+bool	FileError = false;		// pÅ™Ã­znak chyby souborÅ¯
+int		FileCloseTime = 0;		// ÄÃ­taÄ Äasu pro uzavÅ™enÃ­ souborÅ¯
+int		FileTextNLen = 10;		// dÃ©lka textu s pevnou dÃ©lkou
+bool	FileTextUnicode = false; // text je v kÃ³du UNICODE
 
-CString	FileRead;				// jméno souboru pro ètení
-HANDLE	FileReadHandle = NULL;	// handle souboru pro ètení (NULL=není)
-int		FileReadOff = 0;		// offset v souboru pro ètení
-BYTE*	FileReadBuf = NULL;		// buffer pro ètení
-int		FileReadBufOff = 0;		// offset bufferu pro ètení
-int		FileReadBufN = 0;		// poèet bajtù v bufferu pro ètení
+CString	FileRead;				// jmÃ©no souboru pro ÄtenÃ­
+HANDLE	FileReadHandle = NULL;	// handle souboru pro ÄtenÃ­ (NULL=nenÃ­)
+int		FileReadOff = 0;		// offset v souboru pro ÄtenÃ­
+BYTE*	FileReadBuf = NULL;		// buffer pro ÄtenÃ­
+int		FileReadBufOff = 0;		// offset bufferu pro ÄtenÃ­
+int		FileReadBufN = 0;		// poÄet bajtÅ¯ v bufferu pro ÄtenÃ­
 
-CString	FileWrite;				// jméno souboru pro zápis
-HANDLE	FileWriteHandle = NULL;	// handle souboru pro zápis (NULL=není)
-int		FileWriteOff = 0;		// offset v souboru pro zápis
-BYTE*	FileWriteBuf = NULL;	// buffer pro zápis
-int		FileWriteBufOff = 0;	// offset bufferu pro zápis
-int		FileWriteBufN = 0;		// poèet bajtù v bufferu pro zápis
+CString	FileWrite;				// jmÃ©no souboru pro zÃ¡pis
+HANDLE	FileWriteHandle = NULL;	// handle souboru pro zÃ¡pis (NULL=nenÃ­)
+int		FileWriteOff = 0;		// offset v souboru pro zÃ¡pis
+BYTE*	FileWriteBuf = NULL;	// buffer pro zÃ¡pis
+int		FileWriteBufOff = 0;	// offset bufferu pro zÃ¡pis
+int		FileWriteBufN = 0;		// poÄet bajtÅ¯ v bufferu pro zÃ¡pis
 
-CString	AliasName;				// jméno souboru ALIASES
-CString	AliasKey;				// klíè ALIASES
+CString	AliasName;				// jmÃ©no souboru ALIASES
+CString	AliasKey;				// klÃ­Ä ALIASES
 CString	AliasGroup;				// skupina ALIASES
 
 __int64	DiskSize = 0;			// velikost disku (z funkce GetDiskSpace)
-__int64	DiskFree = 0;			// volné místo disku (z funkce GetDiskSpace)
-__int64	DiskFreeUser = 0;		// volné místo uivatele (z funkce GetDiskSpace)
+__int64	DiskFree = 0;			// volnÃ© mÃ­sto disku (z funkce GetDiskSpace)
+__int64	DiskFreeUser = 0;		// volnÃ© mÃ­sto uÅ¾ivatele (z funkce GetDiskSpace)
 
 // konzola
-bool	ConsoleOn = false;		// pøíznak reimu konzoly
-bool	NewConsole = false;		// byla vytvoøena nová konzola
+bool	ConsoleOn = false;		// pÅ™Ã­znak reÅ¾imu konzoly
+bool	NewConsole = false;		// byla vytvoÅ™ena novÃ¡ konzola
 HANDLE	ConIn = INVALID_HANDLE_VALUE;	// handle pro vstup z konzoly
-HANDLE	ConOut = INVALID_HANDLE_VALUE;	// handle pro vıstup na konzolu
-HANDLE	ConErr = INVALID_HANDLE_VALUE;	// handle pro chybovı vıstup na konzolu
+HANDLE	ConOut = INVALID_HANDLE_VALUE;	// handle pro vÃ½stup na konzolu
+HANDLE	ConErr = INVALID_HANDLE_VALUE;	// handle pro chybovÃ½ vÃ½stup na konzolu
 
 // joystick
-int		JoystickNext[MAXJOYSTICK];	// èítaè do dalšího testu (musí bıt < 0)
-bool	JoystickValid[MAXJOYSTICK];	// pøíznak platnosti údajù joysticku
-int		JoystickOldX[MAXJOYSTICK];	// stará souøadnice X
-int		JoystickOldY[MAXJOYSTICK];	// stará souøadnice Y
-int		JoystickOldZ[MAXJOYSTICK];	// stará souøadnice Z
-double	JoystickX[MAXJOYSTICK];		// souøadnice X
-double	JoystickY[MAXJOYSTICK];		// souøadnice Y
-double	JoystickZ[MAXJOYSTICK];		// souøadnice Z
-bool	Joystick1[MAXJOYSTICK];		// tlaèítko 1
-bool	Joystick2[MAXJOYSTICK];		// tlaèítko 2
-bool	Joystick3[MAXJOYSTICK];		// tlaèítko 3
-bool	Joystick4[MAXJOYSTICK];		// tlaèítko 4
+int		JoystickNext[MAXJOYSTICK];	// ÄÃ­taÄ do dalÅ¡Ã­ho testu (musÃ­ bÃ½t < 0)
+bool	JoystickValid[MAXJOYSTICK];	// pÅ™Ã­znak platnosti ÃºdajÅ¯ joysticku
+int		JoystickOldX[MAXJOYSTICK];	// starÃ¡ souÅ™adnice X
+int		JoystickOldY[MAXJOYSTICK];	// starÃ¡ souÅ™adnice Y
+int		JoystickOldZ[MAXJOYSTICK];	// starÃ¡ souÅ™adnice Z
+double	JoystickX[MAXJOYSTICK];		// souÅ™adnice X
+double	JoystickY[MAXJOYSTICK];		// souÅ™adnice Y
+double	JoystickZ[MAXJOYSTICK];		// souÅ™adnice Z
+bool	Joystick1[MAXJOYSTICK];		// tlaÄÃ­tko 1
+bool	Joystick2[MAXJOYSTICK];		// tlaÄÃ­tko 2
+bool	Joystick3[MAXJOYSTICK];		// tlaÄÃ­tko 3
+bool	Joystick4[MAXJOYSTICK];		// tlaÄÃ­tko 4
 
 // prvky oken
 CString ButtonClassName(_T("Button"));
@@ -190,94 +190,94 @@ CString ComboBoxClassName(_T("Combobox"));
 CString StaticClassName(_T("Static"));
 CString TabsClassName(_T("SysTabControl32"));
 
-bool	DialogGraph = false;		// je grafické pozadí hlavního dialogového okna
+bool	DialogGraph = false;		// je grafickÃ© pozadÃ­ hlavnÃ­ho dialogovÃ©ho okna
 
-bool	DialogMode = false;			// dialogovı mód hlavního okna
-int		DialogParent = 0;			// aktivní rodièovské okno
-int		WindowID = -1;				// aktivní prvek (-1 = neplatnı)
-int		WindowFocus = 0;			// prvek s fokusem (-1 = není nebo neznámı)
-int		ButtonEsc = -1;				// tlaèítko pro Esc
+bool	DialogMode = false;			// dialogovÃ½ mÃ³d hlavnÃ­ho okna
+int		DialogParent = 0;			// aktivnÃ­ rodiÄovskÃ© okno
+int		WindowID = -1;				// aktivnÃ­ prvek (-1 = neplatnÃ½)
+int		WindowFocus = 0;			// prvek s fokusem (-1 = nenÃ­ nebo neznÃ¡mÃ½)
+int		ButtonEsc = -1;				// tlaÄÃ­tko pro Esc
 
-int		StdColorBtnText;			// systémová barva textu tlaèítek
-int		StdColorBtnFace;			// systémová barva podkladu tlaèítek
-HBRUSH	StdBrushBtn;				// štìtec pozadí tlaèítek
+int		StdColorBtnText;			// systÃ©movÃ¡ barva textu tlaÄÃ­tek
+int		StdColorBtnFace;			// systÃ©movÃ¡ barva podkladu tlaÄÃ­tek
+HBRUSH	StdBrushBtn;				// Å¡tÄ›tec pozadÃ­ tlaÄÃ­tek
 
-int		StdColorWindowText;			// systémová barva textu editoru
-int		StdColorWindow;				// systémová barva podkladu editoru
-HBRUSH	StdBrushWindow;				// štìtec pozadí editoru
+int		StdColorWindowText;			// systÃ©movÃ¡ barva textu editoru
+int		StdColorWindow;				// systÃ©movÃ¡ barva podkladu editoru
+HBRUSH	StdBrushWindow;				// Å¡tÄ›tec pozadÃ­ editoru
 
-int		StdColorHighlightText;		// systémová barva textu kurzoru
-int		StdColorHighlight;			// systémová barva pozadí kurzoru
-HBRUSH	StdBrushHighlight;			// štìtec pozadí kurzoru
+int		StdColorHighlightText;		// systÃ©movÃ¡ barva textu kurzoru
+int		StdColorHighlight;			// systÃ©movÃ¡ barva pozadÃ­ kurzoru
+HBRUSH	StdBrushHighlight;			// Å¡tÄ›tec pozadÃ­ kurzoru
 
-// správce fontù
-int			FontNext = FONTTABSTD;	// index pøíštího volného fontu k uloení
-FONTITEM*	FontTab = NULL;			// tabulka fontù
-HFONT		FontDefault = NULL;		// implicitní systémovı font (pøi chybì fontù)
-CString		UserFont(_T("Impact"));	// uivatelskı font
-CString		FontList;				// seznam systémovıch fontù
+// sprÃ¡vce fontÅ¯
+int			FontNext = FONTTABSTD;	// index pÅ™Ã­Å¡tÃ­ho volnÃ©ho fontu k uloÅ¾enÃ­
+FONTITEM*	FontTab = NULL;			// tabulka fontÅ¯
+HFONT		FontDefault = NULL;		// implicitnÃ­ systÃ©movÃ½ font (pÅ™i chybÄ› fontÅ¯)
+CString		UserFont(_T("Impact"));	// uÅ¾ivatelskÃ½ font
+CString		FontList;				// seznam systÃ©movÃ½ch fontÅ¯
 
 // DirectPlay
 // --------------------- vypnuto pro MINI verzi --------------------
 #ifndef _MINI
 
-bool	Coinit = false;				// probìhla inicializace COM knihovny
+bool	Coinit = false;				// probÄ›hla inicializace COM knihovny
 
-LPDIRECTPLAY3A	DirectPlay	= NULL;	// objekt DirectPlay3 (NULL=není)
+LPDIRECTPLAY3A	DirectPlay	= NULL;	// objekt DirectPlay3 (NULL=nenÃ­)
 
-CString	DirectPlayConnects;			// seznam spojení DirectPlay
-int		DirectPlayConnectsNum = 0;	// poèet spojení DirectPlay (0=není inicializován)
-CString	DirectPlayConnectsAkt;		// aktivní spojení (prázdné = nevybráno)
-int		DirectPlayConnectsAktN = -1; // aktivní spojení (-1 = není)
-void**	DirectPlayConnectsConn = NULL;	// tabulka informací spojení
-int		NextDirectPlayInit = 0;		// èítaè do pøíštího pokusu o otevøení DirectPlay
-CString ForDPlay1(" pro DirectPlay");	// rušenı text 1
-CString ForDPlay2(" for DirectPlay");	// rušenı text 2
-CString ForDPlay3(" für DirectPlay");	// rušenı text 3
+CString	DirectPlayConnects;			// seznam spojenÃ­ DirectPlay
+int		DirectPlayConnectsNum = 0;	// poÄet spojenÃ­ DirectPlay (0=nenÃ­ inicializovÃ¡n)
+CString	DirectPlayConnectsAkt;		// aktivnÃ­ spojenÃ­ (prÃ¡zdnÃ© = nevybrÃ¡no)
+int		DirectPlayConnectsAktN = -1; // aktivnÃ­ spojenÃ­ (-1 = nenÃ­)
+void**	DirectPlayConnectsConn = NULL;	// tabulka informacÃ­ spojenÃ­
+int		NextDirectPlayInit = 0;		// ÄÃ­taÄ do pÅ™Ã­Å¡tÃ­ho pokusu o otevÅ™enÃ­ DirectPlay
+CString ForDPlay1(" pro DirectPlay");	// ruÅ¡enÃ½ text 1
+CString ForDPlay2(" for DirectPlay");	// ruÅ¡enÃ½ text 2
+CString ForDPlay3(" fÃ¼r DirectPlay");	// ruÅ¡enÃ½ text 3
 
 CString	DirectPlayGames;			// seznam her DirectPlay
-int		DirectPlayGamesNum = 0;		// poèet her DirectPlay
-CString	DirectPlayGamesAkt;			// aktivní hra (prázdné = nevybráno)
-int		DirectPlayGamesAktN = -1;	// aktivní hra (-1 = není nebo není zatím pøihlášena)
-GUID	DirectPlayGamesAktGuid;		// GUID aktivní hry
+int		DirectPlayGamesNum = 0;		// poÄet her DirectPlay
+CString	DirectPlayGamesAkt;			// aktivnÃ­ hra (prÃ¡zdnÃ© = nevybrÃ¡no)
+int		DirectPlayGamesAktN = -1;	// aktivnÃ­ hra (-1 = nenÃ­ nebo nenÃ­ zatÃ­m pÅ™ihlÃ¡Å¡ena)
+GUID	DirectPlayGamesAktGuid;		// GUID aktivnÃ­ hry
 GUID*	DirectPlayGamesGuid = NULL;	// tabulka GUID her
-int		DirectPlayGamesTime = 0;	// èítaè pro aktualizaci seznamu her
-DWORD	DirectPlayGamesParam[4];	// parametry hry (15 bitù èíslo + 0x4000, 16. bit = pøíznak)
-bool	DirectPlayGamesHost = false;// poèítaè je hostitelem
-int		DirectPlayPlayersMax = 0;	// maximální poèet hráèù (0 = neomezeno)
-int		DirectPlayGamesParamTime = 0; // èítaè pro aktualizaci parametrù hry
+int		DirectPlayGamesTime = 0;	// ÄÃ­taÄ pro aktualizaci seznamu her
+DWORD	DirectPlayGamesParam[4];	// parametry hry (15 bitÅ¯ ÄÃ­slo + 0x4000, 16. bit = pÅ™Ã­znak)
+bool	DirectPlayGamesHost = false;// poÄÃ­taÄ je hostitelem
+int		DirectPlayPlayersMax = 0;	// maximÃ¡lnÃ­ poÄet hrÃ¡ÄÅ¯ (0 = neomezeno)
+int		DirectPlayGamesParamTime = 0; // ÄÃ­taÄ pro aktualizaci parametrÅ¯ hry
 
-#define MAXDIRECTPLAYERS 1024		// maximální poèet hráèù
-CString	DirectPlayPlayers;			// seznam hráèù DirectPlay
-int		DirectPlayPlayersNum = 0;	// poèet hráèù DirectPlay (bez zrušenıch)
-CString	DirectPlayPlayersAkt;		// aktivní hráè (prázdné = není)
-int		DirectPlayPlayersAktN = -1;	// aktivní hráè (-1 = není)
-DPID	DirectPlayPlayersAktID;		// ID aktivního hráèe
-bool	DirectPlayPlayersAktCreate = false; // hráè byl vytvoøen
-int		DirectPlayPlayersSize = 0;	// velikost tabulky hráèù (= poèet hráèù vèetnì zrušenıch)
-CString* DirectPlayPlayersNames = NULL;	// tabulka jmen hráèù (prázdnı text = nepouito)
-DPID*	DirectPlayPlayersID = NULL; // tabulka ID hráèù
-int		DirectPlayPlayersTime = 0;	// èítaè pro aktualizaci seznamu hráèù
-bool	DirectPlayPlayersIDErr = false; // chyba duplikace identifikaèního èísla hráèe - nutné zmìnit
+#define MAXDIRECTPLAYERS 1024		// maximÃ¡lnÃ­ poÄet hrÃ¡ÄÅ¯
+CString	DirectPlayPlayers;			// seznam hrÃ¡ÄÅ¯ DirectPlay
+int		DirectPlayPlayersNum = 0;	// poÄet hrÃ¡ÄÅ¯ DirectPlay (bez zruÅ¡enÃ½ch)
+CString	DirectPlayPlayersAkt;		// aktivnÃ­ hrÃ¡Ä (prÃ¡zdnÃ© = nenÃ­)
+int		DirectPlayPlayersAktN = -1;	// aktivnÃ­ hrÃ¡Ä (-1 = nenÃ­)
+DPID	DirectPlayPlayersAktID;		// ID aktivnÃ­ho hrÃ¡Äe
+bool	DirectPlayPlayersAktCreate = false; // hrÃ¡Ä byl vytvoÅ™en
+int		DirectPlayPlayersSize = 0;	// velikost tabulky hrÃ¡ÄÅ¯ (= poÄet hrÃ¡ÄÅ¯ vÄetnÄ› zruÅ¡enÃ½ch)
+CString* DirectPlayPlayersNames = NULL;	// tabulka jmen hrÃ¡ÄÅ¯ (prÃ¡zdnÃ½ text = nepouÅ¾ito)
+DPID*	DirectPlayPlayersID = NULL; // tabulka ID hrÃ¡ÄÅ¯
+int		DirectPlayPlayersTime = 0;	// ÄÃ­taÄ pro aktualizaci seznamu hrÃ¡ÄÅ¯
+bool	DirectPlayPlayersIDErr = false; // chyba duplikace identifikaÄnÃ­ho ÄÃ­sla hrÃ¡Äe - nutnÃ© zmÄ›nit
 
-BYTE*	DirectPlayDataOut = NULL;	// datovı blok vıstupních dat (první 2 bajty = odesílatel)
-int		DirectPlayDataOutM = 1024;	// velikost bufferu vstupních dat
-int		DirectPlayDataOutN = 2;		// velikost vıstupních dat
+BYTE*	DirectPlayDataOut = NULL;	// datovÃ½ blok vÃ½stupnÃ­ch dat (prvnÃ­ 2 bajty = odesÃ­latel)
+int		DirectPlayDataOutM = 1024;	// velikost bufferu vstupnÃ­ch dat
+int		DirectPlayDataOutN = 2;		// velikost vÃ½stupnÃ­ch dat
 
-BYTE*	DirectPlayDataIn = NULL;	// datovı blok vstupních dat (první 2 bajty = odesílatel)
-int		DirectPlayDataInN = 0;		// velikost vstupních dat
-int		DirectPlayDataInO = 0;		// offset ètení ze vstupních dat
+BYTE*	DirectPlayDataIn = NULL;	// datovÃ½ blok vstupnÃ­ch dat (prvnÃ­ 2 bajty = odesÃ­latel)
+int		DirectPlayDataInN = 0;		// velikost vstupnÃ­ch dat
+int		DirectPlayDataInO = 0;		// offset ÄtenÃ­ ze vstupnÃ­ch dat
 
-// WSA 1.1 rozhraní pro DirectPlay a UDP
+// WSA 1.1 rozhranÃ­ pro DirectPlay a UDP
 WSASTARTUP	pWSAStartup = NULL;		// funkce "WSAStartup"
 WSACLEANUP	pWSACleanup = NULL;		// funkce "WSACleanup"
 WSAGETHOSTNAME	pWSAGetHostName = NULL;// funkce "gethostname"
 WSAGETHOSTBYNAME pWSAGetHostByName = NULL;// funkce "gethostbyname"
 WSAINET_NTOA pWSAInetNtoa = NULL;	// funkce "inet_ntoa"
 
-// rozšíøení pro UDP
+// rozÅ¡Ã­Å™enÃ­ pro UDP
 WSASOCKET pWSASocket = NULL;			// funkce "socket"
-WSAHTONS pWSAhtons = NULL;				// funkce "htons" (pøevede WORD èíslo portu - na PC prohodí bajty)
+WSAHTONS pWSAhtons = NULL;				// funkce "htons" (pÅ™evede WORD ÄÃ­slo portu - na PC prohodÃ­ bajty)
 WSASETSOCKOPT pWSASetSockOpt = NULL;	// funkce "setsockopt"
 WSABIND pWSABind = NULL;				// funkce "bind"
 WSACLOSESOCKET pWSACloseSocket = NULL;	// funkce "closesocket"
@@ -288,100 +288,100 @@ WSASELECT pWSASelect = NULL;			// funkce "select"
 
 // knihovna WSA
 HINSTANCE WSALibrary = NULL;		// WSA knihovna
-bool	Wsaload = false;			// knihovna WSA byla naèítána
-bool	Wsainit = false;			// knihovna WSA 1.1 úspìšnì inicializována
-bool	Wsainit2 = false;			// rozšíøení pro UDP úspìšnì inicializováno
+bool	Wsaload = false;			// knihovna WSA byla naÄÃ­tÃ¡na
+bool	Wsainit = false;			// knihovna WSA 1.1 ÃºspÄ›Å¡nÄ› inicializovÃ¡na
+bool	Wsainit2 = false;			// rozÅ¡Ã­Å™enÃ­ pro UDP ÃºspÄ›Å¡nÄ› inicializovÃ¡no
 WSADATA	Wsadata;					// data knihovny WSA
-CString	HostIP(_T("0.0.0.0"));		// IP adresa poèítaèe
-int		HostIPValid = 0;			// èítaè platnosti IP adresy poèítaèe (je-li > 0)
+CString	HostIP(_T("0.0.0.0"));		// IP adresa poÄÃ­taÄe
+int		HostIPValid = 0;			// ÄÃ­taÄ platnosti IP adresy poÄÃ­taÄe (je-li > 0)
 
 EXTERN_C GUID DirectPlayGuidData = {
-	'rteP',							// (4) identifikátor typu dat "Petr"
-	0,								// (2) identifikátor 1
-	0,								// (2) identifikátor 2
-	{0,0,0,0xc0,0x6c,0x47,6,0x65}	// (8) identifikátor 3 (pouze první 2 bajty, ostatní nemìnit)
+	'rteP',							// (4) identifikÃ¡tor typu dat "Petr"
+	0,								// (2) identifikÃ¡tor 1
+	0,								// (2) identifikÃ¡tor 2
+	{0,0,0,0xc0,0x6c,0x47,6,0x65}	// (8) identifikÃ¡tor 3 (pouze prvnÃ­ 2 bajty, ostatnÃ­ nemÄ›nit)
 };
 
 GUID*	DirectPlayGuid = &DirectPlayGuidData;		// identifikace
-CString	DirectPlayGuidText;			// identifikaèní text pro DirectPlay
+CString	DirectPlayGuidText;			// identifikaÄnÃ­ text pro DirectPlay
 
-// porty (není u MINI verze)
-COMITEM*	Coms;					// tabulky portù
-int			ComAkt = 0;				// aktivní port
+// porty (nenÃ­ u MINI verze)
+COMITEM*	Coms;					// tabulky portÅ¯
+int			ComAkt = 0;				// aktivnÃ­ port
 
-// mixer (není u MINI verze)
-int		MixDevN = 0;				// poèet mixáních zaøízení
-int		MixDevA = -1;				// aktivní mixání zaøízení (-1=není)
-CString	MixDevT;					// víceøádkovı seznam mixáních zaøízení
-MIXDEV*	MixDev = NULL;				// seznam mixáních zaøízení
-HMIXER	MixDevH = NULL;				// handle mixeru (NULL=není)
+// mixer (nenÃ­ u MINI verze)
+int		MixDevN = 0;				// poÄet mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+int		MixDevA = -1;				// aktivnÃ­ mixÃ¡Å¾nÃ­ zaÅ™Ã­zenÃ­ (-1=nenÃ­)
+CString	MixDevT;					// vÃ­ceÅ™Ã¡dkovÃ½ seznam mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+MIXDEV*	MixDev = NULL;				// seznam mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+HMIXER	MixDevH = NULL;				// handle mixeru (NULL=nenÃ­)
 
-int		MixDest = 0;				// poèet cílovıch signálù mixeru
-int		MixLineN = 0;				// poèet signálù mixeru
-MIXLINE* MixLine = NULL;			// seznam signálù (na zaèátku jsou cílové)
-CString	MixLineDT;					// víceøádkovı seznam cílovıch signálù
-CString	MixLineST;					// víceøádkovı seznam zdrojovıch signálù
-int		MixLineDA = -1;				// aktivní cílovı signál (-1=ádnı)
-int		MixLineSA = -1;				// aktivní zdrojovı signál cílového signálu (-1=jen cílovı)
-int		MixLineA = -1;				// aktivní signál absolutnì (v tabulce) (-1=není)
+int		MixDest = 0;				// poÄet cÃ­lovÃ½ch signÃ¡lÅ¯ mixeru
+int		MixLineN = 0;				// poÄet signÃ¡lÅ¯ mixeru
+MIXLINE* MixLine = NULL;			// seznam signÃ¡lÅ¯ (na zaÄÃ¡tku jsou cÃ­lovÃ©)
+CString	MixLineDT;					// vÃ­ceÅ™Ã¡dkovÃ½ seznam cÃ­lovÃ½ch signÃ¡lÅ¯
+CString	MixLineST;					// vÃ­ceÅ™Ã¡dkovÃ½ seznam zdrojovÃ½ch signÃ¡lÅ¯
+int		MixLineDA = -1;				// aktivnÃ­ cÃ­lovÃ½ signÃ¡l (-1=Å¾Ã¡dnÃ½)
+int		MixLineSA = -1;				// aktivnÃ­ zdrojovÃ½ signÃ¡l cÃ­lovÃ©ho signÃ¡lu (-1=jen cÃ­lovÃ½)
+int		MixLineA = -1;				// aktivnÃ­ signÃ¡l absolutnÄ› (v tabulce) (-1=nenÃ­)
 
-int		MixCtrlN = 0;				// poèet ovládacích prvkù signálu
-MIXCTRL* MixCtrl = NULL;			// seznam ovládacích prvkù
-CString	MixCtrlT;					// víceøádkovı seznam ovládacích prvkù
-int		MixCtrlA = -1;				// aktivní ovládací prvek (-1=není)
-int		MixChannel = -1;			// nastavovanı kanál (-1=všechny)
+int		MixCtrlN = 0;				// poÄet ovlÃ¡dacÃ­ch prvkÅ¯ signÃ¡lu
+MIXCTRL* MixCtrl = NULL;			// seznam ovlÃ¡dacÃ­ch prvkÅ¯
+CString	MixCtrlT;					// vÃ­ceÅ™Ã¡dkovÃ½ seznam ovlÃ¡dacÃ­ch prvkÅ¯
+int		MixCtrlA = -1;				// aktivnÃ­ ovlÃ¡dacÃ­ prvek (-1=nenÃ­)
+int		MixChannel = -1;			// nastavovanÃ½ kanÃ¡l (-1=vÅ¡echny)
 
-int		MixValN = 0;				// poèet hodnot prvku (0=není seznam hodnot)
-CString* MixVal = NULL;				// buffer jmen ovládacích prvkù
+int		MixValN = 0;				// poÄet hodnot prvku (0=nenÃ­ seznam hodnot)
+CString* MixVal = NULL;				// buffer jmen ovlÃ¡dacÃ­ch prvkÅ¯
 CString	MixValT;					// seznam hodnot prvku seznamu
-int		MixValA = 0;				// aktivní prvek seznamu (-1=není)
+int		MixValA = 0;				// aktivnÃ­ prvek seznamu (-1=nenÃ­)
 
 // obsluha DDE
-CString		DDEDefApp;				// implicitní jméno aplikace pro DDE
+CString		DDEDefApp;				// implicitnÃ­ jmÃ©no aplikace pro DDE
 
-DDEAPPITEM*	DDEAppList = NULL;		// seznam aplikací
-int			DDEAppNum = 0;			// poèet aplikací
-int			DDEAppMax = 0;			// velikost bufferu aplikací
-bool		DDEAppLoad = false;		// naèítá se seznam aplikací
+DDEAPPITEM*	DDEAppList = NULL;		// seznam aplikacÃ­
+int			DDEAppNum = 0;			// poÄet aplikacÃ­
+int			DDEAppMax = 0;			// velikost bufferu aplikacÃ­
+bool		DDEAppLoad = false;		// naÄÃ­tÃ¡ se seznam aplikacÃ­
 
-int			DDEAppAkt = -1;			// aktivní aplikace (-1=všechny)
-CString		DDEAppAktName;			// jméno aktivní aplikace
+int			DDEAppAkt = -1;			// aktivnÃ­ aplikace (-1=vÅ¡echny)
+CString		DDEAppAktName;			// jmÃ©no aktivnÃ­ aplikace
 
-DDESERVITEM* DDEServList = NULL;	// seznam severù
-int			DDEServNum = 0;			// poèet serverù
-int			DDEServMax = 0;			// velikost bufferu serverù
-int			DDEServAkt = -1;		// aktivní server (-1=všechny)
+DDESERVITEM* DDEServList = NULL;	// seznam severÅ¯
+int			DDEServNum = 0;			// poÄet serverÅ¯
+int			DDEServMax = 0;			// velikost bufferu serverÅ¯
+int			DDEServAkt = -1;		// aktivnÃ­ server (-1=vÅ¡echny)
 
-DDETOPITEM*	DDETopList = NULL;		// seznam témat
-int			DDETopNum = 0;			// poèet témat
-int			DDETopMax = 0;			// velikost bufferu témat
-int			DDETopAkt = -1;			// aktivní téma (-1=všechny)
+DDETOPITEM*	DDETopList = NULL;		// seznam tÃ©mat
+int			DDETopNum = 0;			// poÄet tÃ©mat
+int			DDETopMax = 0;			// velikost bufferu tÃ©mat
+int			DDETopAkt = -1;			// aktivnÃ­ tÃ©ma (-1=vÅ¡echny)
 
-DDEDATAITEM* DDEDataList = NULL;	// seznam datovıch poloek
-int			DDEDataNum = 0;			// poèet datovıch poloek
-int			DDEDataMax = 0;			// velikost bufferu datovıch poloek
-int			DDEDataAkt = -1;		// aktivní poloka (-1=všechny)
+DDEDATAITEM* DDEDataList = NULL;	// seznam datovÃ½ch poloÅ¾ek
+int			DDEDataNum = 0;			// poÄet datovÃ½ch poloÅ¾ek
+int			DDEDataMax = 0;			// velikost bufferu datovÃ½ch poloÅ¾ek
+int			DDEDataAkt = -1;		// aktivnÃ­ poloÅ¾ka (-1=vÅ¡echny)
 
 // obsluha DLL
-void*		DLLMemoryRead = NULL;	// ukazatel ètení z pamìti
-void*		DLLMemoryWrite = NULL;	// ukazatel zápisu do pamìti
-int			DLLMemoryTextNLen = 0;	// délka textu s pevnou délkou
+void*		DLLMemoryRead = NULL;	// ukazatel ÄtenÃ­ z pamÄ›ti
+void*		DLLMemoryWrite = NULL;	// ukazatel zÃ¡pisu do pamÄ›ti
+int			DLLMemoryTextNLen = 0;	// dÃ©lka textu s pevnou dÃ©lkou
 
 // konfigurace
-CString		INIFile;				// jméno konfiguraèního souboru
-CString		INISection(_T("Main"));	// jméno konfiguraèní sekce
-CString		INIKey(_T("Config"));	// jméno konfiguraèního parametru
-int			REGKey = 1;				// skupina registrù (1=CURRENT_USER, 2=LOCAL_MACHINE)
-CString		REGSubkey(_T("Software\\")); // jméno klíèe
-CString		REGValue(_T("Config"));	// jméno poloky
+CString		INIFile;				// jmÃ©no konfiguraÄnÃ­ho souboru
+CString		INISection(_T("Main"));	// jmÃ©no konfiguraÄnÃ­ sekce
+CString		INIKey(_T("Config"));	// jmÃ©no konfiguraÄnÃ­ho parametru
+int			REGKey = 1;				// skupina registrÅ¯ (1=CURRENT_USER, 2=LOCAL_MACHINE)
+CString		REGSubkey(_T("Software\\")); // jmÃ©no klÃ­Äe
+CString		REGValue(_T("Config"));	// jmÃ©no poloÅ¾ky
 
 // UDP
-SOCKET		UDPSocket = INVALID_SOCKET;	// UDP soket (INVALID_SOCKET = není)
-SOCKADDR_IN	UDPSendAddr;			// vysílací adresa UDP
-SOCKADDR_IN	UDPRecAddr;				// pøijímací adresa UDP
-SOCKADDR_IN	UDPRecRecAddr;			// pøijatá adresa UDP
-char*		UDPRecBuf = NULL;		// pøijímací buffer UDP
-int			UDPRecBufSize = 512;	// velikost pøijímacího bufferu UDP
+SOCKET		UDPSocket = INVALID_SOCKET;	// UDP soket (INVALID_SOCKET = nenÃ­)
+SOCKADDR_IN	UDPSendAddr;			// vysÃ­lacÃ­ adresa UDP
+SOCKADDR_IN	UDPRecAddr;				// pÅ™ijÃ­macÃ­ adresa UDP
+SOCKADDR_IN	UDPRecRecAddr;			// pÅ™ijatÃ¡ adresa UDP
+char*		UDPRecBuf = NULL;		// pÅ™ijÃ­macÃ­ buffer UDP
+int			UDPRecBufSize = 512;	// velikost pÅ™ijÃ­macÃ­ho bufferu UDP
 
 /***************************************************************************\
 *																			*
@@ -390,13 +390,13 @@ int			UDPRecBufSize = 512;	// velikost pøijímacího bufferu UDP
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení seznamu serverù
+// zruÅ¡enÃ­ seznamu serverÅ¯
 
 void DDEAppListTerm()
 {
 	int i;
 
-// zrušení seznamu poloek
+// zruÅ¡enÃ­ seznamu poloÅ¾ek
 	for (i = DDEDataNum-1; i >= 0; i--)
 	{
 		DDEDataList[i].DataName.Term();
@@ -413,7 +413,7 @@ void DDEAppListTerm()
 	DDEDataNum = 0;
 	DDEDataMax = 0;
 
-// zrušení seznamu témat
+// zruÅ¡enÃ­ seznamu tÃ©mat
 	for (i = DDETopNum-1; i >= 0; i--)
 	{
 		DDETopList[i].TopicName.Term();
@@ -424,7 +424,7 @@ void DDEAppListTerm()
 	DDETopNum = 0;
 	DDETopMax = 0;
 
-// zrušení seznamu serverù
+// zruÅ¡enÃ­ seznamu serverÅ¯
 	for (i = DDEServNum-1; i >= 0; i--)
 	{
 		DDEServList[i].ServName.Term();
@@ -436,7 +436,7 @@ void DDEAppListTerm()
 	DDEServNum = 0;
 	DDEServMax = 0;
 
-// zrušení seznamu aplikací
+// zruÅ¡enÃ­ seznamu aplikacÃ­
 	for (i = DDEAppNum-1; i >= 0; i--)
 	{
 		DDEAppList[i].AppName.Term();
@@ -449,14 +449,14 @@ void DDEAppListTerm()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení seznamu aplikací a témat
+// naÄtenÃ­ seznamu aplikacÃ­ a tÃ©mat
 
 void DDEAppListLoad()
 {
-// zrušení seznamu aplikací
+// zruÅ¡enÃ­ seznamu aplikacÃ­
 	DDEAppListTerm();
 
-// zjištìní seznamu aplikací a témat
+// zjiÅ¡tÄ›nÃ­ seznamu aplikacÃ­ a tÃ©mat
 	DDEAppLoad = true;
 	::SendMessage((HWND)-1, WM_DDE_INITIATE, (WPARAM)MainFrame, NULL);
 	DDEAppLoad = false;
@@ -469,14 +469,14 @@ void DDEAppListLoad()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace seznamu mixáních zaøízení (vrací TRUE=OK)
+// inicializace seznamu mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­ (vracÃ­ TRUE=OK)
 
 bool MixDevInit()
 {
 	if (MixDevN == 0)
 	{
 
-// zjištìní poètu mixáních zaøízení
+// zjiÅ¡tÄ›nÃ­ poÄtu mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
 		int i = ::mixerGetNumDevs();
 		if (i <= 0)
 		{
@@ -484,11 +484,11 @@ bool MixDevInit()
 		}
 		MixDevN = i;
 
-// vytvoøení bufferu mixáních zaøízení
+// vytvoÅ™enÃ­ bufferu mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
 		MIXDEV* md = (MIXDEV*)MemGet(MixDevN * sizeof(MIXDEV));
 		MixDev = md;
 
-// naètení informací o jednotlivıch mixáních zaøízení
+// naÄtenÃ­ informacÃ­ o jednotlivÃ½ch mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
 		MIXERCAPS mc;
 
 		for (i = 0; i < MixDevN; i++)
@@ -504,7 +504,7 @@ bool MixDevInit()
 			MixDevT += 10;
 		}
 
-// otevøení implicitního mixeru
+// otevÅ™enÃ­ implicitnÃ­ho mixeru
 		if (!MixDevSet(0)) return false;
 	}
 
@@ -512,16 +512,16 @@ bool MixDevInit()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøidání linky do seznamu linek
+// pÅ™idÃ¡nÃ­ linky do seznamu linek
 
 void MixAddLine(MIXERLINE* ml)
 {
-// vytvoøení nové poloky
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 	MixLineN++;
 	MixLine = (MIXLINE*)MemSize(MixLine, MixLineN*sizeof(MIXLINE));
 	MIXLINE* item = &MixLine[MixLineN-1];
 
-// naètení jména linky
+// naÄtenÃ­ jmÃ©na linky
 	item->Name.Init(ml->szName);
 	if (item->Name.IsEmpty())
 	{
@@ -529,31 +529,31 @@ void MixAddLine(MIXERLINE* ml)
 		item->Name.Init(ml->szShortName);
 	}
 
-// cílovı signál
+// cÃ­lovÃ½ signÃ¡l
 	item->Dest = ml->dwDestination;
 
-// zdrojovı signál (pro cílovı je = -1)
+// zdrojovÃ½ signÃ¡l (pro cÃ­lovÃ½ je = -1)
 	item->Source = ml->dwSource;
 
-// identifikátor signálu
+// identifikÃ¡tor signÃ¡lu
 	item->LineID = ml->dwLineID;
 
-// typ signálu
+// typ signÃ¡lu
 	item->Type = ml->dwComponentType;
 
-// poèet kanálù (nesmí bıt <= 0!)
+// poÄet kanÃ¡lÅ¯ (nesmÃ­ bÃ½t <= 0!)
 	item->Channels = ml->cChannels;
 	if (item->Channels < 1) item->Channels = 1;
 
-// poèet zdrojù
+// poÄet zdrojÅ¯
 	item->Sources = ml->cConnections;
 
-// poèet ovládacích prvkù
+// poÄet ovlÃ¡dacÃ­ch prvkÅ¯
 	item->Controls = ml->cControls;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení bufferu hodnot prvku
+// zruÅ¡enÃ­ bufferu hodnot prvku
 
 void MixValTerm()
 {
@@ -569,7 +569,7 @@ void MixValTerm()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení bufferu ovládacích prvkù
+// zruÅ¡enÃ­ bufferu ovlÃ¡dacÃ­ch prvkÅ¯
 
 void MixCtrlTerm()
 {
@@ -587,27 +587,27 @@ void MixCtrlTerm()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního mixeru (vrací TRUE=OK)
+// nastavenÃ­ aktivnÃ­ho mixeru (vracÃ­ TRUE=OK)
 
 bool MixDevSet(int mix)
 {
 // inicializace mixeru
 	if (!MixDevInit()) return false;
 
-// korekce èísla mixeru
+// korekce ÄÃ­sla mixeru
 	if ((DWORD)mix >= (DWORD)MixDevN) mix = MixDevN-1;
 
-// test, zda se èíslo mixeru liší
+// test, zda se ÄÃ­slo mixeru liÅ¡Ã­
 	if (mix != MixDevA)
 	{
 
-// uzavøení pùvodního mixeru
+// uzavÅ™enÃ­ pÅ¯vodnÃ­ho mixeru
 		if (MixDevH != NULL)
 		{
 			::mixerClose(MixDevH);
 		}
 
-// zrušení pùvodního bufferu signálù
+// zruÅ¡enÃ­ pÅ¯vodnÃ­ho bufferu signÃ¡lÅ¯
 		int i;
 		if (MixLineN > 0)
 		{
@@ -626,10 +626,10 @@ bool MixDevSet(int mix)
 		MixLineSA = -1;
 		MixLineA = -1;
 
-// zrušení pùvodního bufferu ovládacích prvkù
+// zruÅ¡enÃ­ pÅ¯vodnÃ­ho bufferu ovlÃ¡dacÃ­ch prvkÅ¯
 		MixCtrlTerm();
 
-// otevøení nového mixeru
+// otevÅ™enÃ­ novÃ©ho mixeru
 		if (::mixerOpen(&MixDevH, mix, 0, 0, MIXER_OBJECTF_MIXER) != MMSYSERR_NOERROR)
 		{
 			MixDevH = NULL;
@@ -638,11 +638,11 @@ bool MixDevSet(int mix)
 			return false;
 		}
 
-// novı mixer je platnı
+// novÃ½ mixer je platnÃ½
 		MixDevA = mix;
 		MixDest = MixDev[mix].Dest;
 
-// naètení cílovıch signálù
+// naÄtenÃ­ cÃ­lovÃ½ch signÃ¡lÅ¯
 		MIXERLINE ml;
 
 		for (i = 0; i < MixDest; i++)
@@ -658,7 +658,7 @@ bool MixDevSet(int mix)
 			MixLineDT += 10;
 		}
 		
-// naètení zdrojovıch signálù
+// naÄtenÃ­ zdrojovÃ½ch signÃ¡lÅ¯
 		for (i = 0; i < MixDest; i++)
 		{
 			int prvni = MixLineN;
@@ -675,7 +675,7 @@ bool MixDevSet(int mix)
 			}
 		}
 
-// nastavení implicitního cílového signálu
+// nastavenÃ­ implicitnÃ­ho cÃ­lovÃ©ho signÃ¡lu
 		MixDstSet(0);
 	}
 
@@ -683,23 +683,23 @@ bool MixDevSet(int mix)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení cílového signálu (-1=ádnı)
+// nastavenÃ­ cÃ­lovÃ©ho signÃ¡lu (-1=Å¾Ã¡dnÃ½)
 
 void MixDstSet(int dst)
 {
 // inicializace mixeru
 	if (!MixDevInit()) return;
 
-// zrušení pùvodních bufferù
+// zruÅ¡enÃ­ pÅ¯vodnÃ­ch bufferÅ¯
 	MixLineST.Empty();
 	MixLineDA = dst;
 	MixLineA = dst;
 	MixLineSA = -1;
 
-// zrušení pùvodního bufferu ovládacích prvkù
+// zruÅ¡enÃ­ pÅ¯vodnÃ­ho bufferu ovlÃ¡dacÃ­ch prvkÅ¯
 	MixCtrlTerm();
 
-// korekce èísla signálu
+// korekce ÄÃ­sla signÃ¡lu
 	if ((DWORD)dst >= (DWORD)MixDest)
 	{
 		MixLineDA = -1;
@@ -707,7 +707,7 @@ void MixDstSet(int dst)
 		return;
 	}
 
-// sestavení seznamu zdrojovıch signálù
+// sestavenÃ­ seznamu zdrojovÃ½ch signÃ¡lÅ¯
 	int prvni = MixLine[dst].SourceI;
 	int pocet = MixLine[dst].Sources;
 
@@ -721,16 +721,16 @@ void MixDstSet(int dst)
 		item++;
 	}
 
-// implicitní zdrojovı signál
+// implicitnÃ­ zdrojovÃ½ signÃ¡l
 	MixSrcSet(-1);	
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení zdrojového signálu (-1=jen cílovı)
+// nastavenÃ­ zdrojovÃ©ho signÃ¡lu (-1=jen cÃ­lovÃ½)
 
 void MixSrcSet(int src)
 {
-// zrušení pùvodního bufferu ovládacích prvkù
+// zruÅ¡enÃ­ pÅ¯vodnÃ­ho bufferu ovlÃ¡dacÃ­ch prvkÅ¯
 	MixCtrlTerm();
 
 // inicializace mixeru
@@ -738,7 +738,7 @@ void MixSrcSet(int src)
 	MixLineA = -1;
 	if ((!MixDevInit()) || ((DWORD)MixLineDA >= (DWORD)MixDest)) return;
 
-// korekce èísla signálu
+// korekce ÄÃ­sla signÃ¡lu
 	int prvni = MixLine[MixLineDA].SourceI;
 	int pocet = MixLine[MixLineDA].Sources;
 
@@ -752,7 +752,7 @@ void MixSrcSet(int src)
 		MixLineA = src + prvni;
 	}
 
-// naètení seznamu ovládacích prvkù
+// naÄtenÃ­ seznamu ovlÃ¡dacÃ­ch prvkÅ¯
 	MIXLINE* item = &MixLine[MixLineA];
 	pocet = item->Controls;
 	int chan = item->Channels;
@@ -770,7 +770,7 @@ void MixSrcSet(int src)
 	ml.pamxctrl = mc;
 	::mixerGetLineControls((HMIXEROBJ)MixDevH, &ml, MIXER_GETLINECONTROLSF_ALL | MIXER_OBJECTF_HMIXER);
 
-// úschova parametrù ovládacích prvkù
+// Ãºschova parametrÅ¯ ovlÃ¡dacÃ­ch prvkÅ¯
 	MIXCTRL* d = MixCtrl;
 	MIXERCONTROL* s = mc;
 
@@ -835,20 +835,20 @@ void MixSrcSet(int src)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení ovládacího prvku (-1=ádnı)
+// nastavenÃ­ ovlÃ¡dacÃ­ho prvku (-1=Å¾Ã¡dnÃ½)
 
 void MixCtrlSet(int ctrl)
 {
 // inicializace mixeru
 	if (!MixDevInit()) return;
 
-// kontrola èísla prvku
+// kontrola ÄÃ­sla prvku
 	if ((DWORD)ctrl >= (DWORD)MixCtrlN) ctrl = -1;
 
-// nastavení aktivního prvku
+// nastavenÃ­ aktivnÃ­ho prvku
 	MixCtrlA = ctrl;
 
-// zjištìní seznamu hodnot prvku seznamu
+// zjiÅ¡tÄ›nÃ­ seznamu hodnot prvku seznamu
 	MixValTerm();
 
 	if (ctrl >= 0)
@@ -886,7 +886,7 @@ void MixCtrlSet(int ctrl)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní hodnoty ovládacího prvku
+// zjiÅ¡tÄ›nÃ­ hodnoty ovlÃ¡dacÃ­ho prvku
 
 double GetMixCtrlVal()
 {
@@ -899,11 +899,11 @@ double GetMixCtrlVal()
 	if (MixValN > 1) list = true;
 	if (list && ((DWORD)MixValA >= (DWORD)item->List)) return 0;
 
-// test, zda je multikanál
+// test, zda je multikanÃ¡l
 	bool multi = false;
 	if ((DWORD)MixChannel >= (DWORD)item->Channels) multi = true;
 
-// naètení stavu prvku
+// naÄtenÃ­ stavu prvku
 	MIXERCONTROLDETAILS_SIGNED* dat = (MIXERCONTROLDETAILS_SIGNED*)MemGet(
 				item->Channels * item->List * sizeof(MIXERCONTROLDETAILS_SIGNED));
 	MIXERCONTROLDETAILS_SIGNED* data = dat;
@@ -926,7 +926,7 @@ double GetMixCtrlVal()
 		data += MixValA;
 	}
 
-	mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_SIGNED); // platí i pro UNSIGNED a BOOLEAN
+	mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_SIGNED); // platÃ­ i pro UNSIGNED a BOOLEAN
 	mcd.paDetails = dat;
 
 	if (::mixerGetControlDetails((HMIXEROBJ)MixDevH, &mcd,
@@ -960,7 +960,7 @@ double GetMixCtrlVal()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení hodnoty ovládacího prvku
+// nastavenÃ­ hodnoty ovlÃ¡dacÃ­ho prvku
 
 void SetMixCtrlVal(double val)
 {
@@ -973,7 +973,7 @@ void SetMixCtrlVal(double val)
 	if (MixValN > 1) list = true;
 	if (list && ((DWORD)MixValA >= (DWORD)item->List)) return;
 
-// test, zda je multikanál
+// test, zda je multikanÃ¡l
 	bool multi = false;
 	if ((DWORD)MixChannel >= (DWORD)item->Channels) multi = true;
 
@@ -981,7 +981,7 @@ void SetMixCtrlVal(double val)
 	if (val > 1) val = 1;
 	if (val < 0) val = 0;
 
-// naètení aktuálního stavu prvku
+// naÄtenÃ­ aktuÃ¡lnÃ­ho stavu prvku
 	MIXERCONTROLDETAILS_SIGNED* dat = (MIXERCONTROLDETAILS_SIGNED*)MemGet(
 				item->Channels * item->List * sizeof(MIXERCONTROLDETAILS_SIGNED));
 	MIXERCONTROLDETAILS_SIGNED* data = dat;
@@ -1004,7 +1004,7 @@ void SetMixCtrlVal(double val)
 		data += MixValA;
 	}
 
-	mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_SIGNED); // platí i pro UNSIGNED a BOOLEAN
+	mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_SIGNED); // platÃ­ i pro UNSIGNED a BOOLEAN
 	mcd.paDetails = dat;
 
 	if (::mixerGetControlDetails((HMIXEROBJ)MixDevH, &mcd,
@@ -1013,7 +1013,7 @@ void SetMixCtrlVal(double val)
 		data->lValue = 0x7fffffff;
 	}
 
-// vıpoèet aktuálního a poadovaného kroku
+// vÃ½poÄet aktuÃ¡lnÃ­ho a poÅ¾adovanÃ©ho kroku
 	double d;
 
 	if (item->Min < 0)
@@ -1061,7 +1061,7 @@ void SetMixCtrlVal(double val)
 		novy = Round(val * item->Rozsah / item->Inc);
 	}
 
-// nastavení nového stavu, pokud se liší
+// nastavenÃ­ novÃ©ho stavu, pokud se liÅ¡Ã­
 	if (stary != novy)
 	{
 		if ((item->Type & 0x00FF0000) == 0x00010000)	// typ dat BOOLEAN
@@ -1082,12 +1082,12 @@ void SetMixCtrlVal(double val)
 
 /***************************************************************************\
 *																			*
-*								Obsluha portù								*
+*								Obsluha portÅ¯								*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// uzavøení portu (i=platnı index)
+// uzavÅ™enÃ­ portu (i=platnÃ½ index)
 
 void ComClose(int i)
 {
@@ -1102,17 +1102,17 @@ void ComClose(int i)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení DCB aktivního portu
+// naÄtenÃ­ DCB aktivnÃ­ho portu
 
 void GetComDCB()
 {
-// adresa popisovaèe portu
+// adresa popisovaÄe portu
 	COMITEM* item = Coms + ComAkt;
 	DCB* dcb = &(item->Dcb);
 	dcb->DCBlength = sizeof(DCB);
 	HANDLE file = item->File;
 
-// naètení DCB portu
+// naÄtenÃ­ DCB portu
 	if ((file == INVALID_HANDLE_VALUE) ||
 		!::GetCommState(file, dcb))
 	{
@@ -1123,17 +1123,17 @@ void GetComDCB()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení DCB aktivního portu
+// nastavenÃ­ DCB aktivnÃ­ho portu
 
 void SetComDCB()
 {
-// adresa popisovaèe portu
+// adresa popisovaÄe portu
 	COMITEM* item = Coms + ComAkt;
 	DCB* dcb = &(item->Dcb);
 	dcb->DCBlength = sizeof(DCB);
 	HANDLE file = item->File;
 
-// zápis DCB portu
+// zÃ¡pis DCB portu
 	if (file != INVALID_HANDLE_VALUE)
 	{
 		if (dcb->StopBits)
@@ -1155,7 +1155,7 @@ void SetComDCB()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání bajtu na komunikaèní port
+// vyslÃ¡nÃ­ bajtu na komunikaÄnÃ­ port
 
 void ComSend(BYTE data)
 {
@@ -1181,16 +1181,16 @@ void ComSend(BYTE data)
 		DWORD writen;
 
 		::WriteFile(
-			file,		// handle zaøízení
+			file,		// handle zaÅ™Ã­zenÃ­
 			&data,		// adresa dat
-			1,			// poèet bajtù k zápisu
-			&writen,	// ukazatel zapsanıch dat
-			NULL);		// pøekryv
+			1,			// poÄet bajtÅ¯ k zÃ¡pisu
+			&writen,	// ukazatel zapsanÃ½ch dat
+			NULL);		// pÅ™ekryv
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíjem bajtu z komunikaèního portu (0=nejsou data)
+// pÅ™Ã­jem bajtu z komunikaÄnÃ­ho portu (0=nejsou data)
 
 BYTE ComReceive()
 {
@@ -1203,11 +1203,11 @@ BYTE ComReceive()
 		DWORD readen;
 
 		::ReadFile(
-			file,		// handle zaøízení
+			file,		// handle zaÅ™Ã­zenÃ­
 			&data,		// adresa bufferu dat
-			1,			// poèet bajtù k naètení
-			&readen,	// ukazatel naètenıch dat
-			NULL);		// pøekryv
+			1,			// poÄet bajtÅ¯ k naÄtenÃ­
+			&readen,	// ukazatel naÄtenÃ½ch dat
+			NULL);		// pÅ™ekryv
 
 		switch (item->Dcb.ByteSize)
 		{
@@ -1236,53 +1236,53 @@ BYTE ComReceive()
 *																			*
 \***************************************************************************/
 
-// ------------------------ obsluha pøenosu dat -----------------------------
+// ------------------------ obsluha pÅ™enosu dat -----------------------------
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis dat do vıstupního bufferu
+// zÃ¡pis dat do vÃ½stupnÃ­ho bufferu
 
 void DirectSendData(BYTE* data, int n)
 {
-// test, zda je platnı hráè
+// test, zda je platnÃ½ hrÃ¡Ä
 	if (!DirectPlayPlayersAktCreate) return;
 
-// zvıšení velikosti bufferu
+// zvÃ½Å¡enÃ­ velikosti bufferu
 	if ((DirectPlayDataOutN + n) > DirectPlayDataOutM)
 	{
 		DirectPlayDataOutM = (DirectPlayDataOutN + n + 0x400 + 0x3ff) & ~0x3ff;
 		DirectPlayDataOut = (BYTE*)MemSize(DirectPlayDataOut, DirectPlayDataOutM);
 	}
 
-// uloení dat do bufferu
+// uloÅ¾enÃ­ dat do bufferu
 	MemCopy(DirectPlayDataOut + DirectPlayDataOutN, data, n);
 
-// zvıšení èítaèe dat v bufferu
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe dat v bufferu
 	DirectPlayDataOutN += n;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyslání bloku dat (-1 = všem)
+// vyslÃ¡nÃ­ bloku dat (-1 = vÅ¡em)
 
 void DirectSend(int id)
 {
-// test, zda jsou nìjaká data k odeslání
+// test, zda jsou nÄ›jakÃ¡ data k odeslÃ¡nÃ­
 	if (DirectPlayDataOutN <= 2) return;
 
-// nelze zaslat zprávu sám sobì
+// nelze zaslat zprÃ¡vu sÃ¡m sobÄ›
 	if (id == DirectPlayPlayersAktN)
 	{
 		DirectPlayDataOutN = 2;
 		return;
 	}
 
-// test, zda je platnı hráè
+// test, zda je platnÃ½ hrÃ¡Ä
 	if (!DirectPlayPlayersAktCreate) return;
 
-// pøíprava èísla odesílatele
+// pÅ™Ã­prava ÄÃ­sla odesÃ­latele
 	*((WORD*)DirectPlayDataOut) = (WORD)DirectPlayPlayersAktN;
 
-// pøíprava èísla pøíjemce
+// pÅ™Ã­prava ÄÃ­sla pÅ™Ã­jemce
 	DPID dst = DPID_ALLPLAYERS;
 	if (((DWORD)id < (DWORD)DirectPlayPlayersSize) &&
 		DirectPlayPlayersNames[id].IsNotEmpty())
@@ -1290,31 +1290,31 @@ void DirectSend(int id)
 		dst = DirectPlayPlayersID[id];
 	}
 
-// odeslání bloku dat
+// odeslÃ¡nÃ­ bloku dat
 	DirectPlay->Send(DirectPlayPlayersAktID, dst, 0 /*DPSEND_GUARANTEED*/, DirectPlayDataOut, DirectPlayDataOutN);
 
-// zrušení vıstupních dat
+// zruÅ¡enÃ­ vÃ½stupnÃ­ch dat
 	DirectPlayDataOutN = 2;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ètení dat ze vstupního bufferu (pøi nedostatku dat doplní nulami)
+// ÄtenÃ­ dat ze vstupnÃ­ho bufferu (pÅ™i nedostatku dat doplnÃ­ nulami)
 
 void DirectReceiveData(BYTE* data, int n)
 {
-// poèet dat k pøenesení
+// poÄet dat k pÅ™enesenÃ­
 	int i = DirectPlayDataInN - DirectPlayDataInO;
 	if (i > n) i = n;
 
-// pøenesení platnıch dat
+// pÅ™enesenÃ­ platnÃ½ch dat
 	if (i > 0)
 	{
 		MemCopy(data, DirectPlayDataIn + DirectPlayDataInO, i);
 		DirectPlayDataInO += i;
 	}
 
-// vymazání zbytku dat
+// vymazÃ¡nÃ­ zbytku dat
 	if (n > i)
 	{
 		MemFill(data + i, n - i, 0);
@@ -1323,53 +1323,53 @@ void DirectReceiveData(BYTE* data, int n)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíjem bloku dat (-1 = není)
+// pÅ™Ã­jem bloku dat (-1 = nenÃ­)
 
 int DirectReceive()
 {
-// test, zda je platnı hráè
+// test, zda je platnÃ½ hrÃ¡Ä
 	if (!DirectPlayPlayersAktCreate) return -1;
 
-// nulování èítaèe pro aktualizaci parametrù hry (pøijímá se jako systémová zpráva)
+// nulovÃ¡nÃ­ ÄÃ­taÄe pro aktualizaci parametrÅ¯ hry (pÅ™ijÃ­mÃ¡ se jako systÃ©movÃ¡ zprÃ¡va)
 	DirectPlayGamesParamTime = 2*18;
 
-// pøíprava pracovních promìnnıch
+// pÅ™Ã­prava pracovnÃ­ch promÄ›nnÃ½ch
 	DPID src;
 	DPID dst;
 	HRESULT res;
 	DirectPlayDataInN = 1023;
 
-// cyklus ètení, dokud nebude správná velikost bufferu
+// cyklus ÄtenÃ­, dokud nebude sprÃ¡vnÃ¡ velikost bufferu
 	do
 	{
 
-// pøíprava vstupního bufferu (na konci rezerva pro zakonèovací nulu)
+// pÅ™Ã­prava vstupnÃ­ho bufferu (na konci rezerva pro zakonÄovacÃ­ nulu)
 		MemFree(DirectPlayDataIn);
 		DirectPlayDataIn = (BYTE*)MemGet(DirectPlayDataInN + 1);
 
-// naètení zprávy
+// naÄtenÃ­ zprÃ¡vy
 		dst = DirectPlayPlayersAktID;
 		res = DirectPlay->Receive(&src, &dst, DPRECEIVE_TOPLAYER, DirectPlayDataIn, (DWORD*)&DirectPlayDataInN);
 
-// pøíjem systémové zprávy
+// pÅ™Ã­jem systÃ©movÃ© zprÃ¡vy
 		if ((res == DP_OK) && (src == DPID_SYSMSG))
 		{
 			DPMSG_GENERIC* msg = (DPMSG_GENERIC*)DirectPlayDataIn;
 			switch(msg->dwType)
 			{
-			case DPSYS_CREATEPLAYERORGROUP:		// vytvoøen novı hráè
-			case DPSYS_DELETEPLAYERFROMGROUP:	// hráè zrušen ze skupiny
-			case DPSYS_DESTROYPLAYERORGROUP:	// hráè zrušen ze hry
-			case DPSYS_SETPLAYERORGROUPDATA:	// zmìnìna data hráèe
-			case DPSYS_SETPLAYERORGROUPNAME:	// zmìnìno jméno hráèe
+			case DPSYS_CREATEPLAYERORGROUP:		// vytvoÅ™en novÃ½ hrÃ¡Ä
+			case DPSYS_DELETEPLAYERFROMGROUP:	// hrÃ¡Ä zruÅ¡en ze skupiny
+			case DPSYS_DESTROYPLAYERORGROUP:	// hrÃ¡Ä zruÅ¡en ze hry
+			case DPSYS_SETPLAYERORGROUPDATA:	// zmÄ›nÄ›na data hrÃ¡Äe
+			case DPSYS_SETPLAYERORGROUPNAME:	// zmÄ›nÄ›no jmÃ©no hrÃ¡Äe
 				DirectPlayPlayersTime = 0;
 				break;
 
-			case DPSYS_SETSESSIONDESC:			// zmìnìno nastavení hry
-				GetGameDesc();					// znovunaètení parametrù hry
+			case DPSYS_SETSESSIONDESC:			// zmÄ›nÄ›no nastavenÃ­ hry
+				GetGameDesc();					// znovunaÄtenÃ­ parametrÅ¯ hry
 				break;
 
-			case DPSYS_HOST:					// poèítaè se stává hostitelem
+			case DPSYS_HOST:					// poÄÃ­taÄ se stÃ¡vÃ¡ hostitelem
 				DirectPlayGamesHost = true;
 				break;
 			}
@@ -1377,22 +1377,22 @@ int DirectReceive()
 			res = DPERR_BUFFERTOOSMALL;
 		}
 
-// vlastní zpráva se ignoruje
+// vlastnÃ­ zprÃ¡va se ignoruje
 		if ((res == DP_OK) && (DirectPlayDataInN > 2) && (*(WORD*)DirectPlayDataIn == (WORD)DirectPlayPlayersAktN))
 		{
 			DirectPlayDataInN = 1023;
 			res = DPERR_BUFFERTOOSMALL;
 		}
 
-// pøi malém bufferu opakování
+// pÅ™i malÃ©m bufferu opakovÃ¡nÃ­
 	} while (res == DPERR_BUFFERTOOSMALL);
 
-// test pøíjmu dat OK
+// test pÅ™Ã­jmu dat OK
 	if ((res == DP_OK) && (DirectPlayDataInN > 2))
 	{
-		DirectPlayDataIn[DirectPlayDataInN] = 0;	// zakonèovací nula textù
-		DirectPlayDataInO = 2;						// offset ètenıch dat
-		return *(WORD*)DirectPlayDataIn;			// èíslo odesílatele
+		DirectPlayDataIn[DirectPlayDataInN] = 0;	// zakonÄovacÃ­ nula textÅ¯
+		DirectPlayDataInO = 2;						// offset ÄtenÃ½ch dat
+		return *(WORD*)DirectPlayDataIn;			// ÄÃ­slo odesÃ­latele
 	}
 	else
 	{
@@ -1404,14 +1404,14 @@ int DirectReceive()
 
 
 
-// ------------------------ obsluha seznamu hráèù ---------------------------
+// ------------------------ obsluha seznamu hrÃ¡ÄÅ¯ ---------------------------
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního hráèe (prázdné = vypnutí)
+// nastavenÃ­ aktivnÃ­ho hrÃ¡Äe (prÃ¡zdnÃ© = vypnutÃ­)
 
 void SetPlayerAct(CString txt)
 {
-// aktualizace seznamu hráèù (dvakrát kvùli korekci chyby pøekryvu identifikaèního èísla)
+// aktualizace seznamu hrÃ¡ÄÅ¯ (dvakrÃ¡t kvÅ¯li korekci chyby pÅ™ekryvu identifikaÄnÃ­ho ÄÃ­sla)
 	DirectPlayEnumPlayers();
 	DirectPlayEnumPlayers();
 
@@ -1419,10 +1419,10 @@ void SetPlayerAct(CString txt)
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// test, zda je zmìna jména
+// test, zda je zmÄ›na jmÃ©na
 	if (txt == DirectPlayPlayersAkt) return;
 
-// zrušení starého hráèe
+// zruÅ¡enÃ­ starÃ©ho hrÃ¡Äe
 	if (txt.IsEmpty())
 	{
 		if (DirectPlayPlayersAktCreate)
@@ -1440,10 +1440,10 @@ void SetPlayerAct(CString txt)
 		return;
 	}
 
-// test, zda je otevøena hra
+// test, zda je otevÅ™ena hra
 	if (DirectPlayGamesAkt.IsEmpty()) return;
 
-// zajištìní jedineènosti jména nového hráèe
+// zajiÅ¡tÄ›nÃ­ jedineÄnosti jmÃ©na novÃ©ho hrÃ¡Äe
 	int n = 2;
 
 	for (int ii = 0; ii < DirectPlayPlayersSize; ii++)
@@ -1456,16 +1456,16 @@ void SetPlayerAct(CString txt)
 		}
 	}
 
-// test, zda je nutné mìnit jméno po korekci
+// test, zda je nutnÃ© mÄ›nit jmÃ©no po korekci
 	if (txt == DirectPlayPlayersAkt) return;
 
-// pøíprava parametrù hráèe
+// pÅ™Ã­prava parametrÅ¯ hrÃ¡Äe
 	DPNAME name;
 	MemFill(&name, sizeof(DPNAME), 0);
 	name.dwSize = sizeof(DPNAME);
 	name.lpszShortNameA = (LPTSTR)(LPCTSTR)txt;
 
-// pøejmenování hráèe
+// pÅ™ejmenovÃ¡nÃ­ hrÃ¡Äe
 	if (DirectPlayPlayersAktCreate)
 	{
 		if (DirectPlay->SetPlayerName(DirectPlayPlayersAktID, &name, DPSET_GUARANTEED) == DP_OK)
@@ -1477,14 +1477,14 @@ void SetPlayerAct(CString txt)
 	else
 	{
 
-// pøíprava identifikaèního kódu hráèe
+// pÅ™Ã­prava identifikaÄnÃ­ho kÃ³du hrÃ¡Äe
 		long id = 0;
 		for (; id < DirectPlayPlayersSize; id++)
 		{
 			if (DirectPlayPlayersNames[id].IsEmpty()) break;
 		}
 
-// vytvoøení hráèe
+// vytvoÅ™enÃ­ hrÃ¡Äe
 		if (DirectPlay->CreatePlayer(&DirectPlayPlayersAktID, &name, NULL, &id, sizeof(long), 0) == DP_OK)
 		{
 			DirectPlayPlayersAktCreate = true;
@@ -1492,7 +1492,7 @@ void SetPlayerAct(CString txt)
 		}
 	}
 
-// aktualizace seznamu hráèù (opakovanì pro pøípad duplikace èísla)
+// aktualizace seznamu hrÃ¡ÄÅ¯ (opakovanÄ› pro pÅ™Ã­pad duplikace ÄÃ­sla)
 	DirectPlayPlayersTime = 0;
 	DirectPlayEnumPlayers();
 	DirectPlayEnumPlayers();
@@ -1500,7 +1500,7 @@ void SetPlayerAct(CString txt)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// callback pro zjištìní seznamu hráèù
+// callback pro zjiÅ¡tÄ›nÃ­ seznamu hrÃ¡ÄÅ¯
 
 BOOL FAR PASCAL EnumPlayersCallback2(
   DPID dpId,
@@ -1510,20 +1510,20 @@ BOOL FAR PASCAL EnumPlayersCallback2(
   LPVOID lpContext
   )
 {
-// pøíprava textu jména hráèe
+// pÅ™Ã­prava textu jmÃ©na hrÃ¡Äe
 	CString txt(lpName->lpszShortNameA);
 	if (txt.IsEmpty()) txt = lpName->lpszLongNameA;
 	txt.TrimLeft();
 	txt.TrimRight();
 	if (txt.IsEmpty()) return TRUE;
 
-// pøíprava a kontrola èísla hráèe
+// pÅ™Ã­prava a kontrola ÄÃ­sla hrÃ¡Äe
 	long id = DirectPlayPlayersSize;
 	DWORD size = sizeof(long);
 	DirectPlay->GetPlayerData(dpId, &id, &size, 0);
 	if ((DWORD)id >= (DWORD)MAXDIRECTPLAYERS) return TRUE;
 
-// zvıšení velikosti bufferù
+// zvÃ½Å¡enÃ­ velikosti bufferÅ¯
 	if (id >= DirectPlayPlayersSize)
 	{
 		DirectPlayPlayersNames = (CString*)MemSize(DirectPlayPlayersNames, (id + 1) * sizeof(CString));
@@ -1534,20 +1534,20 @@ BOOL FAR PASCAL EnumPlayersCallback2(
 		DirectPlayPlayersID = (DPID*)MemSize(DirectPlayPlayersID, DirectPlayPlayersSize * sizeof(DPID));
 	}
 
-// zvıšení èítaèe platnıch hráèù
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe platnÃ½ch hrÃ¡ÄÅ¯
 	DirectPlayPlayersNum++;
 
-// korekce aktivního hráèe
+// korekce aktivnÃ­ho hrÃ¡Äe
 	if (DirectPlayPlayersAktCreate)
 	{
 
-// test, zda to je aktivní hráè
+// test, zda to je aktivnÃ­ hrÃ¡Ä
 		if (dpId == DirectPlayPlayersAktID)
 		{
 			DirectPlayPlayersAkt = txt;
 			DirectPlayPlayersAktN = id;
 
-// kontrola pøekryvu èísel hráèù (korekci provádí hráè s vyšším ID)
+// kontrola pÅ™ekryvu ÄÃ­sel hrÃ¡ÄÅ¯ (korekci provÃ¡dÃ­ hrÃ¡Ä s vyÅ¡Å¡Ã­m ID)
 			if (DirectPlayPlayersNames[id].IsNotEmpty() && (DirectPlayPlayersID[id] < dpId))
 			{
 				DirectPlayPlayersIDErr = true;
@@ -1556,7 +1556,7 @@ BOOL FAR PASCAL EnumPlayersCallback2(
 		else
 		{
 
-// kontrola pøekryvu èísel hráèù (korekci provádí hráè s vyšším ID)
+// kontrola pÅ™ekryvu ÄÃ­sel hrÃ¡ÄÅ¯ (korekci provÃ¡dÃ­ hrÃ¡Ä s vyÅ¡Å¡Ã­m ID)
 			if (DirectPlayPlayersNames[id].IsNotEmpty() && 
 				(DirectPlayPlayersID[id] == DirectPlayPlayersAktID) &&
 				(DirectPlayPlayersAktID > dpId))
@@ -1566,7 +1566,7 @@ BOOL FAR PASCAL EnumPlayersCallback2(
 		}
 	}
 
-// uloení parametrù do seznamu
+// uloÅ¾enÃ­ parametrÅ¯ do seznamu
 	DirectPlayPlayersNames[id] = txt;
 	DirectPlayPlayersID[id] = dpId;
 
@@ -1574,17 +1574,17 @@ BOOL FAR PASCAL EnumPlayersCallback2(
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// seznam hráèù (FALSE=chyba)
+// seznam hrÃ¡ÄÅ¯ (FALSE=chyba)
 
 bool DirectPlayEnumPlayers()
 {
-// test, zda je seznam ještì platnı
+// test, zda je seznam jeÅ¡tÄ› platnÃ½
 	if (DirectPlayPlayersTime > 0) return true;
 
-// test, zda je vybrána hra
+// test, zda je vybrÃ¡na hra
 	if (DirectPlayGamesAkt.IsEmpty()) return false;
 
-// zrušení bufferu jmen a identifikace hráèù
+// zruÅ¡enÃ­ bufferu jmen a identifikace hrÃ¡ÄÅ¯
 	for (int i = DirectPlayPlayersSize - 1; i >= 0; i--)
 	{
 		DirectPlayPlayersNames[i].Term();
@@ -1595,14 +1595,14 @@ bool DirectPlayEnumPlayers()
 	DirectPlayPlayersID = NULL;
 	DirectPlayPlayersSize = 0;
 
-// zjištìní hráèù
+// zjiÅ¡tÄ›nÃ­ hrÃ¡ÄÅ¯
 	DirectPlayPlayersNum = 0;
 	DirectPlayPlayersAkt.Empty();
 	DirectPlayPlayersAktN = -1;
 	DirectPlayPlayersIDErr = false;
 	DirectPlay->EnumPlayers(NULL, EnumPlayersCallback2, NULL, DPENUMPLAYERS_ALL);
 
-// sestavení textu seznamu jmen hráèù
+// sestavenÃ­ textu seznamu jmen hrÃ¡ÄÅ¯
 	DirectPlayPlayers.Empty();
 	for (i = 0; i < DirectPlayPlayersSize; i++)
 	{
@@ -1611,7 +1611,7 @@ bool DirectPlayEnumPlayers()
 		DirectPlayPlayers += _T(10);
 	}
 
-// novı èítaè platnosti seznamu
+// novÃ½ ÄÃ­taÄ platnosti seznamu
 	if (DirectPlayPlayersNum == 0)
 	{
 		DirectPlayPlayersTime = 2;
@@ -1621,7 +1621,7 @@ bool DirectPlayEnumPlayers()
 		DirectPlayPlayersTime = 9;
 	}
 
-// hráè byl zrušen ze hry
+// hrÃ¡Ä byl zruÅ¡en ze hry
 	if ((DirectPlayPlayersAktN < 0) && DirectPlayPlayersAktCreate)
 	{
 		DirectPlay->DestroyPlayer(DirectPlayPlayersAktID);
@@ -1631,21 +1631,21 @@ bool DirectPlayEnumPlayers()
 		DirectPlayDataInN = 0;
 	}
 
-// korekce identifikaèního èísla hráèe
+// korekce identifikaÄnÃ­ho ÄÃ­sla hrÃ¡Äe
 	if (DirectPlayPlayersIDErr)
 	{
 
-// pøíprava nového identifikaèního kódu hráèe
+// pÅ™Ã­prava novÃ©ho identifikaÄnÃ­ho kÃ³du hrÃ¡Äe
 		long id = 0;
 		for (; id < DirectPlayPlayersSize; id++)
 		{
 			if (DirectPlayPlayersNames[id].IsEmpty()) break;
 		}
 
-// zmìna identifikaèního kódu hráèe
+// zmÄ›na identifikaÄnÃ­ho kÃ³du hrÃ¡Äe
 		DirectPlay->SetPlayerData(DirectPlayPlayersAktID, &id, sizeof(long), DPSET_GUARANTEED);
 
-// nutná aktualizace
+// nutnÃ¡ aktualizace
 		DirectPlayPlayersTime = 0;
 	}
 
@@ -1657,20 +1657,20 @@ bool DirectPlayEnumPlayers()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení parametrù hry
+// naÄtenÃ­ parametrÅ¯ hry
 
 void GetGameDesc()
 {
-// test, zda je otevøena hra
+// test, zda je otevÅ™ena hra
 	if (DirectPlayGamesAkt.IsEmpty()) return;
 
-// pøíprava bufferu popisovaèe hry
+// pÅ™Ã­prava bufferu popisovaÄe hry
 	DWORD n = sizeof(DPSESSIONDESC2) + 256;
 	DPSESSIONDESC2* dsc = (DPSESSIONDESC2*)MemGet(n);
 	MemFill(dsc, n, 0);
 	dsc->dwSize = sizeof(DPSESSIONDESC2);
 
-// naètení informací o høe
+// naÄtenÃ­ informacÃ­ o hÅ™e
 	if (DirectPlay->GetSessionDesc(dsc, &n) == DP_OK)
 	{
 		DirectPlayGamesParam[0] = dsc->dwUser1;
@@ -1680,26 +1680,26 @@ void GetGameDesc()
 		DirectPlayPlayersMax = dsc->dwMaxPlayers;
 	}
 
-// uvolnìní bufferu
+// uvolnÄ›nÃ­ bufferu
 	MemFree(dsc);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení novıch parametrù
+// nastavenÃ­ novÃ½ch parametrÅ¯
 
 void SetGameDesc(DPSESSIONDESC2* dsc)
 {
-// musí bıt hostitel
+// musÃ­ bÃ½t hostitel
 	if (!DirectPlayGamesHost) return;
 
-// korekce maximálního poètu hráèù
+// korekce maximÃ¡lnÃ­ho poÄtu hrÃ¡ÄÅ¯
 	if (((int)dsc->dwMaxPlayers != 0) && ((int)dsc->dwMaxPlayers < DirectPlayPlayersNum))
 	{
 		dsc->dwMaxPlayers = DirectPlayPlayersNum;
 	}
 
-// test, zda je zmìna dat
+// test, zda je zmÄ›na dat
 	if (
 		(DirectPlayGamesParam[0] != dsc->dwUser1) ||
 		(DirectPlayGamesParam[1] != dsc->dwUser2) ||
@@ -1709,19 +1709,19 @@ void SetGameDesc(DPSESSIONDESC2* dsc)
 		)
 	{
 
-// pøíprava záhlaví popisovaèe
+// pÅ™Ã­prava zÃ¡hlavÃ­ popisovaÄe
 		dsc->dwSize = sizeof(DPSESSIONDESC2);
 		dsc->dwFlags = DPSESSION_MIGRATEHOST;
 		dsc->lpszPasswordA = NULL;
 
-// jméno hry
+// jmÃ©no hry
 		dsc->lpszSessionNameA = (LPTSTR)(LPCTSTR)DirectPlayGamesAkt;
 
-// nastavení parametrù hry
+// nastavenÃ­ parametrÅ¯ hry
 		if (DirectPlay->SetSessionDesc(dsc, 0) == DP_OK)
 		{
 
-// zplatnìní zmìnìnıch parametrù
+// zplatnÄ›nÃ­ zmÄ›nÄ›nÃ½ch parametrÅ¯
 			DirectPlayGamesParam[0] = dsc->dwUser1;
 			DirectPlayGamesParam[1] = dsc->dwUser2;
 			DirectPlayGamesParam[2] = dsc->dwUser3;
@@ -1733,20 +1733,20 @@ void SetGameDesc(DPSESSIONDESC2* dsc)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení max. poètu hráèù (0 = neomezeno)
+// nastavenÃ­ max. poÄtu hrÃ¡ÄÅ¯ (0 = neomezeno)
 
 void SetPlayerMax(int n)
 {
-// test, zda je otevøena hra
+// test, zda je otevÅ™ena hra
 	if (DirectPlayGamesAkt.IsEmpty()) return;
 
-// omezení èíselného údaje
+// omezenÃ­ ÄÃ­selnÃ©ho Ãºdaje
 	if ((n < 0) || (n > 0xfffff)) n = 0;
 
-// popisovaè hry
+// popisovaÄ hry
 	DPSESSIONDESC2 dsc;
 
-// maximální poèet hráèù
+// maximÃ¡lnÃ­ poÄet hrÃ¡ÄÅ¯
 	dsc.dwMaxPlayers = n;
 
 // parametry
@@ -1755,26 +1755,26 @@ void SetPlayerMax(int n)
 	dsc.dwUser3 = DirectPlayGamesParam[2];
 	dsc.dwUser4 = DirectPlayGamesParam[3];
 
-// nastavení novıch parametrù
+// nastavenÃ­ novÃ½ch parametrÅ¯
 	SetGameDesc(&dsc);
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èíselné hodnoty hry (n = rozsah -16384 a +16383, i = index 0 a 7)
+// nastavenÃ­ ÄÃ­selnÃ© hodnoty hry (n = rozsah -16384 aÅ¾ +16383, i = index 0 aÅ¾ 7)
 
 void SetGameN(int n, int i)
 {
-// test, zda je otevøena hra
+// test, zda je otevÅ™ena hra
 	if (DirectPlayGamesAkt.IsEmpty()) return;
 
-// omezení èíselného údaje
+// omezenÃ­ ÄÃ­selnÃ©ho Ãºdaje
 	if (n < -0x4000) n = -0x4000;
 	if (n > 0x3fff) n = 0x3fff;
 
-// popisovaè hry
+// popisovaÄ hry
 	DPSESSIONDESC2 dsc;
 
-// maximální poèet hráèù
+// maximÃ¡lnÃ­ poÄet hrÃ¡ÄÅ¯
 	dsc.dwMaxPlayers = DirectPlayPlayersMax;
 
 // parametry
@@ -1783,27 +1783,27 @@ void SetGameN(int n, int i)
 	dsc.dwUser3 = DirectPlayGamesParam[2];
 	dsc.dwUser4 = DirectPlayGamesParam[3];
 
-// nastavení poadovaného parametru
+// nastavenÃ­ poÅ¾adovanÃ©ho parametru
 	WORD* dat = (WORD*)&(dsc.dwUser1) + i;
 	*dat = (WORD)((*dat & 0x8000) | (n + 0x4000));
 
-// nastavení novıch parametrù
+// nastavenÃ­ novÃ½ch parametrÅ¯
 	SetGameDesc(&dsc);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe hry (i = index 0 a 7)
+// nastavenÃ­ pÅ™epÃ­naÄe hry (i = index 0 aÅ¾ 7)
 
 void SetGameL(bool n, int i)
 {
-// test, zda je otevøena hra
+// test, zda je otevÅ™ena hra
 	if (DirectPlayGamesAkt.IsEmpty()) return;
 
-// popisovaè hry
+// popisovaÄ hry
 	DPSESSIONDESC2 dsc;
 
-// maximální poèet hráèù
+// maximÃ¡lnÃ­ poÄet hrÃ¡ÄÅ¯
 	dsc.dwMaxPlayers = DirectPlayPlayersMax;
 
 // parametry
@@ -1812,18 +1812,18 @@ void SetGameL(bool n, int i)
 	dsc.dwUser3 = DirectPlayGamesParam[2];
 	dsc.dwUser4 = DirectPlayGamesParam[3];
 
-// nastavení poadovaného parametru
+// nastavenÃ­ poÅ¾adovanÃ©ho parametru
 	WORD* dat = (WORD*)&(dsc.dwUser1) + i;
 	*dat = (WORD)(*dat & 0x7fff);
 	if (n) *dat = (WORD)(*dat | 0x8000);
 
-// nastavení novıch parametrù
+// nastavenÃ­ novÃ½ch parametrÅ¯
 	SetGameDesc(&dsc);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivní hry (prázdné = vypnutí)
+// nastavenÃ­ aktivnÃ­ hry (prÃ¡zdnÃ© = vypnutÃ­)
 
 void SetGameAct(CString txt)
 {
@@ -1831,10 +1831,10 @@ void SetGameAct(CString txt)
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// test, zda je zmìna aktivní hry
+// test, zda je zmÄ›na aktivnÃ­ hry
 	if (txt == DirectPlayGamesAkt) return;
 
-// uzavøení staré hry
+// uzavÅ™enÃ­ starÃ© hry
 	if (DirectPlayGamesAkt.IsNotEmpty())
 	{
 		SetPlayerAct(EmptyString);
@@ -1844,13 +1844,13 @@ void SetGameAct(CString txt)
 	}
 	DirectPlayGamesHost = false;
 
-// opuštìní hry
+// opuÅ¡tÄ›nÃ­ hry
 	if (txt.IsEmpty()) return;
 
-// test, zda je otevøeno spojení
+// test, zda je otevÅ™eno spojenÃ­
 	if (DirectPlayConnectsAktN < 0) return;
 
-// zajištìní naètení seznamu her            (zbyteènì poaduje IP i pøi vytváøení hry)
+// zajiÅ¡tÄ›nÃ­ naÄtenÃ­ seznamu her            (zbyteÄnÄ› poÅ¾aduje IP i pÅ™i vytvÃ¡Å™enÃ­ hry)
 /*
 	if (DirectPlayGames.IsEmpty())
 	{
@@ -1860,20 +1860,20 @@ void SetGameAct(CString txt)
 	}
 */
 
-// nalezení shodného textu
+// nalezenÃ­ shodnÃ©ho textu
 	int i;
 	for (i = 0; i < DirectPlayGamesNum; i++)
 	{
 		if (DirectPlayGames.GetLine(i) == txt) break;
 	}
 
-// popisovaè hry
+// popisovaÄ hry
 	DPSESSIONDESC2 dpDesc;
 	MemFill(&dpDesc, sizeof(DPSESSIONDESC2), 0);
 	dpDesc.dwSize = sizeof(DPSESSIONDESC2);
 	dpDesc.guidApplication = *DirectPlayGuid;
 
-// vytvoøení nové hry
+// vytvoÅ™enÃ­ novÃ© hry
 	if (i == DirectPlayGamesNum)
 	{
 		dpDesc.dwFlags = DPSESSION_MIGRATEHOST;
@@ -1893,7 +1893,7 @@ void SetGameAct(CString txt)
 		}
 	}
 
-// pøipojení k existující høe
+// pÅ™ipojenÃ­ k existujÃ­cÃ­ hÅ™e
 	else
 	{
 		dpDesc.guidInstance = DirectPlayGamesGuid[i];
@@ -1907,7 +1907,7 @@ void SetGameAct(CString txt)
 		}
 	}
 
-// aktualizace seznamu her (pøi úspìchu) - také pro zastavení vyhledávání her
+// aktualizace seznamu her (pÅ™i ÃºspÄ›chu) - takÃ© pro zastavenÃ­ vyhledÃ¡vÃ¡nÃ­ her
 	DirectPlayEnumGames();
 }
  
@@ -1922,15 +1922,15 @@ BOOL FAR PASCAL EnumSessionsCallback(
   LPVOID lpContext
   )
 {
-// pøi chybì ji dále neopakovat
+// pÅ™i chybÄ› jiÅ¾ dÃ¡le neopakovat
 	if ((lpThisSD == NULL) || (dwFlags & DPESC_TIMEDOUT)) return FALSE;
 
-// pøíprava textu jména hry
+// pÅ™Ã­prava textu jmÃ©na hry
 	CString txt(lpThisSD->lpszSessionNameA);
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// zajištìní jedineènosti jména
+// zajiÅ¡tÄ›nÃ­ jedineÄnosti jmÃ©na
 	int n = 2;
 
 	if (txt.IsEmpty())
@@ -1948,21 +1948,21 @@ BOOL FAR PASCAL EnumSessionsCallback(
 		}
 	}
 
-// pøidání textu k seznamu
+// pÅ™idÃ¡nÃ­ textu k seznamu
 	DirectPlayGames += txt;
 	DirectPlayGames += _T(13);
 	DirectPlayGames += _T(10);
 
-// zvıšení èítaèe her
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe her
 	int i = DirectPlayGamesNum;
 	DirectPlayGamesNum++;
 	int i2 = DirectPlayGamesNum;
 
-// úschova GUID hry
+// Ãºschova GUID hry
 	DirectPlayGamesGuid = (GUID*)MemSize(DirectPlayGamesGuid, i2 * sizeof(GUID));
 	DirectPlayGamesGuid[i] = lpThisSD->guidInstance;
 
-// test, zda to je aktivní hra
+// test, zda to je aktivnÃ­ hra
 	if (DirectPlayGamesAkt == txt)
 	{
 		DirectPlayGamesAktN = i;
@@ -1979,23 +1979,23 @@ BOOL FAR PASCAL EnumSessionsCallback(
 
 
 /////////////////////////////////////////////////////////////////////////////
-// seznam her (FALSE=chyba), pøi otevøené høe se zastaví vyhledávání her
+// seznam her (FALSE=chyba), pÅ™i otevÅ™enÃ© hÅ™e se zastavÃ­ vyhledÃ¡vÃ¡nÃ­ her
 
 bool DirectPlayEnumGames()
 {
-// test, zda je seznam ještì platnı
+// test, zda je seznam jeÅ¡tÄ› platnÃ½
 	if (DirectPlayGamesTime > 0) return true;
 
-// test, zda je vybráno spojení
+// test, zda je vybrÃ¡no spojenÃ­
 	if (DirectPlayConnectsAktN < 0) return false;
 
-// pøíprava popisovaèe
+// pÅ™Ã­prava popisovaÄe
     DPSESSIONDESC2 dpDesc;
 	MemFill(&dpDesc, sizeof(DPSESSIONDESC2), 0);
 	dpDesc.dwSize = sizeof(DPSESSIONDESC2);
 	dpDesc.guidApplication = *DirectPlayGuid;
 
-// zjištìní her (pøi otevøené høe se bere pouze z cache)
+// zjiÅ¡tÄ›nÃ­ her (pÅ™i otevÅ™enÃ© hÅ™e se bere pouze z cache)
 	DirectPlayGames.Empty();
 	DirectPlayGamesNum = 0;
 	DirectPlayGamesAktN = -1;
@@ -2004,25 +2004,25 @@ bool DirectPlayEnumGames()
 		(DirectPlayGamesAkt.IsEmpty() ? DPENUMSESSIONS_ASYNC : DPENUMSESSIONS_STOPASYNC)
 		| DPENUMSESSIONS_ALL);
 
-// novı èítaè platnosti seznamu
+// novÃ½ ÄÃ­taÄ platnosti seznamu
 	if (hres == DPERR_USERCANCEL)
 	{
-// tato hodnota se pouije té k rozlišení pøerušení z funkce pro vytvoøení hry
-		DirectPlayGamesTime = 5*18;			// pøerušeno uivatelem
+// tato hodnota se pouÅ¾ije tÃ©Å¾ k rozliÅ¡enÃ­ pÅ™eruÅ¡enÃ­ z funkce pro vytvoÅ™enÃ­ hry
+		DirectPlayGamesTime = 5*18;			// pÅ™eruÅ¡eno uÅ¾ivatelem
 	}
 	else
 	{
 		if (DirectPlayGamesNum == 0)
 		{
-			DirectPlayGamesTime = 2;		// neúspìch - hned opìt novı pokus
+			DirectPlayGamesTime = 2;		// neÃºspÄ›ch - hned opÄ›t novÃ½ pokus
 		}
 		else
 		{
-			DirectPlayGamesTime = 9;		// pøi úspìchu aktualizace opìt za chvíli
+			DirectPlayGamesTime = 9;		// pÅ™i ÃºspÄ›chu aktualizace opÄ›t za chvÃ­li
 		}
 	}
 
-// doplnìní aktivní hry, pokud nebyla nalezena
+// doplnÄ›nÃ­ aktivnÃ­ hry, pokud nebyla nalezena
 	if (DirectPlayGamesAkt.IsNotEmpty() && (DirectPlayGamesAktN < 0))
 	{
 		DirectPlayGames += DirectPlayGamesAkt;
@@ -2037,50 +2037,50 @@ bool DirectPlayEnumGames()
 }
 
 
-// ----------------------- obsluha seznamu spojení --------------------------
+// ----------------------- obsluha seznamu spojenÃ­ --------------------------
 
 /////////////////////////////////////////////////////////////////////////////
-// vypnutí aktivního spojení
+// vypnutÃ­ aktivnÃ­ho spojenÃ­
 
 void SetConnectActNul()
 {
-// test, zda je otevøeno nìjaké spojení
+// test, zda je otevÅ™eno nÄ›jakÃ© spojenÃ­
 	if (DirectPlayConnectsAktN >= 0)
 	{
-// zrušení pøíznaku otevøení spojení
+// zruÅ¡enÃ­ pÅ™Ã­znaku otevÅ™enÃ­ spojenÃ­
 		DirectPlayConnectsAktN = -1;
 		DirectPlayConnectsAkt.Empty();
 
-// uvolnìní objektu DirectPlay
+// uvolnÄ›nÃ­ objektu DirectPlay
 		DirectPlayUninit();
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyhledání podøetìzce v seznamu spojení (vše konvertováno na velká písmena)
-// i ...... index nalezeného spojení
-// txt .... zadané jméno spojení
-// sub .... hledanı podøetìzec
+// vyhledÃ¡nÃ­ podÅ™etÄ›zce v seznamu spojenÃ­ (vÅ¡e konvertovÃ¡no na velkÃ¡ pÃ­smena)
+// i ...... index nalezenÃ©ho spojenÃ­
+// txt .... zadanÃ© jmÃ©no spojenÃ­
+// sub .... hledanÃ½ podÅ™etÄ›zec
 
 void GetConnectSubString(int& i, CString& txt, CString sub)
 {
-// test, zda spojení zatím nebylo nalezeno; test, zda zadanı text obsahuje podøetìzec
+// test, zda spojenÃ­ zatÃ­m nebylo nalezeno; test, zda zadanÃ½ text obsahuje podÅ™etÄ›zec
 	if ((i == DirectPlayConnectsNum) && (txt.Find(sub) >= 0))
 	{
 		CString txt2;
 
-// cyklus pøes všechna spojení
+// cyklus pÅ™es vÅ¡echna spojenÃ­
 		for (i = 0; i < DirectPlayConnectsNum; i++)
 		{
 
-// naètení textu jednoho spojení
+// naÄtenÃ­ textu jednoho spojenÃ­
 			txt2 = DirectPlayConnects.GetLine(i);
 
-// konverze na velká písmena
+// konverze na velkÃ¡ pÃ­smena
 			txt2.UpperCase();
 
-// test, zda obsahuje podøetìzec
+// test, zda obsahuje podÅ™etÄ›zec
 			if (txt2.Find(sub) >= 0) break;
 		}
 	}
@@ -2088,7 +2088,7 @@ void GetConnectSubString(int& i, CString& txt, CString sub)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení aktivního spojení (prázdnı text = zrušení)
+// nastavenÃ­ aktivnÃ­ho spojenÃ­ (prÃ¡zdnÃ½ text = zruÅ¡enÃ­)
 
 void SetConnectAct(CString txt)
 {
@@ -2096,24 +2096,24 @@ void SetConnectAct(CString txt)
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// prázdnı text - zrušení spojení
+// prÃ¡zdnÃ½ text - zruÅ¡enÃ­ spojenÃ­
 	if (txt.IsEmpty())
 	{
 		SetConnectActNul();
 		return;
 	}
 
-// inicializace seznamu spojení
+// inicializace seznamu spojenÃ­
 	if (!DirectPlayConInit()) return;
 
-// nalezení shodného textu
+// nalezenÃ­ shodnÃ©ho textu
 	int i;
 	for (i = 0; i < DirectPlayConnectsNum; i++)
 	{
 		if (DirectPlayConnects.GetLine(i) == txt) break;
 	}
 
-// hledání bez rozlišení velká/malá písmena
+// hledÃ¡nÃ­ bez rozliÅ¡enÃ­ velkÃ¡/malÃ¡ pÃ­smena
 	if (i == DirectPlayConnectsNum)
 	{
 		txt.UpperCase();
@@ -2126,16 +2126,16 @@ void SetConnectAct(CString txt)
 			if (txt2 == txt) break;
 		}
 
-// hledání podøetìzcù
+// hledÃ¡nÃ­ podÅ™etÄ›zcÅ¯
 		GetConnectSubString(i, txt, _T("IPX"));
 		GetConnectSubString(i, txt, _T("TCP"));
 		GetConnectSubString(i, txt, _T("MODEM"));
 
-// ještì pokus o hledání textu "serial"/"sériov"/"seriov"
+// jeÅ¡tÄ› pokus o hledÃ¡nÃ­ textu "serial"/"sÃ©riov"/"seriov"
 		if (i == DirectPlayConnectsNum)
 		{
 			CString s1("SERIAL");
-			CString s2("SÉRIOV");
+			CString s2("SÃ‰RIOV");
 			CString s3("SERIOV");
 
 			if ((txt.Find(s1) >= 0) || (txt.Find(s2) >= 0) || (txt.Find(s3) >= 0))
@@ -2152,46 +2152,46 @@ void SetConnectAct(CString txt)
 		}
 	}
 
-// zadán neplatnı øetìzec - vypnutí spojení
+// zadÃ¡n neplatnÃ½ Å™etÄ›zec - vypnutÃ­ spojenÃ­
 	if (i == DirectPlayConnectsNum)
 	{
 		SetConnectActNul();
 		return;
 	}
 
-// inicializace spojení (jen je-li zmìnìno)
+// inicializace spojenÃ­ (jen je-li zmÄ›nÄ›no)
 	if (i != DirectPlayConnectsAktN)
 	{
 
-// nulování èítaèù pro aktualizaci informací
+// nulovÃ¡nÃ­ ÄÃ­taÄÅ¯ pro aktualizaci informacÃ­
 		DirectPlayGamesTime = 0;
 		DirectPlayPlayersTime = 0;
 
-// vypnutí starého spojení
+// vypnutÃ­ starÃ©ho spojenÃ­
 		SetConnectActNul();
 
-// inicializace seznamu spojení (a kontrola platnosti indexu)
+// inicializace seznamu spojenÃ­ (a kontrola platnosti indexu)
 		if (!DirectPlayConInit() || (i >= DirectPlayConnectsNum))
 		{
 			SetConnectActNul();
 			return;
 		}
 
-// inicializace spojení
+// inicializace spojenÃ­
 		HRESULT hres = DirectPlay->InitializeConnection(DirectPlayConnectsConn[i], 0);
 
-// kontrola úspìšnosti spojení
+// kontrola ÃºspÄ›Å¡nosti spojenÃ­
 		if ((hres != DP_OK) && (hres != DPERR_ALREADYINITIALIZED)) return;
 	}
 
-// úschova aktivního spojení
+// Ãºschova aktivnÃ­ho spojenÃ­
 	DirectPlayConnectsAkt = DirectPlayConnects.GetLine(i);
 	DirectPlayConnectsAktN = i;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// callback pro enumeraci spojení
+// callback pro enumeraci spojenÃ­
 
 BOOL FAR PASCAL EnumConnectionsCallback(
   LPCGUID lpguidSP,
@@ -2202,13 +2202,13 @@ BOOL FAR PASCAL EnumConnectionsCallback(
   LPVOID lpContext
   )
 {
-// pøíprava textu jména spojení
+// pÅ™Ã­prava textu jmÃ©na spojenÃ­
 	CString txt(lpName->lpszShortNameA);
 	if (txt.IsEmpty()) txt = lpName->lpszLongNameA;
 	txt.TrimLeft();
 	txt.TrimRight();
 
-// zrušení textu "pro DirectPlay"
+// zruÅ¡enÃ­ textu "pro DirectPlay"
 	if (txt.Right(ForDPlay1.Length()) == ForDPlay1)
 	{
 		txt.Delete(txt.Length() - ForDPlay1.Length());
@@ -2229,7 +2229,7 @@ BOOL FAR PASCAL EnumConnectionsCallback(
 	}
 	txt.TrimRight();
 
-// zajištìní jedineènosti jména
+// zajiÅ¡tÄ›nÃ­ jedineÄnosti jmÃ©na
 	int n = 2;
 
 	if (txt.IsEmpty())
@@ -2247,44 +2247,44 @@ BOOL FAR PASCAL EnumConnectionsCallback(
 		}
 	}
 
-// pøidání textu k seznamu
+// pÅ™idÃ¡nÃ­ textu k seznamu
 	DirectPlayConnects += txt;
 
-// pøidání konce øádku
+// pÅ™idÃ¡nÃ­ konce Å™Ã¡dku
 	DirectPlayConnects += _T(13);
 	DirectPlayConnects += _T(10);
 
-// zvıšení èítaèe spojení
+// zvÃ½Å¡enÃ­ ÄÃ­taÄe spojenÃ­
 	int i = DirectPlayConnectsNum;
 	DirectPlayConnectsNum++;
 	int i2 = DirectPlayConnectsNum;
 
-// úschova dat spojení
+// Ãºschova dat spojenÃ­
 	DirectPlayConnectsConn = (void**)MemSize(DirectPlayConnectsConn, i2 * sizeof(void*));
 	DirectPlayConnectsConn[i] = (void*)MemGet(dwConnectionSize);
 	MemCopy(DirectPlayConnectsConn[i], lpConnection, dwConnectionSize);
 
-// pokraèovat v enumeraci
+// pokraÄovat v enumeraci
 	return TRUE;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace seznamu spojení (FALSE=chyba)
+// inicializace seznamu spojenÃ­ (FALSE=chyba)
 
 bool DirectPlayConInit()
 {
-// test,zda je seznam ji inicializován
+// test,zda je seznam jiÅ¾ inicializovÃ¡n
 	if (DirectPlayConnectsNum > 0) return true;
 
-// test, zda je monı novı pokus o otevøení
+// test, zda je moÅ¾nÃ½ novÃ½ pokus o otevÅ™enÃ­
 	if (NextDirectPlayInit > 0) return false;
 	NextDirectPlayInit = 36;
 
 // inicializace objektu DirectPlay
 	if (!DirectPlayInit()) return false;
 
-// zjištìní seznamu monıch spojení
+// zjiÅ¡tÄ›nÃ­ seznamu moÅ¾nÃ½ch spojenÃ­
 	if ((DirectPlay->EnumConnections(DirectPlayGuid, EnumConnectionsCallback, NULL, 0) != DP_OK) ||
 		(DirectPlayConnectsNum == 0))
 	{
@@ -2300,32 +2300,32 @@ bool DirectPlayConInit()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uvolnìní seznamu spojení (ukonèí probíhající hru)
+// uvolnÄ›nÃ­ seznamu spojenÃ­ (ukonÄÃ­ probÃ­hajÃ­cÃ­ hru)
 
 void DirectPlayConUninit()
 {
-// test, zda jsou v seznamu nìjaká spojení
+// test, zda jsou v seznamu nÄ›jakÃ¡ spojenÃ­
 	if (DirectPlayConnectsNum > 0)
 	{
 
-// vypnutí aktivní hry
+// vypnutÃ­ aktivnÃ­ hry
 		SetGameAct(EmptyString);
 
-// zrušení seznamu her
+// zruÅ¡enÃ­ seznamu her
 		DirectPlayGames.Empty();
 		DirectPlayGamesNum = 0;
 
-// uvolnìní informací o spojeních
+// uvolnÄ›nÃ­ informacÃ­ o spojenÃ­ch
 		for (int i = 0; i < DirectPlayConnectsNum; i++)
 		{
 			MemFree(DirectPlayConnectsConn[i]);
 		}
 
-// zrušení seznamu spojení
+// zruÅ¡enÃ­ seznamu spojenÃ­
 		DirectPlayConnects.Empty();
 		DirectPlayConnectsNum = 0;
 
-// zrušení aktivního spojení
+// zruÅ¡enÃ­ aktivnÃ­ho spojenÃ­
 		DirectPlayConnectsAkt.Empty();
 		DirectPlayConnectsAktN = -1;
 	}
@@ -2339,13 +2339,13 @@ void DirectPlayConUninit()
 
 bool DirectPlayInit()
 {
-// test, zda je objekt DirectPlay ji vytvoøen
+// test, zda je objekt DirectPlay jiÅ¾ vytvoÅ™en
 	if (DirectPlay != NULL) return true;
 
 // inicializace COM knihovny
 	if (!COMInit()) return false;
 
-// vytvoøení rozhranní DirectPlay3A
+// vytvoÅ™enÃ­ rozhrannÃ­ DirectPlay3A
 	if ((::CoCreateInstance(CLSID_DirectPlay, NULL, CLSCTX_INPROC_SERVER,
 			IID_IDirectPlay3A, (void**)&DirectPlay) != DP_OK) || (DirectPlay == NULL))
 	{
@@ -2357,18 +2357,18 @@ bool DirectPlayInit()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uvolnìní objektu DirectPlay (nutné pøi zmìnì spojení nebo hry)
+// uvolnÄ›nÃ­ objektu DirectPlay (nutnÃ© pÅ™i zmÄ›nÄ› spojenÃ­ nebo hry)
 
 void DirectPlayUninit()
 {
-// test, zda je objekt DirectPlay vytvoøen
+// test, zda je objekt DirectPlay vytvoÅ™en
 	if (DirectPlay != NULL)
 	{
 
-// uvolnìní seznamu spojení
+// uvolnÄ›nÃ­ seznamu spojenÃ­
 		DirectPlayConUninit();
 
-// uvolnìní objektu DirectPlay
+// uvolnÄ›nÃ­ objektu DirectPlay
 		DirectPlay->Release();
 		DirectPlay = NULL;
 	}
@@ -2378,11 +2378,11 @@ void DirectPlayUninit()
 // ------------------------ obsluha knihovny COM ----------------------------
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace knihovny COM (FALSE=chyba) (zùstává inicializována po celou dobu bìhu programu)
+// inicializace knihovny COM (FALSE=chyba) (zÅ¯stÃ¡vÃ¡ inicializovÃ¡na po celou dobu bÄ›hu programu)
 
 bool COMInit()
 {
-// test, zda je knihovna COM ji inicializována
+// test, zda je knihovna COM jiÅ¾ inicializovÃ¡na
 	if (Coinit) return true;
 
 // inicializace knihovny COM
@@ -2391,27 +2391,27 @@ bool COMInit()
 // kontrola operace
 	if ((res != S_OK) && (res != S_FALSE)) return false;
 
-// zapnutí pøíznaku inicializace knihovny
+// zapnutÃ­ pÅ™Ã­znaku inicializace knihovny
 	Coinit = true;
 	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// uvolnìní knihovny COM (pøi ukonèení programu)
+// uvolnÄ›nÃ­ knihovny COM (pÅ™i ukonÄenÃ­ programu)
 
 void COMUninit()
 {
-// test, zda je knihovna COM inicializována
+// test, zda je knihovna COM inicializovÃ¡na
 	if (Coinit)
 	{
 
-// uvolnìní pøípadného objektu DirectPlay
+// uvolnÄ›nÃ­ pÅ™Ã­padnÃ©ho objektu DirectPlay
 		DirectPlayUninit();
 
-// uvolnìní knihovny COM
+// uvolnÄ›nÃ­ knihovny COM
 		::CoUninitialize();
 
-// vypnutí pøíznaku inicializace knihovny
+// vypnutÃ­ pÅ™Ã­znaku inicializace knihovny
 		Coinit = false;
 	}
 }
@@ -2427,16 +2427,16 @@ void COMUninit()
 
 void WSAInitialize()
 {
-	// test, zda inicializace ji probìhla
+	// test, zda inicializace jiÅ¾ probÄ›hla
 	if (!Wsaload)
 	{
-		// pøíznak pokusu o naètení knihovny
+		// pÅ™Ã­znak pokusu o naÄtenÃ­ knihovny
 		Wsaload = true;
 
-		// naètení knihovny WSA verze 1.1
+		// naÄtenÃ­ knihovny WSA verze 1.1
 		WSALibrary = ::LoadLibrary(_T("WSOCK32.DLL"));
 
-		// import funkcí knihovny WSA 1.1 pro DirectPlay
+		// import funkcÃ­ knihovny WSA 1.1 pro DirectPlay
 		if (WSALibrary != NULL)
 		{
 			pWSAStartup = (WSASTARTUP) ::GetProcAddress(WSALibrary, "WSAStartup");
@@ -2456,7 +2456,7 @@ void WSAInitialize()
 				{
 					Wsainit = true;
 
-					// rozšíøní pro UDP
+					// rozÅ¡Ã­Å™nÃ­ pro UDP
 					pWSASocket = (WSASOCKET) ::GetProcAddress(WSALibrary, "socket");
 					pWSAhtons = (WSAHTONS) ::GetProcAddress(WSALibrary, "htons");
 					pWSASetSockOpt = (WSASETSOCKOPT) ::GetProcAddress(WSALibrary, "setsockopt");
@@ -2487,7 +2487,7 @@ void WSAInitialize()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace WSA 1.1 knihovny (vrací TRUE je-li OK)
+// inicializace WSA 1.1 knihovny (vracÃ­ TRUE je-li OK)
 
 bool WSAInitialize1()
 {
@@ -2496,7 +2496,7 @@ bool WSAInitialize1()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace WSA 2.2 knihovny (vrací TRUE je-li OK)
+// inicializace WSA 2.2 knihovny (vracÃ­ TRUE je-li OK)
 
 bool WSAInitialize2()
 {
@@ -2505,64 +2505,64 @@ bool WSAInitialize2()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace obsluhy UDP (inicializace bufferù)
+// inicializace obsluhy UDP (inicializace bufferÅ¯)
 
 void InitUDP()
 {
-	// vysílací adresa UDP (INADDR_BROADCAST = (u_long)0xffffffff)
+	// vysÃ­lacÃ­ adresa UDP (INADDR_BROADCAST = (u_long)0xffffffff)
 	MemFill(&UDPSendAddr, sizeof(SOCKADDR_IN), 0);
 	UDPSendAddr.sin_family = AF_INET;
 	UDPSendAddr.sin_port = 0x8813;			// port 5000
 	UDPSendAddr.sin_addr.s_addr = 0x0100007f;	// loop IP adresa INADDR_LOOPBACK "127.0.0.1"
 
-	// pøijímací adresa UDP
+	// pÅ™ijÃ­macÃ­ adresa UDP
 	MemFill(&UDPRecAddr, sizeof(SOCKADDR_IN), 0);
 	UDPRecAddr.sin_family = AF_INET;
 	UDPRecAddr.sin_port = 0x8813;			// port 5000
 	UDPRecAddr.sin_addr.s_addr = 0;			// IP adresa INADDR_ANY = "0.0.0.0"
 
-	// pøijatá adresa UDP
+	// pÅ™ijatÃ¡ adresa UDP
 	MemFill(&UDPRecRecAddr, sizeof(SOCKADDR_IN), 0);
 	UDPRecRecAddr.sin_family = AF_INET;
 	UDPRecRecAddr.sin_port = 0;
 	UDPRecRecAddr.sin_addr.s_addr = 0xffffffff; // IP adresa INADDR_NONE
 
-	// pøijímací buffer UDP
+	// pÅ™ijÃ­macÃ­ buffer UDP
 	UDPRecBuf = (char*)MemGet(16384);		// alokace bufferu
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// otevøení soketu UDP (pøi chybì vrací FALSE)
+// otevÅ™enÃ­ soketu UDP (pÅ™i chybÄ› vracÃ­ FALSE)
 
 bool OpenUDP()
 {
-	// test, zda je soket otevøenı
+	// test, zda je soket otevÅ™enÃ½
 	if (UDPSocket == INVALID_SOCKET)
 	{
 		// inicializace WSA
 		if (WSAInitialize2())
 		{
-			// otevøení UDP soketu
+			// otevÅ™enÃ­ UDP soketu
 			UDPSocket = pWSASocket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 			if (UDPSocket != INVALID_SOCKET)
 			{
-				// nastavení timeout vysílaèe
+				// nastavenÃ­ timeout vysÃ­laÄe
 				int par = 100;
 				pWSASetSockOpt(UDPSocket, SOL_SOCKET, SO_SNDTIMEO, (char*)&par, sizeof(par));
 
-				// nastavení timeout pøijímaèe
+				// nastavenÃ­ timeout pÅ™ijÃ­maÄe
 				par = 100;
 				pWSASetSockOpt(UDPSocket, SOL_SOCKET, SO_RCVTIMEO, (char*)&par, sizeof(par));
 
-				// sdílení pouití adres
+				// sdÃ­lenÃ­ pouÅ¾itÃ­ adres
 				par = TRUE;
 				pWSASetSockOpt(UDPSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&par, sizeof(par));
 
-				// povolen broadcast pøenos
+				// povolen broadcast pÅ™enos
 				par = TRUE;
 				pWSASetSockOpt(UDPSocket, SOL_SOCKET, SO_BROADCAST, (char*)&par, sizeof(par));
 
-				// pojmenování soketu pøijímaèe
+				// pojmenovÃ¡nÃ­ soketu pÅ™ijÃ­maÄe
 				pWSABind(UDPSocket, (sockaddr*)&UDPRecAddr, sizeof(SOCKADDR_IN));
 			}
 		}
@@ -2571,7 +2571,7 @@ bool OpenUDP()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// zavøení soketu UDP
+// zavÅ™enÃ­ soketu UDP
 
 void CloseUDP()
 {
@@ -2583,7 +2583,7 @@ void CloseUDP()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// odeslání UDP paketu
+// odeslÃ¡nÃ­ UDP paketu
 
 void SendUDP(const void* data, int len)
 {
@@ -2607,7 +2607,7 @@ void SendUDP(const void* data, int len)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíjem UDP paketu (vrací velikost dat v pøijímacím bufferu)
+// pÅ™Ã­jem UDP paketu (vracÃ­ velikost dat v pÅ™ijÃ­macÃ­m bufferu)
 
 int RecUDP()
 {
@@ -2643,10 +2643,10 @@ int RecUDP()
 
 void WSADeinitialize()
 {
-	// ukonèení UDP
+	// ukonÄenÃ­ UDP
 	CloseUDP();
 
-	// uvolnìní knihovny WSA
+	// uvolnÄ›nÃ­ knihovny WSA
 	if (Wsainit)
 	{
 		pWSACleanup();
@@ -2663,7 +2663,7 @@ void WSADeinitialize()
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 
 /***************************************************************************\
@@ -2673,7 +2673,7 @@ void WSADeinitialize()
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// reim dialogu
+// reÅ¾im dialogu
 
 void DialogOn(bool on)
 {
@@ -2686,11 +2686,11 @@ void DialogOn(bool on)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nového okna
+// vytvoÅ™enÃ­ novÃ©ho okna
 
 void WindowNew(int typ, int styl)
 {
-// vypnutí celoobrazovkového módu
+// vypnutÃ­ celoobrazovkovÃ©ho mÃ³du
 	WindowID = Win.New();
 	WINITEM* item = &Win[WindowID];
 	item->Parent = DialogParent;
@@ -2725,16 +2725,16 @@ void WindowNew(int typ, int styl)
 	}
 
 	item->Wnd = ::CreateWindowEx(
-		WS_EX_CONTROLPARENT | WS_EX_DLGMODALFRAME,		// rozšíøenı styl okna
-		MainFrameClass,									// jméno tøídy okna
+		WS_EX_CONTROLPARENT | WS_EX_DLGMODALFRAME,		// rozÅ¡Ã­Å™enÃ½ styl okna
+		MainFrameClass,									// jmÃ©no tÅ™Ã­dy okna
 		NULL,											// titulek okna
 		WS_BORDER | WS_CAPTION | WS_CLIPCHILDREN | WS_OVERLAPPED |
 			WS_CLIPSIBLINGS	/*| WS_MINIMIZEBOX */| styl,	// styl okna
 		item->Left,										// X
 		item->Top,										// Y
-		item->Width,									// šíøka
-		item->Height,									// vıška
-		parent->Wnd,									// rodiè
+		item->Width,									// Å¡Ã­Å™ka
+		item->Height,									// vÃ½Å¡ka
+		parent->Wnd,									// rodiÄ
 		NULL,											// menu
 		hInstance,										// instance
 		NULL);											// parametry
@@ -2754,18 +2754,18 @@ void WindowNew(int typ, int styl)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení fontu (nutné uvolnìní pomocí FreeFont)
+// vytvoÅ™enÃ­ fontu (nutnÃ© uvolnÄ›nÃ­ pomocÃ­ FreeFont)
 
 HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif, bool fixed, int height, double width, double angle)
 {
-// sada znakù
+// sada znakÅ¯
 	DWORD charset = CharSet;
 	if (charset == DefCharSet) charset = DEFAULT_CHARSET;
 
-// korekce vıšky
+// korekce vÃ½Å¡ky
 	if (height < 0) height = -height;
 
-// nalezení existujícího fontu v tabulce
+// nalezenÃ­ existujÃ­cÃ­ho fontu v tabulce
 	int i;
 	for (i = 0; i < FONTTABSIZE; i++)
 	{
@@ -2793,11 +2793,11 @@ HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif
 		}
 	}
 
-// skuteèná vıška znakù
+// skuteÄnÃ¡ vÃ½Å¡ka znakÅ¯
 	int height0 = height;
 	if (height <= 0) height0 = 16;
 
-// pøíprava šíøky fontu
+// pÅ™Ã­prava Å¡Ã­Å™ky fontu
 	CString name;
 	double koef;
 
@@ -2847,10 +2847,10 @@ HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif
 
 	int width0 = Round(fabs(width) * height0 * koef - 0.1);
 
-// pøepoèet úhlu na desetiny stupnì
+// pÅ™epoÄet Ãºhlu na desetiny stupnÄ›
 	int angle0 = Round(angle/pi*1800) % 3600;
 
-// vytvoøení fontu
+// vytvoÅ™enÃ­ fontu
 	HFONT font = ::CreateFont(
 		height0,
 		width0,
@@ -2863,7 +2863,7 @@ HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif
 		charset, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name);
 
-// druhı pokus, není-li pøítomna správná znaková sada
+// druhÃ½ pokus, nenÃ­-li pÅ™Ã­tomna sprÃ¡vnÃ¡ znakovÃ¡ sada
 	if (font == NULL)
 	{
 		font = ::CreateFont(
@@ -2879,11 +2879,11 @@ HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif
 			DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, name);
 	}
 
-// pøi neúspìchu náhradní font
+// pÅ™i neÃºspÄ›chu nÃ¡hradnÃ­ font
 	if (font == NULL) font = FontDefault;
 	if (font == NULL) return NULL;
 
-// nalezení volné poloky k uloení fontu
+// nalezenÃ­ volnÃ© poloÅ¾ky k uloÅ¾enÃ­ fontu
 	FONTITEM* item;
 	for (i = FONTTABSIZE-FONTTABSTD; i > 0; i--)
 	{
@@ -2896,7 +2896,7 @@ HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif
 	item = FontTab + FontNext;
 	if (item->Font != NULL) ::DeleteObject(item->Font);
 
-// uloení informací o fontu
+// uloÅ¾enÃ­ informacÃ­ o fontu
 	item->Bold = bold;
 	item->Italic = italic;
 	item->Underline = underline;
@@ -2911,17 +2911,17 @@ HFONT GetFont(bool bold, bool italic, bool underline, bool strikeout, bool serif
 	item->UserFont = UserFont;
 	item->Used = 1;
 
-// ukazatel pøíští poloky
+// ukazatel pÅ™Ã­Å¡tÃ­ poloÅ¾ky
 	FontNext++;
 	if (FontNext >= FONTTABSIZE) FontNext = FONTTABSTD;
 
-// návrat fontu
+// nÃ¡vrat fontu
 	return font;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uvolnìní fontu pøidìleného s GetFont
+// uvolnÄ›nÃ­ fontu pÅ™idÄ›lenÃ©ho s GetFont
 
 void FreeFont(HFONT font)
 {
@@ -2958,27 +2958,27 @@ void WindowSetFont(WINITEM* item)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení prvku okna
+// vytvoÅ™enÃ­ prvku okna
 
 void WindowItemNew(int typ, CString& classname, int width, int height, int style, int exstyle)
 {
-// vytvoøení nového prvku
+// vytvoÅ™enÃ­ novÃ©ho prvku
 	WindowID = Win.New();
 	WINITEM* item = &Win[WindowID];
 
-// zapnutí dialogového módu hlavního okna
+// zapnutÃ­ dialogovÃ©ho mÃ³du hlavnÃ­ho okna
 	if (DialogParent == 0) DialogOn(true);
 
-// adresa rodièe
+// adresa rodiÄe
 	WINITEM* parent = &Win[DialogParent];
 
-// zaøazení do øetìzce prvkù
+// zaÅ™azenÃ­ do Å™etÄ›zce prvkÅ¯
 	item->Prev = parent->Prev;
 	item->Next = DialogParent;
 	parent->Prev = WindowID;
 	Win[item->Prev].Next = WindowID;
 
-// inicializace parametrù
+// inicializace parametrÅ¯
 	item->Parent = DialogParent;
 	item->Typ = typ;
 	item->Left = (parent->ClientWidth - width)/2;
@@ -3016,17 +3016,17 @@ void WindowItemNew(int typ, CString& classname, int width, int height, int style
 		item->FontBrush = StdBrushBtn;
 	}
 
-// vytvoøení prvku
+// vytvoÅ™enÃ­ prvku
 	item->Wnd = ::CreateWindowEx(
-		0 | exstyle,					// rozšíøenı styl
-		classname,						// tøída
+		0 | exstyle,					// rozÅ¡Ã­Å™enÃ½ styl
+		classname,						// tÅ™Ã­da
 		NULL,							// text
 		WS_CHILD | style,				// styl
 		item->Left,						// X
 		item->Top,						// Y
-		width,							// šíøka
-		height,							// vıška
-		parent->Wnd,					// rodiè
+		width,							// Å¡Ã­Å™ka
+		height,							// vÃ½Å¡ka
+		parent->Wnd,					// rodiÄ
 		(HMENU)WindowID,				// identifikace
 		hInstance,						// instance
 		NULL);							// parametry
@@ -3087,35 +3087,35 @@ void WindowItemNew(int typ, CString& classname, int width, int height, int style
 		}
 	}
 
-// nastavení fontu
+// nastavenÃ­ fontu
 	WindowSetFont(item);
 
-// zjištìní klientské šíøky a vıšky
+// zjiÅ¡tÄ›nÃ­ klientskÃ© Å¡Ã­Å™ky a vÃ½Å¡ky
 	InitClientRect(item);
 
-// zamìøení fokusu
+// zamÄ›Å™enÃ­ fokusu
 	if (WindowFocus == DialogParent) FocusNext();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení prvku
+// zruÅ¡enÃ­ prvku
 
 void WindowDel(int inx)
 {
-// nelze zrušit hlavní okno
+// nelze zruÅ¡it hlavnÃ­ okno
 	if (inx == 0) return;
 
-// zrušení èísla aktuálního prvku
+// zruÅ¡enÃ­ ÄÃ­sla aktuÃ¡lnÃ­ho prvku
 	if (WindowID == inx) WindowID = -1;
 
-// okno musí bıt platné
+// okno musÃ­ bÃ½t platnÃ©
 	if (Win.IsNotValid(inx)) return;
 
 // adresa prvku
 	WINITEM* item = &Win[inx];
 
-// rušení evidence prvku okna v rodièovském oknì
+// ruÅ¡enÃ­ evidence prvku okna v rodiÄovskÃ©m oknÄ›
 	if ((item->Typ != WINITEM_WINDOW) && (item->Typ != WINITEM_WINDOWRO))
 	{
 		::DestroyWindow(item->Wnd);
@@ -3135,7 +3135,7 @@ void WindowDel(int inx)
 		}
 	}
 
-// zrušení okna vèetnì jeho potomkù
+// zruÅ¡enÃ­ okna vÄetnÄ› jeho potomkÅ¯
 	else
 	{
 		for (int i = Win.Max() - 1; i >= 0; i--)
@@ -3156,10 +3156,10 @@ void WindowDel(int inx)
 		ReqClose = false;
 	}
 
-// zrušení poloky okna
+// zruÅ¡enÃ­ poloÅ¾ky okna
 	Win.Del(inx);
 
-// po zrušení všech prvkù návrat focusu na hlavní okno
+// po zruÅ¡enÃ­ vÅ¡ech prvkÅ¯ nÃ¡vrat focusu na hlavnÃ­ okno
 	if (Win.Num() == 1)
 	{
 		::SetFocus(MainFrame);
@@ -3168,16 +3168,16 @@ void WindowDel(int inx)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// posun fokusu na další prvek
+// posun fokusu na dalÅ¡Ã­ prvek
 
 void FocusNext()
 {
-// vıchozí prvek
+// vÃ½chozÃ­ prvek
 	int foc = WindowFocus;
 	if (Win.IsNotValid(foc)) foc = DialogParent;
 	int foc0 = foc;
 
-// nalezení dalšího prvku
+// nalezenÃ­ dalÅ¡Ã­ho prvku
 	for (;;)
 	{
 		foc = Win[foc].Next;
@@ -3189,7 +3189,7 @@ void FocusNext()
 			(Win[foc].Typ == WINITEM_RICHMEMO))) break;
 	}
 
-// korekce pro pøepínaè
+// korekce pro pÅ™epÃ­naÄ
 	if (Win[foc].Typ == WINITEM_BUTTONRADIO2)
 	{
 		foc0 = foc;
@@ -3202,29 +3202,29 @@ void FocusNext()
 		} while (Win[foc0].Typ == WINITEM_BUTTONRADIO);
 	}
 
-// nastavení fokusu na prvek
+// nastavenÃ­ fokusu na prvek
 	WindowFocus = foc;
 	::SetFocus(Win[foc].Wnd);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// posun fokusu na pøedchozí prvek
+// posun fokusu na pÅ™edchozÃ­ prvek
 
 void FocusPrev()
 {
-// vıchozí prvek
+// vÃ½chozÃ­ prvek
 	int foc = WindowFocus;
 	if (Win.IsNotValid(foc)) foc = DialogParent;
 	int foc0 = foc;
 
-// posun na zaèátek pøepínaèù
+// posun na zaÄÃ¡tek pÅ™epÃ­naÄÅ¯
 	while (Win[foc].Typ == WINITEM_BUTTONRADIO)
 	{
 		foc = Win[foc].Prev;
 	}
 
-// nalezení pøedchozího prvku
+// nalezenÃ­ pÅ™edchozÃ­ho prvku
 	for (;;)
 	{
 		foc = Win[foc].Prev;
@@ -3236,7 +3236,7 @@ void FocusPrev()
 			(Win[foc].Typ == WINITEM_RICHMEMO))) break;
 	}
 
-// korekce pro pøepínaè
+// korekce pro pÅ™epÃ­naÄ
 	if (Win[foc].Typ == WINITEM_BUTTONRADIO2)
 	{
 		foc0 = foc;
@@ -3249,14 +3249,14 @@ void FocusPrev()
 		} while (Win[foc0].Typ == WINITEM_BUTTONRADIO);
 	}
 
-// nastavení fokusu na prvek
+// nastavenÃ­ fokusu na prvek
 	WindowFocus = foc;
 	::SetFocus(Win[foc].Wnd);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// posun fokusu na další pøepínaè
+// posun fokusu na dalÅ¡Ã­ pÅ™epÃ­naÄ
 
 void RadioNext()
 {
@@ -3321,7 +3321,7 @@ void RadioNext()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// posun fokusu na pøedchozí pøepínaè
+// posun fokusu na pÅ™edchozÃ­ pÅ™epÃ­naÄ
 
 void RadioPrev()
 {
@@ -3393,7 +3393,7 @@ void RadioPrev()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøepínaèe
+// nastavenÃ­ pÅ™epÃ­naÄe
 
 void RadioSet(int inx)
 {
@@ -3451,18 +3451,18 @@ void RadioSet(int inx)
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace údajù o joysticku
+// aktualizace ÃºdajÅ¯ o joysticku
 
 void AktJoystick(int inx)
 {
-// test, zda jsou údaje platné
+// test, zda jsou Ãºdaje platnÃ©
 	if (JoystickValid[inx]) return;
 	JoystickValid[inx] = true;
 
-// test, zda je povolena další aktualizace
+// test, zda je povolena dalÅ¡Ã­ aktualizace
 	if (JoystickNext[inx] >= 0) return;
 
-// naètení informací o joysticku
+// naÄtenÃ­ informacÃ­ o joysticku
 	JOYCAPS jp;
 	JOYINFO ji;
 
@@ -3470,7 +3470,7 @@ void AktJoystick(int inx)
 		(::joyGetPos(inx, &ji) != JOYERR_NOERROR))
 	{
 
-// pøi chybì vynulování parametrù
+// pÅ™i chybÄ› vynulovÃ¡nÃ­ parametrÅ¯
 		JoystickX[inx] = 0;
 		JoystickY[inx] = 0;
 		JoystickZ[inx] = 0;
@@ -3482,7 +3482,7 @@ void AktJoystick(int inx)
 		return;
 	}
 
-// souøadnice X
+// souÅ™adnice X
 	int mx = jp.wXmax - jp.wXmin + 1;
 	if (mx <= 2)
 	{
@@ -3502,7 +3502,7 @@ void AktJoystick(int inx)
 		}
 	}
 
-// souøadnice Y
+// souÅ™adnice Y
 	int my = jp.wYmax - jp.wYmin + 1;
 	if (my <= 2)
 	{
@@ -3522,7 +3522,7 @@ void AktJoystick(int inx)
 		}
 	}
 
-// souøadnice Z
+// souÅ™adnice Z
 	int mz = jp.wZmax - jp.wZmin + 1;
 	if (mz <= 2)
 	{
@@ -3542,7 +3542,7 @@ void AktJoystick(int inx)
 		}
 	}
 
-// tlaèítka
+// tlaÄÃ­tka
 	Joystick1[inx] = ((ji.wButtons & JOY_BUTTON1) != 0);
 	Joystick2[inx] = ((ji.wButtons & JOY_BUTTON2) != 0);
 	Joystick3[inx] = ((ji.wButtons & JOY_BUTTON3) != 0);
@@ -3557,14 +3557,14 @@ void AktJoystick(int inx)
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// zapnutí/vypnutí konzoly
+// zapnutÃ­/vypnutÃ­ konzoly
 
 void ConsoleOnSet(bool on)
 {
 	if (ConsoleOn == on) return;
 	ConsoleOn = on;
 
-// zapnutí konzoly
+// zapnutÃ­ konzoly
 	if (on)
 	{
 		if (MainFrameVisible)
@@ -3611,7 +3611,7 @@ void ConsoleOnSet(bool on)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıstup textu na konzolu
+// vÃ½stup textu na konzolu
 
 void ConsoleOut(const CString& text)
 {
@@ -3628,7 +3628,7 @@ void ConsoleOut(const CString& text)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vıstup chybového textu na konzolu
+// vÃ½stup chybovÃ©ho textu na konzolu
 
 void ConsoleErr(const CString& text)
 {
@@ -3677,64 +3677,64 @@ void ConsoleIn(CString& text)
 
 /***************************************************************************\
 *																			*
-*							obsluha CD diskù								*
+*							obsluha CD diskÅ¯								*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení pøehrávání od zvolené stopy
+// zahÃ¡jenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ od zvolenÃ© stopy
 
 void CDPlay(int stopa)
 {
-// aktualizace údajù o CD
+// aktualizace ÃºdajÅ¯ o CD
 	if (CDAkt())
 	{
 
-// korekce èísla stopy
+// korekce ÄÃ­sla stopy
 		if (CDTracks > 0)
 		{
 			while (stopa < 1) stopa += CDTracks;
 			while (stopa > CDTracks) stopa -= CDTracks;
 		}
 
-// nastavení formátu stop
+// nastavenÃ­ formÃ¡tu stop
 		MCI_SET_PARMS mcis;
 		mcis.dwTimeFormat = MCI_FORMAT_TMSF;
 		::mciSendCommand(CDDevice, MCI_SET, MCI_SET_TIME_FORMAT | MCI_WAIT, (DWORD)&mcis);
 
-// zahájení pøehrávání
+// zahÃ¡jenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 		MCI_PLAY_PARMS mcip;
 		mcip.dwFrom = stopa;
 		::mciSendCommand(CDDevice, MCI_PLAY, MCI_FROM, (DWORD)&mcip);
 
-// zneplatnìní údajù o CD
+// zneplatnÄ›nÃ­ ÃºdajÅ¯ o CD
 		CDValidTime = 0;
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení stopy
+// nastavenÃ­ stopy
 
 void CDSetTrack(int stopa)
 {
-// aktualizace údajù o CD
+// aktualizace ÃºdajÅ¯ o CD
 	if (CDAkt())
 	{
 
-// korekce èísla stopy
+// korekce ÄÃ­sla stopy
 		if (CDTracks > 0)
 		{
 			while (stopa < 1) stopa += CDTracks;
 			while (stopa > CDTracks) stopa -= CDTracks;
 		}
 
-// nastavení formátu stop
+// nastavenÃ­ formÃ¡tu stop
 		MCI_SET_PARMS mcis;
 		mcis.dwTimeFormat = MCI_FORMAT_TMSF;
 		::mciSendCommand(CDDevice, MCI_SET, MCI_SET_TIME_FORMAT | MCI_WAIT, (DWORD)&mcis);
 
-// nastavení stopy
+// nastavenÃ­ stopy
 		if (CDPlaing)
 		{
 			MCI_PLAY_PARMS mcip;
@@ -3748,18 +3748,18 @@ void CDSetTrack(int stopa)
 			::mciSendCommand(CDDevice, MCI_SEEK, MCI_TO | MCI_WAIT, (DWORD)&mcip);
 		}
 
-// zneplatnìní údajù o CD
+// zneplatnÄ›nÃ­ ÃºdajÅ¯ o CD
 		CDValidTime = 0;
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení pøehrávání CD
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ CD
 
 void CDStop()
 {
-// aktualizace údajù o CD
+// aktualizace ÃºdajÅ¯ o CD
 	if (CDAkt())
 	{
 		if (CDPlaing || CDPausing)
@@ -3781,7 +3781,7 @@ void CDStop()
  
 
 /////////////////////////////////////////////////////////////////////////////
-// vysunutí CD
+// vysunutÃ­ CD
 
 void CDEject(bool eject)
 {
@@ -3798,11 +3798,11 @@ void CDEject(bool eject)
 
 void CDPause()
 {
-// aktualizace údajù o CD
+// aktualizace ÃºdajÅ¯ o CD
 	if (CDAkt())
 	{
 
-// zapauzování pøehrávání
+// zapauzovÃ¡nÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 		if (CDPlaing)
 		{
 			::mciSendCommand(CDDevice, MCI_PAUSE, MCI_WAIT, NULL);
@@ -3811,7 +3811,7 @@ void CDPause()
 		else
 		{
 
-// odpauzování pøehrávání
+// odpauzovÃ¡nÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 			if (CDPausing)
 			{
 				::mciSendCommand(CDDevice, MCI_PLAY, 0, NULL);
@@ -3823,15 +3823,15 @@ void CDPause()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice CD v ms
+// nastavenÃ­ pozice CD v ms
 
 void CDSetPos(int pozice)
 {
-// aktualizace údajù o CD
+// aktualizace ÃºdajÅ¯ o CD
 	if (CDAkt())
 	{
 
-// nastavení formátu na milisekundy
+// nastavenÃ­ formÃ¡tu na milisekundy
 		MCI_SET_PARMS mcis;
 		mcis.dwTimeFormat = MCI_FORMAT_MILLISECONDS;
 		::mciSendCommand(CDDevice, MCI_SET, MCI_SET_TIME_FORMAT | MCI_WAIT, (DWORD)&mcis);
@@ -3843,7 +3843,7 @@ void CDSetPos(int pozice)
 			pozice = pozice % CDLength;
 		}
 
-// nastavení pozice pøehrávání
+// nastavenÃ­ pozice pÅ™ehrÃ¡vÃ¡nÃ­
 		if (CDPlaing)
 		{
 			MCI_PLAY_PARMS mcip;
@@ -3857,22 +3857,22 @@ void CDSetPos(int pozice)
 			::mciSendCommand(CDDevice, MCI_SEEK, MCI_TO | MCI_WAIT, (DWORD)&mcip);
 		}
 
-// zneplatnìní údajù o CD
+// zneplatnÄ›nÃ­ ÃºdajÅ¯ o CD
 		CDValidTime = 0;
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pozice v aktivní stopì CD v ms
+// nastavenÃ­ pozice v aktivnÃ­ stopÄ› CD v ms
 
 void CDSetTrackPos(int pozice)
 {
-// aktualizace údajù o CD
+// aktualizace ÃºdajÅ¯ o CD
 	if (CDAkt())
 	{
 
-// nastavení formátu na stopu
+// nastavenÃ­ formÃ¡tu na stopu
 		MCI_SET_PARMS mcis;
 		mcis.dwTimeFormat = MCI_FORMAT_TMSF;
 		::mciSendCommand(CDDevice, MCI_SET, MCI_SET_TIME_FORMAT | MCI_WAIT, (DWORD)&mcis);
@@ -3881,12 +3881,12 @@ void CDSetTrackPos(int pozice)
 		if (pozice >= CDTrackLength) pozice = CDTrackLength - 1;
 		if (pozice < 0) pozice = 0;
 
-// vıpoèet èasového údaje pozice
+// vÃ½poÄet ÄasovÃ©ho Ãºdaje pozice
 		int frame = ((pozice % 1000) * 75 + 500)/1000;
 		int sekunda = (pozice / 1000) % 60;
 		int minuta = pozice / 60000;
 
-// nastavení pozice pøehrávání
+// nastavenÃ­ pozice pÅ™ehrÃ¡vÃ¡nÃ­
 		if (CDPlaing)
 		{
 			MCI_PLAY_PARMS mcip;
@@ -3900,14 +3900,14 @@ void CDSetTrackPos(int pozice)
 			::mciSendCommand(CDDevice, MCI_SEEK, MCI_TO | MCI_WAIT, (DWORD)&mcip);
 		}
 
-// zneplatnìní údajù o CD
+// zneplatnÄ›nÃ­ ÃºdajÅ¯ o CD
 		CDValidTime = 0;
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uzavøení ovladaèe CD
+// uzavÅ™enÃ­ ovladaÄe CD
 
 void CDClose()
 {
@@ -3920,7 +3920,7 @@ void CDClose()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// otevøení ovladaèe CD
+// otevÅ™enÃ­ ovladaÄe CD
 
 bool CDOpen()
 {
@@ -3945,37 +3945,37 @@ bool CDOpen()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace údajù o CD disku
+// aktualizace ÃºdajÅ¯ o CD disku
 
 bool CDAkt()
 {
-// kontrola, zda je potøeba údaje aktualizovat
+// kontrola, zda je potÅ™eba Ãºdaje aktualizovat
 	if (CDValidTime > 0) return true;
 
-// vynulování ukazatelù
+// vynulovÃ¡nÃ­ ukazatelÅ¯
 	if (!CDDiskValid)
 	{
-		CDStart = 2000;				// startovací pozice média
-		CDLength = CDDEFLENGTH;		// délka média v ms
-		CDTracks = 1;				// poèet stop média
-		CDTrack = 1;				// pøehrávaná stopa
-		CDTrackLength = CDDEFLENGTH;// délka pøehrávané stopy
+		CDStart = 2000;				// startovacÃ­ pozice mÃ©dia
+		CDLength = CDDEFLENGTH;		// dÃ©lka mÃ©dia v ms
+		CDTracks = 1;				// poÄet stop mÃ©dia
+		CDTrack = 1;				// pÅ™ehrÃ¡vanÃ¡ stopa
+		CDTrackLength = CDDEFLENGTH;// dÃ©lka pÅ™ehrÃ¡vanÃ© stopy
 	}
-	CDPos = 0;						// pøehrávaná pozice
-	CDTrackPos = 0;					// pozice v pøehrávané stopì
-	CDPlaing = false;					// neprobíhá pøehrávání
-	CDPausing = false;				// není pauza
+	CDPos = 0;						// pÅ™ehrÃ¡vanÃ¡ pozice
+	CDTrackPos = 0;					// pozice v pÅ™ehrÃ¡vanÃ© stopÄ›
+	CDPlaing = false;					// neprobÃ­hÃ¡ pÅ™ehrÃ¡vÃ¡nÃ­
+	CDPausing = false;				// nenÃ­ pauza
 
-// otevøení zaøízení
+// otevÅ™enÃ­ zaÅ™Ã­zenÃ­
 	if (!CDOpen()) return false;
 	CDValidTime = CDAKTTIME;
 
-// nastavení formátu na milisekundy
+// nastavenÃ­ formÃ¡tu na milisekundy
 	MCI_SET_PARMS mcis;
 	mcis.dwTimeFormat = MCI_FORMAT_MILLISECONDS;
 	::mciSendCommand(CDDevice, MCI_SET, MCI_SET_TIME_FORMAT | MCI_WAIT, (DWORD)&mcis);
 
-// naètení pøehrávané pozice CD
+// naÄtenÃ­ pÅ™ehrÃ¡vanÃ© pozice CD
 	MCI_STATUS_PARMS mcit;
 	mcit.dwItem = MCI_STATUS_POSITION;
 	mcit.dwReturn = CDStart;
@@ -3984,7 +3984,7 @@ bool CDAkt()
 	if ((int)mcit.dwReturn < 0) mcit.dwReturn = 0;
 	if (result == 0) CDPos = mcit.dwReturn;
 
-// naètení aktuálního stavu
+// naÄtenÃ­ aktuÃ¡lnÃ­ho stavu
 	mcit.dwItem = MCI_STATUS_MODE;
 	result = mciSendCommand(CDDevice, MCI_STATUS, MCI_STATUS_ITEM | MCI_WAIT, (DWORD)&mcit);
 	if (result == 0)
@@ -4018,12 +4018,12 @@ bool CDAkt()
 		}
 	}
 
-// test, zda je potøeba aktualizovat informace o vloeném CD disku
+// test, zda je potÅ™eba aktualizovat informace o vloÅ¾enÃ©m CD disku
 	if (!CDDiskValid)
 	{
 		CDDiskValid = true;
 
-// naètení startovací pozice CD (formát je nastaven na milisekundy)
+// naÄtenÃ­ startovacÃ­ pozice CD (formÃ¡t je nastaven na milisekundy)
 		mcit.dwItem = MCI_STATUS_POSITION;
 		result = ::mciSendCommand(CDDevice, MCI_STATUS, 
 				MCI_STATUS_ITEM | MCI_STATUS_START | MCI_WAIT, (DWORD)&mcit);
@@ -4036,7 +4036,7 @@ bool CDAkt()
 			if (CDPos < 0) CDPos = 0;
 		}
 
-// naètení délky média
+// naÄtenÃ­ dÃ©lky mÃ©dia
 		mcit.dwItem = MCI_STATUS_LENGTH;
 		result = ::mciSendCommand(CDDevice, MCI_STATUS, MCI_STATUS_ITEM | MCI_WAIT, (DWORD)&mcit);
 		if ((result == 0) && ((int)mcit.dwReturn > 0))
@@ -4045,7 +4045,7 @@ bool CDAkt()
 			if (CDLength > CDMAXLENGTH) CDLength = CDMAXLENGTH;
 		}
 
-// naètení poètu stop média
+// naÄtenÃ­ poÄtu stop mÃ©dia
 		mcit.dwItem = MCI_STATUS_NUMBER_OF_TRACKS;
 		result = ::mciSendCommand(CDDevice, MCI_STATUS, MCI_STATUS_ITEM | MCI_WAIT, (DWORD)&mcit);
 		if ((result == 0) && ((int)mcit.dwReturn > 0))
@@ -4054,15 +4054,15 @@ bool CDAkt()
 			if (CDTracks > CDMAXTRACKS) CDTracks = CDMAXTRACKS;
 		}
 
-// neplatné informace o aktivní stopì
+// neplatnÃ© informace o aktivnÃ­ stopÄ›
 		CDTrack = 0;
 	}
 
-// nastavení formátu na stopy
+// nastavenÃ­ formÃ¡tu na stopy
 	mcis.dwTimeFormat = MCI_FORMAT_TMSF;
 	::mciSendCommand(CDDevice, MCI_SET, MCI_SET_TIME_FORMAT | MCI_WAIT, (DWORD)&mcis);
 
-// naètení pøehrávané pozice CD ve stopì (sekunda = 75 frame)
+// naÄtenÃ­ pÅ™ehrÃ¡vanÃ© pozice CD ve stopÄ› (sekunda = 75 frame)
 	mcit.dwReturn = 0;
 	mcit.dwItem = MCI_STATUS_POSITION;
 	result = ::mciSendCommand(CDDevice, MCI_STATUS, MCI_STATUS_ITEM | MCI_WAIT, (DWORD)&mcit);
@@ -4075,7 +4075,7 @@ bool CDAkt()
 	}
 	if (CDTrackPos < 0) CDTrackPos = 0;
 
-// pøíprava èísla aktuální stopy
+// pÅ™Ã­prava ÄÃ­sla aktuÃ¡lnÃ­ stopy
 	int newtrack = MCI_TMSF_TRACK(mcit.dwReturn);
 	if ((newtrack < 1) || (newtrack > CDTracks)) newtrack = 1;
 	if ((newtrack == CDTrack + 1) &&
@@ -4087,7 +4087,7 @@ bool CDAkt()
 		newtrack--;
 	}
 
-// naètení délky pøehrávané stopy, pokud se stopa zmìnila
+// naÄtenÃ­ dÃ©lky pÅ™ehrÃ¡vanÃ© stopy, pokud se stopa zmÄ›nila
 	if (newtrack != CDTrack)
 	{
 		CDTrack = newtrack;
@@ -4106,7 +4106,7 @@ bool CDAkt()
 		}
 	}
 
-// korekce nìkterıch údajù
+// korekce nÄ›kterÃ½ch ÃºdajÅ¯
 	if (CDTrackLength > CDLength) CDTrackLength = CDLength;
 	if (CDTrackPos > CDTrackLength) CDTrackPos = CDTrackLength;
 	if (CDPos > CDLength) CDPos = CDLength;
@@ -4115,7 +4115,7 @@ bool CDAkt()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha CD na pozadí
+// obsluha CD na pozadÃ­
 
 void PlayCDBack()
 {
@@ -4139,21 +4139,21 @@ void PlayCDBack()
 
 /***************************************************************************\
 *																			*
-*							obsluha souborù									*
+*							obsluha souborÅ¯									*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní informací o velikosti a volném místu aktivního disku
+// zjiÅ¡tÄ›nÃ­ informacÃ­ o velikosti a volnÃ©m mÃ­stu aktivnÃ­ho disku
 
 void GetDiskSpace()
 {
-// naètení informací novìjší funkcí
+// naÄtenÃ­ informacÃ­ novÄ›jÅ¡Ã­ funkcÃ­
 	if (!pGetDiskFreeSpaceEx ||
 		!pGetDiskFreeSpaceEx(NULL, &DiskFreeUser, &DiskSize, &DiskFree))
 
-// naètení informací starší metodou
+// naÄtenÃ­ informacÃ­ starÅ¡Ã­ metodou
 	{
 		DWORD sectc;
 		DWORD bytes;
@@ -4176,7 +4176,7 @@ void GetDiskSpace()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// otevøení souboru pro ètení
+// otevÅ™enÃ­ souboru pro ÄtenÃ­
 
 bool FileReadOpen()
 {
@@ -4210,7 +4210,7 @@ bool FileReadOpen()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// otevøení souboru pro zápis
+// otevÅ™enÃ­ souboru pro zÃ¡pis
 
 bool FileWriteOpen()
 {
@@ -4246,7 +4246,7 @@ bool FileWriteOpen()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní zápisového bufferu
+// vyprÃ¡zdnÄ›nÃ­ zÃ¡pisovÃ©ho bufferu
 
 bool FileWriteFlush()
 {
@@ -4273,7 +4273,7 @@ bool FileWriteFlush()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zápis bajtu do vıstupního souboru
+// zÃ¡pis bajtu do vÃ½stupnÃ­ho souboru
 
 void _fastcall FileWriteBlok(BYTE* buf, int size)
 {
@@ -4322,7 +4322,7 @@ void FileWriteByte(BYTE data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ètení bajtu ze vstupního souboru
+// ÄtenÃ­ bajtu ze vstupnÃ­ho souboru
 
 WORD FileReadWord()
 {
@@ -4369,11 +4369,11 @@ BYTE FileReadByte()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-//naètení bloku ze souboru
+//naÄtenÃ­ bloku ze souboru
 
 void FileReadBlok(BYTE* buf, int size)
 {
-// otevøení souboru
+// otevÅ™enÃ­ souboru
 	if (!FileReadOpen()) return;
 
 // kontrola velikosti dat
@@ -4383,7 +4383,7 @@ void FileReadBlok(BYTE* buf, int size)
 		return;
 	}
 
-// naètení velkého bloku dat
+// naÄtenÃ­ velkÃ©ho bloku dat
 	DWORD read = 0;
 	if (size >= FILEBUFFER)
 	{
@@ -4399,7 +4399,7 @@ void FileReadBlok(BYTE* buf, int size)
 		return;
 	}
 
-// pøenos bloku dat z bufferu
+// pÅ™enos bloku dat z bufferu
 	for (int i = 4; i > 0; i--)
 	{
 		int off = FileReadOff - FileReadBufOff;
@@ -4414,7 +4414,7 @@ void FileReadBlok(BYTE* buf, int size)
 			buf += num;
 		}
 		
-// naètení dalšího bloku dat do bufferu
+// naÄtenÃ­ dalÅ¡Ã­ho bloku dat do bufferu
 		FileReadBufN = 0;
 		FileReadBufOff = FileReadOff - FILEBUFFER/4;
 		if (FileReadBufOff < 0) FileReadBufOff = 0;
@@ -4432,7 +4432,7 @@ void FileReadBlok(BYTE* buf, int size)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uzavøení souborù
+// uzavÅ™enÃ­ souborÅ¯
 
 void FileClose()
 {
@@ -4452,22 +4452,22 @@ void FileClose()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøíprava jména ALIAS (musí bıt oøezané mezery ze zaèátku a konce!)
+// pÅ™Ã­prava jmÃ©na ALIAS (musÃ­ bÃ½t oÅ™ezanÃ© mezery ze zaÄÃ¡tku a konce!)
 
 void _fastcall InitAlias(CString name)
 {
-// odstranìní "\" z konce
+// odstranÄ›nÃ­ "\" z konce
 	if (name.LastChar() == _T('\\')) name.Delete(name.Length() - 1);
 
-// nalezení konce cesty
+// nalezenÃ­ konce cesty
 	int pos = name.RevFind(_T('\\')) + 1;
 	if (pos == 0) pos = name.RevFind(_T(':')) + 1;
 
-// jméno klíèe a ALIASES
+// jmÃ©no klÃ­Äe a ALIASES
 	AliasKey = name.Right(name.Length() - pos);
 	AliasName = name.Left(pos) + _T("ALIASES.INI");
 
-// korekce na plné jméno souboru
+// korekce na plnÃ© jmÃ©no souboru
 	TCHAR buf[1024];
 	buf[0] = 0;
 	TCHAR* n;
@@ -4492,35 +4492,35 @@ void _fastcall InitAliasGroup(int lan)
 
 /***************************************************************************\
 *																			*
-*							provádìní programu								*
+*							provÃ¡dÄ›nÃ­ programu								*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace vıstupního bufferu
+// inicializace vÃ½stupnÃ­ho bufferu
 
 void InitDispBuf()
 {
-// pøíznak, zda se pouívá vıstupní buffer
+// pÅ™Ã­znak, zda se pouÅ¾Ã­vÃ¡ vÃ½stupnÃ­ buffer
 	DispBufUse = ((DispWidth != Width) || (DispHeight != Height));
 	DispBufUse2 = (((2*DispWidth) == Width) && ((2*DispHeight) == Height));
 
 	if (DispBufUse)
 	{
 
-// pøíprava velikosti vıstupního bufferu
-		int oldsize = DispBufSize;				// pùvodní velikost bufferu
+// pÅ™Ã­prava velikosti vÃ½stupnÃ­ho bufferu
+		int oldsize = DispBufSize;				// pÅ¯vodnÃ­ velikost bufferu
 		DispBufSize = DispWidthByte * DispHeight;	// velikost bufferu v bajtech
 		if (DispBufUse2) DispBufSize *= 4;		// korekce pro TRUE COLOR
 
-// zvìtšení bufferu
+// zvÄ›tÅ¡enÃ­ bufferu
 		if (DispBufSize > oldsize)
 		{
 			MemFree(DispBuf);
 			DispBuf = (BYTE*)MemGet(DispBufSize * sizeof(BYTE));
 		}
 
-// buffer mapování bodu obrázku na vıstupní bod
+// buffer mapovÃ¡nÃ­ bodu obrÃ¡zku na vÃ½stupnÃ­ bod
 		int i;
 		MemFree(DispMapX);
 		DispMapX = (int*)MemGet(Width * sizeof(int));
@@ -4532,7 +4532,7 @@ void InitDispBuf()
 			DispMapX[i] = off;
 		}
 
-// buffer mapování linky obrázku na vıstupní linku
+// buffer mapovÃ¡nÃ­ linky obrÃ¡zku na vÃ½stupnÃ­ linku
 		MemFree(DispMapY);
 		DispMapY = (int*)MemGet(Height * sizeof(int));
 
@@ -4543,7 +4543,7 @@ void InitDispBuf()
 			DispMapY[i] = off;
 		}
 
-// buffer zpìtného mapování vıstupního bodu na offset v lince obrázku
+// buffer zpÄ›tnÃ©ho mapovÃ¡nÃ­ vÃ½stupnÃ­ho bodu na offset v lince obrÃ¡zku
 		MemFree(DispRemapX);
 		DispRemapX = (int*)MemGet(DispWidth * sizeof(int));
 
@@ -4554,7 +4554,7 @@ void InitDispBuf()
 			DispRemapX[i] = off;
 		}
 
-// buffer zpìtného mapování vıstupní linky na offset v obrázku
+// buffer zpÄ›tnÃ©ho mapovÃ¡nÃ­ vÃ½stupnÃ­ linky na offset v obrÃ¡zku
 		MemFree(DispRemapY);
 		DispRemapY = (int*)MemGet(DispHeight * sizeof(int));
 
@@ -4569,7 +4569,7 @@ void InitDispBuf()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace informací o ploše
+// inicializace informacÃ­ o ploÅ¡e
 
 void ExecInitMap()
 {
@@ -4578,12 +4578,12 @@ void ExecInitMap()
 	int oldsize = WidthByte * oldheight;
 
 	CMap* map = &Map[0];
-	WidthN = map->Width();				// šíøka plochy v ikonách
-	Width = WidthN * ICONWIDTH;			// šíøka plochy v bodech
-	WidthByte = (Width + 3) & ~3;		// délka linky v bajtech
-	RowByte = WidthByte * ICONHEIGHT;	// délka øádku ikon v bajtech
-	HeightN = map->Height();			// vıška plochy v ikonách
-	Height = HeightN * ICONHEIGHT;		// vıška plochy v bodech
+	WidthN = map->Width();				// Å¡Ã­Å™ka plochy v ikonÃ¡ch
+	Width = WidthN * ICONWIDTH;			// Å¡Ã­Å™ka plochy v bodech
+	WidthByte = (Width + 3) & ~3;		// dÃ©lka linky v bajtech
+	RowByte = WidthByte * ICONHEIGHT;	// dÃ©lka Å™Ã¡dku ikon v bajtech
+	HeightN = map->Height();			// vÃ½Å¡ka plochy v ikonÃ¡ch
+	Height = HeightN * ICONHEIGHT;		// vÃ½Å¡ka plochy v bodech
 
 	int size = WidthByte * Height;
 	if (size > oldsize)
@@ -4616,27 +4616,27 @@ void ExecInitMap()
 //	RecalcD3D();
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavování rozmìrù hlavního okna
+// nastavovÃ¡nÃ­ rozmÄ›rÅ¯ hlavnÃ­ho okna
 
 void OnSizing(RECT* rc, int side)
 {
-// v dialogovém módu není omezení
+// v dialogovÃ©m mÃ³du nenÃ­ omezenÃ­
 	if (DialogMode && !DialogGraph) return;
 
-// naètení polohy a rozmìrù okna
+// naÄtenÃ­ polohy a rozmÄ›rÅ¯ okna
 	RECT wrc;
 	::GetWindowRect(MainFrame, &wrc);
 
-// naètení klientskıch souøadnic okna
+// naÄtenÃ­ klientskÃ½ch souÅ™adnic okna
 	RECT crc;
 	::GetClientRect(MainFrame, &crc);
 
-// korekce o vıšku stavové lišty
+// korekce o vÃ½Å¡ku stavovÃ© liÅ¡ty
 	if (StatusVisible)
 	{
 		RECT src;
@@ -4644,14 +4644,14 @@ void OnSizing(RECT* rc, int side)
 		crc.bottom -= src.bottom - src.top;
 	}
 
-// vıpoèet nastavené šíøky a vıšky klientské oblasti
+// vÃ½poÄet nastavenÃ© Å¡Ã­Å™ky a vÃ½Å¡ky klientskÃ© oblasti
 	int width = (rc->right - rc->left) - ((wrc.right - wrc.left) - (crc.right - crc.left));
 	int height = (rc->bottom - rc->top) - ((wrc.bottom - wrc.top) - (crc.bottom - crc.top));
 
-// urèení nového mìøítka
+// urÄenÃ­ novÃ©ho mÄ›Å™Ã­tka
 	double meritko = ((double)width/(double)Width + (double)height/(double)Height)/2;
 
-// zarovnání mìøítka
+// zarovnÃ¡nÃ­ mÄ›Å™Ã­tka
 	if (!FullScreen)
 	{
 		meritko = (double)Round(MODULMERITKA*meritko)/MODULMERITKA;
@@ -4662,11 +4662,11 @@ void OnSizing(RECT* rc, int side)
 	}
 	if (meritko < (double)1/ICONWIDTH) meritko = (double)1/ICONWIDTH;
 
-// vıpoèet zmìny rozmìrù 
+// vÃ½poÄet zmÄ›ny rozmÄ›rÅ¯ 
 	width -= (int)(Width*meritko + 0.01);
 	height -= (int)(Height*meritko + 0.01);
 
-// bude zmenšení šíøky
+// bude zmenÅ¡enÃ­ Å¡Ã­Å™ky
 	if (width != 0)
 	{
 		switch(side)
@@ -4686,7 +4686,7 @@ void OnSizing(RECT* rc, int side)
 		}
 	}
 
-// bude zmenšení vıšky
+// bude zmenÅ¡enÃ­ vÃ½Å¡ky
 	if (height != 0)
 	{
 		switch(side)
@@ -4709,27 +4709,27 @@ void OnSizing(RECT* rc, int side)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace rozmìrù okna
+// aktualizace rozmÄ›rÅ¯ okna
 
 void _fastcall OnSize(WINITEM* item)
 {
-// pøesun stavového øádku
+// pÅ™esun stavovÃ©ho Å™Ã¡dku
 	if ((item == &Win[0]) && !FullScreen)
 	{
 		::SendMessage(StatusBar, WM_SIZE, 0, 0);
 	}
 
-// inicializace klientskıch rozmìrù
+// inicializace klientskÃ½ch rozmÄ›rÅ¯
 	InitClientRect(item);
 
-// urèení nového mìøítka
+// urÄenÃ­ novÃ©ho mÄ›Å™Ã­tka
 	if (item == &Win[0])
 	{
 		Meritko = (double)(ClientWidth+4) / (double)Width;
 		double m = (double)(ClientHeight+4) / (double)Height;
 		if (m < Meritko) Meritko = m;
 
-// zarovnání mìøítka
+// zarovnÃ¡nÃ­ mÄ›Å™Ã­tka
 		if (!FullScreen)
 		{
 			Meritko = (double)(int)(MODULMERITKA*Meritko)/MODULMERITKA;
@@ -4742,7 +4742,7 @@ void _fastcall OnSize(WINITEM* item)
 		if (Meritko < (double)1/ICONWIDTH) Meritko = (double)1/ICONWIDTH;
 		if (!FullScreen && !::IsZoomed(MainFrame) && !::IsIconic(MainFrame)) Meritko0 = Meritko;
 
-// pøíprava rozmìrù k zobrazení
+// pÅ™Ã­prava rozmÄ›rÅ¯ k zobrazenÃ­
 		int oldwidth = DispWidth;
 		int oldheight = DispHeight;
 
@@ -4752,20 +4752,20 @@ void _fastcall OnSize(WINITEM* item)
 		DispLeft = (ClientWidth - DispWidth)/2;
 		DispTop = (ClientHeight - DispHeight)/2;
 
-// aktualizace bufferu zobrazení
+// aktualizace bufferu zobrazenÃ­
 		if ((oldwidth != DispWidth) || (oldheight != DispHeight))
 		{
 			InitDispBuf();
 		}
 	}
 
-// pøekreslení okna
+// pÅ™ekreslenÃ­ okna
 	RePaint(item);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadavku pøekreslení všech ikon
+// nastavenÃ­ poÅ¾adavku pÅ™ekreslenÃ­ vÅ¡ech ikon
 
 void AktAllIcon()
 {
@@ -4774,7 +4774,7 @@ void AktAllIcon()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadavku pøekreslení ikony (s kontrolou souøadnic)
+// nastavenÃ­ poÅ¾adavku pÅ™ekreslenÃ­ ikony (s kontrolou souÅ™adnic)
 
 void _fastcall AktIcon(int x, int y)
 {
@@ -4786,7 +4786,7 @@ void _fastcall AktIcon(int x, int y)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení poadavku pøekreslení ikony v intervalu (vèetnì koncovıch bodù)
+// nastavenÃ­ poÅ¾adavku pÅ™ekreslenÃ­ ikony v intervalu (vÄetnÄ› koncovÃ½ch bodÅ¯)
 
 void _fastcall AktIconBoxG(int x1, int y1, int x2, int y2)
 {
@@ -4820,17 +4820,17 @@ void _fastcall AktIconBox(int x1, int y1, int x2, int y2)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vykreslení sprajtu do vıstupní plochy (pozadí musí bıt vykresleno)
+// vykreslenÃ­ sprajtu do vÃ½stupnÃ­ plochy (pozadÃ­ musÃ­ bÃ½t vykresleno)
 
 void SpritePaint(int index)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// jen pokud je sprajt viditelnı
+// jen pokud je sprajt viditelnÃ½
 	if (!sprite->Visible()) return;
 
-// okno k zobrazení sprajtu
+// okno k zobrazenÃ­ sprajtu
 	int x1 = SpriteWinX1;
 	if (x1 < 0) x1 = 0;
 	if (x1 > Width) x1 = Width;
@@ -4863,7 +4863,7 @@ void SpritePaint(int index)
 
 	if ((x1 >= x2) || (y1 >= y2)) return;
 
-// zadaná fáze sprajtu (není-li obslouena pohybem)
+// zadanÃ¡ fÃ¡ze sprajtu (nenÃ­-li obslouÅ¾ena pohybem)
 	if ((sprite->Timer() <= 0) && 
 		!sprite->Moving() && 
 		!sprite->KlidMove() &&
@@ -4873,16 +4873,16 @@ void SpritePaint(int index)
 		sprite->FazeNext(-1);
 	}
 
-// adresa aktivního obrázku, adresa dat obrázku
+// adresa aktivnÃ­ho obrÃ¡zku, adresa dat obrÃ¡zku
 	PICTUREDATA* pic = sprite->AktPicData();
 	BYTE* src = pic->Data;
 
-// pøednastavení šíøky a vıšky k zobrazení
+// pÅ™ednastavenÃ­ Å¡Ã­Å™ky a vÃ½Å¡ky k zobrazenÃ­
 	int widthbyte = pic->Width;
 	int width = widthbyte;
 	int height = pic->Height;
 
-// levı okraj k zobrazení
+// levÃ½ okraj k zobrazenÃ­
 	int left = sprite->X();
 	if (left < x1)
 	{
@@ -4891,7 +4891,7 @@ void SpritePaint(int index)
 		left = x1;
 	}
 
-// pravı okraj k zobrazení
+// pravÃ½ okraj k zobrazenÃ­
 	int right = left + width;
 	if (right > x2)
 	{
@@ -4899,10 +4899,10 @@ void SpritePaint(int index)
 		right = x2;
 	}
 
-// kontrola šíøky k vykreslení
+// kontrola Å¡Ã­Å™ky k vykreslenÃ­
 	if (width <= 0) return;
 
-// dolní okraj k zobrazení (s nulou nahoøe)
+// dolnÃ­ okraj k zobrazenÃ­ (s nulou nahoÅ™e)
 	int bottom = Height - sprite->Y();
 	if (bottom > Height - y1)
 	{
@@ -4911,7 +4911,7 @@ void SpritePaint(int index)
 		bottom = Height - y1;
 	}
 
-// horní okraj k zobrazení (nula nahoøe)
+// hornÃ­ okraj k zobrazenÃ­ (nula nahoÅ™e)
 	int top = bottom - height;
 	if (top < Height - y2)
 	{
@@ -4919,10 +4919,10 @@ void SpritePaint(int index)
 		top = Height - y2;
 	}
 
-// kontrola vıšky k vykreslení
+// kontrola vÃ½Å¡ky k vykreslenÃ­
 	if (height <= 0) return;
 
-// zajištìní zmapování obrázku
+// zajiÅ¡tÄ›nÃ­ zmapovÃ¡nÃ­ obrÃ¡zku
 	if (pic->Param == PicParamNone)
 	{
 		bool backcol = false;
@@ -4966,20 +4966,20 @@ void SpritePaint(int index)
 		pic->Param = param;
 	}
 
-// cílová adresa k dekódování obrázku
+// cÃ­lovÃ¡ adresa k dekÃ³dovÃ¡nÃ­ obrÃ¡zku
 	BYTE* dst = PicBuf + left + (Height - bottom)*WidthByte;
 
-// pøírustek adresy
+// pÅ™Ã­rustek adresy
 	int srcinc;
 	int dstinc;
 
 	int height0 = height;
 
-// rozlišení typu obrázku
+// rozliÅ¡enÃ­ typu obrÃ¡zku
 	switch(pic->Param)
 	{
 
-// pouze obrázek bez pozadí
+// pouze obrÃ¡zek bez pozadÃ­
 	case PicParamPic:
 		dstinc = WidthByte;
 		for (; height > 0; height--)
@@ -4990,7 +4990,7 @@ void SpritePaint(int index)
 		}
 		break;
 
-// mixovanı obrázek s pozadím
+// mixovanÃ½ obrÃ¡zek s pozadÃ­m
 	case PicParamMix:
 		dstinc = WidthByte - width;
 		srcinc = widthbyte - width;
@@ -5014,7 +5014,7 @@ void SpritePaint(int index)
 		break;
 	}
 
-// stavovı indikátor
+// stavovÃ½ indikÃ¡tor
 	if (sprite->IsStatus() && (width >= 3) && (height0 >= 5))
 	{
 		int status0;
@@ -5073,7 +5073,7 @@ void SpritePaint(int index)
 		}
 	}
 
-// aktualizace plochy k pøekreslení
+// aktualizace plochy k pÅ™ekreslenÃ­
 	if (left < AktLeft) AktLeft = left;
 	if (right > AktRight) AktRight = right;
 	if (top < AktTop) AktTop = top;
@@ -5082,14 +5082,14 @@ void SpritePaint(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zajištìní vymazání sprajtu (poadavek pøekreslení ikon)
+// zajiÅ¡tÄ›nÃ­ vymazÃ¡nÃ­ sprajtu (poÅ¾adavek pÅ™ekreslenÃ­ ikon)
 
 void _fastcall SpriteClear(int index)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// jen pokud je sprajt viditelnı
+// jen pokud je sprajt viditelnÃ½
 	if (sprite->Visible())
 	{
 		AktIconBoxG(sprite->X(), sprite->Y(), sprite->X() + sprite->Width(), 
@@ -5099,25 +5099,25 @@ void _fastcall SpriteClear(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// poadavek k pøekreslení sprajtu
+// poÅ¾adavek k pÅ™ekreslenÃ­ sprajtu
 
 void _fastcall AktSprite(int index)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// jen není-li ještì zapnut poadavek pøekreslení sprajtu
+// jen nenÃ­-li jeÅ¡tÄ› zapnut poÅ¾adavek pÅ™ekreslenÃ­ sprajtu
 	if (!sprite->DispReq())
 	{
 
-// zapnutí poadavku o pøekreslení sprajtu
+// zapnutÃ­ poÅ¾adavku o pÅ™ekreslenÃ­ sprajtu
 		sprite->DispReq(true);
 
-// hladina pøidávaného sprajtu
+// hladina pÅ™idÃ¡vanÃ©ho sprajtu
 		int level = sprite->Level();
 		double y = sprite->AktY();
 
-// nalezení pozice k vloení do tabulky (dole vyšší hladina a niší souøadnice Y)
+// nalezenÃ­ pozice k vloÅ¾enÃ­ do tabulky (dole vyÅ¡Å¡Ã­ hladina a niÅ¾Å¡Ã­ souÅ™adnice Y)
 		int i = SpriteDispLevel.Num();
 		int* data = SpriteDispLevel.Data() + i - 1;
 		double* data2 = SpriteDispY.Data() + i - 1;
@@ -5133,7 +5133,7 @@ void _fastcall AktSprite(int index)
 			data2--;
 		}
 
-// zaøazení sprajtu do tabulky
+// zaÅ™azenÃ­ sprajtu do tabulky
 		SpriteDispLevel.Insert(i, level);
 		SpriteDispY.Insert(i, y);
 		SpriteDispReq.Insert(i, index);
@@ -5142,7 +5142,7 @@ void _fastcall AktSprite(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení animace v klidu
+// ukonÄenÃ­ animace v klidu
 
 void _fastcall SpriteKlidMoveEnd(int index)
 {
@@ -5153,10 +5153,10 @@ void _fastcall SpriteKlidMoveEnd(int index)
 	if (sprite->KlidMove())
 	{
 
-// zrušení pøíznaku pohybu
+// zruÅ¡enÃ­ pÅ™Ã­znaku pohybu
 		sprite->KlidMove(false);
 
-// vypuštìní sprajtu z tabulky
+// vypuÅ¡tÄ›nÃ­ sprajtu z tabulky
 		int i = SpriteKlid.Num()-1;
 		int* data = SpriteKlid.Data() + i;
 		for (; i >= 0; i--)
@@ -5169,24 +5169,24 @@ void _fastcall SpriteKlidMoveEnd(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení animace v klidu
+// zahÃ¡jenÃ­ animace v klidu
 
 void _fastcall SpriteKlidMoveBeg(int index)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// jen není-li animace v klidu a je-li více fází klidu
+// jen nenÃ­-li animace v klidu a je-li vÃ­ce fÃ¡zÃ­ klidu
 	if (!sprite->KlidMove() && (sprite->Klid() > 1))
 	{
 
-// nastavení pøíznaku pohybu
+// nastavenÃ­ pÅ™Ã­znaku pohybu
 		sprite->KlidMove(true);
 
-// zaøazení do tabulky pohybu v klidu
+// zaÅ™azenÃ­ do tabulky pohybu v klidu
 		SpriteKlid.Add(index);
 
-// èas do další animace
+// Äas do dalÅ¡Ã­ animace
 		if (sprite->Timer() <= 0)
 		{
 			sprite->Timer((sprite->Delay() + 22)/55);
@@ -5196,7 +5196,7 @@ void _fastcall SpriteKlidMoveBeg(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace zobrazení sprajtù s kladnou hladinou (zobrazuje se v poøadí shora dolù - dole vyšší hladina)
+// aktualizace zobrazenÃ­ sprajtÅ¯ s kladnou hladinou (zobrazuje se v poÅ™adÃ­ shora dolÅ¯ - dole vyÅ¡Å¡Ã­ hladina)
 
 void AktDispSprite()
 {
@@ -5216,7 +5216,7 @@ void AktDispSprite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace zobrazení sprajtù se zápornou hladinou (zobrazuje se v poøadí shora dolù - dole vyšší hladina)
+// aktualizace zobrazenÃ­ sprajtÅ¯ se zÃ¡pornou hladinou (zobrazuje se v poÅ™adÃ­ shora dolÅ¯ - dole vyÅ¡Å¡Ã­ hladina)
 
 void AktDispSpriteNeg()
 {
@@ -5233,22 +5233,22 @@ void AktDispSpriteNeg()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení pøesunu sprajtu na pozici
+// zahÃ¡jenÃ­ pÅ™esunu sprajtu na pozici
 
 void SpriteMove(int index, double cilx, double cily)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// nastavení nové cílové pozice sprajtu
+// nastavenÃ­ novÃ© cÃ­lovÃ© pozice sprajtu
 	sprite->CilX(cilx);
 	sprite->CilY(cily);
 
-// pøepoèet souøadnic X a Y na body
+// pÅ™epoÄet souÅ™adnic X a Y na body
 	int xN = Round(cilx*ICONWIDTH);
 	int yN = Round(cily*ICONHEIGHT);
 
-// sprajt není viditelnı - pøesun se dìlá skokem
+// sprajt nenÃ­ viditelnÃ½ - pÅ™esun se dÄ›lÃ¡ skokem
 	if (!sprite->Visible())
 	{
 		sprite->AktX(cilx);
@@ -5258,10 +5258,10 @@ void SpriteMove(int index, double cilx, double cily)
 		return;
 	}
 
-// bodové souøadnice nezmìnìny - pøesun se nedìlá (rychlé ukonèení pohybu)
+// bodovÃ© souÅ™adnice nezmÄ›nÄ›ny - pÅ™esun se nedÄ›lÃ¡ (rychlÃ© ukonÄenÃ­ pohybu)
 	if ((xN == sprite->X()) && (yN == sprite->Y()))
 	{
-		SpriteClear(index);	// vymazání kvùli správnému kreslení stínu
+		SpriteClear(index);	// vymazÃ¡nÃ­ kvÅ¯li sprÃ¡vnÃ©mu kreslenÃ­ stÃ­nu
 
 		sprite->AktX(cilx);
 		sprite->AktY(cily);
@@ -5288,23 +5288,23 @@ void SpriteMove(int index, double cilx, double cily)
 		return;
 	}
 
-// ukonèení animace v klidu
+// ukonÄenÃ­ animace v klidu
 	SpriteKlidMoveEnd(index);
 
-// vıpoèet úhlového smìru pohybu
-	double dx = cilx - sprite->AktX();		// rozdíl souøadnic X v políèkách
-	double dy = cily - sprite->AktY();		// rozdíl souøadnic Y v políèkách
-	double smer = atan2(dy, dx);			// úhel smìru
+// vÃ½poÄet ÃºhlovÃ©ho smÄ›ru pohybu
+	double dx = cilx - sprite->AktX();		// rozdÃ­l souÅ™adnic X v polÃ­ÄkÃ¡ch
+	double dy = cily - sprite->AktY();		// rozdÃ­l souÅ™adnic Y v polÃ­ÄkÃ¡ch
+	double smer = atan2(dy, dx);			// Ãºhel smÄ›ru
 
-// vıpoèet indexu smìru pohybu
-	double dsmer = pi2/sprite->Smer();		// pøírustek úhlu smìru
-	int smerN = Round(smer/dsmer);			// index smìru
+// vÃ½poÄet indexu smÄ›ru pohybu
+	double dsmer = pi2/sprite->Smer();		// pÅ™Ã­rustek Ãºhlu smÄ›ru
+	int smerN = Round(smer/dsmer);			// index smÄ›ru
 	while (smerN >= sprite->Smer()) smerN -= sprite->Smer();
 	while (smerN < 0) smerN += sprite->Smer();
-	sprite->SmerN(smerN);					// nastavení indexu smìru
-	sprite->SmerR(dsmer*smerN);				// nastavení úhlu smìru
+	sprite->SmerN(smerN);					// nastavenÃ­ indexu smÄ›ru
+	sprite->SmerR(dsmer*smerN);				// nastavenÃ­ Ãºhlu smÄ›ru
 
-// uloení sprajtu do tabulky pohybujících se sprajtù
+// uloÅ¾enÃ­ sprajtu do tabulky pohybujÃ­cÃ­ch se sprajtÅ¯
 	if (!sprite->Moving())
 	{
 		sprite->Moving(true);
@@ -5312,18 +5312,18 @@ void SpriteMove(int index, double cilx, double cily)
 		SpriteMoving.Add(index);
 	}
 
-// nastavení fáze animace (aby byla hned první fáze pohybu)
+// nastavenÃ­ fÃ¡ze animace (aby byla hned prvnÃ­ fÃ¡ze pohybu)
 	if ((sprite->FazeN() < sprite->Klid()) &&
 		(sprite->Faze() > sprite->Klid()))
 	{
 		sprite->FazeN(sprite->Klid()-1);
 	}
 
-// poèet krokù na urazení vzdálenosti
+// poÄet krokÅ¯ na urazenÃ­ vzdÃ¡lenosti
 	int krokcit = Round(sqrt(dx*dx + dy*dy) * sprite->Kroku());
 	sprite->KrokCit(krokcit);
 
-// pøesun na novou pozici ihned
+// pÅ™esun na novou pozici ihned
 	if (krokcit == 0)
 	{
 		krokcit++;
@@ -5353,66 +5353,66 @@ void SpriteMove(int index, double cilx, double cily)
 		}
 	}
 
-// pøírustek souøadnic
+// pÅ™Ã­rustek souÅ™adnic
 	sprite->dX(dx/krokcit);
 	sprite->dY(dy/krokcit);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení smìru sprajtu
+// nastavenÃ­ smÄ›ru sprajtu
 
 void SetSpriteSmer(int index, double smer)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// lokální promìnné
-	int smernum = sprite->Smer();		// poèet smìrù
-	double dsmer = pi2/smernum;			// pøírustek smìru
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	int smernum = sprite->Smer();		// poÄet smÄ›rÅ¯
+	double dsmer = pi2/smernum;			// pÅ™Ã­rustek smÄ›ru
 
-// vıpoèet indexu smìru
+// vÃ½poÄet indexu smÄ›ru
 	int smerN = Round(smer/dsmer);
 	while (smerN >= smernum) smerN -= smernum;
 	while (smerN < 0) smerN += smernum;
 
-// nastavení nového smìru (pokud se zmìnil)
+// nastavenÃ­ novÃ©ho smÄ›ru (pokud se zmÄ›nil)
 	if (sprite->SmerN() != smerN)
 	{
 		sprite->SmerN(smerN);
 		sprite->SmerR(dsmer*smerN);
-		SpriteClear(index);		// vymazání a pøekreslení sprajtu
+		SpriteClear(index);		// vymazÃ¡nÃ­ a pÅ™ekreslenÃ­ sprajtu
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení viditelnosti sprajtu
+// nastavenÃ­ viditelnosti sprajtu
 
 void SetSpriteVisible(int index, bool visible)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// kontrola, zda je zmìna
+// kontrola, zda je zmÄ›na
 	if (sprite->Visible() == visible) return;
 
-// zapnutí viditelnosti
+// zapnutÃ­ viditelnosti
 	if (visible)
 	{
 		sprite->Visible(true);
 		SpriteVisible.Add(index);
 		SpriteKlidMoveBeg(index);
-		SpriteClear(index);		// musí se pøekreslit i sprajty nad/pod
+		SpriteClear(index);		// musÃ­ se pÅ™ekreslit i sprajty nad/pod
 	}
 	else
 
-// vypnutí viditelnosti
+// vypnutÃ­ viditelnosti
 	{
-		SpriteClear(index);		// vymazání - ještì musí bıt viditelnı!
+		SpriteClear(index);		// vymazÃ¡nÃ­ - jeÅ¡tÄ› musÃ­ bÃ½t viditelnÃ½!
 		sprite->Visible(false);
 
-// zrušení z bufferu viditelnıch sprajtù
+// zruÅ¡enÃ­ z bufferu viditelnÃ½ch sprajtÅ¯
 		for (int i = SpriteVisible.Num()-1; i >= 0; i--)
 		{
 			if (SpriteVisible[i] == index)
@@ -5422,10 +5422,10 @@ void SetSpriteVisible(int index, bool visible)
 			}
 		}
 
-// ukonèení animace v klidu
+// ukonÄenÃ­ animace v klidu
 		SpriteKlidMoveEnd(index);
 
-// zrychlené dokonèení pohybu
+// zrychlenÃ© dokonÄenÃ­ pohybu
 		if (sprite->Moving())
 		{
 			sprite->KrokCit(-1);
@@ -5445,7 +5445,7 @@ void SetSpriteVisible(int index, bool visible)
 			}
 		}
 
-// korekce fáze na klidovou
+// korekce fÃ¡ze na klidovou
 		while (sprite->FazeN() >= sprite->Klid())
 		{
 			sprite->FazeN(sprite->FazeN() - sprite->Klid());
@@ -5455,7 +5455,7 @@ void SetSpriteVisible(int index, bool visible)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení sprajtu
+// nastavenÃ­ sprajtu
 
 void SetSprite(int inx, const CSprite& src)
 {
@@ -5508,7 +5508,7 @@ void SetSprite(int inx, const CSprite& src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizaèní pøekreslení jedné ikony
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ jednÃ© ikony
 
 void AktDispIcon0(int x, int y)
 {	
@@ -5522,14 +5522,14 @@ void AktDispIcon0(int x, int y)
 	BYTE* dst = PicBuf + off;
 	BYTE* src = icon->Data;
 
-	int dstinc = WidthByte;			// pøírustek cílové adresy
+	int dstinc = WidthByte;			// pÅ™Ã­rustek cÃ­lovÃ© adresy
 	int i = ICONHEIGHT;
 
-// rozlišení typu ikony
+// rozliÅ¡enÃ­ typu ikony
 	switch(icon->Param)
 	{
 
-// pouze obrázek bez pozadí
+// pouze obrÃ¡zek bez pozadÃ­
 	case PicParamPic:
 #ifdef _M_IX86
 		dstinc -= ICONWIDTH;
@@ -5568,7 +5568,7 @@ X1:			movs	dword ptr [edi],[esi]
 #endif
 		break;
 
-// mixovanı obrázek s pozadím
+// mixovanÃ½ obrÃ¡zek s pozadÃ­m
 	case PicParamMix:
 		dstinc -= ICONWIDTH;
 
@@ -5632,11 +5632,11 @@ X43:		inc		edi
 #endif
 		break;
 
-// pouze pozadí
+// pouze pozadÃ­
 	case PicParamBack:
 		break;
 
-// neznámı obsah (zajistí zmapování)
+// neznÃ¡mÃ½ obsah (zajistÃ­ zmapovÃ¡nÃ­)
 	default:
 		{
 			bool backcol = false;
@@ -5689,11 +5689,11 @@ X43:		inc		edi
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizaèní pøekreslení jednoho pozadí
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ jednoho pozadÃ­
 
 void AktDispBack0(int x, int y)
 {	
-// okraje k zobrazení pozadí
+// okraje k zobrazenÃ­ pozadÃ­
 	int left = x*ICONWIDTH;
 
 // adresa v bufferech
@@ -5701,14 +5701,14 @@ void AktDispBack0(int x, int y)
 	BYTE* back = BackBuf + off;
 	BYTE* dst = PicBuf + off;
 
-	int dstinc = WidthByte;			// pøírustek cílové adresy
+	int dstinc = WidthByte;			// pÅ™Ã­rustek cÃ­lovÃ© adresy
 
 // adresa ikony
 	CIcon* ico = &(Map[0].At(x, y).Icon);
 	ico->DeComp();
 	ICONDATA* icon = ico->Data();
 
-// vykreslení pozadí (kromì plné ikony)
+// vykreslenÃ­ pozadÃ­ (kromÄ› plnÃ© ikony)
 	if (icon->Param != PicParamPic)
 	{
 #ifdef _M_IX86
@@ -5752,7 +5752,7 @@ X5:			movs	dword ptr [edi],[esi]
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace pøekreslení ikon
+// aktualizace pÅ™ekreslenÃ­ ikon
 
 void AktDispIcon()
 {
@@ -5774,7 +5774,7 @@ void AktDispIcon()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace pøekreslení pozadí
+// aktualizace pÅ™ekreslenÃ­ pozadÃ­
 
 void AktDispBack()
 {
@@ -5795,15 +5795,15 @@ void AktDispBack()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizace pøíznakù pøekreslování (pro pøekreslení stínù sprajtù)
+// aktualizace pÅ™Ã­znakÅ¯ pÅ™ekreslovÃ¡nÃ­ (pro pÅ™ekreslenÃ­ stÃ­nÅ¯ sprajtÅ¯)
 
 void AktAktDisp0(int x, int y)
 {
-// okraje k zobrazení
+// okraje k zobrazenÃ­
 	int left = x*ICONWIDTH;
 	int bottom = Height - y*ICONHEIGHT;
 
-// aktualizace plochy k pøekreslení
+// aktualizace plochy k pÅ™ekreslenÃ­
 	if (left < AktLeft) AktLeft = left;
 	int right = left + ICONWIDTH;
 	if (right > AktRight) AktRight = right;
@@ -5812,7 +5812,7 @@ void AktAktDisp0(int x, int y)
 	int top = bottom - ICONHEIGHT;
 	if (top < AktTop) AktTop = top;
 
-// kontrola, zda je potøebné pøekreslení sprajtù
+// kontrola, zda je potÅ™ebnÃ© pÅ™ekreslenÃ­ sprajtÅ¯
 	for (int i = SpriteVisible.Num()-1; i >= 0; i--)
 	{
 		int index = SpriteVisible[i];		// index sprajtu
@@ -5824,12 +5824,12 @@ void AktAktDisp0(int x, int y)
 			(Height - bottom < sprite->Y() + sprite->Height()))
 		{
 
-// poadavek k pøekreslení sprajtu, není-li ještì nastaven
+// poÅ¾adavek k pÅ™ekreslenÃ­ sprajtu, nenÃ­-li jeÅ¡tÄ› nastaven
 			if (!sprite->DispReq())
 			{
 				AktSprite(index);
 
-// poadavek k pøekreslení ikon pod sprajtem
+// poÅ¾adavek k pÅ™ekreslenÃ­ ikon pod sprajtem
 				int x1 = sprite->X()/ICONWIDTH;
 				if (x1 < 0) x1 = 0;
 
@@ -5882,18 +5882,18 @@ void AktAktDisp()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// aktualizaèní pøekreslení okna
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ okna
 
-// lokální promìnné pro pøekrıvané zobrazení
-HDC	RDdc = NULL;							// DC vıstupního zaøízení
+// lokÃ¡lnÃ­ promÄ›nnÃ© pro pÅ™ekrÃ½vanÃ© zobrazenÃ­
+HDC	RDdc = NULL;							// DC vÃ½stupnÃ­ho zaÅ™Ã­zenÃ­
 BYTE* RDsrcbuf = NULL;						// adresa bufferu s daty
-int RDsrcleft = 0;							// souøadnice X dat v bufferu
-int RDsrctop = 0;							// souøadnice Y dat v bufferu
-int RDsrcheight = 0;						// vıška dat v bufferu
-int RDwidthbyte = 0;						// délka linky bufferu v bajtech
-int RDwinitem = 0;							// ukazatel indexu poloky
+int RDsrcleft = 0;							// souÅ™adnice X dat v bufferu
+int RDsrctop = 0;							// souÅ™adnice Y dat v bufferu
+int RDsrcheight = 0;						// vÃ½Å¡ka dat v bufferu
+int RDwidthbyte = 0;						// dÃ©lka linky bufferu v bajtech
+int RDwinitem = 0;							// ukazatel indexu poloÅ¾ky
 
-// zobrazení bez filtrace
+// zobrazenÃ­ bez filtrace
 void RDdisp(int left, int top, int width, int height)
 {
 	if ((width > 0) && (height > 0))
@@ -5911,19 +5911,19 @@ void RDdisp(int left, int top, int width, int height)
 			bi.bmiHeader.biCompression = BI_RGB;
 
 			::StretchDIBits(RDdc,
-				left, top, width, height,				// cílové parametry
-				left - RDsrcleft, 0, width, height,		// zdrojové parametry
+				left, top, width, height,				// cÃ­lovÃ© parametry
+				left - RDsrcleft, 0, width, height,		// zdrojovÃ© parametry
 				RDsrcbuf + RDwidthbyte*(RDsrcheight - 
 						((top - RDsrctop) + height)),	// adresa dat v bufferu
 				&bi, DIB_RGB_COLORS, SRCCOPY);
 		}
 		else
 		{
-			StdBitmapInfo->bmiHeader.biHeight = height; // vıška plochy v bodech
+			StdBitmapInfo->bmiHeader.biHeight = height; // vÃ½Å¡ka plochy v bodech
 
 			::StretchDIBits(RDdc,
-				left, top, width, height,				// cílové parametry
-				left - RDsrcleft, 0, width, height,		// zdrojové parametry
+				left, top, width, height,				// cÃ­lovÃ© parametry
+				left - RDsrcleft, 0, width, height,		// zdrojovÃ© parametry
 				RDsrcbuf + RDwidthbyte*(RDsrcheight - 
 						((top - RDsrctop) + height)),	// adresa dat v bufferu
 				StdBitmapInfo, DIB_RGB_COLORS, SRCCOPY);
@@ -5931,7 +5931,7 @@ void RDdisp(int left, int top, int width, int height)
 	}
 }
 
-// zobrazení s filtrací pøes dialogové prvky
+// zobrazenÃ­ s filtracÃ­ pÅ™es dialogovÃ© prvky
 void RDdisp2(int left, int top, int width, int height)
 {
 	if (!DialogMode)
@@ -5985,7 +5985,7 @@ void RDdisp2(int left, int top, int width, int height)
 				int right = left + width;
 				int bottom = top + height;
 
-// není pøekryv
+// nenÃ­ pÅ™ekryv
 				if ((right <= left2) ||
 					(left >= right2) ||
 					(top >= bottom2) ||
@@ -5996,21 +5996,21 @@ void RDdisp2(int left, int top, int width, int height)
 				else
 				{
 
-// je pøekryv
-					RDdisp2(left, top, width, top2 - top);			// horní pás
-					RDdisp2(left, bottom2, width, bottom - bottom2);// dolní pás
+// je pÅ™ekryv
+					RDdisp2(left, top, width, top2 - top);			// hornÃ­ pÃ¡s
+					RDdisp2(left, bottom2, width, bottom - bottom2);// dolnÃ­ pÃ¡s
 
 					if (top2 > top) top = top2;
 					if (bottom2 < bottom) bottom = bottom2;
 					height = bottom - top;
 
-					RDdisp2(left, top, left2 - left, height);		// levı pás
-					RDdisp2(right2, top, right - right2, height);	// pravı pás			
+					RDdisp2(left, top, left2 - left, height);		// levÃ½ pÃ¡s
+					RDdisp2(right2, top, right - right2, height);	// pravÃ½ pÃ¡s			
 				}
 			}
 			else
 
-// není platnı prvek, další prvek
+// nenÃ­ platnÃ½ prvek, dalÅ¡Ã­ prvek
 			{
 				RDdisp2(left, top, width, height);
 			}
@@ -6023,7 +6023,7 @@ void RDdisp2(int left, int top, int width, int height)
 // --------------------- vypnuto pro MINI verzi --------------------
 #ifndef _MINI
 
-// zobrazení s filtrací pøes 3D okno
+// zobrazenÃ­ s filtracÃ­ pÅ™es 3D okno
 void RDdisp3(int left, int top, int width, int height)
 {
 	if ((width > 0) && (height > 0))
@@ -6042,21 +6042,21 @@ void RDdisp3(int left, int top, int width, int height)
 		}
 		else
 		{
-			RDdisp2(left, top, width, D3DTop - top);	// horní pás
-			RDdisp2(left, bottom2, width, bottom - bottom2); // dolní pás
+			RDdisp2(left, top, width, D3DTop - top);	// hornÃ­ pÃ¡s
+			RDdisp2(left, bottom2, width, bottom - bottom2); // dolnÃ­ pÃ¡s
 
 			if (D3DTop > top) top = D3DTop;
 			if (bottom2 < bottom) bottom = bottom2;
 			height = bottom - top;
 
-			RDdisp2(left, top, D3DLeft - left, height);	// levı pás
-			RDdisp2(right2, top, right - right2, height); // pravı pás
+			RDdisp2(left, top, D3DLeft - left, height);	// levÃ½ pÃ¡s
+			RDdisp2(right2, top, right - right2, height); // pravÃ½ pÃ¡s
 		}
 	}
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 void ReDisp()
 {
@@ -6075,14 +6075,14 @@ void ReDisp()
 		return;
 	}
 
-// zapnutí hlavního okna
+// zapnutÃ­ hlavnÃ­ho okna
 	if (!MainFrameVisible)
 	{
 		MainFrameShow();
 		return;
 	}
 
-// aktualizaèní vykreslení ikon a sprajtù
+// aktualizaÄnÃ­ vykreslenÃ­ ikon a sprajtÅ¯
 	if (!DialogMode || DialogGraph)
 	{
 		AktAktDisp();
@@ -6092,7 +6092,7 @@ void ReDisp()
 		AktDispSprite();
 	}
 
-// zmìna textu nadpisu okna
+// zmÄ›na textu nadpisu okna
 	if (CaptionAkt)
 	{
 		CaptionAkt = false;
@@ -6101,7 +6101,7 @@ void ReDisp()
 		SetCaptionText(CaptionText);
 	}
 
-// zmìna textu stavového øádku
+// zmÄ›na textu stavovÃ©ho Å™Ã¡dku
 	if (StatusAkt)
 	{
 		StatusAkt = false;
@@ -6120,7 +6120,7 @@ void ReDisp()
 	}
 #endif // _MINI
 
-// kontrola, zda je potøeba provádìt obsluhu pøekreslení
+// kontrola, zda je potÅ™eba provÃ¡dÄ›t obsluhu pÅ™ekreslenÃ­
 	if ((AktLeft < AktRight) &&
 		(AktTop < AktBottom) &&
 		(!DialogMode || DialogGraph)
@@ -6131,14 +6131,14 @@ void ReDisp()
 	{
 		HPALETTE OldPal = NULL;
 
-// šíøka a vıška úseku obrázku k vykreslení
+// Å¡Ã­Å™ka a vÃ½Å¡ka Ãºseku obrÃ¡zku k vykreslenÃ­
 		int width = AktRight - AktLeft;
 		int height = AktBottom - AktTop;
 
-// otevøení DC okna
+// otevÅ™enÃ­ DC okna
 		RDdc = ::GetDC(MainFrame);
 
-// nastavení vlastních palet
+// nastavenÃ­ vlastnÃ­ch palet
 #ifndef _MINI
 		if (!D3D || (D3DIntAkt <= 2))
 #endif // _MINI
@@ -6147,10 +6147,10 @@ void ReDisp()
 			::RealizePalette(RDdc);
 		}
 
-// nastavení STRETCH módu
+// nastavenÃ­ STRETCH mÃ³du
 		::SetStretchBltMode(RDdc, COLORONCOLOR);
 
-// pøíprava parametrù, není-li vıstupní buffer
+// pÅ™Ã­prava parametrÅ¯, nenÃ­-li vÃ½stupnÃ­ buffer
 		int leftdst0 = AktLeft;
 		int topdst0 = AktTop;
 		int widthsrc = Width;
@@ -6163,11 +6163,11 @@ void ReDisp()
 		RDsrcheight = Height;
 		RDwidthbyte = Width;
 
-// bude vykreslování pomocí vıstupního bufferu
+// bude vykreslovÃ¡nÃ­ pomocÃ­ vÃ½stupnÃ­ho bufferu
 		if (DispBufUse)
 		{
 
-// pøíprava ukazatelù
+// pÅ™Ã­prava ukazatelÅ¯
 			leftdst0 = 0;
 			if (AktLeft > 0)
 			{
@@ -6200,7 +6200,7 @@ void ReDisp()
 			}
 			heightdst -= topdst0;
 
-// cyklus pøes všechny linky
+// cyklus pÅ™es vÅ¡echny linky
 			if ((widthdst > 0) && (heightdst > 0))
 			{
 				if (DispBufUse2)
@@ -6221,7 +6221,7 @@ void ReDisp()
 					BYTE* src = PicBuf + DispRemapY[topdst];
 					int leftdst = leftdst0;
 
-// cyklus pøes body na lince
+// cyklus pÅ™es body na lince
 					if (DispBufUse2)
 					{
 						for (int j = widthdst; j > 0; j--)
@@ -6289,12 +6289,12 @@ void ReDisp()
 			RDsrcheight = heightdst;
 		}
 
-// vykreslení plochy
-		StdBitmapInfo->bmiHeader.biWidth = widthsrc; // šíøka plochy v bodech
+// vykreslenÃ­ plochy
+		StdBitmapInfo->bmiHeader.biWidth = widthsrc; // Å¡Ã­Å™ka plochy v bodech
 		leftdst0 += DispLeft;
 		topdst0 += DispTop;
 
-		RDwinitem = 0;							// adresa hlavního okna
+		RDwinitem = 0;							// adresa hlavnÃ­ho okna
 
 // --------------------- vypnuto pro MINI verzi --------------------
 #ifndef _MINI
@@ -6306,13 +6306,13 @@ void ReDisp()
 		else
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 		{
 			RDdisp2(leftdst0, topdst0, widthdst, heightdst);
 		}
 
-// návrat pùvodních palet
+// nÃ¡vrat pÅ¯vodnÃ­ch palet
 		if (RDdc != NULL)
 		{
 			if (OldPal != NULL)
@@ -6323,32 +6323,32 @@ void ReDisp()
 			::ReleaseDC(MainFrame, RDdc);
 		}
 
-// zneplatnìní aktualizaèní oblasti
+// zneplatnÄ›nÃ­ aktualizaÄnÃ­ oblasti
 		AktLeft = Width;
 		AktTop = Height;
 		AktRight = 0;
 		AktBottom = 0;
 	}
 
-// èítaè pro time-out pøekreslení displeje
+// ÄÃ­taÄ pro time-out pÅ™ekreslenÃ­ displeje
 	ReDispOut = REDISPOUT;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøekreslení celého okna (po zprávì WM_PAINT)
+// pÅ™ekreslenÃ­ celÃ©ho okna (po zprÃ¡vÄ› WM_PAINT)
 
 void _fastcall OnPaint(WINITEM* item, int inx)
 {
-// potvrzení pøekreslení okna
+// potvrzenÃ­ pÅ™ekreslenÃ­ okna
 	PAINTSTRUCT ps;
 	::BeginPaint(item->Wnd, &ps);
 	::EndPaint(item->Wnd, &ps);
 
-// pøekreslení obsahu okna
+// pÅ™ekreslenÃ­ obsahu okna
 	RePaint(item);
 
-// v dialogovém módu pøekreslení rámeèkù
+// v dialogovÃ©m mÃ³du pÅ™ekreslenÃ­ rÃ¡meÄkÅ¯
 	if (DialogMode || (item != &Win[0]))
 	{
 		int i = Win.Max() - 1;
@@ -6369,13 +6369,13 @@ void _fastcall OnPaint(WINITEM* item, int inx)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøekreslení celého okna
+// pÅ™ekreslenÃ­ celÃ©ho okna
 
-HDC RPdc = NULL;						// DC vıstupního zaøízení
-HBRUSH RPbrush = NULL;					// štìtec k vymazání plochy
-int RPwinitem = 0;						// ukazatel indexu poloky
+HDC RPdc = NULL;						// DC vÃ½stupnÃ­ho zaÅ™Ã­zenÃ­
+HBRUSH RPbrush = NULL;					// Å¡tÄ›tec k vymazÃ¡nÃ­ plochy
+int RPwinitem = 0;						// ukazatel indexu poloÅ¾ky
 
-// vymazání bez filtrace
+// vymazÃ¡nÃ­ bez filtrace
 void RPfill(const RECT& rc)
 {
 	if ((rc.right > rc.left) && (rc.bottom > rc.top))
@@ -6384,7 +6384,7 @@ void RPfill(const RECT& rc)
 	}
 }
 
-// vymazání s filtrací pøes dialogové prvky
+// vymazÃ¡nÃ­ s filtracÃ­ pÅ™es dialogovÃ© prvky
 void RPfill2(const RECT& rc)
 {
 	if (!DialogMode)
@@ -6424,7 +6424,7 @@ void RPfill2(const RECT& rc)
 					::ScreenToClient(w, (POINT*)&(rc2.right));
 				}
 
-// není pøekryv
+// nenÃ­ pÅ™ekryv
 				if ((rc.right <= rc2.left) ||
 					(rc.left >= rc2.right) ||
 					(rc.top >= rc2.bottom) ||
@@ -6435,14 +6435,14 @@ void RPfill2(const RECT& rc)
 				else
 				{
 
-// je pøekryv
+// je pÅ™ekryv
 					RECT rc3 = rc;
 					rc3.bottom = rc2.top;
-					RPfill2(rc3);					// horní pás
+					RPfill2(rc3);					// hornÃ­ pÃ¡s
 
 					rc3.bottom = rc.bottom;
 					rc3.top = rc2.bottom;
-					RPfill2(rc3);					// dolní pás
+					RPfill2(rc3);					// dolnÃ­ pÃ¡s
 
 					rc3 = rc;
 					if (rc2.top > rc.top)
@@ -6456,16 +6456,16 @@ void RPfill2(const RECT& rc)
 					}
 
 					rc3.right = rc2.left;
-					RPfill2(rc3);					// levı pás
+					RPfill2(rc3);					// levÃ½ pÃ¡s
 
 					rc3.right = rc.right;
 					rc3.left = rc2.right;
-					RPfill2(rc3);					// pravı pás
+					RPfill2(rc3);					// pravÃ½ pÃ¡s
 				}
 			}
 			else
 
-// není platnı prvek, další prvek
+// nenÃ­ platnÃ½ prvek, dalÅ¡Ã­ prvek
 			{
 				RPfill2(rc);
 			}
@@ -6478,7 +6478,7 @@ void RPfill2(const RECT& rc)
 // --------------------- vypnuto pro MINI verzi --------------------
 #ifndef _MINI
 
-// zobrazení s filtrací pøes 3D okno
+// zobrazenÃ­ s filtracÃ­ pÅ™es 3D okno
 void RPfill3(const RECT& rc)
 {
 	if ((rc.right > rc.left) && (rc.bottom > rc.top))
@@ -6497,11 +6497,11 @@ void RPfill3(const RECT& rc)
 		{
 			RECT rc3 = rc;
 			rc3.bottom = D3DTop;
-			RPfill2(rc3);								// horní pás
+			RPfill2(rc3);								// hornÃ­ pÃ¡s
 
 			rc3.bottom = rc.bottom;
 			rc3.top = bottom2;
-			RPfill2(rc3);								 // dolní pás
+			RPfill2(rc3);								 // dolnÃ­ pÃ¡s
 
 			rc3 = rc;
 			if (D3DTop > rc.top)
@@ -6515,21 +6515,21 @@ void RPfill3(const RECT& rc)
 			}
 
 			rc3.right = D3DLeft;
-			RPfill2(rc3);					// levı pás
+			RPfill2(rc3);					// levÃ½ pÃ¡s
 
 			rc3.right = rc.right;
 			rc3.left = right2;
-			RPfill2(rc3);					// pravı pás
+			RPfill2(rc3);					// pravÃ½ pÃ¡s
 		}
 	}
 }
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 void _fastcall RePaint(WINITEM* item)
 {
-// test, zda je okno ji zapnuto
+// test, zda je okno jiÅ¾ zapnuto
 	if ((item == &Win[0]) && !MainFrameVisible) return;
 
 	if (IsOverlay && FullScreen) return;
@@ -6545,13 +6545,13 @@ void _fastcall RePaint(WINITEM* item)
 	}
 #endif // _MINI
 
-// otevøení DC displeje
+// otevÅ™enÃ­ DC displeje
 	bool newbrush = true;
 	RPdc = ::GetDC(item->Wnd);
 		
 	if ((item == &Win[0]) && FullScreen && (!DialogMode || DialogGraph))
 	{
-		RPbrush = (HBRUSH)::GetStockObject(BLACK_BRUSH); // štìtec k vymazání plochy
+		RPbrush = (HBRUSH)::GetStockObject(BLACK_BRUSH); // Å¡tÄ›tec k vymazÃ¡nÃ­ plochy
 	}
 	else
 	{
@@ -6564,12 +6564,12 @@ void _fastcall RePaint(WINITEM* item)
 			!item->HasBorder &&
 			!item->HasCaption))
 		{
-			RPbrush = (HBRUSH)::GetStockObject(BLACK_BRUSH); // štìtec k vymazání plochy
+			RPbrush = (HBRUSH)::GetStockObject(BLACK_BRUSH); // Å¡tÄ›tec k vymazÃ¡nÃ­ plochy
 			newbrush = true;
 		}
 	}
 
-// vymazání plochy v dialogovém módu
+// vymazÃ¡nÃ­ plochy v dialogovÃ©m mÃ³du
 	RECT rc;
 	rc.left = 0;
 	rc.right = item->ClientWidth;
@@ -6595,7 +6595,7 @@ void _fastcall RePaint(WINITEM* item)
 	else
 	{
 
-// vymazání plochy nahoøe
+// vymazÃ¡nÃ­ plochy nahoÅ™e
 		rc.bottom = DispTop;
 #ifndef _MINI
 		if (D3D)
@@ -6609,7 +6609,7 @@ void _fastcall RePaint(WINITEM* item)
 			RPfill2(rc);
 		}
 
-// vymazání plochy dole
+// vymazÃ¡nÃ­ plochy dole
 		rc.top = DispTop + DispHeight;
 		rc.bottom = ClientHeight;
 #ifndef _MINI
@@ -6624,7 +6624,7 @@ void _fastcall RePaint(WINITEM* item)
 			RPfill2(rc);
 		}
 
-// vymazání plochy vlevo
+// vymazÃ¡nÃ­ plochy vlevo
 		rc.bottom = rc.top;
 		rc.top = 0;
 		rc.right = DispLeft;
@@ -6640,7 +6640,7 @@ void _fastcall RePaint(WINITEM* item)
 			RPfill2(rc);
 		}
 
-// vymazání plochy vpravo
+// vymazÃ¡nÃ­ plochy vpravo
 		rc.left = DispLeft + DispWidth;
 		rc.right = ClientWidth;
 #ifndef _MINI
@@ -6655,7 +6655,7 @@ void _fastcall RePaint(WINITEM* item)
 			RPfill2(rc);
 		}
 
-// vymazání podkladu rámeèkù
+// vymazÃ¡nÃ­ podkladu rÃ¡meÄkÅ¯
 		if (DialogMode)
 		{
 			HBRUSH brsh = RPbrush;
@@ -6691,46 +6691,46 @@ void _fastcall RePaint(WINITEM* item)
 		}
 	}
 
-// zrušení štìtce podkladu (i kdy podle dokumentace rušení není nutné)
+// zruÅ¡enÃ­ Å¡tÄ›tce podkladu (i kdyÅ¾ podle dokumentace ruÅ¡enÃ­ nenÃ­ nutnÃ©)
 	if (newbrush) ::DeleteObject(RPbrush);
 
 	::ReleaseDC(item->Wnd, RPdc);
 
-// poadavek k pøekreslení celého okna
-	AktLeft = 0;				// levı okraj k pøekreslení
-	AktTop = 0;					// horní okraj k pøekreslení
-	AktRight = Width;			// pravı okraj k pøekreslení
-	AktBottom = Height;			// spodní okraj k pøekreslení
+// poÅ¾adavek k pÅ™ekreslenÃ­ celÃ©ho okna
+	AktLeft = 0;				// levÃ½ okraj k pÅ™ekreslenÃ­
+	AktTop = 0;					// hornÃ­ okraj k pÅ™ekreslenÃ­
+	AktRight = Width;			// pravÃ½ okraj k pÅ™ekreslenÃ­
+	AktBottom = Height;			// spodnÃ­ okraj k pÅ™ekreslenÃ­
 
-// pøekreslení okna
-	if (AktBuf != NULL)	ReDisp();		// pøekreslení okna
+// pÅ™ekreslenÃ­ okna
+	if (AktBuf != NULL)	ReDisp();		// pÅ™ekreslenÃ­ okna
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní pøíští fáze sprajtu (pro promìnnou fáze sprajtu)
+// zjiÅ¡tÄ›nÃ­ pÅ™Ã­Å¡tÃ­ fÃ¡ze sprajtu (pro promÄ›nnou fÃ¡ze sprajtu)
 
 int SpriteNextFaze(int index)
 {
 // adresa sprajtu
 	CSprite* sprite = &Sprite[index];
 
-// pøíští fáze
+// pÅ™Ã­Å¡tÃ­ fÃ¡ze
 	int faze = sprite->FazeNext();
 	if ((DWORD)faze < (DWORD)sprite->Faze()) return faze;
 
-// aktuální fáze
+// aktuÃ¡lnÃ­ fÃ¡ze
 	faze = sprite->FazeN();
 
 // test, zda je sprajt v pohybu
 	if (sprite->Moving())
 	{
 
-// test, zda bude dokonèen pohyb
+// test, zda bude dokonÄen pohyb
 		if (sprite->KrokCit() <= 0)
 		{
 
-// dokonèení pohybu
+// dokonÄenÃ­ pohybu
 			if (faze >= sprite->Klid())
 			{
 				faze = faze - sprite->Klid();
@@ -6739,7 +6739,7 @@ int SpriteNextFaze(int index)
 		}
 		else
 
-// pokraèování pohybu
+// pokraÄovÃ¡nÃ­ pohybu
 		{
 			faze = faze + 1;
 			if (faze >= sprite->Faze())
@@ -6756,7 +6756,7 @@ int SpriteNextFaze(int index)
 	else
 	{
 
-// obsluha pohybu sprajtù v klidu
+// obsluha pohybu sprajtÅ¯ v klidu
 		if (sprite->Klid() > 1)
 		{
 			faze = (faze + 1) % sprite->Klid();
@@ -6768,30 +6768,30 @@ int SpriteNextFaze(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha èasovaèe
+// obsluha ÄasovaÄe
 
 void BackTimer()
 {
-// zneplatnìní informací o myši
+// zneplatnÄ›nÃ­ informacÃ­ o myÅ¡i
 	MouseValid = false;
 
-// zneplatnìní informací o joysticku
+// zneplatnÄ›nÃ­ informacÃ­ o joysticku
 	for (int k = MAXJOYSTICK-1; k >= 0; k--)
 	{
 		JoystickValid[k] = false;
 		JoystickNext[k]--;
 	}
 
-// obsluha pøehrávání zvuku na pozadí
+// obsluha pÅ™ehrÃ¡vÃ¡nÃ­ zvuku na pozadÃ­
 	PlaySoundBack();
 
-// obsluha hudby na pozadí
+// obsluha hudby na pozadÃ­
 	PlayMusicBack();
 
-// obsluha CD na pozadí
+// obsluha CD na pozadÃ­
 	PlayCDBack();
 
-// uzavøení souborù
+// uzavÅ™enÃ­ souborÅ¯
 	if (FileCloseTime > 0)
 	{
 		FileCloseTime--;
@@ -6801,18 +6801,18 @@ void BackTimer()
 // --------------------- vypnuto pro MINI verzi --------------------
 #ifndef _MINI
 
-// èítaè zákazu DirectPlay
+// ÄÃ­taÄ zÃ¡kazu DirectPlay
 	if (NextDirectPlayInit > 0)	NextDirectPlayInit--;
 
-// èítaè platnosti IP adresy
+// ÄÃ­taÄ platnosti IP adresy
 	if (HostIPValid > 0) HostIPValid--;
 
-// test, zda mùe bıt obsluha DirectPlay
+// test, zda mÅ¯Å¾e bÃ½t obsluha DirectPlay
 	if (DirectPlay != NULL)
 	{
 		DirectPlayPlayersTime--;
 
-// aktualizace parametrù hry DirectPlay
+// aktualizace parametrÅ¯ hry DirectPlay
 		if (DirectPlayGamesTime > 0)
 		{
 			DirectPlayGamesTime--;
@@ -6830,32 +6830,32 @@ void BackTimer()
 	}
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
 // v Pauze konec
 	if (Pause) return;
 
-// obsluha pohybu sprajtù
+// obsluha pohybu sprajtÅ¯
 	for (int i = SpriteMoving.Num()-1; i >= 0; i--)
 	{
 
-// pøíprava parametrù sprajtu
+// pÅ™Ã­prava parametrÅ¯ sprajtu
 		int index = SpriteMoving[i];
 		CSprite* sprite = &Sprite[index];
 //		SPRITEDATA* spritedata = sprite->Data();
 
-// èítání èasu pro další fázi pohybu
+// ÄÃ­tÃ¡nÃ­ Äasu pro dalÅ¡Ã­ fÃ¡zi pohybu
 		if (sprite->TimerDec())
 		{
 
-// zajištìní vymazání sprajtu na staré pozici
+// zajiÅ¡tÄ›nÃ­ vymazÃ¡nÃ­ sprajtu na starÃ© pozici
 			SpriteClear(index);
 
-// èítání krokù pro dokonèení pohybu
+// ÄÃ­tÃ¡nÃ­ krokÅ¯ pro dokonÄenÃ­ pohybu
 			if (sprite->KrokDec())
 			{
 
-// dokonèení pohybu
+// dokonÄenÃ­ pohybu
 				sprite->AktX(sprite->CilX());
 				sprite->X(Round(sprite->AktX()*ICONWIDTH));
 				sprite->AktY(sprite->CilY());
@@ -6882,7 +6882,7 @@ void BackTimer()
 			}
 			else
 
-// pokraèování pohybu
+// pokraÄovÃ¡nÃ­ pohybu
 			{
 				sprite->AktX(sprite->AktX() + sprite->dX());
 				sprite->X(Round(sprite->AktX()*ICONWIDTH));
@@ -6911,21 +6911,21 @@ void BackTimer()
 				}
 			}
 
-// poadavek k pøekreslení sprajtu
+// poÅ¾adavek k pÅ™ekreslenÃ­ sprajtu
 			AktSprite(index);
 		}
 	}
 
-// obsluha pohybu sprajtù v klidu
+// obsluha pohybu sprajtÅ¯ v klidu
 	for (int j = SpriteKlid.Num()-1; j >= 0; j--)
 	{
 
-// pøíprava parametrù sprajtu
+// pÅ™Ã­prava parametrÅ¯ sprajtu
 		int index = SpriteKlid[j];
 		CSprite* sprite = &Sprite[index];
 //		SPRITEDATA* spritedata = sprite->Data();
 
-// zahájení pohybu v klidu
+// zahÃ¡jenÃ­ pohybu v klidu
 		if (!sprite->KlidMove())
 		{
 			sprite->KlidMove(true);
@@ -6934,14 +6934,14 @@ void BackTimer()
 		else
 		{
 
-// èítání èasu pro další fázi pohybu
+// ÄÃ­tÃ¡nÃ­ Äasu pro dalÅ¡Ã­ fÃ¡zi pohybu
 			if (sprite->TimerDec())
 			{
 
-// zajištìní vymazání sprajtu na pozici (a zajištìní pøekreslení)
+// zajiÅ¡tÄ›nÃ­ vymazÃ¡nÃ­ sprajtu na pozici (a zajiÅ¡tÄ›nÃ­ pÅ™ekreslenÃ­)
 				SpriteClear(index);
 
-// posun fáze
+// posun fÃ¡ze
 				if ((DWORD)sprite->FazeNext() < (DWORD)sprite->Faze())
 				{
 					sprite->FazeN(sprite->FazeNext());
@@ -6956,14 +6956,14 @@ void BackTimer()
 		}
 	}
 
-// èítání time-out pøekreslení displeje
+// ÄÃ­tÃ¡nÃ­ time-out pÅ™ekreslenÃ­ displeje
 	ReDispOut--;
 	if (ReDispOut <= 0) ReDisp();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení pøesmykaèe klávesnice
+// nastavenÃ­ pÅ™esmykaÄe klÃ¡vesnice
 
 void SetKeyState(int index, bool state)
 {
@@ -6976,7 +6976,7 @@ void SetKeyState(int index, bool state)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// test èasovaèe
+// test ÄasovaÄe
 
 BOOL TestTimer()
 {
@@ -6985,7 +6985,7 @@ BOOL TestTimer()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení souøadnic myši
+// naÄtenÃ­ souÅ™adnic myÅ¡i
 
 void GetAktMousePos()
 {
@@ -7010,11 +7010,11 @@ void GetAktMousePos()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání na signál od èasovaèe s obsluhou zpráv
+// ÄekÃ¡nÃ­ na signÃ¡l od ÄasovaÄe s obsluhou zprÃ¡v
 
 void WaitTimer(bool wait)
 {
-// nastavení pøesmykaèù klávesnice
+// nastavenÃ­ pÅ™esmykaÄÅ¯ klÃ¡vesnice
 	if (AktNumLock)
 	{
 		AktNumLock = false;
@@ -7039,19 +7039,19 @@ void WaitTimer(bool wait)
 		SetKeyState(VK_INSERT, InsertLock);
 	}
 
-// první obsluha èasovaèe, je-li poadováno èekání na hodiny
+// prvnÃ­ obsluha ÄasovaÄe, je-li poÅ¾adovÃ¡no ÄekÃ¡nÃ­ na hodiny
 	if (wait) 
 	{
 		BackTimer();
 		ReDisp();
 	}
 
-// èekání na signál od èasovaèe
+// ÄekÃ¡nÃ­ na signÃ¡l od ÄasovaÄe
 	MSG msg;
 	for (;;)
 	{
 
-// pøíjem zprávy (není-li potøeba èekat, neèeká se na zprávu)
+// pÅ™Ã­jem zprÃ¡vy (nenÃ­-li potÅ™eba Äekat, neÄekÃ¡ se na zprÃ¡vu)
 		if (wait)
 		{
 			::GetMessage(&msg, NULL, 0, 0);
@@ -7061,7 +7061,7 @@ void WaitTimer(bool wait)
 			if (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) == 0) break;
 		}
 
-// zpracování zprávy oknem
+// zpracovÃ¡nÃ­ zprÃ¡vy oknem
 		if (FindDialogBox)
 		{
 			if (::IsDialogMessage(FindDialogBox, &msg))
@@ -7070,7 +7070,7 @@ void WaitTimer(bool wait)
 			}
 		}
 
-// obsluha èasovaèe - pøi poadavku èekání ji byla jedna obsluha provedena
+// obsluha ÄasovaÄe - pÅ™i poÅ¾adavku ÄekÃ¡nÃ­ jiÅ¾ byla jedna obsluha provedena
 		if (msg.message == WM_TIMER)
 		{
 			if (!wait) BackTimer();
@@ -7078,14 +7078,14 @@ void WaitTimer(bool wait)
 			WhileOut = WHILEOUT;
 		}
 
-// ukonèení programu uzavøením okna
+// ukonÄenÃ­ programu uzavÅ™enÃ­m okna
 		if (msg.message == WM_QUIT)
 		{
 			Break |= BREAKPROG;
 			return;
 		}
 
-// obsluha zprávy
+// obsluha zprÃ¡vy
 		if (msg.message != (DWORD)-1)
 		{
 			if (!::PreTranslateMessage(&msg))
@@ -7096,7 +7096,7 @@ void WaitTimer(bool wait)
 		}
 	}
 
-// naètení souøadnic myši
+// naÄtenÃ­ souÅ™adnic myÅ¡i
 	GetAktMousePos();
 
 // inicializace koprocesoru
@@ -7105,7 +7105,7 @@ void WaitTimer(bool wait)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// èekání po zadanou dobu (poèet impulsù 55 ms)
+// ÄekÃ¡nÃ­ po zadanou dobu (poÄet impulsÅ¯ 55 ms)
 
 void _fastcall TimeWait(int count)
 {
@@ -7117,13 +7117,13 @@ void _fastcall TimeWait(int count)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// provádìní programu
+// provÃ¡dÄ›nÃ­ programu
 
 void Exec()
 {
 #ifndef _MINI
 
-// pøíprava konfiguraèních parametrù
+// pÅ™Ã­prava konfiguraÄnÃ­ch parametrÅ¯
 	CString prog = ExeFileName;
 	int pos = prog.RevFind('\\');
 	if (pos < 0) pos = prog.RevFind(':');
@@ -7146,7 +7146,7 @@ void Exec()
 
 #endif // _MINI
 
-// pøíprava tabulky fontù
+// pÅ™Ã­prava tabulky fontÅ¯
 	FontTab = (FONTITEM*)MemGet(FONTTABSIZE * sizeof(FONTITEM));
 	MemFill(FontTab, FONTTABSIZE * sizeof(FONTITEM), 0);
 	for (int ii = 0; ii < FONTTABSIZE; ii++)
@@ -7155,7 +7155,7 @@ void Exec()
 		FontTab[ii].CharSet = DEFAULT_CHARSET;
 	}
 
-// standardní font tuènı
+// standardnÃ­ font tuÄnÃ½
 	FontDefault = ::CreateFont(
 			16,
 			6,
@@ -7178,7 +7178,7 @@ void Exec()
 	FontTab[2].Font = FontDefault;
 	FontTab[2].Used = 0x40000000;
 
-// standardní font normal
+// standardnÃ­ font normal
 	FontTab[0].Font = ::CreateFont(
 			14,
 			5,
@@ -7195,7 +7195,7 @@ void Exec()
 	if (FontTab[0].Font == NULL) FontTab[0].Font = FontDefault;
 	FontTab[0].Used = 0x40000000;
 
-// standardní font fixed normal
+// standardnÃ­ font fixed normal
 	FontTab[1].Font = ::CreateFont(
 			13,
 			10,
@@ -7213,7 +7213,7 @@ void Exec()
 	FontTab[1].Fixed = true;
 	FontTab[1].Used = 0x40000000;
 
-// standardní font fixed tuènı
+// standardnÃ­ font fixed tuÄnÃ½
 	FontTab[3].Font = ::CreateFont(
 			16,
 			8,
@@ -7232,7 +7232,7 @@ void Exec()
 	FontTab[3].Fixed = true;
 	FontTab[3].Used = 0x40000000;
 
-// pøíprava identifikaèního kódu pro DirectPlay
+// pÅ™Ã­prava identifikaÄnÃ­ho kÃ³du pro DirectPlay
 	int i;
 
 #ifndef _MINI
@@ -7246,13 +7246,13 @@ void Exec()
 		if (n == 4+6) n = 4;
 	}
 
-// pøíprava vıstupního bufferu dat pro DirectPlay
+// pÅ™Ã­prava vÃ½stupnÃ­ho bufferu dat pro DirectPlay
 	DirectPlayDataOut = (BYTE*)MemGet(DirectPlayDataOutM);
 
-// pøíprava implicitního jména aplikace
+// pÅ™Ã­prava implicitnÃ­ho jmÃ©na aplikace
 	DDEDefApp = AktCaptionText;
 
-// pøíprava tabulky portù
+// pÅ™Ã­prava tabulky portÅ¯
 	Coms = (COMITEM*)MemGet(COMSMAX*sizeof(COMITEM));
 	MemFill(Coms, COMSMAX*sizeof(COMITEM), 0);
 
@@ -7262,10 +7262,10 @@ void Exec()
 	}
 #endif // _MINI
 
-// inicializace informací o ploše
+// inicializace informacÃ­ o ploÅ¡e
 	ExecInitMap();
 
-// inicializace bufferù zvuku
+// inicializace bufferÅ¯ zvuku
 	for (i = 0; i < SOUNDBUFFERU; i++)
 	{
 		WaveHeader[i].dwFlags = WHDR_DONE;
@@ -7288,7 +7288,7 @@ void Exec()
 		JoystickOldZ[i] = -0x7fe00000;
 	}
 
-// inicializace parametrù hry DirectPlay
+// inicializace parametrÅ¯ hry DirectPlay
 #ifndef _MINI
 	DirectPlayGamesParam[0] = 0x40004000;
 	DirectPlayGamesParam[1] = 0x40004000;
@@ -7300,46 +7300,46 @@ void Exec()
 
 #endif // _MINI
 
-// zapnutí sprajtu 0 (Petøík)
+// zapnutÃ­ sprajtu 0 (PetÅ™Ã­k)
 	SetSpriteVisible(0, true);
 
-// poadavek k pøekreslení okna
-	AktAllIcon();				// aktualizovat všechny ikony
+// poÅ¾adavek k pÅ™ekreslenÃ­ okna
+	AktAllIcon();				// aktualizovat vÅ¡echny ikony
 
-// inicializace èasovaèe
+// inicializace ÄasovaÄe
 	TimerID = ::SetTimer(MainFrame, 543, TimerConst, NULL);
 
-// obsluha hlavní funkce
-	ExecItem = ProgBuf + ProgStart;	// startovací adresa
+// obsluha hlavnÃ­ funkce
+	ExecItem = ProgBuf + ProgStart;	// startovacÃ­ adresa
 	if (ProgNum > 0) FCommand();
 
-// uzavøení souborù
+// uzavÅ™enÃ­ souborÅ¯
 	FileClose();
 
-// zastavení pøehrávání zvukù
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ zvukÅ¯
 	PlaySoundStop();
 
-// zastavení pøehrávání hudby
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ hudby
 	MusicStop();
 
-// uzavøení DirectSound
+// uzavÅ™enÃ­ DirectSound
 	TermDirectSound();
 
-// uvolnìní knihovny COM
+// uvolnÄ›nÃ­ knihovny COM
 #ifndef _MINI
 	COMUninit();
 
-// uvolnìní knihovny WSA
+// uvolnÄ›nÃ­ knihovny WSA
 	WSADeinitialize();
 
 	DeSelectD3DDev();
 
-// zrušení seznamu aplikací DDE
+// zruÅ¡enÃ­ seznamu aplikacÃ­ DDE
 	DDEAppListTerm();
 
 #endif // _MINI
 
-// ukonèení celoobrazovkového módu
+// ukonÄenÃ­ celoobrazovkovÃ©ho mÃ³du
 	SetFullScreen(false);
 
 // --------------------- vypnuto pro MINI verzi --------------------
@@ -7359,18 +7359,18 @@ void Exec()
 	D3DX3TermDD();
 
 #endif // _MINI
-// --------------------- konec vypnutí pro MINI verzi -------------------
+// --------------------- konec vypnutÃ­ pro MINI verzi -------------------
 
-// ukonèení konzoly
+// ukonÄenÃ­ konzoly
 	if (NewConsole) ::FreeConsole();
 
-// uzavøení okna (pokud ještì nebylo uzavøeno zvenku)
+// uzavÅ™enÃ­ okna (pokud jeÅ¡tÄ› nebylo uzavÅ™eno zvenku)
 	if (::IsWindow(MainFrame))
 	{
 		::SendMessage(MainFrame, WM_CLOSE, 0, 0);
 	}
 
-// uzavøení mixeru
+// uzavÅ™enÃ­ mixeru
 #ifndef _MINI
 	if (MixDevH != NULL)
 	{
@@ -7378,15 +7378,15 @@ void Exec()
 	}
 #endif // _MINI
 
-// zrušení èasovaèe
+// zruÅ¡enÃ­ ÄasovaÄe
 	::KillTimer(MainFrame, TimerID);
 
-// zrušení štìtcù
+// zruÅ¡enÃ­ Å¡tÄ›tcÅ¯
 	::DeleteObject(StdBrushBtn);
 	::DeleteObject(StdBrushWindow);
 	::DeleteObject(StdBrushHighlight);
 
-// uzavøení komunikaèních portù
+// uzavÅ™enÃ­ komunikaÄnÃ­ch portÅ¯
 #ifndef _MINI
 	for (i = 0; i < COMSMAX; i++)
 	{
@@ -7394,14 +7394,14 @@ void Exec()
 	}
 #endif // _MINI
 
-// zrušení bufferu zvukovıch kanálù
+// zruÅ¡enÃ­ bufferu zvukovÃ½ch kanÃ¡lÅ¯
 	for (i = 0; i < MAXSOUNDKANALU; i++)
 	{
 		SoundChan[i].Sound.Term();
 	}
 	MemFree(SoundChan);
 
-// zrušení fontù
+// zruÅ¡enÃ­ fontÅ¯
 	for (i = 0; i < FONTTABSIZE; i++)
 	{
 		FontTab[i].UserFont.Term();

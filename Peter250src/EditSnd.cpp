@@ -3,7 +3,7 @@
 
 /***************************************************************************\
 *																			*
-*									Editor zvukù							*
+*									Editor zvukÅ¯							*
 *																			*
 \***************************************************************************/
 
@@ -13,38 +13,38 @@ namespace EditSound
 /////////////////////////////////////////////////////////////////////////////
 // parametry
 
-// editovanı zvuk
-int		Index = 0;						// editovaná poloka
-SOUNDDATA* Data = NULL;					// editovanı zvuk
-int		BytesPerSec;					// poèet bajtù za sekundu
+// editovanÃ½ zvuk
+int		Index = 0;						// editovanÃ¡ poloÅ¾ka
+SOUNDDATA* Data = NULL;					// editovanÃ½ zvuk
+int		BytesPerSec;					// poÄet bajtÅ¯ za sekundu
 
-// zobrazení
-int		DLeft;							// souøadnice X displeje
-int		DTop;							// souøadnice Y displeje
-int		DWidth;							// šíøka displeje
-int		DHeight;						// vıška displeje
+// zobrazenÃ­
+int		DLeft;							// souÅ™adnice X displeje
+int		DTop;							// souÅ™adnice Y displeje
+int		DWidth;							// Å¡Ã­Å™ka displeje
+int		DHeight;						// vÃ½Å¡ka displeje
 
-// zobrazení èasu
-HWND	DispWnd = NULL;					// okno zobrazení èasu
-int		LastTime = 0;					// naposledy zobrazenı èas (sekund)
+// zobrazenÃ­ Äasu
+HWND	DispWnd = NULL;					// okno zobrazenÃ­ Äasu
+int		LastTime = 0;					// naposledy zobrazenÃ½ Äas (sekund)
 
-// ovládání
-BOOL	Play = FALSE;					// probíhá pøehrávání
-BOOL	Record = FALSE;					// probíhá nahrávání
-BOOL	Loop = FALSE;					// zapnuta smyèka
-BOOL	Pause = FALSE;					// zapauzování pøehrávání
+// ovlÃ¡dÃ¡nÃ­
+BOOL	Play = FALSE;					// probÃ­hÃ¡ pÅ™ehrÃ¡vÃ¡nÃ­
+BOOL	Record = FALSE;					// probÃ­hÃ¡ nahrÃ¡vÃ¡nÃ­
+BOOL	Loop = FALSE;					// zapnuta smyÄka
+BOOL	Pause = FALSE;					// zapauzovÃ¡nÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 
-// pøehrávání a narávání
-HWAVEOUT	WaveOut;					// handle zaøízení pro pøehrávání
-HWAVEIN		WaveIn;						// handle zaøízení pro nahrávání
-WAVEHDR		WaveHdr[2];					// popisovaè bufferu dat
-DWORD		Timer = 0;						// èasovaè pro zobrazení èasu
-char*		DataData = NULL;			// ukazatel dat pøi pøehrávání
-int			DataSize = 0;				// èítaè zbylıch dat pøi pøehrávání
+// pÅ™ehrÃ¡vÃ¡nÃ­ a narÃ¡vÃ¡nÃ­
+HWAVEOUT	WaveOut;					// handle zaÅ™Ã­zenÃ­ pro pÅ™ehrÃ¡vÃ¡nÃ­
+HWAVEIN		WaveIn;						// handle zaÅ™Ã­zenÃ­ pro nahrÃ¡vÃ¡nÃ­
+WAVEHDR		WaveHdr[2];					// popisovaÄ bufferu dat
+DWORD		Timer = 0;						// ÄasovaÄ pro zobrazenÃ­ Äasu
+char*		DataData = NULL;			// ukazatel dat pÅ™i pÅ™ehrÃ¡vÃ¡nÃ­
+int			DataSize = 0;				// ÄÃ­taÄ zbylÃ½ch dat pÅ™i pÅ™ehrÃ¡vÃ¡nÃ­
 int			MaxBufSize = 0x20000;		// max. velikost bufferu
 
-#define SoundTimerID 15123				// ID èasovaèe
-#define MAXLENGTH 60					// maximální délka nahrávání (sekund)
+#define SoundTimerID 15123				// ID ÄasovaÄe
+#define MAXLENGTH 60					// maximÃ¡lnÃ­ dÃ©lka nahrÃ¡vÃ¡nÃ­ (sekund)
 #define SOUNDDEFSAMPLES		22050
 #define SOUNDDEFCHANNELS	1
 #define SOUNDDEFBITS		16
@@ -52,26 +52,26 @@ int			MaxBufSize = 0x20000;		// max. velikost bufferu
 #define SOUNDDEFALIGN		(SOUNDDEFCHANNELS * (SOUNDDEFBITS/8))
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace pøi startu programu
+// inicializace pÅ™i startu programu
 
 void StartInit()
 {
-// vytvoøení okna displeje
+// vytvoÅ™enÃ­ okna displeje
 	DispWnd = ::CreateWindowEx(
-		WS_EX_CLIENTEDGE | WS_EX_DLGMODALFRAME, // rozšíøenı styl
-		_T("STATIC"),					// tøída
+		WS_EX_CLIENTEDGE | WS_EX_DLGMODALFRAME, // rozÅ¡Ã­Å™enÃ½ styl
+		_T("STATIC"),					// tÅ™Ã­da
 		_T("00:00"),					// text
 		WS_CHILD | SS_CENTER,			// styl
 		300,							// X
 		200,							// Y
-		200,							// šíøka
-		100,							// vıška
-		MainFrame,						// rodiè
+		200,							// Å¡Ã­Å™ka
+		100,							// vÃ½Å¡ka
+		MainFrame,						// rodiÄ
 		NULL,							// ID
 		hInstance,						// instance
 		NULL);							// data
 
-// nastavení fontu okna displeje
+// nastavenÃ­ fontu okna displeje
 	HFONT font = ::CreateFont(80, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, FIXED_PITCH | FF_MODERN, _T("Courier New"));
@@ -80,7 +80,7 @@ void StartInit()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení editace (musí bıt platnı index!)
+// zahÃ¡jenÃ­ editace (musÃ­ bÃ½t platnÃ½ index!)
 
 void BegEdit(int index)
 {
@@ -88,16 +88,16 @@ void BegEdit(int index)
 	Index = index;
 	ASSERT(Sound.IsValid(index));
 
-// vypnutí pøípadného pøehrávání
+// vypnutÃ­ pÅ™Ã­padnÃ©ho pÅ™ehrÃ¡vÃ¡nÃ­
 	OnStop();
 
-// kopie pøed editací
+// kopie pÅ™ed editacÃ­
 	Sound[index].CopyWrite();
 
 // adresa zvuku
 	Data = Sound[index].Data();
 
-// poèet bajtù za sekundu
+// poÄet bajtÅ¯ za sekundu
 	BytesPerSec = Data->Samples * Data->Channels * (Data->Bits/8);
 	if (BytesPerSec == 0)
 	{
@@ -110,13 +110,13 @@ void BegEdit(int index)
 	}
 	if (BytesPerSec <= 0) BytesPerSec = 1;
 
-// zobrazení délky zvuku
+// zobrazenÃ­ dÃ©lky zvuku
 	DispLength();
 
-// zobrazení okna
+// zobrazenÃ­ okna
 	::ShowWindow(DispWnd, SW_SHOW);
 
-// zobrazení
+// zobrazenÃ­
 	Disp();
 
 // aktualizace voleb
@@ -125,7 +125,7 @@ void BegEdit(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøesun okna displeje
+// pÅ™esun okna displeje
 
 HDWP MoveDisp(HDWP hdwp)
 {
@@ -153,7 +153,7 @@ HDWP MoveDisp(HDWP hdwp)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èasového údaje (v sekundách)
+// nastavenÃ­ ÄasovÃ©ho Ãºdaje (v sekundÃ¡ch)
 
 void DispSet(int time)
 {
@@ -182,7 +182,7 @@ void DispSet(int time)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení délky zvuku
+// zobrazenÃ­ dÃ©lky zvuku
 
 void DispLength()
 {
@@ -191,17 +191,17 @@ void DispLength()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení okna (vymazání okolí kolem displeje)
+// zobrazenÃ­ okna (vymazÃ¡nÃ­ okolÃ­ kolem displeje)
 
 void Disp()
 {
-// otevøení kontextu displeje
+// otevÅ™enÃ­ kontextu displeje
 	HDC dc = ::GetDC(MainFrame);
 
-// pøíprava štìtce k vymazání podkladu
-	HBRUSH brush = (HBRUSH)::GetStockObject(LTGRAY_BRUSH); // štìtec k vymazání plochy
+// pÅ™Ã­prava Å¡tÄ›tce k vymazÃ¡nÃ­ podkladu
+	HBRUSH brush = (HBRUSH)::GetStockObject(LTGRAY_BRUSH); // Å¡tÄ›tec k vymazÃ¡nÃ­ plochy
 
-// vymazání plochy nahoøe nad displejem
+// vymazÃ¡nÃ­ plochy nahoÅ™e nad displejem
 	RECT rc;
 	rc.left = EditX + 2;
 	rc.right = EditX + EditWidth - 2;
@@ -212,7 +212,7 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// vymazání plochy dole pod displejem (left a right je nastaveno)
+// vymazÃ¡nÃ­ plochy dole pod displejem (left a right je nastaveno)
 	rc.top = DTop + DHeight;
 	rc.bottom = EditY + EditHeight - 2;
 	if (rc.top < rc.bottom)
@@ -220,7 +220,7 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// vymazání plochy vlevo od displeje (left je nastaveno)
+// vymazÃ¡nÃ­ plochy vlevo od displeje (left je nastaveno)
 	rc.right = DLeft;
 	rc.top = DTop;
 	rc.bottom = DTop + DHeight;
@@ -229,7 +229,7 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// vymazání plochy vpravo od displeje (top a bottom je nastaveno)
+// vymazÃ¡nÃ­ plochy vpravo od displeje (top a bottom je nastaveno)
 	rc.left = DLeft + DWidth;
 	rc.right = EditX + EditWidth - 2;
 	if (rc.left < rc.right)
@@ -237,77 +237,77 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// zrušení štìtce podkladu (i kdy podle dokumentace rušení není nutné)
+// zruÅ¡enÃ­ Å¡tÄ›tce podkladu (i kdyÅ¾ podle dokumentace ruÅ¡enÃ­ nenÃ­ nutnÃ©)
 	::DeleteObject(brush);
 
-// uvolnìní kontextu displeje
+// uvolnÄ›nÃ­ kontextu displeje
 	::ReleaseDC(MainFrame, dc);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// start pøehrávání
+// start pÅ™ehrÃ¡vÃ¡nÃ­
 
 void OnPlay()
 {
-// v pauze pokraèování pauzou
+// v pauze pokraÄovÃ¡nÃ­ pauzou
 	if (Pause)
 	{
 		OnPause();
 		return;
 	}
 
-// v módu pøehrávání vypnutí pøehrávání
+// v mÃ³du pÅ™ehrÃ¡vÃ¡nÃ­ vypnutÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	if (Play)
 	{
 		OnStop();
 		return;
 	}
 
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (Record || (Data->Size <= Data->SizeHead))
 	{
 		UpdateMenu();
 		return;
 	}
 
-// pøíprava popisovaèe dat
+// pÅ™Ã­prava popisovaÄe dat
 	WaveHdr[0].dwFlags = WHDR_DONE;
 	WaveHdr[1].dwFlags = WHDR_DONE;
 
-// pøíprava popisovaèe formátu
+// pÅ™Ã­prava popisovaÄe formÃ¡tu
 	WAVEFORMATEX	wf0;
 	WAVEFORMATEX* wf = &wf0;
 	
 	if (Data->Format == WAVE_FORMAT_PCM)
 	{
-		MaxBufSize = 0x400000;							// pro PCM je velikı buffer (nedekomprimuje se - zvolíme 4 MB)
-		wf->wFormatTag = (WORD)Data->Format;			// formát dat
-		wf->nChannels = (WORD)Data->Channels;			// poèet kanálù
-		wf->nSamplesPerSec = Data->Samples;				// vzorkovací kmitoèet
-		wf->nAvgBytesPerSec = BytesPerSec;				// pøenosová rychlost dat
-		wf->nBlockAlign = (WORD)(Data->Channels*(Data->Bits/8));	// zarovnávání dat
-		wf->wBitsPerSample = (WORD)Data->Bits;			// poèet bitù na vzorek
-		wf->cbSize = 0;									// doplòková data ve struktuøe
+		MaxBufSize = 0x400000;							// pro PCM je velikÃ½ buffer (nedekomprimuje se - zvolÃ­me 4 MB)
+		wf->wFormatTag = (WORD)Data->Format;			// formÃ¡t dat
+		wf->nChannels = (WORD)Data->Channels;			// poÄet kanÃ¡lÅ¯
+		wf->nSamplesPerSec = Data->Samples;				// vzorkovacÃ­ kmitoÄet
+		wf->nAvgBytesPerSec = BytesPerSec;				// pÅ™enosovÃ¡ rychlost dat
+		wf->nBlockAlign = (WORD)(Data->Channels*(Data->Bits/8));	// zarovnÃ¡vÃ¡nÃ­ dat
+		wf->wBitsPerSample = (WORD)Data->Bits;			// poÄet bitÅ¯ na vzorek
+		wf->cbSize = 0;									// doplÅˆkovÃ¡ data ve struktuÅ™e
 	}
 	else
 	{
 		wf = (WAVEFORMATEX*)Data->Data;
-		MaxBufSize = 0x100000;							// pro ostatní formáty omezíme na 1 MB
+		MaxBufSize = 0x100000;							// pro ostatnÃ­ formÃ¡ty omezÃ­me na 1 MB
 		if ((Data->Format >= 0x50) && (Data->Format < 0x60))
 		{
-			MaxBufSize = 0x20000;						// pro MPEG formáty omezíme na 128 KB - velká dekomprese
+			MaxBufSize = 0x20000;						// pro MPEG formÃ¡ty omezÃ­me na 128 KB - velkÃ¡ dekomprese
 		}
 	}
 
-// otevøení pøehrávacího zaøízení
+// otevÅ™enÃ­ pÅ™ehrÃ¡vacÃ­ho zaÅ™Ã­zenÃ­
 	MMRESULT res = ::waveOutOpen(
-		&WaveOut,									// handle zaøízení
-		WAVE_MAPPER,								// vybrat nejvhodnìjší zaøízení
-		wf,											// popisovaè formátu
-		NULL,										// není CALLBACK funkce
+		&WaveOut,									// handle zaÅ™Ã­zenÃ­
+		WAVE_MAPPER,								// vybrat nejvhodnÄ›jÅ¡Ã­ zaÅ™Ã­zenÃ­
+		wf,											// popisovaÄ formÃ¡tu
+		NULL,										// nenÃ­ CALLBACK funkce
 		NULL,										// data CALLBACK
-		CALLBACK_NULL);								// není CALLBACK
+		CALLBACK_NULL);								// nenÃ­ CALLBACK
 
 	if (res != MMSYSERR_NOERROR)
 	{
@@ -315,37 +315,37 @@ void OnPlay()
 		return;
 	}
 
-// pøíprava ukazatele dat
+// pÅ™Ã­prava ukazatele dat
 	DataData = (char*)Data->Data + Data->SizeHead;		// adresa dat
 	DataSize = Data->Size - Data->SizeHead;				// velikost dat
-	if (DataSize > MaxBufSize) Loop = false;			// pro více bufferù není zajištìno opakování
+	if (DataSize > MaxBufSize) Loop = false;			// pro vÃ­ce bufferÅ¯ nenÃ­ zajiÅ¡tÄ›no opakovÃ¡nÃ­
 
-// spuštìní èasovaèe
+// spuÅ¡tÄ›nÃ­ ÄasovaÄe
 	Timer = ::SetTimer(MainFrame, SoundTimerID, TimerConst, NULL);
 
-// zapnutí pøíznaku pøehrávání
+// zapnutÃ­ pÅ™Ã­znaku pÅ™ehrÃ¡vÃ¡nÃ­
 	Play = TRUE;
 
 // aktualizace voleb
 	UpdateMenu();
 
-// zahájení pøehrávání
+// zahÃ¡jenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	OnTimer(SoundTimerID);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha èasovaèe (TRUE=obsloueno)
+// obsluha ÄasovaÄe (TRUE=obslouÅ¾eno)
 
 BOOL OnTimer(UINT timerID)
 {
-// obsluha zobrazení èasu
+// obsluha zobrazenÃ­ Äasu
 	if (timerID == SoundTimerID)
 	{
 		if (Play)
 		{
 
-// zastavení pøehrávání
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 			if ((DataSize <= 0) && (WaveHdr[0].dwFlags & WHDR_DONE) && (WaveHdr[1].dwFlags & WHDR_DONE))
 			{
 				OnStop();
@@ -353,38 +353,38 @@ BOOL OnTimer(UINT timerID)
 			else
 			{
 
-// obsluha bufferù
+// obsluha bufferÅ¯
 				for (int i = 0; ((i < 2) && (DataSize > 0)); i++)
 				{
 					WAVEHDR* wh = &WaveHdr[i];
 					if (wh->dwFlags & WHDR_DONE)
 					{
 
-// uvolnìní bufferu pro zápis
+// uvolnÄ›nÃ­ bufferu pro zÃ¡pis
 						if (wh->dwFlags & WHDR_PREPARED)
 						{
 							::waveOutUnprepareHeader(WaveOut, wh, sizeof(WAVEHDR));
 						}
 
-// pøíprava popisovaèe dat
+// pÅ™Ã­prava popisovaÄe dat
 						wh->lpData = DataData;	// adresa dat
 						int size = DataSize;								// velikost dat
-						if (size > MaxBufSize) size = MaxBufSize;			// omezení velikosti bufferu
-						DataSize -= size;									// sníení èítaèe velikosti dat
+						if (size > MaxBufSize) size = MaxBufSize;			// omezenÃ­ velikosti bufferu
+						DataSize -= size;									// snÃ­Å¾enÃ­ ÄÃ­taÄe velikosti dat
 						DataData += size;									// posun ukazatele dat
 						wh->dwBufferLength = size;						// velikost dat
-						wh->dwBytesRecorded = size;						// velikost dat nahranıch v bufferu
-						wh->dwUser = 0;										// uivatelská data
+						wh->dwBytesRecorded = size;						// velikost dat nahranÃ½ch v bufferu
+						wh->dwUser = 0;										// uÅ¾ivatelskÃ¡ data
 						wh->dwFlags = WHDR_BEGINLOOP | WHDR_ENDLOOP; // parametry
-						wh->dwLoops = (Loop) ? 200000000 : 1;		// poèet opakování
-						wh->lpNext = NULL;							// není další buffer
+						wh->dwLoops = (Loop) ? 200000000 : 1;		// poÄet opakovÃ¡nÃ­
+						wh->lpNext = NULL;							// nenÃ­ dalÅ¡Ã­ buffer
 						wh->reserved = 0;
 
-// pøíprava bufferu k pøehrávání
+// pÅ™Ã­prava bufferu k pÅ™ehrÃ¡vÃ¡nÃ­
 						MMRESULT res = ::waveOutPrepareHeader(
-						WaveOut,									// handle zaøízení
-						wh,											// popisovaè dat
-						sizeof(WAVEHDR));							// velikost popisovaèe dat
+						WaveOut,									// handle zaÅ™Ã­zenÃ­
+						wh,											// popisovaÄ dat
+						sizeof(WAVEHDR));							// velikost popisovaÄe dat
 
 						if (res != MMSYSERR_NOERROR)
 						{
@@ -392,11 +392,11 @@ BOOL OnTimer(UINT timerID)
 							return TRUE;
 						}
 
-// pøedání bufferu pøehrávacímu zaøízení
+// pÅ™edÃ¡nÃ­ bufferu pÅ™ehrÃ¡vacÃ­mu zaÅ™Ã­zenÃ­
 						res = ::waveOutWrite(
-						WaveOut,									// handle zaøízení
-						wh,											// popisovaè dat
-						sizeof(WAVEHDR));							// velikost popisovaèe dat
+						WaveOut,									// handle zaÅ™Ã­zenÃ­
+						wh,											// popisovaÄ dat
+						sizeof(WAVEHDR));							// velikost popisovaÄe dat
 
 						if (res != MMSYSERR_NOERROR)
 						{
@@ -411,18 +411,18 @@ BOOL OnTimer(UINT timerID)
 		if (Play || Record)
 		{
 
-// zastavení nahrávání
+// zastavenÃ­ nahrÃ¡vÃ¡nÃ­
 			if (Record && (WaveHdr[0].dwFlags & WHDR_DONE))
 			{
 				OnStop();
 			}
 
-// pøiprava bufferu k naètení pozice
+// pÅ™iprava bufferu k naÄtenÃ­ pozice
 			MMTIME tm;
 			tm.wType = TIME_SAMPLES;
 			tm.u.sample = 0;
 
-// naètení aktuální pozice
+// naÄtenÃ­ aktuÃ¡lnÃ­ pozice
 			if (Play)
 			{
 				::waveOutGetPosition(WaveOut, &tm, sizeof(MMTIME));
@@ -432,7 +432,7 @@ BOOL OnTimer(UINT timerID)
 				::waveInGetPosition(WaveIn, &tm, sizeof(MMTIME));
 			}
 
-// zobrazení aktuální pozice, zastavení operace
+// zobrazenÃ­ aktuÃ¡lnÃ­ pozice, zastavenÃ­ operace
 			DispSet(tm.u.sample / Data->Samples );
 		}
 		return TRUE;
@@ -443,46 +443,46 @@ BOOL OnTimer(UINT timerID)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// start nahrávání
+// start nahrÃ¡vÃ¡nÃ­
 
 void OnRecord()
 {
-// v módu nahrávání vypnuti nahrávání
+// v mÃ³du nahrÃ¡vÃ¡nÃ­ vypnuti nahrÃ¡vÃ¡nÃ­
 	if (Record)
 	{
 		OnStop();
 		return;
 	}
 
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (Play)
 	{
 		UpdateMenu();
 		return;
 	}
 
-// pøíprava popisovaèe dat
+// pÅ™Ã­prava popisovaÄe dat
 	WaveHdr[0].dwFlags = WHDR_DONE;
 	WaveHdr[1].dwFlags = WHDR_DONE;
 
-// pøíprava popisovaèe formátu
+// pÅ™Ã­prava popisovaÄe formÃ¡tu
 	WAVEFORMATEX	wf;
-	wf.wFormatTag = WAVE_FORMAT_PCM;				// formát dat
-	wf.nChannels = SOUNDDEFCHANNELS;				// poèet kanálù
-	wf.nSamplesPerSec = SOUNDDEFSAMPLES;			// vzorkovací kmitoèet
-	wf.nAvgBytesPerSec = SOUNDDEFRATE;				// pøenosová rychlost dat
-	wf.nBlockAlign = SOUNDDEFALIGN;					// zarovnávání dat
-	wf.wBitsPerSample = SOUNDDEFBITS;				// poèet bitù na vzorek
-	wf.cbSize = 0;									// doplòková data ve struktuøe
+	wf.wFormatTag = WAVE_FORMAT_PCM;				// formÃ¡t dat
+	wf.nChannels = SOUNDDEFCHANNELS;				// poÄet kanÃ¡lÅ¯
+	wf.nSamplesPerSec = SOUNDDEFSAMPLES;			// vzorkovacÃ­ kmitoÄet
+	wf.nAvgBytesPerSec = SOUNDDEFRATE;				// pÅ™enosovÃ¡ rychlost dat
+	wf.nBlockAlign = SOUNDDEFALIGN;					// zarovnÃ¡vÃ¡nÃ­ dat
+	wf.wBitsPerSample = SOUNDDEFBITS;				// poÄet bitÅ¯ na vzorek
+	wf.cbSize = 0;									// doplÅˆkovÃ¡ data ve struktuÅ™e
 
-// otevøení nahrávacího zaøízení
+// otevÅ™enÃ­ nahrÃ¡vacÃ­ho zaÅ™Ã­zenÃ­
 	MMRESULT res = ::waveInOpen(
-		&WaveIn,									// handle zaøízení
-		WAVE_MAPPER,								// vybrat nejvhodnìjší zaøízení
-		&wf,										// popisovaè formátu
-		NULL,										// není CALLBACK funkce
+		&WaveIn,									// handle zaÅ™Ã­zenÃ­
+		WAVE_MAPPER,								// vybrat nejvhodnÄ›jÅ¡Ã­ zaÅ™Ã­zenÃ­
+		&wf,										// popisovaÄ formÃ¡tu
+		NULL,										// nenÃ­ CALLBACK funkce
 		NULL,										// data CALLBACK
-		CALLBACK_NULL);								// není CALLBACK
+		CALLBACK_NULL);								// nenÃ­ CALLBACK
 
 	if (res != MMSYSERR_NOERROR)
 	{
@@ -490,72 +490,72 @@ void OnRecord()
 		return;
 	}
 
-// úschova pro UNDO
+// Ãºschova pro UNDO
 	Undo.AddSndSet(Index, Sound[Index]);
 	Undo.Stop();
 
-// pøíprava bufferu
-	Sound[Index].New(MAXLENGTH*SOUNDDEFRATE);		// vytvoøení nového bufferu
+// pÅ™Ã­prava bufferu
+	Sound[Index].New(MAXLENGTH*SOUNDDEFRATE);		// vytvoÅ™enÃ­ novÃ©ho bufferu
 	Sound[Index].Samples(SOUNDDEFSAMPLES);
 	Sound[Index].Format(WAVE_FORMAT_PCM);
 	Sound[Index].Channels(SOUNDDEFCHANNELS);
 	Sound[Index].Bits(SOUNDDEFBITS);
-	SetModi();										// pøíznak modifikace programu
+	SetModi();										// pÅ™Ã­znak modifikace programu
 	Data = Sound[Index].Data();						// adresa dat
-	BytesPerSec = SOUNDDEFRATE;						// poèet bajtù za sekundu
+	BytesPerSec = SOUNDDEFRATE;						// poÄet bajtÅ¯ za sekundu
 
-// pøíprava popisovaèe dat
+// pÅ™Ã­prava popisovaÄe dat
 	WaveHdr[0].lpData = (char*)Data->Data;				// adresa dat
 	WaveHdr[0].dwBufferLength = MAXLENGTH*SOUNDDEFRATE;// velikost dat
-	WaveHdr[0].dwBytesRecorded = 0;					// velikost dat nahranıch v bufferu
-	WaveHdr[0].dwUser = 0;								// uivatelská data
+	WaveHdr[0].dwBytesRecorded = 0;					// velikost dat nahranÃ½ch v bufferu
+	WaveHdr[0].dwUser = 0;								// uÅ¾ivatelskÃ¡ data
 	WaveHdr[0].dwFlags = 0;							// parametry
-	WaveHdr[0].dwLoops = 1;							// poèet opakování
-	WaveHdr[0].lpNext = NULL;							// není další buffer
+	WaveHdr[0].dwLoops = 1;							// poÄet opakovÃ¡nÃ­
+	WaveHdr[0].lpNext = NULL;							// nenÃ­ dalÅ¡Ã­ buffer
 	WaveHdr[0].reserved = 0;
 
-// pøíprava bufferu k nahrávání
+// pÅ™Ã­prava bufferu k nahrÃ¡vÃ¡nÃ­
 	res = ::waveInPrepareHeader(
-		WaveIn,										// handle zaøízení
-		&WaveHdr[0],									// popisovaè dat
-		sizeof(WAVEHDR));							// velikost popisovaèe dat
+		WaveIn,										// handle zaÅ™Ã­zenÃ­
+		&WaveHdr[0],									// popisovaÄ dat
+		sizeof(WAVEHDR));							// velikost popisovaÄe dat
 
 	if (res != MMSYSERR_NOERROR)
 	{
-		::waveInClose(WaveIn);						// uzavøení zaøizení
-		WaveIn = NULL;								// zrušení handle zaøízení
+		::waveInClose(WaveIn);						// uzavÅ™enÃ­ zaÅ™izenÃ­
+		WaveIn = NULL;								// zruÅ¡enÃ­ handle zaÅ™Ã­zenÃ­
 
 		UpdateMenu();
 		return;
 	}
 
-// pøedání bufferu nahrávacímu zaøízení
+// pÅ™edÃ¡nÃ­ bufferu nahrÃ¡vacÃ­mu zaÅ™Ã­zenÃ­
 	res = ::waveInAddBuffer(
-		WaveIn,										// handle zaøízení
-		&WaveHdr[0],									// popisovaè dat
-		sizeof(WAVEHDR));							// velikost popisovaèe dat
+		WaveIn,										// handle zaÅ™Ã­zenÃ­
+		&WaveHdr[0],									// popisovaÄ dat
+		sizeof(WAVEHDR));							// velikost popisovaÄe dat
 
 	if (res != MMSYSERR_NOERROR)
 	{
 		::waveInUnprepareHeader(
-			WaveIn,									// handle zaøízení
-			&WaveHdr[0],								// popisovaè dat
-			sizeof(WAVEHDR));						// velikost popisovaèe dat
+			WaveIn,									// handle zaÅ™Ã­zenÃ­
+			&WaveHdr[0],								// popisovaÄ dat
+			sizeof(WAVEHDR));						// velikost popisovaÄe dat
 
-		::waveInClose(WaveIn);						// uzavøení zaøizení
-		WaveIn = NULL;								// zrušení handle zaøízení
+		::waveInClose(WaveIn);						// uzavÅ™enÃ­ zaÅ™izenÃ­
+		WaveIn = NULL;								// zruÅ¡enÃ­ handle zaÅ™Ã­zenÃ­
 
 		UpdateMenu();
 		return;
 	}
 
-// spuštìní èasovaèe
+// spuÅ¡tÄ›nÃ­ ÄasovaÄe
 	Timer = ::SetTimer(MainFrame, SoundTimerID, TimerConst, NULL);
 
-// zahájení nahrávání
+// zahÃ¡jenÃ­ nahrÃ¡vÃ¡nÃ­
 	res = ::waveInStart(WaveIn);
 
-// zapnutí pøíznaku nahrávání
+// zapnutÃ­ pÅ™Ã­znaku nahrÃ¡vÃ¡nÃ­
 	Record = TRUE;
 
 // aktualizace voleb
@@ -564,82 +564,82 @@ void OnRecord()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení nahrávání i pøehrávání (mùe bıt voláno i zvenku pøi neaktivním editoru)
+// zastavenÃ­ nahrÃ¡vÃ¡nÃ­ i pÅ™ehrÃ¡vÃ¡nÃ­ (mÅ¯Å¾e bÃ½t volÃ¡no i zvenku pÅ™i neaktivnÃ­m editoru)
 
 void OnStop()
 {
-// zastavení èasovaèe (musí bıt pøed zobrazením délky)
+// zastavenÃ­ ÄasovaÄe (musÃ­ bÃ½t pÅ™ed zobrazenÃ­m dÃ©lky)
 	if (Timer)
 	{
 		::KillTimer(MainFrame, Timer);
 		Timer = 0;
 	}
 
-// vypnutí pøehrávání
+// vypnutÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	if (Play)
 	{
 
-// pøíznak ukonèení pøehrávání
+// pÅ™Ã­znak ukonÄenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 		Play = FALSE;
 
-// pøerušení probíhajícího nahrávání
+// pÅ™eruÅ¡enÃ­ probÃ­hajÃ­cÃ­ho nahrÃ¡vÃ¡nÃ­
 		VERIFY(::waveOutReset(WaveOut) == MMSYSERR_NOERROR);
 
-// uvolnìní bufferu
+// uvolnÄ›nÃ­ bufferu
 		if (WaveHdr[1].dwFlags & WHDR_PREPARED)
 		{
 			VERIFY(::waveOutUnprepareHeader(
-				WaveOut,								// handle zaøízení
-				&WaveHdr[1],							// popisovaè dat
-				sizeof(WAVEHDR)) == MMSYSERR_NOERROR);	// velikost popisovaèe dat
+				WaveOut,								// handle zaÅ™Ã­zenÃ­
+				&WaveHdr[1],							// popisovaÄ dat
+				sizeof(WAVEHDR)) == MMSYSERR_NOERROR);	// velikost popisovaÄe dat
 		}
 
 		if (WaveHdr[0].dwFlags & WHDR_PREPARED)
 		{
 			VERIFY(::waveOutUnprepareHeader(
-				WaveOut,								// handle zaøízení
-				&WaveHdr[0],							// popisovaè dat
-				sizeof(WAVEHDR)) == MMSYSERR_NOERROR);	// velikost popisovaèe dat
+				WaveOut,								// handle zaÅ™Ã­zenÃ­
+				&WaveHdr[0],							// popisovaÄ dat
+				sizeof(WAVEHDR)) == MMSYSERR_NOERROR);	// velikost popisovaÄe dat
 		}
 
-// uzavøení pøehrávacího zaøízení
-		VERIFY(::waveOutClose(WaveOut) == MMSYSERR_NOERROR);	// uzavøení zaøizení
-		WaveOut = NULL;								// zrušení handle zaøízení
+// uzavÅ™enÃ­ pÅ™ehrÃ¡vacÃ­ho zaÅ™Ã­zenÃ­
+		VERIFY(::waveOutClose(WaveOut) == MMSYSERR_NOERROR);	// uzavÅ™enÃ­ zaÅ™izenÃ­
+		WaveOut = NULL;								// zruÅ¡enÃ­ handle zaÅ™Ã­zenÃ­
 
-// zobrazení délky zvuku
+// zobrazenÃ­ dÃ©lky zvuku
 		DispLength();
 	}
 
-// vypnutí nahrávání
+// vypnutÃ­ nahrÃ¡vÃ¡nÃ­
 	if (Record)
 	{
 
-// pøíznak ukonèení nahrávání
+// pÅ™Ã­znak ukonÄenÃ­ nahrÃ¡vÃ¡nÃ­
 		Record = FALSE;
 
-// pøerušení probíhajícího nahrávání
+// pÅ™eruÅ¡enÃ­ probÃ­hajÃ­cÃ­ho nahrÃ¡vÃ¡nÃ­
 		::waveInStop(WaveIn);
 		::waveInReset(WaveIn);
 
-// uvolnìní bufferu
+// uvolnÄ›nÃ­ bufferu
 		::waveInUnprepareHeader(
-			WaveIn,									// handle zaøízení
-			&WaveHdr[0],							// popisovaè dat
-			sizeof(WAVEHDR));						// velikost popisovaèe dat
+			WaveIn,									// handle zaÅ™Ã­zenÃ­
+			&WaveHdr[0],							// popisovaÄ dat
+			sizeof(WAVEHDR));						// velikost popisovaÄe dat
 
-// úschova velikosti dat
+// Ãºschova velikosti dat
 		int num = WaveHdr[0].dwBytesRecorded;
 		if (num > MAXLENGTH*SOUNDDEFRATE) num = MAXLENGTH*SOUNDDEFRATE;
 		if (num < 0) num = 0;
 
-// uzavøení nahrávacího zaøízení
-		::waveInClose(WaveIn);						// uzavøení zaøizení
-		WaveIn = NULL;								// zrušení handle zaøízení
+// uzavÅ™enÃ­ nahrÃ¡vacÃ­ho zaÅ™Ã­zenÃ­
+		::waveInClose(WaveIn);						// uzavÅ™enÃ­ zaÅ™izenÃ­
+		WaveIn = NULL;								// zruÅ¡enÃ­ handle zaÅ™Ã­zenÃ­
 
-// nastavení velikosti bufferu
-		Sound[Index].ReSize(num);					// nastavení
+// nastavenÃ­ velikosti bufferu
+		Sound[Index].ReSize(num);					// nastavenÃ­
 
-// zobrazení délky zvuku
+// zobrazenÃ­ dÃ©lky zvuku
 		DispLength();
 	}
 
@@ -650,14 +650,14 @@ void OnStop()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøepnutí pøíznaku opakování
+// pÅ™epnutÃ­ pÅ™Ã­znaku opakovÃ¡nÃ­
 
 void OnLoop()
 {
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (Play || Record) return;
 
-// pøepnutí pøíznaku opakování
+// pÅ™epnutÃ­ pÅ™Ã­znaku opakovÃ¡nÃ­
 	Loop = !Loop;
 
 // aktualizace voleb
@@ -666,17 +666,17 @@ void OnLoop()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pozastavení pøehrávání
+// pozastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 
 void OnPause()
 {
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (!Play) return;
 
-// pøepnutí pøíznaku opakování
+// pÅ™epnutÃ­ pÅ™Ã­znaku opakovÃ¡nÃ­
 	Pause = !Pause;
 
-// zastavení pøehrávání
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	if (Pause)
 	{
 		::waveOutPause(WaveOut);
@@ -716,14 +716,14 @@ void UpdateMenu()
 
 void Copy()
 {
-// otevøení schránky
+// otevÅ™enÃ­ schrÃ¡nky
 	if (!::OpenClipboard(MainFrame))
 		return;
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 	BeginWaitCursor();
 
-// vyprázdnìní schránky
+// vyprÃ¡zdnÄ›nÃ­ schrÃ¡nky
 	if (!::EmptyClipboard())
 	{
 		EndWaitCursor();
@@ -731,7 +731,7 @@ void Copy()
 		return;
 	}
 
-// vytvoøení globálního bufferu pro data
+// vytvoÅ™enÃ­ globÃ¡lnÃ­ho bufferu pro data
 	HGLOBAL global = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, Data->Size + sizeof(WAVHEAD));
 	if (global == NULL)
 	{
@@ -740,17 +740,17 @@ void Copy()
 		return;
 	}
 
-// uzamknutí bufferu
+// uzamknutÃ­ bufferu
 	BYTE* data = (BYTE*) ::GlobalLock(global);
 
-// inicializace záhlaví souboru
+// inicializace zÃ¡hlavÃ­ souboru
 	((WAVHEAD*)data)->tWavIdent[0] = 'R';
 	((WAVHEAD*)data)->tWavIdent[1] = 'I';
 	((WAVHEAD*)data)->tWavIdent[2] = 'F';
 	((WAVHEAD*)data)->tWavIdent[3] = 'F';
 	((WAVHEAD*)data)->nFileSize = Data->Size + sizeof(WAVFORMAT) + sizeof(WAVDATA);
 
-// inicializace formátu
+// inicializace formÃ¡tu
 	WAVFORMAT* wf = &(((WAVHEAD*)data)->WavFormat);
 	wf->tFormatIdent[0] = 'W';
 	wf->tFormatIdent[1] = 'A';
@@ -777,19 +777,19 @@ void Copy()
 	wd->tDataIdent[3] = 'a';
 	wd->nDataSize = Data->Size;
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 	MemCopy(data + sizeof(WAVHEAD), Data->Data, Data->Size);
 
-// odemknutí bufferu
+// odemknutÃ­ bufferu
 	::GlobalUnlock(global);
 
-// uloení dat do schránky
+// uloÅ¾enÃ­ dat do schrÃ¡nky
 	::SetClipboardData(CF_WAVE, global);
 
-// uzavøení schránky
+// uzavÅ™enÃ­ schrÃ¡nky
 	::CloseClipboard();
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 	EndWaitCursor();
 
 // aktualizace voleb bloku
@@ -798,26 +798,26 @@ void Copy()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// navrácení z bufferu
+// navrÃ¡cenÃ­ z bufferu
 
 void Paste()
 {
-// lokální promìnné
-	HGLOBAL		global;			// globální buffer s daty
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	HGLOBAL		global;			// globÃ¡lnÃ­ buffer s daty
 	BYTE*		data;			// ukazatel na data
 	int			size;			// velikost dat souboru
-	int			channels;		// poèet kanálù
-	int			samples;		// vzorkovací kmitoèet
-	int			bits;			// poèet bitù na vzorek
+	int			channels;		// poÄet kanÃ¡lÅ¯
+	int			samples;		// vzorkovacÃ­ kmitoÄet
+	int			bits;			// poÄet bitÅ¯ na vzorek
 
-// otevøení schránky
+// otevÅ™enÃ­ schrÃ¡nky
 	if (!::OpenClipboard(MainFrame))
 		return;
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 	BeginWaitCursor();
 
-// naètení dat schránky
+// naÄtenÃ­ dat schrÃ¡nky
 	global = ::GetClipboardData(CF_WAVE);
 	if (global == NULL)
 	{
@@ -826,10 +826,10 @@ void Paste()
 		return;
 	}
 	
-// uzamknutí bufferu
+// uzamknutÃ­ bufferu
 	data = (BYTE*) ::GlobalLock(global);
 
-// kontrola platnosti formátu souboru
+// kontrola platnosti formÃ¡tu souboru
 	if ((data[0] == 'R') &&
 		(data[1] == 'I') &&
 		(data[2] == 'F') &&
@@ -840,7 +840,7 @@ void Paste()
 		if (size < 0) size = 0;
 		data += 8;
 
-// kontrola popisovaèe formátu
+// kontrola popisovaÄe formÃ¡tu
 		if ((data[0] == 'W') &&
 			(data[1] == 'A') &&
 			(data[2] == 'V') &&
@@ -863,7 +863,7 @@ void Paste()
 			size -= ((WAVFORMAT*)data)->nFormatSize + 12;
 			data += ((WAVFORMAT*)data)->nFormatSize + 12;
 
-// nalezení bloku dat
+// nalezenÃ­ bloku dat
 			for (;;)
 			{
 				if (size < 10) break;
@@ -882,8 +882,8 @@ void Paste()
 					data += 8;
 
 // kopie dat do bufferu
-					Sound[Index].New(size);			// vytvoøení nového bufferu
-					SetModi();						// pøíznak modifikace programu
+					Sound[Index].New(size);			// vytvoÅ™enÃ­ novÃ©ho bufferu
+					SetModi();						// pÅ™Ã­znak modifikace programu
 					Data = Sound[Index].Data();		// adresa dat
 					BytesPerSec = samples * channels * (bits/8);
 					Data->Samples = samples;
@@ -902,13 +902,13 @@ void Paste()
 		}
 	}
 
-// odemknutí bufferu
+// odemknutÃ­ bufferu
 	::GlobalUnlock(global);
 
-// uzavøení schránky
+// uzavÅ™enÃ­ schrÃ¡nky
 	::CloseClipboard();
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 	EndWaitCursor();
 
 // aktualizace voleb bloku

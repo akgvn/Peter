@@ -3,13 +3,13 @@
 
 /***************************************************************************\
 *																			*
-*								Ikonové promìnné							*
+*								IkonovÃ© promÄ›nnÃ©							*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaèní prázdná ikona (modifikuje se poèet referencí!) (viz MAIN.CPP)
+// inicializaÄnÃ­ prÃ¡zdnÃ¡ ikona (modifikuje se poÄet referencÃ­!) (viz MAIN.CPP)
 
 ICONDATA	EmptyIconData		= { 1, PicParamNone, NULL, NULL, 0, NULL};
 
@@ -33,7 +33,7 @@ CIcon::~CIcon()
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CIcon::Init()
 { 
@@ -57,19 +57,19 @@ void CIcon::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie novıch dat ikony - zajistí odpojení dat
+// kopie novÃ½ch dat ikony - zajistÃ­ odpojenÃ­ dat
 
 void CIcon::CopyData(BYTE* src)
 {
 	ASSERT(src);
-	ICONDATA* data = pData;			// adresa starıch dat (záhlaví)
-	long* refer = &(data->Refer);	// poèet referencí
+	ICONDATA* data = pData;			// adresa starÃ½ch dat (zÃ¡hlavÃ­)
+	long* refer = &(data->Refer);	// poÄet referencÃ­
 
-	if (*refer > 1)					// je nìjakı jinı majitel?
+	if (*refer > 1)					// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
-		NewBuffer();				// vytvoøení nového bufferu
+		NewBuffer();				// vytvoÅ™enÃ­ novÃ©ho bufferu
 
-// odpojení starıch dat - v multithread mùe nastat i zrušení
+// odpojenÃ­ starÃ½ch dat - v multithread mÅ¯Å¾e nastat i zruÅ¡enÃ­
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
@@ -83,8 +83,8 @@ void CIcon::CopyData(BYTE* src)
 				::DestroyCursor(data->Cursor);
 			}
 
-			MemFree(data->Data);	// pøípadné zrušení dat
-			MemFree(data);			// pøípadné zrušení záhlaví
+			MemFree(data->Data);	// pÅ™Ã­padnÃ© zruÅ¡enÃ­ dat
+			MemFree(data);			// pÅ™Ã­padnÃ© zruÅ¡enÃ­ zÃ¡hlavÃ­
 #endif	// _MT
 		}
 	}
@@ -108,7 +108,7 @@ void CIcon::CopyData(BYTE* src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// dekomprimace dat ikony (jsou-li komprimována)
+// dekomprimace dat ikony (jsou-li komprimovÃ¡na)
 
 void CIcon::DeComp()
 {
@@ -125,19 +125,19 @@ void CIcon::DeComp()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie novıch dat ikony s konverzí - zajistí odpojení dat
+// kopie novÃ½ch dat ikony s konverzÃ­ - zajistÃ­ odpojenÃ­ dat
 
 void CIcon::CopyKonvData(BYTE* src)
 {
 	ASSERT(src);
-	ICONDATA* data = pData;			// adresa starıch dat (záhlaví)
-	long* refer = &(data->Refer);	// poèet referencí
+	ICONDATA* data = pData;			// adresa starÃ½ch dat (zÃ¡hlavÃ­)
+	long* refer = &(data->Refer);	// poÄet referencÃ­
 
-	if (*refer > 1)					// je nìjakı jinı majitel?
+	if (*refer > 1)					// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
-		NewBuffer();				// vytvoøení nového bufferu
+		NewBuffer();				// vytvoÅ™enÃ­ novÃ©ho bufferu
 
-// odpojení starıch dat - v multithread mùe nastat i zrušení
+// odpojenÃ­ starÃ½ch dat - v multithread mÅ¯Å¾e nastat i zruÅ¡enÃ­
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
@@ -150,8 +150,8 @@ void CIcon::CopyKonvData(BYTE* src)
 			{
 				::DestroyCursor(data->Cursor);
 			}
-			MemFree(data->Data);	// pøípadné zrušení dat
-			MemFree(data);			// pøípadné zrušení záhlaví
+			MemFree(data->Data);	// pÅ™Ã­padnÃ© zruÅ¡enÃ­ dat
+			MemFree(data);			// pÅ™Ã­padnÃ© zruÅ¡enÃ­ zÃ¡hlavÃ­
 #endif	// _MT
 		}
 	}
@@ -175,21 +175,21 @@ void CIcon::CopyKonvData(BYTE* src)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie ikony do vlastního bufferu pøed modifikací
+// kopie ikony do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­
 
 void CIcon::CopyWrite()
 {
 	DeComp();
-	ICONDATA* data = pData;			// adresa starıch dat (záhlaví)
-	long* refer = &(data->Refer);	// poèet referencí
+	ICONDATA* data = pData;			// adresa starÃ½ch dat (zÃ¡hlavÃ­)
+	long* refer = &(data->Refer);	// poÄet referencÃ­
 
-	if (*refer > 1)					// je nìjakı jinı majitel?
+	if (*refer > 1)					// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
-		NewBuffer();				// vytvoøení nového bufferu
+		NewBuffer();				// vytvoÅ™enÃ­ novÃ©ho bufferu
 		MemCopy(pData->Data, data->Data, ICONSIZE);
-		pData->Param = data->Param;	// pøenesení parametrù
+		pData->Param = data->Param;	// pÅ™enesenÃ­ parametrÅ¯
 
-// odpojení starıch dat - v multithread mùe nastat i zrušení
+// odpojenÃ­ starÃ½ch dat - v multithread mÅ¯Å¾e nastat i zruÅ¡enÃ­
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
@@ -202,8 +202,8 @@ void CIcon::CopyWrite()
 			{
 				::DestroyCursor(data->Cursor);
 			}
-			MemFree(data->Data);	// pøípadné zrušení dat
-			MemFree(data);			// pøípadné zrušení záhlaví
+			MemFree(data->Data);	// pÅ™Ã­padnÃ© zruÅ¡enÃ­ dat
+			MemFree(data);			// pÅ™Ã­padnÃ© zruÅ¡enÃ­ zÃ¡hlavÃ­
 #endif	// _MT
 		}
 	}
@@ -225,7 +225,7 @@ void CIcon::CopyWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní ikony (uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ ikony (uvolnÄ›nÃ­ dat)
 
 void CIcon::Empty()
 { 
@@ -235,35 +235,35 @@ void CIcon::Empty()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nové ikony (pøipraveno k zápisu, data jsou náhodná)
+// vytvoÅ™enÃ­ novÃ© ikony (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
 
 void CIcon::New()
 {
 	if (pData->Refer != 1)
 	{
-		Detach();						// odpojení staré ikony
-		NewBuffer();					// vytvoøení nového bufferu
+		Detach();						// odpojenÃ­ starÃ© ikony
+		NewBuffer();					// vytvoÅ™enÃ­ novÃ©ho bufferu
 	}
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení ikony ze souboru
+// naÄtenÃ­ ikony ze souboru
 
-#pragma warning ( disable: 4701)		// hlášení - neinicializovaná promìnná
+#pragma warning ( disable: 4701)		// hlÃ¡Å¡enÃ­ - neinicializovanÃ¡ promÄ›nnÃ¡
 void CIcon::LoadFile()
 {
 #ifndef _MINI
 
-// úschova offsetu souboru
+// Ãºschova offsetu souboru
 	int oldoff = FileReadOff;
 
-// naètení záhlaví souboru
+// naÄtenÃ­ zÃ¡hlavÃ­ souboru
 	ICONDIR dir;
 	dir.Type = 0;
 	FileReadBlok((BYTE*)&dir, SIZEOFICONDIR);
 
-// kontrola záhlaví souboru
+// kontrola zÃ¡hlavÃ­ souboru
 	int count = dir.Count;
 	if ((dir.Reserved != 0) ||
 		(dir.Type != 1) ||
@@ -275,20 +275,20 @@ void CIcon::LoadFile()
 		return;
 	}
 
-// pøednastavení neplatné ikony
+// pÅ™ednastavenÃ­ neplatnÃ© ikony
 	int off = -1;
 	int width, colors;
 	int i;
 	int newoff = FileReadOff;
 
-// nalezení ikony s rozmìry 32x32
+// nalezenÃ­ ikony s rozmÄ›ry 32x32
 	for (i = 0; i < count; i++)
 	{
 
-// naètení adresáøové poloky
+// naÄtenÃ­ adresÃ¡Å™ovÃ© poloÅ¾ky
 		FileReadBlok((BYTE*)dir.Data, SIZEOFICONDIRENTRY);
 
-// test, zda to je hledaná ikona
+// test, zda to je hledanÃ¡ ikona
 		if	(	
 				(dir.Data[0].Width == 32) && 
 				(dir.Data[0].Height == 32) &&
@@ -311,16 +311,16 @@ void CIcon::LoadFile()
 		if (j > newoff) newoff = j;
 	}
 
-// nalezení ikony s rozmìry 16*16
+// nalezenÃ­ ikony s rozmÄ›ry 16*16
 	if (off < 0)
 	{
 		FileReadOff = oldoff + SIZEOFICONDIR;
 		for (i = 0; i < count; i++)
 		{
-// naètení adresáøové poloky
+// naÄtenÃ­ adresÃ¡Å™ovÃ© poloÅ¾ky
 			FileReadBlok((BYTE*)dir.Data, SIZEOFICONDIRENTRY);
 
-// test, zda to je hledaná ikona
+// test, zda to je hledanÃ¡ ikona
 			if	(	
 					(dir.Data[0].Width == 16) && 
 					(dir.Data[0].Height == 16) &&
@@ -349,7 +349,7 @@ void CIcon::LoadFile()
 	}
 	if (colors == 0) colors = 256;
 
-// pøíprava velikosti záhlaví a dat
+// pÅ™Ã­prava velikosti zÃ¡hlavÃ­ a dat
 	int sizehead = sizeof(BITMAPINFOHEADER) + 256*sizeof(RGBQUAD);
 	int sizedata = width*width + width*width/8;
 	if (colors == 16)
@@ -358,18 +358,18 @@ void CIcon::LoadFile()
 		sizedata = width*width/2 + width*width/8;
 	}
 
-// vytvoøení nového bufferu pro data
+// vytvoÅ™enÃ­ novÃ©ho bufferu pro data
 	Detach();
 	NewBuffer();
 
-// naètení dat do pomocného buferu
+// naÄtenÃ­ dat do pomocnÃ©ho buferu
 	FileReadOff = off;
 	int size = sizehead + sizedata;
 	BYTE* buf = (BYTE*)MemGet(size);
 	FileReadBlok(buf, size);
 	FileReadOff = newoff;
 
-// vygenerování konverzní tabulky palet
+// vygenerovÃ¡nÃ­ konverznÃ­ tabulky palet
 	((BITMAPINFO*)buf)->bmiHeader.biClrUsed = 0;
 	if (colors == 16)
 	{
@@ -381,7 +381,7 @@ void CIcon::LoadFile()
 	}
 	GenKonvPal((BITMAPINFO*)buf);
 
-// pøíprava zdrojové a cílové adresy
+// pÅ™Ã­prava zdrojovÃ© a cÃ­lovÃ© adresy
 	BYTE* dst = pData->Data;
 	BYTE* src = buf + sizehead;
 
@@ -464,11 +464,11 @@ void CIcon::LoadFile()
 		}
 	}
 
-// pøíprava zdrojové a cílové adresy
+// pÅ™Ã­prava zdrojovÃ© a cÃ­lovÃ© adresy
 	dst = pData->Data;
 	src = buf + sizehead + sizedata - width*width/8;
 
-// korekce pozadí ikony pro 32x32
+// korekce pozadÃ­ ikony pro 32x32
 	BYTE maska;
 
 	if (width == 32)
@@ -491,16 +491,16 @@ void CIcon::LoadFile()
 		}
 	}
 
-// uvolnìní bufferu
-	MemFree(buf);				// uvolnìní bufferu
+// uvolnÄ›nÃ­ bufferu
+	MemFree(buf);				// uvolnÄ›nÃ­ bufferu
 
 #endif // _MINI
 }
-#pragma warning ( default: 4701)		// hlášení - neinicializovaná promìnná
+#pragma warning ( default: 4701)		// hlÃ¡Å¡enÃ­ - neinicializovanÃ¡ promÄ›nnÃ¡
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení ikony do souboru
+// uloÅ¾enÃ­ ikony do souboru
 
 void CIcon::SaveFile()
 {
@@ -508,10 +508,10 @@ void CIcon::SaveFile()
 
 	DeComp();
 
-// pøíprava velikosti ikony
-	int size =	SIZEOFICONDIR +					// záhlaví adresáøe
-				SIZEOFICONDIRENTRY +			// první adresáøová poloka
-				sizeof(BITMAPINFOHEADER) +		// záhlaví BMP
+// pÅ™Ã­prava velikosti ikony
+	int size =	SIZEOFICONDIR +					// zÃ¡hlavÃ­ adresÃ¡Å™e
+				SIZEOFICONDIRENTRY +			// prvnÃ­ adresÃ¡Å™ovÃ¡ poloÅ¾ka
+				sizeof(BITMAPINFOHEADER) +		// zÃ¡hlavÃ­ BMP
 				256 * sizeof(RGBQUAD) +			// tabulka palet
 				ICONSIZE +						// velikost dat ikony
 				ICONSIZE/8;						// velikost masky
@@ -519,40 +519,40 @@ void CIcon::SaveFile()
 // buffer pro ikonu
 	BYTE* buf = (BYTE*)MemGet(size);
 
-// vymazání bufferu
+// vymazÃ¡nÃ­ bufferu
 	MemFill(buf, size);
 
-// vyplnìní záhlaví adresáøe
+// vyplnÄ›nÃ­ zÃ¡hlavÃ­ adresÃ¡Å™e
 	ICONDIR* dir = (ICONDIR*)buf;
 	dir->Type = 1;								// typ souboru = ikona
-	dir->Count = 1;								// poèet poloek v adresáøi
+	dir->Count = 1;								// poÄet poloÅ¾ek v adresÃ¡Å™i
 
-// vyplnìní adresáøové poloky
+// vyplnÄ›nÃ­ adresÃ¡Å™ovÃ© poloÅ¾ky
 	ICONDIRENTRY* entry = dir->Data;
-	entry->Width = ICONWIDTH;					// šíøka ikony
-	entry->Height = ICONHEIGHT;					// vıška ikony
+	entry->Width = ICONWIDTH;					// Å¡Ã­Å™ka ikony
+	entry->Height = ICONHEIGHT;					// vÃ½Å¡ka ikony
 	entry->Size = size - SIZEOFICONDIR - SIZEOFICONDIRENTRY;
 	entry->Offset = SIZEOFICONDIR + SIZEOFICONDIRENTRY;
 
-// vyplnìní záhlaví bitmapy
+// vyplnÄ›nÃ­ zÃ¡hlavÃ­ bitmapy
 	BITMAPINFOHEADER* bmp = (BITMAPINFOHEADER*)(buf + SIZEOFICONDIR + SIZEOFICONDIRENTRY);
-	bmp->biSize = sizeof(BITMAPINFOHEADER);		// velikost záhlaví
-	bmp->biWidth = ICONWIDTH;					// šíøka obrázku
-	bmp->biHeight = ICONHEIGHT*2;				// vıška obrázku a masky
-	bmp->biPlanes = 1;							// poèet barevnıch rovin
-	bmp->biBitCount = 8;						// poèet bitù na bod
-	bmp->biSizeImage = ICONSIZE;				// velikost obrázku
+	bmp->biSize = sizeof(BITMAPINFOHEADER);		// velikost zÃ¡hlavÃ­
+	bmp->biWidth = ICONWIDTH;					// Å¡Ã­Å™ka obrÃ¡zku
+	bmp->biHeight = ICONHEIGHT*2;				// vÃ½Å¡ka obrÃ¡zku a masky
+	bmp->biPlanes = 1;							// poÄet barevnÃ½ch rovin
+	bmp->biBitCount = 8;						// poÄet bitÅ¯ na bod
+	bmp->biSizeImage = ICONSIZE;				// velikost obrÃ¡zku
 
-// uloení palet (bez barvy pozadí 0 - ta zùstane nastavena na 0, tj èerná)
+// uloÅ¾enÃ­ palet (bez barvy pozadÃ­ 0 - ta zÅ¯stane nastavena na 0, tj ÄernÃ¡)
 	MemCopy(buf + SIZEOFICONDIR + SIZEOFICONDIRENTRY + sizeof(BITMAPINFOHEADER) +
 			sizeof(RGBQUAD), StdBitmapInfo->bmiColors + 1, 255*sizeof(RGBQUAD));
 
-// uloení dat ikony
+// uloÅ¾enÃ­ dat ikony
 	BYTE* src = buf + SIZEOFICONDIR + SIZEOFICONDIRENTRY + 
 						sizeof(BITMAPINFOHEADER) + 256*sizeof(RGBQUAD);
 	MemCopy(src, pData->Data, ICONSIZE);
 
-// vygenerování masky
+// vygenerovÃ¡nÃ­ masky
 	BYTE* dst = src + ICONSIZE;
 	int i;
 	BYTE stradac;
@@ -575,10 +575,10 @@ void CIcon::SaveFile()
 		dst++;
 	}
 
-// uloení souboru
+// uloÅ¾enÃ­ souboru
 	FileWriteBlok(buf, size);
 
-// zrušení bufferu
+// zruÅ¡enÃ­ bufferu
 	MemFree(buf);
 
 #endif // _MINI
@@ -586,26 +586,26 @@ void CIcon::SaveFile()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení ikony do souboru formátu ICO (false=chyba)
+// uloÅ¾enÃ­ ikony do souboru formÃ¡tu ICO (false=chyba)
 
 bool CIcon::SaveFile(CString jmeno)
 {
 	DeComp();
 
-// otevøení souboru
+// otevÅ™enÃ­ souboru
 	HANDLE hFile = ::CreateFile(jmeno, GENERIC_WRITE,
 		0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-// test, zda byl soubor vytvoøen
+// test, zda byl soubor vytvoÅ™en
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		return false;
 	}
 
-// pøíprava velikosti ikony
-	int size =	SIZEOFICONDIR +					// záhlaví adresáøe
-				SIZEOFICONDIRENTRY +			// první adresáøová poloka
-				sizeof(BITMAPINFOHEADER) +		// záhlaví BMP
+// pÅ™Ã­prava velikosti ikony
+	int size =	SIZEOFICONDIR +					// zÃ¡hlavÃ­ adresÃ¡Å™e
+				SIZEOFICONDIRENTRY +			// prvnÃ­ adresÃ¡Å™ovÃ¡ poloÅ¾ka
+				sizeof(BITMAPINFOHEADER) +		// zÃ¡hlavÃ­ BMP
 				256 * sizeof(RGBQUAD) +			// tabulka palet
 				ICONSIZE +						// velikost dat ikony
 				ICONSIZE/8;						// velikost masky
@@ -613,40 +613,40 @@ bool CIcon::SaveFile(CString jmeno)
 // buffer pro ikonu
 	BYTE* buf = (BYTE*)MemGet(size);
 
-// vymazání bufferu
+// vymazÃ¡nÃ­ bufferu
 	MemFill(buf, size);
 
-// vyplnìní záhlaví adresáøe
+// vyplnÄ›nÃ­ zÃ¡hlavÃ­ adresÃ¡Å™e
 	ICONDIR* dir = (ICONDIR*)buf;
 	dir->Type = 1;								// typ souboru = ikona
-	dir->Count = 1;								// poèet poloek v adresáøi
+	dir->Count = 1;								// poÄet poloÅ¾ek v adresÃ¡Å™i
 
-// vyplnìní adresáøové poloky
+// vyplnÄ›nÃ­ adresÃ¡Å™ovÃ© poloÅ¾ky
 	ICONDIRENTRY* entry = dir->Data;
-	entry->Width = ICONWIDTH;					// šíøka ikony
-	entry->Height = ICONHEIGHT;					// vıška ikony
+	entry->Width = ICONWIDTH;					// Å¡Ã­Å™ka ikony
+	entry->Height = ICONHEIGHT;					// vÃ½Å¡ka ikony
 	entry->Size = size - SIZEOFICONDIR - SIZEOFICONDIRENTRY;
 	entry->Offset = SIZEOFICONDIR + SIZEOFICONDIRENTRY;
 
-// vyplnìní záhlaví bitmapy
+// vyplnÄ›nÃ­ zÃ¡hlavÃ­ bitmapy
 	BITMAPINFOHEADER* bmp = (BITMAPINFOHEADER*)(buf + SIZEOFICONDIR + SIZEOFICONDIRENTRY);
-	bmp->biSize = sizeof(BITMAPINFOHEADER);		// velikost záhlaví
-	bmp->biWidth = ICONWIDTH;					// šíøka obrázku
-	bmp->biHeight = ICONHEIGHT*2;				// vıška obrázku a masky
-	bmp->biPlanes = 1;							// poèet barevnıch rovin
-	bmp->biBitCount = 8;						// poèet bitù na bod
-	bmp->biSizeImage = ICONSIZE;				// velikost obrázku
+	bmp->biSize = sizeof(BITMAPINFOHEADER);		// velikost zÃ¡hlavÃ­
+	bmp->biWidth = ICONWIDTH;					// Å¡Ã­Å™ka obrÃ¡zku
+	bmp->biHeight = ICONHEIGHT*2;				// vÃ½Å¡ka obrÃ¡zku a masky
+	bmp->biPlanes = 1;							// poÄet barevnÃ½ch rovin
+	bmp->biBitCount = 8;						// poÄet bitÅ¯ na bod
+	bmp->biSizeImage = ICONSIZE;				// velikost obrÃ¡zku
 
-// uloení palet (bez barvy pozadí 0 - ta zùstane nastavena na 0, tj èerná)
+// uloÅ¾enÃ­ palet (bez barvy pozadÃ­ 0 - ta zÅ¯stane nastavena na 0, tj ÄernÃ¡)
 	MemCopy(buf + SIZEOFICONDIR + SIZEOFICONDIRENTRY + sizeof(BITMAPINFOHEADER) +
 			sizeof(RGBQUAD), StdBitmapInfo->bmiColors + 1, 255*sizeof(RGBQUAD));
 
-// uloení dat ikony
+// uloÅ¾enÃ­ dat ikony
 	BYTE* src = buf + SIZEOFICONDIR + SIZEOFICONDIRENTRY + 
 						sizeof(BITMAPINFOHEADER) + 256*sizeof(RGBQUAD);
 	MemCopy(src, pData->Data, ICONSIZE);
 
-// vygenerování masky
+// vygenerovÃ¡nÃ­ masky
 	BYTE* dst = src + ICONSIZE;
 	int i;
 	BYTE stradac;
@@ -669,52 +669,52 @@ bool CIcon::SaveFile(CString jmeno)
 		dst++;
 	}
 
-// uloení souboru
+// uloÅ¾enÃ­ souboru
 	DWORD write;
 	BOOL result = ::WriteFile(hFile, buf, size, &write, NULL);
 
-// uzavøení souboru
+// uzavÅ™enÃ­ souboru
 	::CloseHandle(hFile);
 
-// zrušení bufferu
+// zruÅ¡enÃ­ bufferu
 	MemFree(buf);
 
-// pøi chybì zrušení ikony
+// pÅ™i chybÄ› zruÅ¡enÃ­ ikony
 	if (!result || (write != (DWORD)size))
 	{
 		::DeleteFile(jmeno);
 		return false;
 	}
 
-// pøíznak - ikona uloena OK
+// pÅ™Ã­znak - ikona uloÅ¾ena OK
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení ikony WINDOWS
+// vytvoÅ™enÃ­ ikony WINDOWS
 
 HICON CIcon::HIcon()
 {
-// není ikona vytvoøena?
+// nenÃ­ ikona vytvoÅ™ena?
 	if (pData->HIcon == NULL)
 	{
 
-// pøíprava jména pøechodného souboru
+// pÅ™Ã­prava jmÃ©na pÅ™echodnÃ©ho souboru
 		CString name;
 		name.TempName();
 
-// uloení ikony do souboru
+// uloÅ¾enÃ­ ikony do souboru
 		if (SaveFile(name))
 		{
 
-// vytvoøení ikony
+// vytvoÅ™enÃ­ ikony
 			pData->HIcon = ::ExtractIcon(hInstance, name, 0);
 
 // chyba
 			if ((int)pData->HIcon == 1) pData->HIcon = NULL;
 
-// zrušení pøechodného souboru
+// zruÅ¡enÃ­ pÅ™echodnÃ©ho souboru
 			::DeleteFile(name);
 		}
 	}
@@ -723,71 +723,71 @@ HICON CIcon::HIcon()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení kurzoru myši
+// vytvoÅ™enÃ­ kurzoru myÅ¡i
 
 HCURSOR CIcon::Cursor()
 {
-// není kurzor vytvoøen?
+// nenÃ­ kurzor vytvoÅ™en?
 	if (pData->Cursor == NULL)
 	{
 
 // dekomprimace ikony
 		DeComp();
 
-// vytvoøení pracovních bufferù
-		BYTE* src = pData->Data;					// zdrojová adresa dat
+// vytvoÅ™enÃ­ pracovnÃ­ch bufferÅ¯
+		BYTE* src = pData->Data;					// zdrojovÃ¡ adresa dat
 		BYTE* dstAND = (BYTE*)MemGet(ICONSIZE/8);	// maska AND
-		BYTE* dstand = dstAND + (ICONHEIGHT-1)*ICONWIDTH/8;	// adresa poslední linky AND
+		BYTE* dstand = dstAND + (ICONHEIGHT-1)*ICONWIDTH/8;	// adresa poslednÃ­ linky AND
 		BYTE* dstXOR = (BYTE*)MemGet(ICONSIZE/8);	// maska XOR
-		BYTE* dstxor = dstXOR + (ICONHEIGHT-1)*ICONWIDTH/8; // adresa poslední linky XOR
-		int hotX = ICONWIDTH/2;						// horkı bod X
-		int hotY = ICONHEIGHT/2;					// horkı bod Y
+		BYTE* dstxor = dstXOR + (ICONHEIGHT-1)*ICONWIDTH/8; // adresa poslednÃ­ linky XOR
+		int hotX = ICONWIDTH/2;						// horkÃ½ bod X
+		int hotY = ICONHEIGHT/2;					// horkÃ½ bod Y
 
-// cyklus pøes všechny linky
+// cyklus pÅ™es vÅ¡echny linky
 		for (int i = ICONHEIGHT - 1; i >= 0; i--)
 		{
 
-// cyklus pøes všechny bajty na lince
+// cyklus pÅ™es vÅ¡echny bajty na lince
 			for (int j = ICONWIDTH/8 - 1; j >= 0; j--)
 			{
 
-// pøíprava støadaèù a masky
-				BYTE stradacAND = 0xff;					// støadaè bitù AND
-				BYTE stradacXOR = 0;					// støadaè bitù XOR
-				BYTE maska = 0x80;						// bitová maska bodu
+// pÅ™Ã­prava stÅ™adaÄÅ¯ a masky
+				BYTE stradacAND = 0xff;					// stÅ™adaÄ bitÅ¯ AND
+				BYTE stradacXOR = 0;					// stÅ™adaÄ bitÅ¯ XOR
+				BYTE maska = 0x80;						// bitovÃ¡ maska bodu
 
-// cyklus pøes bity bajtu
+// cyklus pÅ™es bity bajtu
 				for (int k = 7; k >= 0; k--)
 				{
 
-// naètení barvy
+// naÄtenÃ­ barvy
 					BYTE barva = *src;
 					src++;
 
-// není prùhledná barva ?
+// nenÃ­ prÅ¯hlednÃ¡ barva ?
 					if (barva != BackCol)
 					{
 
-// bílá a èerná barva - bìná barva
+// bÃ­lÃ¡ a ÄernÃ¡ barva - bÄ›Å¾nÃ¡ barva
 						if (barva >= WhiteCol)
 						{
 							stradacAND ^= maska;		// bude AND
 							if (barva < (StdColors-ColLev))
 							{
-								stradacXOR |= maska;	// bude XOR (bílá barva)
+								stradacXOR |= maska;	// bude XOR (bÃ­lÃ¡ barva)
 							}
 						}
 						else
 						{
 
-// lutá, zelená a modrá barva - horkı bod
+// Å¾lutÃ¡, zelenÃ¡ a modrÃ¡ barva - horkÃ½ bod
 							if (barva >= YellowCol - ColLev)
 							{
 								hotX = ICONWIDTH - j*8 - k;
 								hotY = i;
 							}
 
-// èervená a lutá barva - inverze
+// ÄervenÃ¡ a Å¾lutÃ¡ barva - inverze
 							if (barva <= YellowCol + ColLev)
 							{
 								stradacXOR |= maska;	// bude XOR
@@ -796,24 +796,24 @@ HCURSOR CIcon::Cursor()
 							else
 							{
 
-// zelená barva - platná data (svìtlá/tmavá), modrá barva - prùhledná
+// zelenÃ¡ barva - platnÃ¡ data (svÄ›tlÃ¡/tmavÃ¡), modrÃ¡ barva - prÅ¯hlednÃ¡
 								if (barva < BlueCol - ColLev)
 								{
 									stradacAND ^= maska;	// bude AND
 									if (((barva - ResCols) % ColLev) < (ColLev/2))
 									{
-										stradacXOR |= maska;	// bude XOR (bílá barva)
+										stradacXOR |= maska;	// bude XOR (bÃ­lÃ¡ barva)
 									}
 								}
 							}
 						}
 					}
 
-// posun masky na další bit
+// posun masky na dalÅ¡Ã­ bit
 					maska >>= 1;
 				}
 
-// uloení bajtu (osmice bodù)
+// uloÅ¾enÃ­ bajtu (osmice bodÅ¯)
 				*dstand = stradacAND;
 				dstand++;
 				*dstxor = stradacXOR;
@@ -821,16 +821,16 @@ HCURSOR CIcon::Cursor()
 
 			}
 
-// posun adresy na další linku
+// posun adresy na dalÅ¡Ã­ linku
 			dstand -= 2*ICONWIDTH/8;
 			dstxor -= 2*ICONWIDTH/8;
 		}
 
-// vytvoøení kurzoru
+// vytvoÅ™enÃ­ kurzoru
 		pData->Cursor = ::CreateCursor(hInstance, hotX, hotY, ICONWIDTH, ICONHEIGHT, dstAND, dstXOR);
 		ASSERT(pData->Cursor != NULL);
 
-// zrušení bufferù
+// zruÅ¡enÃ­ bufferÅ¯
 		MemFree(dstAND);
 		MemFree(dstXOR);
 	}
@@ -839,19 +839,19 @@ HCURSOR CIcon::Cursor()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CIcon& CIcon::operator= (const CIcon& src)
 {
-	Detach();				// zrušení starıch dat
-	Attach(src.pData);		// pøiøazení novıch dat
+	Detach();				// zruÅ¡enÃ­ starÃ½ch dat
+	Attach(src.pData);		// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
 const CIcon& CIcon::operator= (ICONDATA* src)
 {
-	Detach();				// zrušení starıch dat
-	Attach(src);			// pøiøazení novıch dat
+	Detach();				// zruÅ¡enÃ­ starÃ½ch dat
+	Attach(src);			// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
@@ -868,35 +868,35 @@ const CIcon& CIcon::operator= (ICONDATA* src)
 
 CBufIcon::CBufIcon()
 {
-	m_Data = NULL;						// není buffer dat
-	m_Num = 0;							// není ádná platná poloka
-	m_Max = 0;							// není buffer poloek
+	m_Data = NULL;						// nenÃ­ buffer dat
+	m_Num = 0;							// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;							// nenÃ­ buffer poloÅ¾ek
 }
 
 CBufIcon::~CBufIcon()
 {
-	DelAll();							// zrušení všech poloek
+	DelAll();							// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CBufIcon::Init()
 {
-	m_Data = NULL;						// není buffer dat
-	m_Num = 0;							// není ádná platná poloka
-	m_Max = 0;							// není buffer poloek
+	m_Data = NULL;						// nenÃ­ buffer dat
+	m_Num = 0;							// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;							// nenÃ­ buffer poloÅ¾ek
 }
 
 void CBufIcon::Term()
 {
-	DelAll();							// zrušení všech poloek
+	DelAll();							// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 
 void CBufIcon::NewData()
 {
@@ -908,34 +908,34 @@ void CBufIcon::NewData()
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 
 void CBufIcon::DelAll()
 {
-	Del(m_Num);					// zrušení poloek
-	MemBuf(m_Data, 0);			// zrušení bufferu dat
-	m_Max = 0;					// není ádná poloka v bufferu
+	Del(m_Num);					// zruÅ¡enÃ­ poloÅ¾ek
+	MemBuf(m_Data, 0);			// zruÅ¡enÃ­ bufferu dat
+	m_Max = 0;					// nenÃ­ Å¾Ã¡dnÃ¡ poloÅ¾ka v bufferu
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 const CIcon& _fastcall CBufIcon::Get(const int index) const
 {
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
-		return m_Data[index];	// poloka na daném indexu
+		return m_Data[index];	// poloÅ¾ka na danÃ©m indexu
 	}
-	return EmptyIcon;			// pro neplatnı index vrátí prázdnou ikonu
+	return EmptyIcon;			// pro neplatnÃ½ index vrÃ¡tÃ­ prÃ¡zdnou ikonu
 }
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 void _fastcall CBufIcon::Set(const int index, const CIcon& data)
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		m_Data[index] = data;
 	}
@@ -943,11 +943,11 @@ void _fastcall CBufIcon::Set(const int index, const CIcon& data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní poloky (bez jejího zrušení - jen pro uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ poloÅ¾ky (bez jejÃ­ho zruÅ¡enÃ­ - jen pro uvolnÄ›nÃ­ dat)
 
 void _fastcall CBufIcon::Empty(const int index)
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		m_Data[index].Empty();
 	}
@@ -955,7 +955,7 @@ void _fastcall CBufIcon::Empty(const int index)
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 
 void _fastcall CBufIcon::Del(int num)
 {
@@ -973,19 +973,19 @@ void _fastcall CBufIcon::Del(int num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CBufIcon& _fastcall CBufIcon::operator= (const CBufIcon& src)
 {
-	Del(m_Num);					// zrušení starıch dat
+	Del(m_Num);					// zruÅ¡enÃ­ starÃ½ch dat
 
-	int index = 0;				// index naèítané poloky
-	int i = src.m_Num;			// velikost zdrojového bufferu
+	int index = 0;				// index naÄÃ­tanÃ© poloÅ¾ky
+	int i = src.m_Num;			// velikost zdrojovÃ©ho bufferu
 
-	for (; i > 0; i--)			// pro všechny poloky v bufferu
+	for (; i > 0; i--)			// pro vÅ¡echny poloÅ¾ky v bufferu
 	{
-		Add(src[index]);	// kopie poloky
-		index++;				// inkrementace ètecího indexu
+		Add(src[index]);	// kopie poloÅ¾ky
+		index++;				// inkrementace ÄtecÃ­ho indexu
 	}
 	ASSERT(m_Num == src.m_Num);
 	return *this;
@@ -993,61 +993,61 @@ const CBufIcon& _fastcall CBufIcon::operator= (const CBufIcon& src)
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení poloky (vrací index poloky)
+// vytvoÅ™enÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int CBufIcon::New()
 {
-	int result = NewItem();				// vytvoøení nové poloky
-	m_Data[result].InitNew();			// inicializace poloky
+	int result = NewItem();				// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].InitNew();			// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int _fastcall CBufIcon::Add(const CIcon& data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(data.Data());	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(data.Data());	// inicializace poloÅ¾ky
 	return result;
 }
 
 int _fastcall CBufIcon::Add(ICONDATA* data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(data);	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(data);	// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 
 int _fastcall CBufIcon::Dup(const int index)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
-		m_Data[result].Init(m_Data[index].Data());	// kopie poloky
+		m_Data[result].Init(m_Data[index].Data());	// kopie poloÅ¾ky
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatné poloky
+		m_Data[result].Init();		// inicializace neplatnÃ© poloÅ¾ky
 	}
 	return result;
 }
 
 int _fastcall CBufIcon::Dup(const int index, int num)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		ICONDATA* data = m_Data[index].Data();
 
-		m_Data[result].Init(data);		// kopie poloky
+		m_Data[result].Init(data);		// kopie poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -1056,7 +1056,7 @@ int _fastcall CBufIcon::Dup(const int index, int num)
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatné poloky
+		m_Data[result].Init();		// inicializace neplatnÃ© poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{

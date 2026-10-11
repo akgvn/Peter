@@ -13,57 +13,57 @@ namespace EditMusic
 /////////////////////////////////////////////////////////////////////////////
 // parametry
 
-// editovaná hudba
-int		Index = 0;						// editovaná poloka
+// editovanÃ¡ hudba
+int		Index = 0;						// editovanÃ¡ poloÅ¾ka
 MUSICDATA*	Data = NULL;				// data hudby
-int		Delka = 0;						// délka skladby v ms
+int		Delka = 0;						// dÃ©lka skladby v ms
 
-// zobrazení
-int		DLeft;							// souøadnice X displeje
-int		DTop;							// souøadnice Y displeje
-int		DWidth;							// šíøka displeje
-int		DHeight;						// vıška displeje
+// zobrazenÃ­
+int		DLeft;							// souÅ™adnice X displeje
+int		DTop;							// souÅ™adnice Y displeje
+int		DWidth;							// Å¡Ã­Å™ka displeje
+int		DHeight;						// vÃ½Å¡ka displeje
 
-// zobrazení èasu
-HWND	DispWnd = NULL;					// okno zobrazení èasu
-int		LastTime = 0;					// naposledy zobrazenı èas (sekund)
+// zobrazenÃ­ Äasu
+HWND	DispWnd = NULL;					// okno zobrazenÃ­ Äasu
+int		LastTime = 0;					// naposledy zobrazenÃ½ Äas (sekund)
 
-// ovládání
-BOOL	Play = FALSE;					// probíhá pøehrávání
-BOOL	Loop = FALSE;					// zapnuta smyèka
-BOOL	Pause = FALSE;					// zapauzování pøehrávání
+// ovlÃ¡dÃ¡nÃ­
+BOOL	Play = FALSE;					// probÃ­hÃ¡ pÅ™ehrÃ¡vÃ¡nÃ­
+BOOL	Loop = FALSE;					// zapnuta smyÄka
+BOOL	Pause = FALSE;					// zapauzovÃ¡nÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 
-// pøehrávání a narávání
-TCHAR		FileName[MAX_PATH + 101];	// jméno pøechodného souboru
-MCIDEVICEID	DeviceID = 0;				// ID zaøízení
-DWORD		Timer = 0;					// èasovaè pro zobrazení èasu
+// pÅ™ehrÃ¡vÃ¡nÃ­ a narÃ¡vÃ¡nÃ­
+TCHAR		FileName[MAX_PATH + 101];	// jmÃ©no pÅ™echodnÃ©ho souboru
+MCIDEVICEID	DeviceID = 0;				// ID zaÅ™Ã­zenÃ­
+DWORD		Timer = 0;					// ÄasovaÄ pro zobrazenÃ­ Äasu
 
-#define MusicTimerID 13263				// ID èasovaèe
+#define MusicTimerID 13263				// ID ÄasovaÄe
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializace pøi startu programu
+// inicializace pÅ™i startu programu
 
 void StartInit()
 {
-// není soubor
+// nenÃ­ soubor
 	FileName[0] = 0;
 
-// vytvoøení okna displeje
+// vytvoÅ™enÃ­ okna displeje
 	DispWnd = ::CreateWindowEx(
-		WS_EX_CLIENTEDGE | WS_EX_DLGMODALFRAME, // rozšíøenı styl
-		_T("STATIC"),					// tøída
+		WS_EX_CLIENTEDGE | WS_EX_DLGMODALFRAME, // rozÅ¡Ã­Å™enÃ½ styl
+		_T("STATIC"),					// tÅ™Ã­da
 		_T("00:00"),					// text
 		WS_CHILD | SS_CENTER,			// styl
 		300,							// X
 		200,							// Y
-		200,							// šíøka
-		100,							// vıška
-		MainFrame,						// rodiè
+		200,							// Å¡Ã­Å™ka
+		100,							// vÃ½Å¡ka
+		MainFrame,						// rodiÄ
 		NULL,							// ID
 		hInstance,						// instance
 		NULL);							// data
 
-// nastavení fontu okna displeje
+// nastavenÃ­ fontu okna displeje
 	HFONT font = ::CreateFont(80, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 		DEFAULT_QUALITY, FIXED_PITCH | FF_MODERN, _T("Courier New"));
@@ -72,7 +72,7 @@ void StartInit()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení editace (musí bıt platnı index!)
+// zahÃ¡jenÃ­ editace (musÃ­ bÃ½t platnÃ½ index!)
 
 void BegEdit(int index)
 {
@@ -80,23 +80,23 @@ void BegEdit(int index)
 	Index = index;
 	ASSERT(Music.IsValid(index));
 
-// vypnutí pøípadného pøehrávání
+// vypnutÃ­ pÅ™Ã­padnÃ©ho pÅ™ehrÃ¡vÃ¡nÃ­
 	OnStop();
 
-// kopie pøed editací
+// kopie pÅ™ed editacÃ­
 	Music[index].CopyWrite();
 
 // adresa dat hudby
 	Data = Music[index].Data();
 
-// zobrazení délky hudby
+// zobrazenÃ­ dÃ©lky hudby
 	OnPlay(TRUE);
 	DispLength();
 
-// zobrazení okna
+// zobrazenÃ­ okna
 	::ShowWindow(DispWnd, SW_SHOW);
 
-// zobrazení
+// zobrazenÃ­
 	Disp();
 
 // aktualizace voleb
@@ -105,7 +105,7 @@ void BegEdit(int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøesun okna displeje
+// pÅ™esun okna displeje
 
 HDWP MoveDisp(HDWP hdwp)
 {
@@ -133,7 +133,7 @@ HDWP MoveDisp(HDWP hdwp)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení èasového údaje (v sekundách)
+// nastavenÃ­ ÄasovÃ©ho Ãºdaje (v sekundÃ¡ch)
 
 void DispSet(int time)
 {
@@ -162,7 +162,7 @@ void DispSet(int time)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení délky hudby
+// zobrazenÃ­ dÃ©lky hudby
 
 void DispLength()
 {
@@ -171,17 +171,17 @@ void DispLength()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zobrazení okna (vymazání okolí kolem displeje)
+// zobrazenÃ­ okna (vymazÃ¡nÃ­ okolÃ­ kolem displeje)
 
 void Disp()
 {
-// otevøení kontextu displeje
+// otevÅ™enÃ­ kontextu displeje
 	HDC dc = ::GetDC(MainFrame);
 
-// pøíprava štìtce k vymazání podkladu
-	HBRUSH brush = (HBRUSH)::GetStockObject(LTGRAY_BRUSH); // štìtec k vymazání plochy
+// pÅ™Ã­prava Å¡tÄ›tce k vymazÃ¡nÃ­ podkladu
+	HBRUSH brush = (HBRUSH)::GetStockObject(LTGRAY_BRUSH); // Å¡tÄ›tec k vymazÃ¡nÃ­ plochy
 
-// vymazání plochy nahoøe nad displejem
+// vymazÃ¡nÃ­ plochy nahoÅ™e nad displejem
 	RECT rc;
 	rc.left = EditX + 2;
 	rc.right = EditX + EditWidth - 2;
@@ -192,7 +192,7 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// vymazání plochy dole pod displejem (left a right je nastaveno)
+// vymazÃ¡nÃ­ plochy dole pod displejem (left a right je nastaveno)
 	rc.top = DTop + DHeight;
 	rc.bottom = EditY + EditHeight - 2;
 	if (rc.top < rc.bottom)
@@ -200,7 +200,7 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// vymazání plochy vlevo od displeje (left je nastaveno)
+// vymazÃ¡nÃ­ plochy vlevo od displeje (left je nastaveno)
 	rc.right = DLeft;
 	rc.top = DTop;
 	rc.bottom = DTop + DHeight;
@@ -209,7 +209,7 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// vymazání plochy vpravo od displeje (top a bottom je nastaveno)
+// vymazÃ¡nÃ­ plochy vpravo od displeje (top a bottom je nastaveno)
 	rc.left = DLeft + DWidth;
 	rc.right = EditX + EditWidth - 2;
 	if (rc.left < rc.right)
@@ -217,48 +217,48 @@ void Disp()
 		::FillRect(dc, &rc, brush);
 	}
 
-// zrušení štìtce podkladu (i kdy podle dokumentace rušení není nutné)
+// zruÅ¡enÃ­ Å¡tÄ›tce podkladu (i kdyÅ¾ podle dokumentace ruÅ¡enÃ­ nenÃ­ nutnÃ©)
 	::DeleteObject(brush);
 
-// uvolnìní kontextu displeje
+// uvolnÄ›nÃ­ kontextu displeje
 	::ReleaseDC(MainFrame, dc);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// start pøehrávání (init = jen zjištìní délky a pøerušení)
+// start pÅ™ehrÃ¡vÃ¡nÃ­ (init = jen zjiÅ¡tÄ›nÃ­ dÃ©lky a pÅ™eruÅ¡enÃ­)
 
 void OnPlay(BOOL init)
 {
-// v pauze pokraèování pauzou
+// v pauze pokraÄovÃ¡nÃ­ pauzou
 	if (Pause)
 	{
 		OnPause();
 		return;
 	}
 
-// v módu pøehrávání vypnutí pøehrávání
+// v mÃ³du pÅ™ehrÃ¡vÃ¡nÃ­ vypnutÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	if (Play)
 	{
 		OnStop();
 		return;
 	}
 
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (Data->Size <= 1)
 	{
 		UpdateMenu();
 		return;
 	}
 
-// pøíprava jména pøechodného souboru
+// pÅ™Ã­prava jmÃ©na pÅ™echodnÃ©ho souboru
 	TCHAR tmppath[101];
 	tmppath[0] = 0;
 	::GetTempPath(100, tmppath);
 	FileName[0] = 0;
 	::GetTempFileName(tmppath, _T("PET"), 0, FileName);
 
-// vytvoøení pøechodného souboru
+// vytvoÅ™enÃ­ pÅ™echodnÃ©ho souboru
 	HANDLE file = ::CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,
 		0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
 
@@ -269,14 +269,14 @@ void OnPlay(BOOL init)
 		return;
 	}
 
-// zápis dat do pøechodného souboru
+// zÃ¡pis dat do pÅ™echodnÃ©ho souboru
 	DWORD writen;
 	BOOL res = ::WriteFile(file, Data->Data, Data->Size, &writen, NULL);
 
-// uzavøení souboru
+// uzavÅ™enÃ­ souboru
 	::CloseHandle(file);
 
-// kontrola operace zápisu	
+// kontrola operace zÃ¡pisu	
 	if (!res)
 	{
 		::DeleteFile(FileName);
@@ -285,7 +285,7 @@ void OnPlay(BOOL init)
 		return;
 	}
 
-// otevøení vıstupního zaøízení
+// otevÅ™enÃ­ vÃ½stupnÃ­ho zaÅ™Ã­zenÃ­
     MCI_OPEN_PARMS mop;
 
     mop.lpstrDeviceType = _T("sequencer");
@@ -303,14 +303,14 @@ void OnPlay(BOOL init)
 	}
     DeviceID = mop.wDeviceID;
 
-// nastavení èasového formátu na milisekundy
+// nastavenÃ­ ÄasovÃ©ho formÃ¡tu na milisekundy
 	MCI_SET_PARMS msp;
 	msp.dwTimeFormat = MCI_FORMAT_MILLISECONDS;
 
 	res = ::mciSendCommand(DeviceID, MCI_SET, 
 		MCI_SET_TIME_FORMAT, (DWORD) &msp);
 
-// naètení délky skladby
+// naÄtenÃ­ dÃ©lky skladby
 	MCI_STATUS_PARMS mtp;
 	mtp.dwItem = MCI_STATUS_LENGTH;
 
@@ -320,7 +320,7 @@ void OnPlay(BOOL init)
 	if (Delka < 0) Delka = 0;
 	if (Delka > 1000000000) Delka = 1000000000;
 
-// pøehrání souboru
+// pÅ™ehrÃ¡nÃ­ souboru
     MCI_PLAY_PARMS mpp;
 
 	if (!init)
@@ -342,10 +342,10 @@ void OnPlay(BOOL init)
 		return;
 	}
 
-// spuštìní èasovaèe
+// spuÅ¡tÄ›nÃ­ ÄasovaÄe
 	Timer = ::SetTimer(MainFrame, MusicTimerID, TimerConst, NULL);
 
-// zapnutí pøíznaku pøehrávání
+// zapnutÃ­ pÅ™Ã­znaku pÅ™ehrÃ¡vÃ¡nÃ­
 	Play = TRUE;
 
 // aktualizace voleb
@@ -354,11 +354,11 @@ void OnPlay(BOOL init)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha èasovaèe (TRUE=obsloueno)
+// obsluha ÄasovaÄe (TRUE=obslouÅ¾eno)
 
 BOOL OnTimer(UINT timerID)
 {
-// obsluha zobrazení èasu
+// obsluha zobrazenÃ­ Äasu
 	if (timerID == MusicTimerID)
 	{
 		if (Play)
@@ -378,7 +378,7 @@ BOOL OnTimer(UINT timerID)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení pøehrávání
+// ukonÄenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 
 void OnMMNotify(DWORD flags, int devID)
 {
@@ -394,25 +394,25 @@ void OnMMNotify(DWORD flags, int devID)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zastavení pøehrávání (mùe bıt voláno i zvenku pøi neaktivním editoru)
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­ (mÅ¯Å¾e bÃ½t volÃ¡no i zvenku pÅ™i neaktivnÃ­m editoru)
 
 void OnStop()
 {
-// zastavení èasovaèe (musí bıt pøed zobrazením délky)
+// zastavenÃ­ ÄasovaÄe (musÃ­ bÃ½t pÅ™ed zobrazenÃ­m dÃ©lky)
 	if (Timer)
 	{
 		::KillTimer(MainFrame, Timer);
 		Timer = 0;
 	}
 
-// vypnutí pøehrávání
+// vypnutÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	if (Play)
 	{
 
-// pøíznak ukonèení pøehrávání
+// pÅ™Ã­znak ukonÄenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 		Play = FALSE;
 
-// uzavøení pøehrávacího zaøízení
+// uzavÅ™enÃ­ pÅ™ehrÃ¡vacÃ­ho zaÅ™Ã­zenÃ­
 		if (DeviceID)
 		{
 			::mciSendCommand(DeviceID, MCI_STOP, 0, NULL);
@@ -420,14 +420,14 @@ void OnStop()
 			DeviceID = 0;
 		}
 
-// zrušení souboru
+// zruÅ¡enÃ­ souboru
 		if (FileName[0])
 		{
 			::DeleteFile(FileName);
 			FileName[0] = 0;
 		}
 
-// zobrazení délky skladby
+// zobrazenÃ­ dÃ©lky skladby
 		DispLength();
 	}
 
@@ -438,14 +438,14 @@ void OnStop()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøepnutí pøíznaku opakování
+// pÅ™epnutÃ­ pÅ™Ã­znaku opakovÃ¡nÃ­
 
 void OnLoop()
 {
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (Play) return;
 
-// pøepnutí pøíznaku opakování
+// pÅ™epnutÃ­ pÅ™Ã­znaku opakovÃ¡nÃ­
 	Loop = !Loop;
 
 // aktualizace voleb
@@ -454,17 +454,17 @@ void OnLoop()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pozastavení pøehrávání
+// pozastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 
 void OnPause()
 {
-// kontrola povolení operace
+// kontrola povolenÃ­ operace
 	if (!Play) return;
 
-// pøepnutí pøíznaku opakování
+// pÅ™epnutÃ­ pÅ™Ã­znaku opakovÃ¡nÃ­
 	Pause = !Pause;
 
-// zastavení pøehrávání
+// zastavenÃ­ pÅ™ehrÃ¡vÃ¡nÃ­
 	if (Pause)
 	{
 		::mciSendCommand(DeviceID, MCI_PAUSE, 0, NULL);
@@ -482,68 +482,68 @@ void OnPause()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøevinutí zpìt
+// pÅ™evinutÃ­ zpÄ›t
 
 void OnRew()
 {
-// kontrola, zda je pøehrávání
+// kontrola, zda je pÅ™ehrÃ¡vÃ¡nÃ­
 	if (!Play) return;
 
-// úschova pøíznaku pauzy
+// Ãºschova pÅ™Ã­znaku pauzy
 	BOOL pause = Pause;
 
-// odpauzování, je-li zapauzováno
+// odpauzovÃ¡nÃ­, je-li zapauzovÃ¡no
 	if (pause) OnPause();
 
-// pøíprava nové pozice
+// pÅ™Ã­prava novÃ© pozice
 	MCI_PLAY_PARMS mpp;
 	mpp.dwCallback = (DWORD)MainFrame;
 	mpp.dwFrom = LastTime * 1000 - 10000;
 
-// pøeteèení hranice
+// pÅ™eteÄenÃ­ hranice
 	while ((int)mpp.dwFrom < 0) 
 	{
 		mpp.dwFrom += Delka;
 	}
 
-// nastavení nové pozice pøehrávání
+// nastavenÃ­ novÃ© pozice pÅ™ehrÃ¡vÃ¡nÃ­
 	::mciSendCommand(DeviceID, MCI_PLAY, MCI_NOTIFY | MCI_FROM, 
     (DWORD) &mpp);
 
-// navrácení pauzy
+// navrÃ¡cenÃ­ pauzy
 	if (pause) OnPause();
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// pøevinutí vpøed
+// pÅ™evinutÃ­ vpÅ™ed
 
 void OnFrw()
 {
-// kontrola, zda je pøehrávání
+// kontrola, zda je pÅ™ehrÃ¡vÃ¡nÃ­
 	if (!Play) return;
 
-// úschova pøíznaku pauzy
+// Ãºschova pÅ™Ã­znaku pauzy
 	BOOL pause = Pause;
 
-// odpauzování, je-li zapauzováno
+// odpauzovÃ¡nÃ­, je-li zapauzovÃ¡no
 	if (pause) OnPause();
 
-// pøíprava nové pozice
+// pÅ™Ã­prava novÃ© pozice
 	MCI_PLAY_PARMS mpp;
 	mpp.dwCallback = (DWORD)MainFrame;
 	mpp.dwFrom = LastTime * 1000 + 10000;
 
-// pøeteèení hranice
+// pÅ™eteÄenÃ­ hranice
 	while ((int)mpp.dwFrom >= Delka) 
 	{
 		mpp.dwFrom -= Delka;
 	}
 
-// nastavení nové pozice pøehrávání
+// nastavenÃ­ novÃ© pozice pÅ™ehrÃ¡vÃ¡nÃ­
 	::mciSendCommand(DeviceID, MCI_PLAY, MCI_NOTIFY | MCI_FROM, 
     (DWORD) &mpp);
 
-// navrácení pauzy
+// navrÃ¡cenÃ­ pauzy
 	if (pause) OnPause();
 }
 
@@ -574,14 +574,14 @@ void UpdateMenu()
 void Copy()
 {
 	/*
-// otevøení schránky
+// otevÅ™enÃ­ schrÃ¡nky
 	if (!::OpenClipboard(MainFrame))
 		return;
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 	BeginWaitCursor();
 
-// vyprázdnìní schránky
+// vyprÃ¡zdnÄ›nÃ­ schrÃ¡nky
 	if (!::EmptyClipboard())
 	{
 		EndWaitCursor();
@@ -589,7 +589,7 @@ void Copy()
 		return;
 	}
 
-// vytvoøení globálního bufferu pro data
+// vytvoÅ™enÃ­ globÃ¡lnÃ­ho bufferu pro data
 	HGLOBAL global = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, Data->Size);
 	if (global == NULL)
 	{
@@ -598,22 +598,22 @@ void Copy()
 		return;
 	}
 
-// uzamknutí bufferu
+// uzamknutÃ­ bufferu
 	BYTE* data = (BYTE*) ::GlobalLock(global);
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 	MemCopy(data, Data->Data, Data->Size);
 
-// odemknutí bufferu
+// odemknutÃ­ bufferu
 	::GlobalUnlock(global);
 
-// uloení dat do schránky
+// uloÅ¾enÃ­ dat do schrÃ¡nky
 	::SetClipboardData(CF_WAVE, global);
 
-// uzavøení schránky
+// uzavÅ™enÃ­ schrÃ¡nky
 	::CloseClipboard();
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 	EndWaitCursor();
 
 // aktualizace voleb bloku
@@ -623,27 +623,27 @@ void Copy()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// navrácení z bufferu
+// navrÃ¡cenÃ­ z bufferu
 
 void Paste()
 {
 	/*
-// lokální promìnné
-	HGLOBAL		global;			// globální buffer s daty
+// lokÃ¡lnÃ­ promÄ›nnÃ©
+	HGLOBAL		global;			// globÃ¡lnÃ­ buffer s daty
 	BYTE*		data;			// ukazatel na data
 	int			size;			// velikost dat souboru
-	int			channels;		// poèet kanálù
-	int			samples;		// vzorkovací kmitoèet
-	int			bits;			// poèet bitù na vzorek
+	int			channels;		// poÄet kanÃ¡lÅ¯
+	int			samples;		// vzorkovacÃ­ kmitoÄet
+	int			bits;			// poÄet bitÅ¯ na vzorek
 
-// otevøení schránky
+// otevÅ™enÃ­ schrÃ¡nky
 	if (!::OpenClipboard(MainFrame))
 		return;
 
-// zapnutí èekacího kurzoru
+// zapnutÃ­ ÄekacÃ­ho kurzoru
 	BeginWaitCursor();
 
-// naètení dat schránky
+// naÄtenÃ­ dat schrÃ¡nky
 	global = ::GetClipboardData(CF_WAVE);
 	if (global == NULL)
 	{
@@ -652,10 +652,10 @@ void Paste()
 		return;
 	}
 	
-// uzamknutí bufferu
+// uzamknutÃ­ bufferu
 	data = (BYTE*) ::GlobalLock(global);
 
-// kontrola platnosti formátu souboru
+// kontrola platnosti formÃ¡tu souboru
 	if ((data[0] == 'R') &&
 		(data[1] == 'I') &&
 		(data[2] == 'F') &&
@@ -666,7 +666,7 @@ void Paste()
 		if (size < 0) size = 0;
 		data += 8;
 
-// kontrola popisovaèe formátu
+// kontrola popisovaÄe formÃ¡tu
 		if ((data[0] == 'W') &&
 			(data[1] == 'A') &&
 			(data[2] == 'V') &&
@@ -689,7 +689,7 @@ void Paste()
 			size -= ((WAVFORMAT*)data)->nFormatSize + 12;
 			data += ((WAVFORMAT*)data)->nFormatSize + 12;
 
-// nalezení bloku dat
+// nalezenÃ­ bloku dat
 			for (;;)
 			{
 				if (size < 10) break;
@@ -708,8 +708,8 @@ void Paste()
 					data += 8;
 
 // kopie dat do bufferu
-					Sound[Index].New(size);			// vytvoøení nového bufferu
-					SetModi();						// pøíznak modifikace programu
+					Sound[Index].New(size);			// vytvoÅ™enÃ­ novÃ©ho bufferu
+					SetModi();						// pÅ™Ã­znak modifikace programu
 					Data = Sound[Index].Data();		// adresa dat
 					BytesPerSec = samples * channels * (bits/8);
 					Data->Samples = samples;
@@ -727,13 +727,13 @@ void Paste()
 		}
 	}
 
-// odemknutí bufferu
+// odemknutÃ­ bufferu
 	::GlobalUnlock(global);
 
-// uzavøení schránky
+// uzavÅ™enÃ­ schrÃ¡nky
 	::CloseClipboard();
 
-// vypnutí èekacího kurzoru
+// vypnutÃ­ ÄekacÃ­ho kurzoru
 	EndWaitCursor();
 
 // aktualizace voleb bloku

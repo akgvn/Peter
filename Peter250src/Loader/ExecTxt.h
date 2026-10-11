@@ -1,13 +1,13 @@
 
 /***************************************************************************\
 *																			*
-*							Provádìní programu - text						*
+*							ProvÃ¡dÄ›nÃ­ programu - text						*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inline volání pøíkazu - text
+// inline volÃ¡nÃ­ pÅ™Ã­kazu - text
 
 inline void FText(CString& text)
 {
@@ -17,135 +17,135 @@ inline void FText(CString& text)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení jména souboru
+// naÄtenÃ­ jmÃ©na souboru
 
 void _fastcall FFileName(CString& text);
 
 
-void _fastcall FGetStatus(CString& text);		// zjištìní textu stavového øádku
-void _fastcall FGetCaption(CString& text);		// zjištìní textu nadpisu okna
+void _fastcall FGetStatus(CString& text);		// zjiÅ¡tÄ›nÃ­ textu stavovÃ©ho Å™Ã¡dku
+void _fastcall FGetCaption(CString& text);		// zjiÅ¡tÄ›nÃ­ textu nadpisu okna
 
 // funkce
-void _fastcall FTextFunc(CString& text);		// funkce s návratem textu
+void _fastcall FTextFunc(CString& text);		// funkce s nÃ¡vratem textu
 
-// promìnné
+// promÄ›nnÃ©
 void _fastcall FTextCRLF(CString& text);		// text CR/LF
-void _fastcall FTextEmpty(CString& text);		// prázdnı text
-void _fastcall FTextObj(CString& text);			// globální text (Data = index)
-void _fastcall FTextObjList(CString& text);		// globalní text v seznamu (Data = index, List = seznam)
-void _fastcall FTextLoc(CString& text);			// lokální text (Data = index)
-void _fastcall FTextLocList(CString& text);		// lokální text v seznamu (Data = index, List = seznam)
+void _fastcall FTextEmpty(CString& text);		// prÃ¡zdnÃ½ text
+void _fastcall FTextObj(CString& text);			// globÃ¡lnÃ­ text (Data = index)
+void _fastcall FTextObjList(CString& text);		// globalnÃ­ text v seznamu (Data = index, List = seznam)
+void _fastcall FTextLoc(CString& text);			// lokÃ¡lnÃ­ text (Data = index)
+void _fastcall FTextLocList(CString& text);		// lokÃ¡lnÃ­ text v seznamu (Data = index, List = seznam)
 
 // konverze
-void _fastcall FTextFormat(CString& text);		// pøevod èísla na text
-void _fastcall FTextFormat2(CString& text);		// pøevod èísla na text - 2 èíslice
-void _fastcall FTextFormatH(CString& text);		// pøevod èísla na text - 8 èíslic HEX
-void _fastcall FTextChar(CString& text);		// pøevod èísla na znak
-void _fastcall FTextLower(CString& text);		// pøevod na malá písmena
-void _fastcall FTextUpper(CString& text);		// pøevod na velká písmena
+void _fastcall FTextFormat(CString& text);		// pÅ™evod ÄÃ­sla na text
+void _fastcall FTextFormat2(CString& text);		// pÅ™evod ÄÃ­sla na text - 2 ÄÃ­slice
+void _fastcall FTextFormatH(CString& text);		// pÅ™evod ÄÃ­sla na text - 8 ÄÃ­slic HEX
+void _fastcall FTextChar(CString& text);		// pÅ™evod ÄÃ­sla na znak
+void _fastcall FTextLower(CString& text);		// pÅ™evod na malÃ¡ pÃ­smena
+void _fastcall FTextUpper(CString& text);		// pÅ™evod na velkÃ¡ pÃ­smena
 
-// obsluha èasu
-void _fastcall FTimeDateEur(CString& text);		// pøevod data na evropskı formát
-void _fastcall FTimeDateUsa(CString& text);		// pøevod data na americkı formát
-void _fastcall FTimeDateJap(CString& text);		// pøevod data na japonskı formát
-void _fastcall FTimeTime24(CString& text);		// pøevod èasu na formát 24
-void _fastcall FTimeTime12(CString& text);		// pøevod èasu na formát 12
+// obsluha Äasu
+void _fastcall FTimeDateEur(CString& text);		// pÅ™evod data na evropskÃ½ formÃ¡t
+void _fastcall FTimeDateUsa(CString& text);		// pÅ™evod data na americkÃ½ formÃ¡t
+void _fastcall FTimeDateJap(CString& text);		// pÅ™evod data na japonskÃ½ formÃ¡t
+void _fastcall FTimeTime24(CString& text);		// pÅ™evod Äasu na formÃ¡t 24
+void _fastcall FTimeTime12(CString& text);		// pÅ™evod Äasu na formÃ¡t 12
 
-// obsluha textù
-void _fastcall FGetFileAct(CString& text);		// naètení aktivního adresáøe
-void _fastcall FGetDiskLabel(CString& text);	// naètení jmenovky disku
-void _fastcall FGetFileRead(CString& text);		// soubor pro ètení
-void _fastcall FGetFileWrite(CString& text);	// soubor pro zápis
-void _fastcall FGetFileText0(CString& text);	// naètení textu zakonèeného nulou
-void _fastcall FGetFileTextCR(CString& text);	// naètení textu zakonèeného CR
-void _fastcall FGetFileTextN(CString& text);	// naètení textu s pevnou délkou
+// obsluha textÅ¯
+void _fastcall FGetFileAct(CString& text);		// naÄtenÃ­ aktivnÃ­ho adresÃ¡Å™e
+void _fastcall FGetDiskLabel(CString& text);	// naÄtenÃ­ jmenovky disku
+void _fastcall FGetFileRead(CString& text);		// soubor pro ÄtenÃ­
+void _fastcall FGetFileWrite(CString& text);	// soubor pro zÃ¡pis
+void _fastcall FGetFileText0(CString& text);	// naÄtenÃ­ textu zakonÄenÃ©ho nulou
+void _fastcall FGetFileTextCR(CString& text);	// naÄtenÃ­ textu zakonÄenÃ©ho CR
+void _fastcall FGetFileTextN(CString& text);	// naÄtenÃ­ textu s pevnou dÃ©lkou
 
-void _fastcall FFileListAll(CString& text);		// seznam souborù
-void _fastcall FFileList(CString& text);		// seznam souborù
+void _fastcall FFileListAll(CString& text);		// seznam souborÅ¯
+void _fastcall FFileList(CString& text);		// seznam souborÅ¯
 
-// obsluha klávesnice
-void _fastcall FKeyCharWait(CString& text);		// èekání na snak z klávesnice
-void _fastcall FKeyChar(CString& text);			// vstup znaku z klávesnice
+// obsluha klÃ¡vesnice
+void _fastcall FKeyCharWait(CString& text);		// ÄekÃ¡nÃ­ na snak z klÃ¡vesnice
+void _fastcall FKeyChar(CString& text);			// vstup znaku z klÃ¡vesnice
 
-// obsluha dialogù
-void _fastcall FDialogText(CString& text);		// dialog box s návratem textu
-void _fastcall FDialogOpen(CString& text);		// dialog otevøení souboru
-void _fastcall FDialogSave(CString& text);		// dialog uloení souboru
-void _fastcall FDialogFind(CString& text);		// dialog vyhledání textu
-void _fastcall FDialogColor(CString& text);		// dialog vıbìru barvy
+// obsluha dialogÅ¯
+void _fastcall FDialogText(CString& text);		// dialog box s nÃ¡vratem textu
+void _fastcall FDialogOpen(CString& text);		// dialog otevÅ™enÃ­ souboru
+void _fastcall FDialogSave(CString& text);		// dialog uloÅ¾enÃ­ souboru
+void _fastcall FDialogFind(CString& text);		// dialog vyhledÃ¡nÃ­ textu
+void _fastcall FDialogColor(CString& text);		// dialog vÃ½bÄ›ru barvy
 
-// obsluha textù
-void _fastcall FTextLeft(CString& text);		// levá èást textu
-void _fastcall FTextRight(CString& text);		// pravá èást textu
-void _fastcall FTextMid(CString& text);			// støední èást textu
-void _fastcall FTextlineGet(CString& text);		// øádek textu
+// obsluha textÅ¯
+void _fastcall FTextLeft(CString& text);		// levÃ¡ ÄÃ¡st textu
+void _fastcall FTextRight(CString& text);		// pravÃ¡ ÄÃ¡st textu
+void _fastcall FTextMid(CString& text);			// stÅ™ednÃ­ ÄÃ¡st textu
+void _fastcall FTextlineGet(CString& text);		// Å™Ã¡dek textu
 void _fastcall FTextBlock(CString& text);		// blok textu
-void _fastcall FTextAdd1(CString& text);		// souèet jednoho textu - ponechá se beze zmìny
-void _fastcall FTextAdd(CString& text);			// souèet textù (Data = poèet textù - 1)
+void _fastcall FTextAdd1(CString& text);		// souÄet jednoho textu - ponechÃ¡ se beze zmÄ›ny
+void _fastcall FTextAdd(CString& text);			// souÄet textÅ¯ (Data = poÄet textÅ¯ - 1)
 
 // konzola
 void _fastcall FConsoleIn(CString& text);		// vstup textu z konzoly
 
-void _fastcall FGetCommandLine(CString& text);	// pøíkazovı øádek
-void _fastcall FCommandPar(CString& text);		// parametr pøíkazového øádku
-void _fastcall FExecName(CString& text);		// jméno programu
+void _fastcall FGetCommandLine(CString& text);	// pÅ™Ã­kazovÃ½ Å™Ã¡dek
+void _fastcall FCommandPar(CString& text);		// parametr pÅ™Ã­kazovÃ©ho Å™Ã¡dku
+void _fastcall FExecName(CString& text);		// jmÃ©no programu
 
 // dialogy
 void _fastcall FGetWindowText(CString& text);	// text okna
 void WindowTextValidate();						// aktualizace textu okna
 
 // DirectPlay
-void _fastcall FConnectList(CString& text);		// seznam spojení
-void _fastcall FGetConnectAct(CString& text);	// aktivní spojení
+void _fastcall FConnectList(CString& text);		// seznam spojenÃ­
+void _fastcall FGetConnectAct(CString& text);	// aktivnÃ­ spojenÃ­
 void _fastcall FGameList(CString& text);		// seznam her
-void _fastcall FGetGameAct(CString& text);		// aktivní hra
-void _fastcall FPlayerList(CString& text);		// seznam hráèù
-void _fastcall FGetPlayerAct(CString& text);	// aktivní hráè
-void _fastcall FGetGameDataT(CString& text);	// naètení textu z paketu
-void _fastcall FGetGameIP(CString& text);		// zjištìní IP poèítaèe
+void _fastcall FGetGameAct(CString& text);		// aktivnÃ­ hra
+void _fastcall FPlayerList(CString& text);		// seznam hrÃ¡ÄÅ¯
+void _fastcall FGetPlayerAct(CString& text);	// aktivnÃ­ hrÃ¡Ä
+void _fastcall FGetGameDataT(CString& text);	// naÄtenÃ­ textu z paketu
+void _fastcall FGetGameIP(CString& text);		// zjiÅ¡tÄ›nÃ­ IP poÄÃ­taÄe
 
 // UDP
-void _fastcall FGetUDPSendIP(CString& text);	// zjištìní vysílací IP adresy UDP
-void _fastcall FGetUDPRecIP(CString& text);		// zjištìní pøijaté IP adresy UDP
-void _fastcall FGetUDPText(CString& text);		// pøíjem textu UDP
+void _fastcall FGetUDPSendIP(CString& text);	// zjiÅ¡tÄ›nÃ­ vysÃ­lacÃ­ IP adresy UDP
+void _fastcall FGetUDPRecIP(CString& text);		// zjiÅ¡tÄ›nÃ­ pÅ™ijatÃ© IP adresy UDP
+void _fastcall FGetUDPText(CString& text);		// pÅ™Ã­jem textu UDP
 
-void _fastcall FGetUserFont(CString& text);		// zjištìní uivatelského fontu
-void _fastcall FEnumFonts(CString& text);		// zjištìní seznamu fontù
+void _fastcall FGetUserFont(CString& text);		// zjiÅ¡tÄ›nÃ­ uÅ¾ivatelskÃ©ho fontu
+void _fastcall FEnumFonts(CString& text);		// zjiÅ¡tÄ›nÃ­ seznamu fontÅ¯
 
-void _fastcall FGetAlias(CString& text);		// naètení alias souboru
+void _fastcall FGetAlias(CString& text);		// naÄtenÃ­ alias souboru
 
 // porty
-void _fastcall FGetComText(CString& text);		// naètení znaku z portu
+void _fastcall FGetComText(CString& text);		// naÄtenÃ­ znaku z portu
 
 // mixer
-void _fastcall FGetMixDevice(CString& text);	// zjištìní mixáních zaøízení
-void _fastcall FGetMixLineDst(CString& text);	// zjištìní seznamu cílovıch signálù
-void _fastcall FGetMixLineSrc(CString& text);	// zjištìní seznamu zdrojovıch signálù
-void _fastcall FGetMixControl(CString& text);	// zjištìní seznamu ovládacích prvkù
-void _fastcall FGetMixCtrlList(CString& text);	// zjištìní seznamu hodnot ovládacích prvkù
+void _fastcall FGetMixDevice(CString& text);	// zjiÅ¡tÄ›nÃ­ mixÃ¡Å¾nÃ­ch zaÅ™Ã­zenÃ­
+void _fastcall FGetMixLineDst(CString& text);	// zjiÅ¡tÄ›nÃ­ seznamu cÃ­lovÃ½ch signÃ¡lÅ¯
+void _fastcall FGetMixLineSrc(CString& text);	// zjiÅ¡tÄ›nÃ­ seznamu zdrojovÃ½ch signÃ¡lÅ¯
+void _fastcall FGetMixControl(CString& text);	// zjiÅ¡tÄ›nÃ­ seznamu ovlÃ¡dacÃ­ch prvkÅ¯
+void _fastcall FGetMixCtrlList(CString& text);	// zjiÅ¡tÄ›nÃ­ seznamu hodnot ovlÃ¡dacÃ­ch prvkÅ¯
 
 // DDE
-void _fastcall FGetDDEApp(CString& text);		// zjištìní seznamu aplikací
-void _fastcall FGetDDETopic(CString& text);		// zjištìní seznamu témat
+void _fastcall FGetDDEApp(CString& text);		// zjiÅ¡tÄ›nÃ­ seznamu aplikacÃ­
+void _fastcall FGetDDETopic(CString& text);		// zjiÅ¡tÄ›nÃ­ seznamu tÃ©mat
 
 // Direct3D
-void _fastcall FGet3DMode(CString& text);		// zjištìní videomódu Direct3D
+void _fastcall FGet3DMode(CString& text);		// zjiÅ¡tÄ›nÃ­ videomÃ³du Direct3D
 
 extern	TCHAR	Textcrlf[3];
 
 // obsluha DLL
-void _fastcall FGetMemoryText0(CString& text);	// text zakonèenı nulou
-void _fastcall FGetMemoryText0P(CString& text);	// ukazatel na text zakonèenı nulou
-void _fastcall FGetMemoryTextN(CString& text);	// text s pevnou délkou
+void _fastcall FGetMemoryText0(CString& text);	// text zakonÄenÃ½ nulou
+void _fastcall FGetMemoryText0P(CString& text);	// ukazatel na text zakonÄenÃ½ nulou
+void _fastcall FGetMemoryTextN(CString& text);	// text s pevnou dÃ©lkou
 
 // konfigurace
-void _fastcall GetIniProfileString(CString& text); // naètení textu z INI (v textu je uloena implicitní hodnota)
-void _fastcall FGetIniFile(CString& text);		// jméno konfiguraèního souboru
-void _fastcall FGetIniSection(CString& text);	// jméno konfiguraèní sekce
-void _fastcall FGetIniValue(CString& text);		// jméno konfiguraèního parametru
-void _fastcall FGetIniString(CString& text);	// ètení konfiguraèního textu
-void _fastcall FGetIniString0(CString& text);	// ètení konfiguraèního textu
-void _fastcall FGetRegSubkey(CString& text);	// klíè registrù
-void _fastcall FGetRegValue(CString& text);		// jméno poloky registrù
-void _fastcall FGetRegString(CString& text);	// ètení textu z registru
-void _fastcall FGetRegString0(CString& text);	// ètení textu z registru
+void _fastcall GetIniProfileString(CString& text); // naÄtenÃ­ textu z INI (v textu je uloÅ¾ena implicitnÃ­ hodnota)
+void _fastcall FGetIniFile(CString& text);		// jmÃ©no konfiguraÄnÃ­ho souboru
+void _fastcall FGetIniSection(CString& text);	// jmÃ©no konfiguraÄnÃ­ sekce
+void _fastcall FGetIniValue(CString& text);		// jmÃ©no konfiguraÄnÃ­ho parametru
+void _fastcall FGetIniString(CString& text);	// ÄtenÃ­ konfiguraÄnÃ­ho textu
+void _fastcall FGetIniString0(CString& text);	// ÄtenÃ­ konfiguraÄnÃ­ho textu
+void _fastcall FGetRegSubkey(CString& text);	// klÃ­Ä registrÅ¯
+void _fastcall FGetRegValue(CString& text);		// jmÃ©no poloÅ¾ky registrÅ¯
+void _fastcall FGetRegString(CString& text);	// ÄtenÃ­ textu z registru
+void _fastcall FGetRegString0(CString& text);	// ÄtenÃ­ textu z registru

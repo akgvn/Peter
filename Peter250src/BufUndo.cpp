@@ -40,7 +40,7 @@ CBufUndo::~CBufUndo()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CBufUndo::Init()
 { 
@@ -93,7 +93,7 @@ void CBufUndo::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení všech poloek v bufferu
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu
 
 void CBufUndo::DelAll()
 {
@@ -126,7 +126,7 @@ void CBufUndo::DelAll()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní bufferu REDO (není-li pøehrávání)
+// vyprÃ¡zdnÄ›nÃ­ bufferu REDO (nenÃ­-li pÅ™ehrÃ¡vÃ¡nÃ­)
 
 void CBufUndo::NulRedo()
 {
@@ -142,23 +142,23 @@ void CBufUndo::NulRedo()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nové poloky (vrací NULL=chyba pamìti)
+// vytvoÅ™enÃ­ novÃ© poloÅ¾ky (vracÃ­ NULL=chyba pamÄ›ti)
 
 UNDOITEM* CBufUndo::New()
 {
 	UNDOITEM* item;
 
-// záznam probíhá do UNDO bufferu
+// zÃ¡znam probÃ­hÃ¡ do UNDO bufferu
 	if (m_Undo)
 	{
 
-// vyprázdnìní REDO bufferu
+// vyprÃ¡zdnÄ›nÃ­ REDO bufferu
 		NulRedo();
 
-// index nové poloky
+// index novÃ© poloÅ¾ky
 		int index = m_UndoNum;
 
-// zvìtšení bufferu (o 4 KB)
+// zvÄ›tÅ¡enÃ­ bufferu (o 4 KB)
 		if (index >= m_UndoMax)
 		{
 			int undomax = m_UndoMax + 128;
@@ -168,19 +168,19 @@ UNDOITEM* CBufUndo::New()
 			m_UndoData = undodata;
 		}
 
-// adresa nové poloky
+// adresa novÃ© poloÅ¾ky
 		m_UndoNum++;
 		item = m_UndoData + index;
 	}
 
-// záznam probíhá do UNDO bufferu
+// zÃ¡znam probÃ­hÃ¡ do UNDO bufferu
 	else
 	{
 
-// index nové poloky
+// index novÃ© poloÅ¾ky
 		int index = m_RedoNum;
 
-// zvìtšení bufferu (o 4 KB)
+// zvÄ›tÅ¡enÃ­ bufferu (o 4 KB)
 		if (index >= m_RedoMax)
 		{
 			int redomax = m_RedoMax + 128;
@@ -190,12 +190,12 @@ UNDOITEM* CBufUndo::New()
 			m_RedoData = redodata;
 		}
 
-// adresa nové poloky
+// adresa novÃ© poloÅ¾ky
 		m_RedoNum++;
 		item = m_RedoData + index;
 	}
 
-// vymazání nové poloky
+// vymazÃ¡nÃ­ novÃ© poloÅ¾ky
 	MemFill(item, SIZEOFUNDOITEM, -1);
 	item->Stop = FALSE;
 
@@ -204,7 +204,7 @@ UNDOITEM* CBufUndo::New()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní pøibliné velikosti datové poloky (jen kvùli kontrole pøeteèení)
+// zjiÅ¡tÄ›nÃ­ pÅ™ibliÅ¾nÃ© velikosti datovÃ© poloÅ¾ky (jen kvÅ¯li kontrole pÅ™eteÄenÃ­)
 
 int _fastcall CBufUndo::GetSize(int bufID, int index)
 {
@@ -253,7 +253,7 @@ int _fastcall CBufUndo::GetSize(int bufID, int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøiètení velikosti poloky (jen pokud je záznam do UNDO)
+// pÅ™iÄtenÃ­ velikosti poloÅ¾ky (jen pokud je zÃ¡znam do UNDO)
 
 void _fastcall CBufUndo::AddSize(UNDOITEM* item)
 {
@@ -265,7 +265,7 @@ void _fastcall CBufUndo::AddSize(UNDOITEM* item)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení datové poloky z bufferù
+// zruÅ¡enÃ­ datovÃ© poloÅ¾ky z bufferÅ¯
 
 void _fastcall CBufUndo::DelData(int bufID, int index)
 {
@@ -320,7 +320,7 @@ void _fastcall CBufUndo::DelData(int bufID, int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení poslední poloky z undo/redo
+// zruÅ¡enÃ­ poslednÃ­ poloÅ¾ky z undo/redo
 
 void CBufUndo::DelUndo()
 {
@@ -382,11 +382,11 @@ void CBufUndo::Reduct()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení záznamu operací (nastaví pøíznak konce posloupnosti)
+// ukonÄenÃ­ zÃ¡znamu operacÃ­ (nastavÃ­ pÅ™Ã­znak konce posloupnosti)
 
 void CBufUndo::Stop()
 {
-// zastavení nahrávání UNDO záznamu
+// zastavenÃ­ nahrÃ¡vÃ¡nÃ­ UNDO zÃ¡znamu
 	if (m_Undo)
 	{
 		int inx = m_UndoNum - 1;
@@ -398,7 +398,7 @@ void CBufUndo::Stop()
 	}
 	else
 
-// zastavení nahrávání REDO záznamu
+// zastavenÃ­ nahrÃ¡vÃ¡nÃ­ REDO zÃ¡znamu
 	{
 		int inx = m_RedoNum - 1;
 		if ((inx >= 0) && !m_RedoData[inx].Stop)
@@ -408,7 +408,7 @@ void CBufUndo::Stop()
 		}
 	}
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 
 // aktualizace voleb undo/redo
@@ -430,7 +430,7 @@ void CBufUndo::UpdateUndoRedo()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vypnutí pøíznakù pøekreslení okna
+// vypnutÃ­ pÅ™Ã­znakÅ¯ pÅ™ekreslenÃ­ okna
 
 void CBufUndo::NulRedraw()
 {
@@ -442,7 +442,7 @@ void CBufUndo::NulRedraw()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vypnutí/zapnutí pøekreslování okna
+// vypnutÃ­/zapnutÃ­ pÅ™ekreslovÃ¡nÃ­ okna
 
 void CBufUndo::SetRedraw(int bufID, BOOL redraw)
 {
@@ -455,7 +455,7 @@ void CBufUndo::SetRedraw(int bufID, BOOL redraw)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// oznaèení editované poloky
+// oznaÄenÃ­ editovanÃ© poloÅ¾ky
 
 void CBufUndo::SelectEdit(int bufID, int index)
 {
@@ -484,26 +484,26 @@ void CBufUndo::SelectEdit(int bufID, int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// provedení operace UNDO
+// provedenÃ­ operace UNDO
 
 void CBufUndo::Undo()
 {
-// kontrola povolení poadavku
+// kontrola povolenÃ­ poÅ¾adavku
 	if ((m_UndoRecs <= 0) || !ProgMode || m_Play) return;
 
-// zapnutí pøíznaku pøehrávání UNDO, nahrávání REDO
+// zapnutÃ­ pÅ™Ã­znaku pÅ™ehrÃ¡vÃ¡nÃ­ UNDO, nahrÃ¡vÃ¡nÃ­ REDO
 	m_Undo = FALSE;
 	m_Play = TRUE;
 
-// pøednastavení - není nastavení editaèního módu
+// pÅ™ednastavenÃ­ - nenÃ­ nastavenÃ­ editaÄnÃ­ho mÃ³du
 	m_EditMode = -1;
 	m_SelectMode = -1;
 	m_MapMode = -1;
 
-// vypnutí pøíznakù pøekreslování oken
+// vypnutÃ­ pÅ™Ã­znakÅ¯ pÅ™ekreslovÃ¡nÃ­ oken
 	NulRedraw();
 
-// pøehrátí záznamu UNDO
+// pÅ™ehrÃ¡tÃ­ zÃ¡znamu UNDO
 	if (m_UndoNum > 0)
 	{
 		do {
@@ -512,16 +512,16 @@ void CBufUndo::Undo()
 		} while ((m_UndoNum > 0) && (!m_UndoData[m_UndoNum-1].Stop));
 	}
 
-// ukonèení záznamu pro REDO
+// ukonÄenÃ­ zÃ¡znamu pro REDO
 	Stop();
 
-// zapnutí pøekreslování oken
+// zapnutÃ­ pÅ™ekreslovÃ¡nÃ­ oken
 	for (int i = 0; i < PROGBUFNUM; i++)
 	{
 		SetRedraw(i, TRUE);
 	}
 
-// nastavení editaèního módu
+// nastavenÃ­ editaÄnÃ­ho mÃ³du
 	if (m_EditMode >= 0)
 	{
 		if (!SetEditMode(m_EditMode, m_EditIndex))
@@ -540,41 +540,41 @@ void CBufUndo::Undo()
 		EditMap::SetMode(m_MapMode);
 	}
 
-// vypnutí pøíznaku pøehrávání UNDO
+// vypnutÃ­ pÅ™Ã­znaku pÅ™ehrÃ¡vÃ¡nÃ­ UNDO
 	m_Play = FALSE;
 	m_Undo = TRUE;
 
-// pøíznak modifikace souboru
+// pÅ™Ã­znak modifikace souboru
 	SetModi();
 
 // aktualizace voleb undo/redo
 	UpdateUndoRedo();
 
-// aktualizace zobrazení informací o poloce
+// aktualizace zobrazenÃ­ informacÃ­ o poloÅ¾ce
 	ProgAktItem();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// provedení operace REDO
+// provedenÃ­ operace REDO
 
 void CBufUndo::Redo()
 {
-// kontrola povolení poadavku
+// kontrola povolenÃ­ poÅ¾adavku
 	if ((m_RedoRecs <= 0) || !ProgMode || m_Play) return;
 
-// zapnutí pøíznaku pøehrávání REDO, nahrávání UNDO (=implicitnì)
+// zapnutÃ­ pÅ™Ã­znaku pÅ™ehrÃ¡vÃ¡nÃ­ REDO, nahrÃ¡vÃ¡nÃ­ UNDO (=implicitnÄ›)
 	m_Play = TRUE;
 
-// pøednastavení - není nastavení editaèního módu
+// pÅ™ednastavenÃ­ - nenÃ­ nastavenÃ­ editaÄnÃ­ho mÃ³du
 	m_EditMode = -1;
 	m_SelectMode = -1;
 	m_MapMode = -1;
 
-// vypnutí pøíznakù pøekreslování oken
+// vypnutÃ­ pÅ™Ã­znakÅ¯ pÅ™ekreslovÃ¡nÃ­ oken
 	NulRedraw();
 
-// pøehrátí záznamu REDO
+// pÅ™ehrÃ¡tÃ­ zÃ¡znamu REDO
 	if (m_RedoNum > 0)
 	{
 		do {
@@ -583,16 +583,16 @@ void CBufUndo::Redo()
 		} while ((m_RedoNum > 0) && (!m_RedoData[m_RedoNum-1].Stop));
 	}
 
-// ukonèení záznamu pro UNDO
+// ukonÄenÃ­ zÃ¡znamu pro UNDO
 	Stop();
 
-// zapnutí pøekreslování oken
+// zapnutÃ­ pÅ™ekreslovÃ¡nÃ­ oken
 	for (int i = 0; i < PROGBUFNUM; i++)
 	{
 		SetRedraw(i, TRUE);
 	}
 
-// nastavení editaèního módu
+// nastavenÃ­ editaÄnÃ­ho mÃ³du
 	if (m_EditMode >= 0)
 	{
 		SetEditMode(m_EditMode, m_EditIndex);
@@ -608,172 +608,172 @@ void CBufUndo::Redo()
 		EditMap::SetMode(m_MapMode);
 	}
 
-// vypnutí pøíznaku pøehrávání REDO
+// vypnutÃ­ pÅ™Ã­znaku pÅ™ehrÃ¡vÃ¡nÃ­ REDO
 	m_Play = FALSE;
 
-// pøíznak modifikace souboru
+// pÅ™Ã­znak modifikace souboru
 	SetModi();
 
 // aktualizace voleb undo/redo
 	UpdateUndoRedo();
 
-// aktualizace zobrazení informací o poloce
+// aktualizace zobrazenÃ­ informacÃ­ o poloÅ¾ce
 	ProgAktItem();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do programového bufferu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do programovÃ©ho bufferu (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgIns(int bufID, int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = bufID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z programového bufferu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z programovÃ©ho bufferu (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgDel(int bufID, int index, PROGITEM* data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = bufID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufEdiID;
 	item->DatIndex = m_Prog.Insert0(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøesunu poloky v programovém bufferu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™esunu poloÅ¾ky v programovÃ©m bufferu (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgMove(int bufID, int index, int oldparent, int oldprev)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_MOVE;
 	item->BufID = bufID;
 	item->Index = index;
 	item->Param1 = oldparent;
 	item->Param2 = oldprev;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì pøíznaku LOCK prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› pÅ™Ã­znaku LOCK prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgLock(int bufID, int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_LOCK;
 	item->BufID = bufID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì pøíznaku OFF prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› pÅ™Ã­znaku OFF prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgOff(int bufID, int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_OFF;
 	item->BufID = bufID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì jména prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› jmÃ©na prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgName(int bufID, int index, int name)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_NAME;
 	item->BufID = bufID;
 	item->Index = index;
 	item->Param1 = name;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o nastavení jména prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o nastavenÃ­ jmÃ©na prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgNameSet(int bufID, int index, const CMultiText& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_NAMESET;
 	item->BufID = bufID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufTxtID;
 	item->DatIndex = m_Text.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
@@ -787,145 +787,145 @@ bool CBufUndo::AddProgNameSet(int bufID, int index, const CText& data)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì ikony prvku (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› ikony prvku (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddProgIcon(int bufID, int index, int icon)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_ICON;
 	item->BufID = bufID;
 	item->Index = index;
 	item->Param1 = icon;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu èísel (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu ÄÃ­sel (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddRealIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufNumID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu èísel (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu ÄÃ­sel (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddRealDel(int index, double data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufNumID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufNumID;
 	item->DatIndex = m_Real.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu èísel (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu ÄÃ­sel (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddRealSet(int index, double data)
 {
-// èíslo se ukládá jen jednou
+// ÄÃ­slo se uklÃ¡dÃ¡ jen jednou
 	if (TestSet(BufNumID, index)) return true;
 
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufNumID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufNumID;
 	item->DatIndex = m_Real.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu textù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu textÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddTextIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufTxtID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu textù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu textÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddTextDel(int index, const CMultiText& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufTxtID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufTxtID;
 	item->DatIndex = m_Text.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
@@ -939,30 +939,30 @@ bool CBufUndo::AddTextDel(int index, const CText& data)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu textù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu textÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddTextSet(int index, const CMultiText& data)
 {
-// text se ukládá jen jednou
+// text se uklÃ¡dÃ¡ jen jednou
 	if (TestSet(BufTxtID, index)) return true;
 
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufTxtID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufTxtID;
 	item->DatIndex = m_Text.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
@@ -976,579 +976,579 @@ bool CBufUndo::AddTextSet(int index, const CText& data)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu logickıch hodnot (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu logickÃ½ch hodnot (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddBoolIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufLogID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu logickıch hodnot (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu logickÃ½ch hodnot (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddBoolDel(int index, BOOL data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufLogID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufLogID;
 	item->DatIndex = m_Bool.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu logickıch hodnot (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu logickÃ½ch hodnot (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddBoolSet(int index, BOOL data)
 {
-// logická hodnota se ukládá jen jednou
+// logickÃ¡ hodnota se uklÃ¡dÃ¡ jen jednou
 	if (TestSet(BufLogID, index)) return true;
 
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufLogID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufLogID;
 	item->DatIndex = m_Bool.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu ikon (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu ikon (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddIconIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufIcoID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu ikon (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu ikon (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddIconDel(int index, const CIcon& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufIcoID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufIcoID;
 	item->DatIndex = m_Icon.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu ikon (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu ikon (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddIconSet(int index, const CIcon& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufIcoID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufIcoID;
 	item->DatIndex = m_Icon.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu ploch (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu ploch (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddMapIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufMapID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu ploch (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu ploch (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddMapDel(int index, const CMap& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufMapID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufMapID;
 	item->DatIndex = m_Map.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu ploch (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu ploch (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddMapSet(int index, const CMap& data, int mode)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufMapID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufMapID;
 	item->DatIndex = m_Map.Add(data);
 	item->Param1 = mode;
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì dat - ikona plochy (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat - ikona plochy (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddMapIcoSet(int index, int offs, int icon)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SETICON;
 	item->BufID = BufMapID;
 	item->Index = index;
 	item->Param1 = offs;
 	item->Param2 = icon;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu obrázkù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu obrÃ¡zkÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddPicIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufPicID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu obrázkù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu obrÃ¡zkÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddPicDel(int index, const CPicture& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufPicID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufPicID;
 	item->DatIndex = m_Picture.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu obrázkù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu obrÃ¡zkÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddPicSet(int index, const CPicture& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufPicID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufPicID;
 	item->DatIndex = m_Picture.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu sprajtù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu sprajtÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSprIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufSprID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu sprajtù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu sprajtÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSprDel(int index, const CSprite& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufSprID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufSprID;
 	item->DatIndex = m_Sprite.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu sprajtù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu sprajtÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSprSet(int index, const CSprite& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufSprID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufSprID;
 	item->DatIndex = m_Sprite.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì dat - obrázek sprajtu (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› dat - obrÃ¡zek sprajtu (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSprPicSet(int index, int pic, CPicture& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SETPIC;
 	item->BufID = BufSprID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufPicID;
 	item->DatIndex = m_Picture.Add(data);
 	item->Param1 = pic;
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu zvukù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu zvukÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSndIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufSndID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu zvukù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu zvukÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSndDel(int index, const CSound& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufSndID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufSndID;
 	item->DatIndex = m_Sound.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu zvukù (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu zvukÅ¯ (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddSndSet(int index, const CSound& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufSndID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufSndID;
 	item->DatIndex = m_Sound.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o pøidání poloky do bufferu hudby (vrací FALSE=chyba pamìti)
+// zÃ¡znam o pÅ™idÃ¡nÃ­ poloÅ¾ky do bufferu hudby (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddMusIns(int index)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_INSERT;
 	item->BufID = BufMusID;
 	item->Index = index;
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zrušení poloky z bufferu hudby (vrací FALSE=chyba pamìti)
+// zÃ¡znam o zruÅ¡enÃ­ poloÅ¾ky z bufferu hudby (vracÃ­ FALSE=chyba pamÄ›ti)
 
 bool CBufUndo::AddMusDel(int index, const CMusic& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_DELETE;
 	item->BufID = BufMusID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufMusID;
 	item->DatIndex = m_Music.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// záznam o zmìnì poloky v bufferu hudby
+// zÃ¡znam o zmÄ›nÄ› poloÅ¾ky v bufferu hudby
 
 bool CBufUndo::AddMusSet(int index, const CMusic& data)
 {
-// vytvoøení poloky
+// vytvoÅ™enÃ­ poloÅ¾ky
 	UNDOITEM* item = New();
 	if (item == NULL) return false;
 
-// naplnìní záznamu
+// naplnÄ›nÃ­ zÃ¡znamu
 	item->Oper = UNDO_SET;
 	item->BufID = BufMusID;
 	item->Index = index;
 
-// úschova poloky do bufferu
+// Ãºschova poloÅ¾ky do bufferu
 	item->DatBufID = BufMusID;
 	item->DatIndex = m_Music.Add(data);
 
-// zmìna èítaèe velikosti
+// zmÄ›na ÄÃ­taÄe velikosti
 	AddSize(item);
 
-// provedení redukce
+// provedenÃ­ redukce
 	Reduct();
 	return true;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// test, zda je poloka pro zmìnu dat ji v bufferu
+// test, zda je poloÅ¾ka pro zmÄ›nu dat jiÅ¾ v bufferu
 
 bool CBufUndo::TestSet(int bufID, int index)
 {
@@ -1568,7 +1568,7 @@ bool CBufUndo::TestSet(int bufID, int index)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zafixování posledního záznamu o zmìnì
+// zafixovÃ¡nÃ­ poslednÃ­ho zÃ¡znamu o zmÄ›nÄ›
 
 void CBufUndo::Fixup()
 {
@@ -1584,7 +1584,7 @@ void CBufUndo::Fixup()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøehrátí jedné poloky
+// pÅ™ehrÃ¡tÃ­ jednÃ© poloÅ¾ky
 
 void CBufUndo::Play(UNDOITEM* item)
 {

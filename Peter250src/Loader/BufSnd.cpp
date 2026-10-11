@@ -9,19 +9,19 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaèní prázdnı zvuk (modifikuje se poèet referencí!)
+// inicializaÄnÃ­ prÃ¡zdnÃ½ zvuk (modifikuje se poÄet referencÃ­!)
 
 BYTE	EmptySoundData0 = 0;
 
 SOUNDDATA EmptySoundData = { 
-	1,								// èítaè referencí
+	1,								// ÄÃ­taÄ referencÃ­
 	0,								// velikost dat
-	SOUNDDEFSAMPLES,				// vzorkovací kmitoèet
-	SOUNDDEFFORMAT,					// formát
-	SOUNDDEFCHANNELS,				// poèet kanálù
-	SOUNDDEFBITS,					// poèet bitù
+	SOUNDDEFSAMPLES,				// vzorkovacÃ­ kmitoÄet
+	SOUNDDEFFORMAT,					// formÃ¡t
+	SOUNDDEFCHANNELS,				// poÄet kanÃ¡lÅ¯
+	SOUNDDEFBITS,					// poÄet bitÅ¯
 	NULL,							// DirectSoundBuffer
-	0,								// velikost záhlaví WAVEFORMATEX
+	0,								// velikost zÃ¡hlavÃ­ WAVEFORMATEX
 	&EmptySoundData0				// adresa dat
 };
 
@@ -51,7 +51,7 @@ CSound::~CSound()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CSound::Init()
 { 
@@ -75,7 +75,7 @@ void CSound::Term()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøipojení/odpojení dat
+// pÅ™ipojenÃ­/odpojenÃ­ dat
 
 void CSound::NewBufferData(int size)
 {
@@ -95,28 +95,28 @@ void CSound::DetachData()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie do vlastního bufferu pøed modifikací
+// kopie do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­
 
 void CSound::CopyWrite()
 {
-	SOUNDDATA* data = pData;			// adresa starıch dat
-	long* refer = &(data->Refer);		// poèet referencí
+	SOUNDDATA* data = pData;			// adresa starÃ½ch dat
+	long* refer = &(data->Refer);		// poÄet referencÃ­
 
-	if (*refer > 1)						// je nìjakı jinı majitel?
+	if (*refer > 1)						// je nÄ›jakÃ½ jinÃ½ majitel?
 	{
-		NewBuffer(data->Size);			// vytvoøení nového bufferu
+		NewBuffer(data->Size);			// vytvoÅ™enÃ­ novÃ©ho bufferu
 		BYTE* adr = pData->Data;
 		MemCopy(pData, data, SIZEOFSOUNDDATA);
 		pData->Data = adr;
 		pData->DSBuffer = NULL;
 		MemCopy(adr, data->Data, pData->Size);
-		pData->Refer = 1;				// poèet referencí
+		pData->Refer = 1;				// poÄet referencÃ­
 
-// odpojení starıch dat - v multithread mùe nastat i zrušení
+// odpojenÃ­ starÃ½ch dat - v multithread mÅ¯Å¾e nastat i zruÅ¡enÃ­
 		if (LongDecrement(refer))
 		{
 #ifdef _MT
-			MemFree(data);				// pøípadné zrušení dat
+			MemFree(data);				// pÅ™Ã­padnÃ© zruÅ¡enÃ­ dat
 #endif	// _MT
 		}
 	}
@@ -124,22 +124,22 @@ void CSound::CopyWrite()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// duplikace zvuku (pøíp. pøivlastnìní)
+// duplikace zvuku (pÅ™Ã­p. pÅ™ivlastnÄ›nÃ­)
 /*
 void CSound::DupCopy()
 {
-// pøivlastnìní nerušitelnıch dat
+// pÅ™ivlastnÄ›nÃ­ neruÅ¡itelnÃ½ch dat
 	if (pData->Refer > (BigInt - 1000))
 	{
 		SOUNDDATA* data = (SOUNDDATA*)MemGet(SIZEOFSOUNDDATA);
 		MemCopy(data, pData, SIZEOFSOUNDDATA);
-		data->Refer = BigInt;				// poèet referencí
+		data->Refer = BigInt;				// poÄet referencÃ­
 		data->DSBuffer = NULL;
-		Detach();							// odpojení starıch dat
+		Detach();							// odpojenÃ­ starÃ½ch dat
 		pData = data;
 	}
 
-// jinak klasické pøivlastnìní bufferu
+// jinak klasickÃ© pÅ™ivlastnÄ›nÃ­ bufferu
 	else
 	{
 		CopyWrite();
@@ -148,7 +148,7 @@ void CSound::DupCopy()
 */
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní zvuku (uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ zvuku (uvolnÄ›nÃ­ dat)
 
 void CSound::Empty()
 { 
@@ -158,23 +158,23 @@ void CSound::Empty()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nového zvuku (pøipraveno k zápisu, data jsou náhodná)
+// vytvoÅ™enÃ­ novÃ©ho zvuku (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
 
 void CSound::New(int size)
 {
-	DetachData();					// odpojení starého zvuku
-	NewBufferData(size);			// vytvoøení nového bufferu
+	DetachData();					// odpojenÃ­ starÃ©ho zvuku
+	NewBufferData(size);			// vytvoÅ™enÃ­ novÃ©ho bufferu
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení velikosti dat
+// nastavenÃ­ velikosti dat
 
 void CSound::ReSize(int size)
 {
-// kopie pøed zápisem
+// kopie pÅ™ed zÃ¡pisem
 	CopyWrite();
 
-// nastavení nové velikosti bufferu
+// nastavenÃ­ novÃ© velikosti bufferu
 	ASSERT(size >= 0);
 	if (size < 0) size = 0;
 	MemBuf(pData->Data, size);
@@ -183,7 +183,7 @@ void CSound::ReSize(int size)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení zvuku ze souboru
+// naÄtenÃ­ zvuku ze souboru
 
 #ifndef _MINI
 
@@ -210,17 +210,17 @@ BYTE MP3rate[2*4*16] =
 
 #endif // _MINI
 
-#pragma warning ( disable: 4701)		// hlášení - neinicializovaná promìnná "hd"
+#pragma warning ( disable: 4701)		// hlÃ¡Å¡enÃ­ - neinicializovanÃ¡ promÄ›nnÃ¡ "hd"
 void CSound::LoadFile()
 {
 
 #ifndef _MINI
 
-// úschova offsetu souboru
+// Ãºschova offsetu souboru
 	int oldoff = FileReadOff;
 	Empty();
 
-// naètení záhlaví souboru (identifikace a základní popisovaè formátu)
+// naÄtenÃ­ zÃ¡hlavÃ­ souboru (identifikace a zÃ¡kladnÃ­ popisovaÄ formÃ¡tu)
 	WAVHEAD hd;
 	int i;
 	for (i = 0; i < 4 + 4 + 28; i++)
@@ -228,18 +228,18 @@ void CSound::LoadFile()
 		*((BYTE*)&hd + i) = FileReadByte();
 	}
 
-// formát dat souboru
-	int formatsize = hd.WavFormat.nFormatSize;	// velikost popisovaèe formátu
-	int format = hd.WavFormat.wFormatTag;			// formát dat
+// formÃ¡t dat souboru
+	int formatsize = hd.WavFormat.nFormatSize;	// velikost popisovaÄe formÃ¡tu
+	int format = hd.WavFormat.wFormatTag;			// formÃ¡t dat
 	if (formatsize < SIZEOFWAVEFORMATEX)
 	{
-		format = WAVE_FORMAT_PCM;	// nejsou doplòující data formátu
+		format = WAVE_FORMAT_PCM;	// nejsou doplÅˆujÃ­cÃ­ data formÃ¡tu
 		formatsize = 16;
 	}
 
-// kontrola záhlaví souboru
+// kontrola zÃ¡hlavÃ­ souboru
 	int size = hd.nFileSize;					// velikost souboru
-	int newoff = oldoff + 8 + size;				// novı offset za zvukem
+	int newoff = oldoff + 8 + size;				// novÃ½ offset za zvukem
 
 	if ((hd.tWavIdent[0] != 'R') ||
 		(hd.tWavIdent[1] != 'I') ||
@@ -257,7 +257,7 @@ void CSound::LoadFile()
 		(formatsize > 100000))
 	{
 
-// pøeskoèení záhlaví ID3
+// pÅ™eskoÄenÃ­ zÃ¡hlavÃ­ ID3
 		if (((*(DWORD*)&hd) & 0xffffff) == '3DI')
 		{
 			for (int ii = 3000; ii > 0; ii--)
@@ -298,23 +298,23 @@ void CSound::LoadFile()
 			FileReadOpen())
 		{
 
-// pøíprava velikosti souboru
+// pÅ™Ã­prava velikosti souboru
 			FileReadOff = oldoff;
 			size = ::GetFileSize(FileReadHandle, NULL) - FileReadOff;
 			if (size < 0) size = 0;
 
-// vytvoøení bufferu souboru
+// vytvoÅ™enÃ­ bufferu souboru
 #define MPEG3FORMATSIZE 30
-			New(size + MPEG3FORMATSIZE + 16);	// pøehrávaè MPEG potøebuje rezervu za daty
+			New(size + MPEG3FORMATSIZE + 16);	// pÅ™ehrÃ¡vaÄ MPEG potÅ™ebuje rezervu za daty
 			pData->Size -= 16;
-			pData->Samples = freq;				// vzorkovací kmitoèet
-			pData->Channels = (short)chan;		// poèet kanálù
-			pData->Bits = 0;					// poèet bitù na vzorek
-			pData->Format = WAVE_FORMAT_MPEGLAYER3;	// formát
-			pData->DSBuffer = NULL;				// není DirectSound buffer
-			pData->SizeHead = MPEG3FORMATSIZE;	// velikost popisovaèe formátu
+			pData->Samples = freq;				// vzorkovacÃ­ kmitoÄet
+			pData->Channels = (short)chan;		// poÄet kanÃ¡lÅ¯
+			pData->Bits = 0;					// poÄet bitÅ¯ na vzorek
+			pData->Format = WAVE_FORMAT_MPEGLAYER3;	// formÃ¡t
+			pData->DSBuffer = NULL;				// nenÃ­ DirectSound buffer
+			pData->SizeHead = MPEG3FORMATSIZE;	// velikost popisovaÄe formÃ¡tu
 
-// inicializace záhlaví MP3
+// inicializace zÃ¡hlavÃ­ MP3
 			MPEGLAYER3WAVEFORMAT* mp3 = (MPEGLAYER3WAVEFORMAT*)pData->Data;
 			mp3->wfx.wFormatTag = WAVE_FORMAT_MPEGLAYER3;
 			mp3->wfx.nChannels = (WORD)chan;
@@ -329,10 +329,10 @@ void CSound::LoadFile()
 			mp3->nFramesPerBlock = 1;
 			mp3->nCodecDelay = 1393;
 
-// naètení dat
+// naÄtenÃ­ dat
 			FileReadBlok(pData->Data + MPEG3FORMATSIZE, size);
 
-// zkrácení o komentáø na konci souboru
+// zkrÃ¡cenÃ­ o komentÃ¡Å™ na konci souboru
 			if ((pData->Size >= (128 + MPEG3FORMATSIZE)) &&
 				(pData->Data[pData->Size - 128 + 0] == 'T') &&
 				(pData->Data[pData->Size - 128 + 1] == 'A') &&
@@ -400,28 +400,28 @@ void CSound::LoadFile()
 			FileReadOpen())
 		{
 
-// pøíprava velikosti souboru
+// pÅ™Ã­prava velikosti souboru
 			FileReadOff = oldoff;
 			size = ::GetFileSize(FileReadHandle, NULL) - FileReadOff;
 			if (size < 0) size = 0;
 
-// vytvoøení bufferu souboru
-			New(size + sizeof(MPEG1WAVEFORMAT) + 16);	// pøehrávaè MPEG potøebuje rezervu za daty
+// vytvoÅ™enÃ­ bufferu souboru
+			New(size + sizeof(MPEG1WAVEFORMAT) + 16);	// pÅ™ehrÃ¡vaÄ MPEG potÅ™ebuje rezervu za daty
 			pData->Size -= 16;
-			pData->Samples = mp.wfx.nSamplesPerSec;		// vzorkovací kmitoèet
-			pData->Channels = (short)mp.wfx.nChannels;			// poèet kanálù
-			pData->Bits = 0;					// poèet bitù na vzorek
-			pData->Format = WAVE_FORMAT_MPEG;	// formát
+			pData->Samples = mp.wfx.nSamplesPerSec;		// vzorkovacÃ­ kmitoÄet
+			pData->Channels = (short)mp.wfx.nChannels;			// poÄet kanÃ¡lÅ¯
+			pData->Bits = 0;					// poÄet bitÅ¯ na vzorek
+			pData->Format = WAVE_FORMAT_MPEG;	// formÃ¡t
 			pData->DSBuffer = NULL;					// DirectSound buffer
-			pData->SizeHead = sizeof(MPEG1WAVEFORMAT);	// velikost popisovaèe formátu
+			pData->SizeHead = sizeof(MPEG1WAVEFORMAT);	// velikost popisovaÄe formÃ¡tu
 
-// inicializace záhlaví MP
+// inicializace zÃ¡hlavÃ­ MP
 			MemCopy(pData->Data, &mp, sizeof(MPEG1WAVEFORMAT));
 
-// naètení dat
+// naÄtenÃ­ dat
 			FileReadBlok(pData->Data + sizeof(MPEG1WAVEFORMAT), size);
 
-// zkrácení o komentáø na konci souboru
+// zkrÃ¡cenÃ­ o komentÃ¡Å™ na konci souboru
 			if ((pData->Size >= (128 + sizeof(MPEG1WAVEFORMAT))) &&
 				(pData->Data[pData->Size - 128 + 0] == 'T') &&
 				(pData->Data[pData->Size - 128 + 1] == 'A') &&
@@ -432,13 +432,13 @@ void CSound::LoadFile()
 			return;
 		}
 
-// neplatnı formát souboru
+// neplatnÃ½ formÃ¡t souboru
 		FileReadOff = oldoff;
 		FileError = true;
 		return;
 	}
 
-// naètení popisovaèe formátu
+// naÄtenÃ­ popisovaÄe formÃ¡tu
 	WAVEFORMATEX* wf = (WAVEFORMATEX*)MemGet(formatsize + 16);
 	wf->wFormatTag = (WORD)format;
 	wf->nChannels = hd.WavFormat.nChannels;
@@ -461,17 +461,17 @@ void CSound::LoadFile()
 		}
 	}
 
-// nalezení datového bloku
+// nalezenÃ­ datovÃ©ho bloku
 	while (FileReadOff < newoff)
 	{
 
-// naètení záhlaví
+// naÄtenÃ­ zÃ¡hlavÃ­
 		for (i = 0; i < 8; i++)
 		{
 			*((BYTE*)(&hd.WavData) + i) = FileReadByte();
 		}
 
-// kontrola záhlaví
+// kontrola zÃ¡hlavÃ­
 		size = hd.WavData.nDataSize;
 		if ((hd.WavData.tDataIdent[0] == 'd') &&
 			(hd.WavData.tDataIdent[1] == 'a') &&
@@ -480,7 +480,7 @@ void CSound::LoadFile()
 			(size >= 0))
 		{
 
-// naètení dat
+// naÄtenÃ­ dat
 			if (format == WAVE_FORMAT_PCM)
 			{
 				New(size);
@@ -497,10 +497,10 @@ void CSound::LoadFile()
 
 			FileReadOff = newoff;
 
-// úschova a korekce formátu dat souboru
-			int channels = wf->nChannels;		// poèet kanálù
-			int samples = wf->nSamplesPerSec;	// vzorkovací kmitoèet
-			int bits = wf->wBitsPerSample;		// poèet bitù na vzorek
+// Ãºschova a korekce formÃ¡tu dat souboru
+			int channels = wf->nChannels;		// poÄet kanÃ¡lÅ¯
+			int samples = wf->nSamplesPerSec;	// vzorkovacÃ­ kmitoÄet
+			int bits = wf->wBitsPerSample;		// poÄet bitÅ¯ na vzorek
 
 			if (format == WAVE_FORMAT_PCM)
 			{
@@ -523,39 +523,39 @@ void CSound::LoadFile()
 				if (bits != 16) bits = 8;
 			}
 
-// nastavení parametrù zvuku
-			pData->Samples = samples;			// vzorkovací kmitoèet
-			pData->Channels = (short)channels;			// poèet kanálù
-			pData->Bits = (short)bits;					// poèet bitù na vzorek
-			pData->Format = format;				// formát
+// nastavenÃ­ parametrÅ¯ zvuku
+			pData->Samples = samples;			// vzorkovacÃ­ kmitoÄet
+			pData->Channels = (short)channels;			// poÄet kanÃ¡lÅ¯
+			pData->Bits = (short)bits;					// poÄet bitÅ¯ na vzorek
+			pData->Format = format;				// formÃ¡t
 
 			MemFree(wf);
 			return;
 		}
 
-// posun ukazatele na další záhlaví
+// posun ukazatele na dalÅ¡Ã­ zÃ¡hlavÃ­
 		if (size < 0) break;
 		FileReadOff += size;
 	}
 
-// chyba - datovı blok nenalezen
+// chyba - datovÃ½ blok nenalezen
 	FileReadOff = oldoff;
 	FileError = true;
 	MemFree(wf);
 
 #endif // _MINI
 }
-#pragma warning ( default: 4701)		// hlášení - neinicializovaná promìnná "hd"
+#pragma warning ( default: 4701)		// hlÃ¡Å¡enÃ­ - neinicializovanÃ¡ promÄ›nnÃ¡ "hd"
 
 
 /////////////////////////////////////////////////////////////////////////////
-// uloení do souboru
+// uloÅ¾enÃ­ do souboru
 
 void CSound::SaveFile() const
 {
 #ifndef _MINI
 
-// pøíprava záhlaví souboru
+// pÅ™Ã­prava zÃ¡hlavÃ­ souboru
 	WAVHEAD head;
 	head.tWavIdent[0] = 'R';
 	head.tWavIdent[1] = 'I';
@@ -576,7 +576,7 @@ void CSound::SaveFile() const
 	head.WavData.tDataIdent[2] = 't';
 	head.WavData.tDataIdent[3] = 'a';
 
-// uloení záhlaví a dat souboru pro formát PCM
+// uloÅ¾enÃ­ zÃ¡hlavÃ­ a dat souboru pro formÃ¡t PCM
 	if (pData->Format == WAVE_FORMAT_PCM)
 	{
 		head.nFileSize = pData->Size + sizeof(WAVHEAD) - 8;
@@ -595,7 +595,7 @@ void CSound::SaveFile() const
 		FileWriteBlok(pData->Data, pData->Size);
 	}
 
-// uloení záhlaví a dat pro jinı formát
+// uloÅ¾enÃ­ zÃ¡hlavÃ­ a dat pro jinÃ½ formÃ¡t
 	else
 	{
 		head.nFileSize = pData->Size + 12 + sizeof(WAVDATA);
@@ -615,34 +615,34 @@ void CSound::SaveFile() const
 
 
 /////////////////////////////////////////////////////////////////////////////
-// konverze formátu na 8 bitù
+// konverze formÃ¡tu na 8 bitÅ¯
 
 void _fastcall CSound::Conv8Bit()
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
-// pokud je ji 8 bitù, nic se nedìje
+// pokud je jiÅ¾ 8 bitÅ¯, nic se nedÄ›je
 	if ((Bits() == 8) || (Format() != WAVE_FORMAT_PCM)) return;
 
-// úschova adresy starıch dat
-	SOUNDDATA* olddata = pData;			// adresa starıch dat
+// Ãºschova adresy starÃ½ch dat
+	SOUNDDATA* olddata = pData;			// adresa starÃ½ch dat
 	int size = olddata->Size/2;			// velikost dat
 
-// vytvoøení bufferu pro nová data
-	NewBufferData(size);				// vytvoøení nového bufferu
-	SOUNDDATA* newdata = pData;			// adresa novıch dat
+// vytvoÅ™enÃ­ bufferu pro novÃ¡ data
+	NewBufferData(size);				// vytvoÅ™enÃ­ novÃ©ho bufferu
+	SOUNDDATA* newdata = pData;			// adresa novÃ½ch dat
 
-// pøenesení parametrù zvuku
-	newdata->Samples = olddata->Samples; // vzorkovací kmitoèet
-	newdata->Format = olddata->Format;	// formát dat
-	newdata->Channels = olddata->Channels; // poèet kanálù
-	newdata->Bits = 8;					// poèet bitù
+// pÅ™enesenÃ­ parametrÅ¯ zvuku
+	newdata->Samples = olddata->Samples; // vzorkovacÃ­ kmitoÄet
+	newdata->Format = olddata->Format;	// formÃ¡t dat
+	newdata->Channels = olddata->Channels; // poÄet kanÃ¡lÅ¯
+	newdata->Bits = 8;					// poÄet bitÅ¯
 	newdata->SizeHead = 0;
 	
 // konverze dat
-	short* src = (short*)olddata->Data;	// stará data
-	BYTE* dst = newdata->Data;			// nová data
+	short* src = (short*)olddata->Data;	// starÃ¡ data
+	BYTE* dst = newdata->Data;			// novÃ¡ data
 
 	for(; size > 0; size--)
 	{
@@ -651,42 +651,42 @@ void _fastcall CSound::Conv8Bit()
 		src++;
 	}
 
-// odpojení starıch dat
-	pData = olddata;					// adresa starıch dat
-	DetachData();						// odpojení starıch dat
-	pData = newdata;					// adresa novıch dat
+// odpojenÃ­ starÃ½ch dat
+	pData = olddata;					// adresa starÃ½ch dat
+	DetachData();						// odpojenÃ­ starÃ½ch dat
+	pData = newdata;					// adresa novÃ½ch dat
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// konverze formátu na 16 bitù
+// konverze formÃ¡tu na 16 bitÅ¯
 
 void _fastcall CSound::Conv16Bit()
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
-// pokud je ji 16 bitù, nic se nedìje
+// pokud je jiÅ¾ 16 bitÅ¯, nic se nedÄ›je
 	if ((Bits() == 16) || (Format() != WAVE_FORMAT_PCM)) return;
 
-// úschova adresy starıch dat
-	SOUNDDATA* olddata = pData;			// adresa starıch dat
+// Ãºschova adresy starÃ½ch dat
+	SOUNDDATA* olddata = pData;			// adresa starÃ½ch dat
 	int size = olddata->Size;			// velikost dat
 
-// vytvoøení bufferu pro nová data
-	NewBufferData(size*2);				// vytvoøení nového bufferu
-	SOUNDDATA* newdata = pData;			// adresa novıch dat
+// vytvoÅ™enÃ­ bufferu pro novÃ¡ data
+	NewBufferData(size*2);				// vytvoÅ™enÃ­ novÃ©ho bufferu
+	SOUNDDATA* newdata = pData;			// adresa novÃ½ch dat
 
-// pøenesení parametrù zvuku
-	newdata->Samples = olddata->Samples; // vzorkovací kmitoèet
-	newdata->Format = olddata->Format;	// formát dat
-	newdata->Channels = olddata->Channels; // poèet kanálù
-	newdata->Bits = 16;					// poèet bitù
+// pÅ™enesenÃ­ parametrÅ¯ zvuku
+	newdata->Samples = olddata->Samples; // vzorkovacÃ­ kmitoÄet
+	newdata->Format = olddata->Format;	// formÃ¡t dat
+	newdata->Channels = olddata->Channels; // poÄet kanÃ¡lÅ¯
+	newdata->Bits = 16;					// poÄet bitÅ¯
 	newdata->SizeHead = 0;
 	
 // konverze dat
-	BYTE* src = olddata->Data;			// stará data
-	short* dst = (short*)newdata->Data;	// nová data
+	BYTE* src = olddata->Data;			// starÃ¡ data
+	short* dst = (short*)newdata->Data;	// novÃ¡ data
 
 	for(; size > 0; size--)
 	{
@@ -695,44 +695,44 @@ void _fastcall CSound::Conv16Bit()
 		src++;
 	}
 
-// odpojení starıch dat
-	pData = olddata;					// adresa starıch dat
-	DetachData();						// odpojení starıch dat
-	pData = newdata;					// adresa novıch dat
+// odpojenÃ­ starÃ½ch dat
+	pData = olddata;					// adresa starÃ½ch dat
+	DetachData();						// odpojenÃ­ starÃ½ch dat
+	pData = newdata;					// adresa novÃ½ch dat
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// konverze formátu na stereo
+// konverze formÃ¡tu na stereo
 
 void _fastcall CSound::ConvStereo()
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
-// pokud je ji stereo, nic se nedìje
+// pokud je jiÅ¾ stereo, nic se nedÄ›je
 	if ((Channels() == 2) || (Format() != WAVE_FORMAT_PCM)) return;
 
-// úschova adresy starıch dat
-	SOUNDDATA* olddata = pData;			// adresa starıch dat
+// Ãºschova adresy starÃ½ch dat
+	SOUNDDATA* olddata = pData;			// adresa starÃ½ch dat
 	int size = olddata->Size;			// velikost dat
 
-// vytvoøení bufferu pro nová data
-	NewBufferData(size*2);				// vytvoøení nového bufferu
-	SOUNDDATA* newdata = pData;			// adresa novıch dat
+// vytvoÅ™enÃ­ bufferu pro novÃ¡ data
+	NewBufferData(size*2);				// vytvoÅ™enÃ­ novÃ©ho bufferu
+	SOUNDDATA* newdata = pData;			// adresa novÃ½ch dat
 
-// pøenesení parametrù zvuku
-	newdata->Samples = olddata->Samples; // vzorkovací kmitoèet
-	newdata->Format = olddata->Format;	// formát dat
-	newdata->Channels = 2;				// poèet kanálù
+// pÅ™enesenÃ­ parametrÅ¯ zvuku
+	newdata->Samples = olddata->Samples; // vzorkovacÃ­ kmitoÄet
+	newdata->Format = olddata->Format;	// formÃ¡t dat
+	newdata->Channels = 2;				// poÄet kanÃ¡lÅ¯
 	newdata->SizeHead = 0;
-	newdata->Bits = olddata->Bits;		// poèet bitù
+	newdata->Bits = olddata->Bits;		// poÄet bitÅ¯
 	
-// konverze dat - 8 bitù
+// konverze dat - 8 bitÅ¯
 	if (olddata->Bits == 8)
 	{
-		BYTE* src = olddata->Data;		// stará data
-		BYTE* dst = newdata->Data;		// nová data
+		BYTE* src = olddata->Data;		// starÃ¡ data
+		BYTE* dst = newdata->Data;		// novÃ¡ data
 
 		for(; size > 0; size--)
 		{
@@ -746,11 +746,11 @@ void _fastcall CSound::ConvStereo()
 	}
 	else
 
-// konverze dat - 16 bitù
+// konverze dat - 16 bitÅ¯
 	{
 		size /= 2;
-		short* src = (short*)olddata->Data;	// stará data
-		short* dst = (short*)newdata->Data;	// nová data
+		short* src = (short*)olddata->Data;	// starÃ¡ data
+		short* dst = (short*)newdata->Data;	// novÃ¡ data
 
 		for(; size > 0; size--)
 		{
@@ -763,44 +763,44 @@ void _fastcall CSound::ConvStereo()
 		}
 	}
 
-// odpojení starıch dat
-	pData = olddata;					// adresa starıch dat
-	DetachData();						// odpojení starıch dat
-	pData = newdata;					// adresa novıch dat
+// odpojenÃ­ starÃ½ch dat
+	pData = olddata;					// adresa starÃ½ch dat
+	DetachData();						// odpojenÃ­ starÃ½ch dat
+	pData = newdata;					// adresa novÃ½ch dat
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// konverze formátu na mono
+// konverze formÃ¡tu na mono
 
 void _fastcall CSound::ConvMono()
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
-// pokud je ji mono, nic se nedìje
+// pokud je jiÅ¾ mono, nic se nedÄ›je
 	if ((Channels() == 1) || (Format() != WAVE_FORMAT_PCM)) return;
 
-// úschova adresy starıch dat
-	SOUNDDATA* olddata = pData;			// adresa starıch dat
+// Ãºschova adresy starÃ½ch dat
+	SOUNDDATA* olddata = pData;			// adresa starÃ½ch dat
 	int size = olddata->Size/2;			// velikost dat
 
-// vytvoøení bufferu pro nová data
-	NewBufferData(size);				// vytvoøení nového bufferu
-	SOUNDDATA* newdata = pData;			// adresa novıch dat
+// vytvoÅ™enÃ­ bufferu pro novÃ¡ data
+	NewBufferData(size);				// vytvoÅ™enÃ­ novÃ©ho bufferu
+	SOUNDDATA* newdata = pData;			// adresa novÃ½ch dat
 
-// pøenesení parametrù zvuku
-	newdata->Samples = olddata->Samples; // vzorkovací kmitoèet
-	newdata->Format = olddata->Format;	// formát dat
-	newdata->Channels = 1;				// poèet kanálù
+// pÅ™enesenÃ­ parametrÅ¯ zvuku
+	newdata->Samples = olddata->Samples; // vzorkovacÃ­ kmitoÄet
+	newdata->Format = olddata->Format;	// formÃ¡t dat
+	newdata->Channels = 1;				// poÄet kanÃ¡lÅ¯
 	newdata->SizeHead = 0;
-	newdata->Bits = olddata->Bits;		// poèet bitù
+	newdata->Bits = olddata->Bits;		// poÄet bitÅ¯
 	
-// konverze dat - 8 bitù
+// konverze dat - 8 bitÅ¯
 	if (olddata->Bits == 8)
 	{
-		BYTE* src = olddata->Data;		// stará data
-		BYTE* dst = newdata->Data;		// nová data
+		BYTE* src = olddata->Data;		// starÃ¡ data
+		BYTE* dst = newdata->Data;		// novÃ¡ data
 
 		for(; size > 0; size--)
 		{
@@ -812,11 +812,11 @@ void _fastcall CSound::ConvMono()
 	}
 	else
 
-// konverze dat - 16 bitù
+// konverze dat - 16 bitÅ¯
 	{
 		size /= 2;
-		short* src = (short*)olddata->Data;	// stará data
-		short* dst = (short*)newdata->Data;	// nová data
+		short* src = (short*)olddata->Data;	// starÃ¡ data
+		short* dst = (short*)newdata->Data;	// novÃ¡ data
 
 		for(; size > 0; size--)
 		{
@@ -827,10 +827,10 @@ void _fastcall CSound::ConvMono()
 		}
 	}
 
-// odpojení starıch dat
-	pData = olddata;					// adresa starıch dat
-	DetachData();						// odpojení starıch dat
-	pData = newdata;					// adresa novıch dat
+// odpojenÃ­ starÃ½ch dat
+	pData = olddata;					// adresa starÃ½ch dat
+	DetachData();						// odpojenÃ­ starÃ½ch dat
+	pData = newdata;					// adresa novÃ½ch dat
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -838,32 +838,32 @@ void _fastcall CSound::ConvMono()
 
 void _fastcall CSound::ConvInv()
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
-// musí bıt PCM formát
+// musÃ­ bÃ½t PCM formÃ¡t
 	if (Format() != WAVE_FORMAT_PCM) return;
 
-// úschova adresy starıch dat
-	SOUNDDATA* olddata = pData;			// adresa starıch dat
+// Ãºschova adresy starÃ½ch dat
+	SOUNDDATA* olddata = pData;			// adresa starÃ½ch dat
 	int size = olddata->Size;			// velikost dat
 
-// vytvoøení bufferu pro nová data
-	NewBufferData(size);				// vytvoøení nového bufferu
-	SOUNDDATA* newdata = pData;			// adresa novıch dat
+// vytvoÅ™enÃ­ bufferu pro novÃ¡ data
+	NewBufferData(size);				// vytvoÅ™enÃ­ novÃ©ho bufferu
+	SOUNDDATA* newdata = pData;			// adresa novÃ½ch dat
 
-// pøenesení parametrù zvuku
-	newdata->Samples = olddata->Samples; // vzorkovací kmitoèet
-	newdata->Format = olddata->Format;	// formát dat
-	newdata->Channels = olddata->Channels;	// poèet kanálù
+// pÅ™enesenÃ­ parametrÅ¯ zvuku
+	newdata->Samples = olddata->Samples; // vzorkovacÃ­ kmitoÄet
+	newdata->Format = olddata->Format;	// formÃ¡t dat
+	newdata->Channels = olddata->Channels;	// poÄet kanÃ¡lÅ¯
 	newdata->SizeHead = 0;
-	newdata->Bits = olddata->Bits;		// poèet bitù
+	newdata->Bits = olddata->Bits;		// poÄet bitÅ¯
 	
-// konverze dat - 8 bitù
+// konverze dat - 8 bitÅ¯
 	if (olddata->Bits == 8)
 	{
-		BYTE* src = olddata->Data + size;	// stará data
-		BYTE* dst = newdata->Data;		// nová data
+		BYTE* src = olddata->Data + size;	// starÃ¡ data
+		BYTE* dst = newdata->Data;		// novÃ¡ data
 
 		for(; size > 0; size--)
 		{
@@ -874,11 +874,11 @@ void _fastcall CSound::ConvInv()
 	}
 	else
 
-// konverze dat - 16 bitù
+// konverze dat - 16 bitÅ¯
 	{
 		size /= 2;
-		short* src = (short*)olddata->Data + size;	// stará data
-		short* dst = (short*)newdata->Data;	// nová data
+		short* src = (short*)olddata->Data + size;	// starÃ¡ data
+		short* dst = (short*)newdata->Data;	// novÃ¡ data
 
 		for(; size > 0; size--)
 		{
@@ -888,22 +888,22 @@ void _fastcall CSound::ConvInv()
 		}
 	}
 
-// odpojení starıch dat
-	pData = olddata;					// adresa starıch dat
-	DetachData();						// odpojení starıch dat
-	pData = newdata;					// adresa novıch dat
+// odpojenÃ­ starÃ½ch dat
+	pData = olddata;					// adresa starÃ½ch dat
+	DetachData();						// odpojenÃ­ starÃ½ch dat
+	pData = newdata;					// adresa novÃ½ch dat
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 
 void _fastcall CSound::DeComp()
 {
-// pokud je ji PCM, nic se neprovede
+// pokud je jiÅ¾ PCM, nic se neprovede
 	if (Format() == WAVE_FORMAT_PCM) return;
 
-// standardní cílovı formát
+// standardnÃ­ cÃ­lovÃ½ formÃ¡t
 	WAVEFORMATEX wf;
 	wf.wFormatTag = WAVE_FORMAT_PCM;
 	wf.nChannels = 2;
@@ -911,43 +911,43 @@ void _fastcall CSound::DeComp()
 	wf.wBitsPerSample = 16;
 	wf.cbSize = 0;
 
-// doporuèenı cílovı formát
+// doporuÄenÃ½ cÃ­lovÃ½ formÃ¡t
 	::acmFormatSuggest(
 		NULL,								// handle proudu
-		(WAVEFORMATEX*)DataData(),			// popisovaè formátu zdroje
-		&wf,								// popisovaè formátu cíle
-		sizeof(WAVEFORMATEX),				// velikost popisovaèe formátu cíle
-		ACM_FORMATSUGGESTF_WBITSPERSAMPLE |	// je poadováno 16 bitù na vzorek
-		ACM_FORMATSUGGESTF_WFORMATTAG);		// je poadován formát PCM
+		(WAVEFORMATEX*)DataData(),			// popisovaÄ formÃ¡tu zdroje
+		&wf,								// popisovaÄ formÃ¡tu cÃ­le
+		sizeof(WAVEFORMATEX),				// velikost popisovaÄe formÃ¡tu cÃ­le
+		ACM_FORMATSUGGESTF_WBITSPERSAMPLE |	// je poÅ¾adovÃ¡no 16 bitÅ¯ na vzorek
+		ACM_FORMATSUGGESTF_WFORMATTAG);		// je poÅ¾adovÃ¡n formÃ¡t PCM
 
-// korekce cílového formátu
+// korekce cÃ­lovÃ©ho formÃ¡tu
 	if (wf.nChannels != 2) wf.nChannels = 1;
 	if (wf.wBitsPerSample != 8) wf.wBitsPerSample = 16;
 	wf.nBlockAlign = (WORD)(wf.nChannels * (wf.wBitsPerSample/8));
 	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
 
-// otevøení konverzního proudu
+// otevÅ™enÃ­ konverznÃ­ho proudu
 	HACMSTREAM has;
 
 	if (::acmStreamOpen(
 		&has,								// handle proudu
-		NULL,								// handle ovladaèe ACM
-		(WAVEFORMATEX*)DataData(),			// popisovaè formátu zdroje
-		&wf,								// popisovaè formátu cíle
-		NULL,								// popisovaè filtru
-		0,									// není callback funkce pro hlášení
+		NULL,								// handle ovladaÄe ACM
+		(WAVEFORMATEX*)DataData(),			// popisovaÄ formÃ¡tu zdroje
+		&wf,								// popisovaÄ formÃ¡tu cÃ­le
+		NULL,								// popisovaÄ filtru
+		0,									// nenÃ­ callback funkce pro hlÃ¡Å¡enÃ­
 		0,									// data pro callback funkci
-		ACM_STREAMOPENF_NONREALTIME)		// pøíznaky konverze
+		ACM_STREAMOPENF_NONREALTIME)		// pÅ™Ã­znaky konverze
 		!= 0) return;
 
-// urèení velikosti bufferu
+// urÄenÃ­ velikosti bufferu
 	int size = (Size() - SizeHead()) * 4;
 	::acmStreamSize(has, Size() - SizeHead(), (DWORD*)&size, ACM_STREAMSIZEF_SOURCE);
 
-// vytvoøení bufferu pro cíl konverze
+// vytvoÅ™enÃ­ bufferu pro cÃ­l konverze
 	BYTE* buf = (BYTE*)MemGet(size);
 
-// záhlaví proudu
+// zÃ¡hlavÃ­ proudu
 	ACMSTREAMHEADER ash;
 	MemFill(&ash, sizeof(ash), 0);
 	ash.cbStruct = sizeof(ACMSTREAMHEADER);
@@ -956,19 +956,19 @@ void _fastcall CSound::DeComp()
 	ash.pbDst = buf;
 	ash.cbDstLength = size;
 
-// inicializace záhlaví proudu
+// inicializace zÃ¡hlavÃ­ proudu
 	::acmStreamPrepareHeader(has, &ash, 0);
 
-// provedení konverze
+// provedenÃ­ konverze
 	MMRESULT res = ::acmStreamConvert(has, &ash, 0);
 
-// deinicializace záhlaví proudu
+// deinicializace zÃ¡hlavÃ­ proudu
 	::acmStreamUnprepareHeader(has, &ash, 0);
 
-// uzavøení konverzního proudu
+// uzavÅ™enÃ­ konverznÃ­ho proudu
 	::acmStreamClose(has, 0);
 
-// pokud probìhla konverze v poøádku, pouijí se nová data
+// pokud probÄ›hla konverze v poÅ™Ã¡dku, pouÅ¾ijÃ­ se novÃ¡ data
 	if (res == 0)
 	{
 		Detach();
@@ -984,7 +984,7 @@ void _fastcall CSound::DeComp()
 		pData->Data = buf;
 	}
 
-// jinak se zruší cílovı buffer
+// jinak se zruÅ¡Ã­ cÃ­lovÃ½ buffer
 	else
 	{
 		MemFree(buf);
@@ -993,14 +993,14 @@ void _fastcall CSound::DeComp()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// konverze vzorkovací frekvence
+// konverze vzorkovacÃ­ frekvence
 
 void _fastcall CSound::ConvRate(int rate)
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
-// pokud je ji nastaveno, nic se nedìje
+// pokud je jiÅ¾ nastaveno, nic se nedÄ›je
 	int oldrate = Samples();
 	if (rate < 10) rate = 10;
 	if (rate > 1000000) rate = 1000000;
@@ -1013,11 +1013,11 @@ void _fastcall CSound::ConvRate(int rate)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// konverze rychlosti zvuku (1=beze zmìny)
+// konverze rychlosti zvuku (1=beze zmÄ›ny)
 
 void _fastcall CSound::ConvSpeed(double koef)
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 
 // inverze
@@ -1033,35 +1033,35 @@ void _fastcall CSound::ConvSpeed(double koef)
 	if (koef < 0.00001) koef = 0.00001;
 	if (koef > 100000) koef = 100000;
 
-// zarovnání adresy dat
+// zarovnÃ¡nÃ­ adresy dat
 	int align = -Align();
 
-// úschova adresy starıch dat
-	SOUNDDATA* olddata = pData;			// adresa starıch dat
-	int oldsize = olddata->Size;		// stará velikost dat
+// Ãºschova adresy starÃ½ch dat
+	SOUNDDATA* olddata = pData;			// adresa starÃ½ch dat
+	int oldsize = olddata->Size;		// starÃ¡ velikost dat
 	int newsize = Round(oldsize/koef) & align;
 	if (oldsize <= 0) return;
 
-// vytvoøení bufferu pro nová data
-	NewBufferData(newsize);				// vytvoøení nového bufferu
-	SOUNDDATA* newdata = pData;			// adresa novıch dat
+// vytvoÅ™enÃ­ bufferu pro novÃ¡ data
+	NewBufferData(newsize);				// vytvoÅ™enÃ­ novÃ©ho bufferu
+	SOUNDDATA* newdata = pData;			// adresa novÃ½ch dat
 
-// pøenesení parametrù zvuku
-	newdata->Samples = olddata->Samples;// vzorkovací kmitoèet
-	newdata->Format = olddata->Format;	// formát dat
-	newdata->Channels = olddata->Channels;	// poèet kanálù
+// pÅ™enesenÃ­ parametrÅ¯ zvuku
+	newdata->Samples = olddata->Samples;// vzorkovacÃ­ kmitoÄet
+	newdata->Format = olddata->Format;	// formÃ¡t dat
+	newdata->Channels = olddata->Channels;	// poÄet kanÃ¡lÅ¯
 	newdata->DSBuffer = NULL;
 	newdata->SizeHead = 0;
-	newdata->Bits = olddata->Bits;		// poèet bitù
+	newdata->Bits = olddata->Bits;		// poÄet bitÅ¯
 
-// konverze dat - 8 bitù
+// konverze dat - 8 bitÅ¯
 	int inx = 0;
 	double oldinx;
 
 	if (olddata->Bits == 8)
 	{
-		BYTE* src = olddata->Data;		// stará data
-		BYTE* dst = newdata->Data;		// nová data
+		BYTE* src = olddata->Data;		// starÃ¡ data
+		BYTE* dst = newdata->Data;		// novÃ¡ data
 
 		if (olddata->Channels == 1)
 		{
@@ -1102,10 +1102,10 @@ void _fastcall CSound::ConvSpeed(double koef)
 	}
 	else
 
-// konverze dat - 16 bitù
+// konverze dat - 16 bitÅ¯
 	{
-		short* src = (short*)olddata->Data;	// stará data
-		short* dst = (short*)newdata->Data;	// nová data
+		short* src = (short*)olddata->Data;	// starÃ¡ data
+		short* dst = (short*)newdata->Data;	// novÃ¡ data
 
 		if (olddata->Channels == 1)
 		{
@@ -1147,32 +1147,32 @@ void _fastcall CSound::ConvSpeed(double koef)
 		}
 	}
 
-// odpojení starıch dat
-	pData = olddata;					// adresa starıch dat
-	DetachData();						// odpojení starıch dat
-	pData = newdata;					// adresa novıch dat
+// odpojenÃ­ starÃ½ch dat
+	pData = olddata;					// adresa starÃ½ch dat
+	DetachData();						// odpojenÃ­ starÃ½ch dat
+	pData = newdata;					// adresa novÃ½ch dat
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// pøiètení zvuku
+// pÅ™iÄtenÃ­ zvuku
 
 void _fastcall CSound::Add(CSound src)
 {
-// dekomprese zvuku na formát PCM
+// dekomprese zvuku na formÃ¡t PCM
 	DeComp();
 	src.DeComp();
 
-// zajištìní stejného poètu bitù
+// zajiÅ¡tÄ›nÃ­ stejnÃ©ho poÄtu bitÅ¯
 	if ((Format() != WAVE_FORMAT_PCM) || (src.Format() != WAVE_FORMAT_PCM)) return;
 	if (src.Bits() == 16) Conv16Bit();
 	if (Bits() == 16) src.Conv16Bit();
 
-// zajištìní stejného poètu kanálù
+// zajiÅ¡tÄ›nÃ­ stejnÃ©ho poÄtu kanÃ¡lÅ¯
 	if (src.Stereo()) ConvStereo();
 	if (Stereo()) src.ConvStereo();
 
-// zajištìní stejného vzorkovacího kmitoètu
+// zajiÅ¡tÄ›nÃ­ stejnÃ©ho vzorkovacÃ­ho kmitoÄtu
 	int rate = 	src.Samples();
 	if (rate != Samples())
 	{
@@ -1197,46 +1197,46 @@ void _fastcall CSound::Add(CSound src)
 		ConvRate(rate);
 	}
 
-// zarovnání aktuální velikosti
+// zarovnÃ¡nÃ­ aktuÃ¡lnÃ­ velikosti
 	pData->Size &= -Align();
 
-// zmìna velikosti bufferu
+// zmÄ›na velikosti bufferu
 	int size1 = pData->Size;
 	int size2 = src.Size();
 	ReSize(size1 + size2);
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 	MemCopy(DataData() + size1, src.DataData(), size2);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vygenerování tónu
+// vygenerovÃ¡nÃ­ tÃ³nu
 
 void _fastcall CSound::TonGen(double freq, double len)
 {
-// omezení délky zvuku
+// omezenÃ­ dÃ©lky zvuku
 	if (len < 0) len = 0;
 	if (len > 60*60) len = 60*60;
 
-// omezení frekvence
+// omezenÃ­ frekvence
 	freq = fabs(freq);
 	if (freq < 1) freq = 1;
 	if (freq > 11025) freq = 11025;
 
-// vıpoèet poètu vln
+// vÃ½poÄet poÄtu vln
 	int i = Round(len*freq);
 	if (i < 1) i = 1;
 
-// velikost dat (vzorkù)
+// velikost dat (vzorkÅ¯)
 	i = Round(i/freq * 22050);
 
-// vytvoøení nového bufferu
+// vytvoÅ™enÃ­ novÃ©ho bufferu
 	New(2*i);
 	Bits(16);
 	Samples(22050);
 
-// vygenerování tónu
+// vygenerovÃ¡nÃ­ tÃ³nu
 	short* dst = (short*)DataData();
 	double koef = 2 * pi * freq / 22050;
 
@@ -1249,12 +1249,12 @@ void _fastcall CSound::TonGen(double freq, double len)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CSound& CSound::operator= (const CSound& src)
 {
-	Detach();				// zrušení starıch dat
-	Attach(src.pData);		// pøiøazení novıch dat
+	Detach();				// zruÅ¡enÃ­ starÃ½ch dat
+	Attach(src.pData);		// pÅ™iÅ™azenÃ­ novÃ½ch dat
 	return *this;
 }
 
@@ -1271,35 +1271,35 @@ const CSound& CSound::operator= (const CSound& src)
 
 CBufSound::CBufSound()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 CBufSound::~CBufSound()
 {
-	DelAll();				// zrušení všech poloek
+	DelAll();				// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// statickı konstruktor a destruktor
+// statickÃ½ konstruktor a destruktor
 
 void CBufSound::Init()
 {
-	m_Data = NULL;			// není buffer dat
-	m_Num = 0;				// není ádná platná poloka
-	m_Max = 0;				// není buffer poloek
+	m_Data = NULL;			// nenÃ­ buffer dat
+	m_Num = 0;				// nenÃ­ Å¾Ã¡dnÃ¡ platnÃ¡ poloÅ¾ka
+	m_Max = 0;				// nenÃ­ buffer poloÅ¾ek
 }
 
 void CBufSound::Term()
 {
-	DelAll();				// zrušení všech poloek
+	DelAll();				// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení novıch dat (oddìleno kvùli lepší optimalizaci)
+// vytvoÅ™enÃ­ novÃ½ch dat (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 
 void CBufSound::NewData()
 {
@@ -1311,33 +1311,33 @@ void CBufSound::NewData()
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení všech poloek v bufferu (ukládání zaène opìt po øadì)
+// zruÅ¡enÃ­ vÅ¡ech poloÅ¾ek v bufferu (uklÃ¡dÃ¡nÃ­ zaÄne opÄ›t po Å™adÄ›)
 
 void CBufSound::DelAll()
 {
-	Del(m_Num);					// zrušení poloek
-	MemBuf(m_Data, 0);			// zrušení bufferu dat
-	m_Max = 0;					// není ádná poloka v bufferu
+	Del(m_Num);					// zruÅ¡enÃ­ poloÅ¾ek
+	MemBuf(m_Data, 0);			// zruÅ¡enÃ­ bufferu dat
+	m_Max = 0;					// nenÃ­ Å¾Ã¡dnÃ¡ poloÅ¾ka v bufferu
 }
 
 ////////////////////////////////////////////////////////////////////
-// poskytnutí poloky (s kontrolou platnosti indexu)
+// poskytnutÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 const CSound& _fastcall CBufSound::Get(const int index) const
 {
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
-		return m_Data[index];	// poloka na daném indexu
+		return m_Data[index];	// poloÅ¾ka na danÃ©m indexu
 	}
-	return EmptySound;			// pro neplatnı index vrátí prázdnı zvuk
+	return EmptySound;			// pro neplatnÃ½ index vrÃ¡tÃ­ prÃ¡zdnÃ½ zvuk
 }
 
 ////////////////////////////////////////////////////////////////////
-// nastavení poloky (s kontrolou platnosti indexu)
+// nastavenÃ­ poloÅ¾ky (s kontrolou platnosti indexu)
 
 void _fastcall CBufSound::Set(const int index, const CSound& data)
 {
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
 		m_Data[index] = data;
 	}
@@ -1345,11 +1345,11 @@ void _fastcall CBufSound::Set(const int index, const CSound& data)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vyprázdnìní poloky (bez jejího zrušení - jen pro uvolnìní dat)
+// vyprÃ¡zdnÄ›nÃ­ poloÅ¾ky (bez jejÃ­ho zruÅ¡enÃ­ - jen pro uvolnÄ›nÃ­ dat)
 
 void _fastcall CBufSound::Empty(const int index)
 {
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		m_Data[index].Empty();
 	}
@@ -1357,7 +1357,7 @@ void _fastcall CBufSound::Empty(const int index)
 
 
 ////////////////////////////////////////////////////////////////////
-// zrušení poloek z konce bufferu
+// zruÅ¡enÃ­ poloÅ¾ek z konce bufferu
 
 void _fastcall CBufSound::Del(int num)
 {
@@ -1375,67 +1375,67 @@ void _fastcall CBufSound::Del(int num)
 
 
 ////////////////////////////////////////////////////////////////////
-// vytvoøení poloky (vrací index poloky)
+// vytvoÅ™enÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int CBufSound::New()
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init();		// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init();		// inicializace poloÅ¾ky
 	return result;
 }
 
 int CBufSound::New(int size)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(size);	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(size);	// inicializace poloÅ¾ky
 	return result;
 }
 
 ////////////////////////////////////////////////////////////////////
-// pøidání poloky (vrací index poloky)
+// pÅ™idÃ¡nÃ­ poloÅ¾ky (vracÃ­ index poloÅ¾ky)
 
 int _fastcall CBufSound::Add(const CSound& data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(data.Data());	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(data.Data());	// inicializace poloÅ¾ky
 	return result;
 }
 
 int _fastcall CBufSound::Add(SOUNDDATA* data)
 {
-	int result = NewItem();		// vytvoøení nové poloky
-	m_Data[result].Init(data);	// inicializace poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
+	m_Data[result].Init(data);	// inicializace poloÅ¾ky
 	return result;
 }
 
 
 ////////////////////////////////////////////////////////////////////
-// duplikace poloky (s kontrolou platnosti indexu, vrací index první poloky)
+// duplikace poloÅ¾ky (s kontrolou platnosti indexu, vracÃ­ index prvnÃ­ poloÅ¾ky)
 
 int _fastcall CBufSound::Dup(const int index)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))			// je index platnı?
+	if (IsValid(index))			// je index platnÃ½?
 	{
-		m_Data[result].Init(m_Data[index].Data());	// kopie poloky
+		m_Data[result].Init(m_Data[index].Data());	// kopie poloÅ¾ky
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatné poloky
+		m_Data[result].Init();		// inicializace neplatnÃ© poloÅ¾ky
 	}
 	return result;
 }
 
 int _fastcall CBufSound::Dup(const int index, int num)
 {
-	int result = NewItem();		// vytvoøení nové poloky
+	int result = NewItem();		// vytvoÅ™enÃ­ novÃ© poloÅ¾ky
 
-	if (IsValid(index))					// je index platnı?
+	if (IsValid(index))					// je index platnÃ½?
 	{
 		SOUNDDATA* data = m_Data[index].Data();
 
-		m_Data[result].Init(data);		// kopie poloky
+		m_Data[result].Init(data);		// kopie poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -1444,7 +1444,7 @@ int _fastcall CBufSound::Dup(const int index, int num)
 	}
 	else
 	{
-		m_Data[result].Init();		// inicializace neplatné poloky
+		m_Data[result].Init();		// inicializace neplatnÃ© poloÅ¾ky
 
 		for (num--; num > 0; num--)
 		{
@@ -1456,19 +1456,19 @@ int _fastcall CBufSound::Dup(const int index, int num)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 
 const CBufSound& CBufSound::operator= (const CBufSound& src)
 {
-	Del(m_Num);					// zrušení starıch dat
+	Del(m_Num);					// zruÅ¡enÃ­ starÃ½ch dat
 
-	int index = 0;				// index naèítané poloky
-	int i = src.m_Num;			// velikost zdrojového bufferu
+	int index = 0;				// index naÄÃ­tanÃ© poloÅ¾ky
+	int i = src.m_Num;			// velikost zdrojovÃ©ho bufferu
 
-	for (; i > 0; i--)			// pro všechny poloky v bufferu
+	for (; i > 0; i--)			// pro vÅ¡echny poloÅ¾ky v bufferu
 	{
-		Add(src[index]);	// kopie poloky
-		index++;				// inkrementace ètecího indexu
+		Add(src[index]);	// kopie poloÅ¾ky
+		index++;				// inkrementace ÄtecÃ­ho indexu
 	}
 	ASSERT(m_Num == src.m_Num);
 	return *this;

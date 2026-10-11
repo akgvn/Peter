@@ -5,82 +5,82 @@
 *																			*
 \***************************************************************************/
 
-#define	SPRITEDEFDELAY	55			// implicitní prodleva
-#define	SPRITEDEFLEVEL	1000		// implicitní hladina
-#define	SPRITEDEFKROKU	8			// implicitní poèet krokù
+#define	SPRITEDEFDELAY	55			// implicitnÃ­ prodleva
+#define	SPRITEDEFLEVEL	1000		// implicitnÃ­ hladina
+#define	SPRITEDEFKROKU	8			// implicitnÃ­ poÄet krokÅ¯
 
-#define SPRITEMAXKLID  1024			// maximální poèet klidovıch fází
-#define SPRITEMAXPOHYB 1024			// maximální poèet fází pro pohyb
-#define SPRITEMAXFAZE  (SPRITEMAXKLID+SPRITEMAXPOHYB) // max. poèet fází
-#define SPRITEMAXSMER  1024			// maximální poèet smìrù
-#define SPRITEMAXDELAY 3600000		// maximální prodleva mezi fázemi
-#define SPRITEMAXKROKU 1000000		// maximální poèet krokù na jednotku
+#define SPRITEMAXKLID  1024			// maximÃ¡lnÃ­ poÄet klidovÃ½ch fÃ¡zÃ­
+#define SPRITEMAXPOHYB 1024			// maximÃ¡lnÃ­ poÄet fÃ¡zÃ­ pro pohyb
+#define SPRITEMAXFAZE  (SPRITEMAXKLID+SPRITEMAXPOHYB) // max. poÄet fÃ¡zÃ­
+#define SPRITEMAXSMER  1024			// maximÃ¡lnÃ­ poÄet smÄ›rÅ¯
+#define SPRITEMAXDELAY 3600000		// maximÃ¡lnÃ­ prodleva mezi fÃ¡zemi
+#define SPRITEMAXKROKU 1000000		// maximÃ¡lnÃ­ poÄet krokÅ¯ na jednotku
 
 /////////////////////////////////////////////////////////////////////////////
-// struktura poloky dat sprajtu (32 bajtù + data)
-// Všechny obrázky mají stejnou velikost, musí bıt minimálnì 1 obrázek,
-// - velikost obrázku se zjišuje z prvního obrázku
+// struktura poloÅ¾ky dat sprajtu (32 bajtÅ¯ + data)
+// VÅ¡echny obrÃ¡zky majÃ­ stejnou velikost, musÃ­ bÃ½t minimÃ¡lnÄ› 1 obrÃ¡zek,
+// - velikost obrÃ¡zku se zjiÅ¡Å¥uje z prvnÃ­ho obrÃ¡zku
 
 typedef struct SPRITEDATA_
 {
-	long		Refer;				// (4) èítaè referencí na sprajt
-	long		Faze;				// (4) poèet fází celkem
-	long		Smer;				// (4) poèet smìrù
-	long		Klid;				// (4) z toho poèet klidovıch fází
-	long		Delay;				// (4) prodleva mezi dvìma fázemi (v milisekundách)
-	long		Level;				// (4) hladina k pøekreslování (0=pøedmìty)
-	double		Kroku;				// (8) poèet fází na jednotkovou vzdálenost (0=sleduje ihned)
-	CPicture	Data[1];			// obrázky sprajtu (v poøadí fáze/smìr)
+	long		Refer;				// (4) ÄÃ­taÄ referencÃ­ na sprajt
+	long		Faze;				// (4) poÄet fÃ¡zÃ­ celkem
+	long		Smer;				// (4) poÄet smÄ›rÅ¯
+	long		Klid;				// (4) z toho poÄet klidovÃ½ch fÃ¡zÃ­
+	long		Delay;				// (4) prodleva mezi dvÄ›ma fÃ¡zemi (v milisekundÃ¡ch)
+	long		Level;				// (4) hladina k pÅ™ekreslovÃ¡nÃ­ (0=pÅ™edmÄ›ty)
+	double		Kroku;				// (8) poÄet fÃ¡zÃ­ na jednotkovou vzdÃ¡lenost (0=sleduje ihned)
+	CPicture	Data[1];			// obrÃ¡zky sprajtu (v poÅ™adÃ­ fÃ¡ze/smÄ›r)
 } SPRITEDATA;
 
-#define SIZEOFSPRITEDATA	(6*sizeof(long) + sizeof(double)) // velikost poloky dat sprajtu (bez dat)
+#define SIZEOFSPRITEDATA	(6*sizeof(long) + sizeof(double)) // velikost poloÅ¾ky dat sprajtu (bez dat)
 
 /////////////////////////////////////////////////////////////////////////////
-// popisovaè sprajtu v souboru (40 B)
+// popisovaÄ sprajtu v souboru (40 B)
 
 typedef struct SPRITEFILE_
 {
-	char	Ident[4];				// (4) identifikátor (= "PSPR")
-	long	Faze;					// (4) poèet fází celkem
-	long	Smer;					// (4) poèet smìrù
-	long	Klid;					// (4) z toho poèet klidovıch fází
-	WORD	Width;					// (2) šíøka obrázku (max. 32768)
-	WORD	Height;					// (2) vıška obrázku (max. 32768)
-	long	Delay;					// (4) prodleva mezi fázemi v milisekundách
-	long	Level;					// (4) hladina k vykreslování (0=pøedmìty)
-	double	Kroku;					// (8) poèet fází na jednotkovou vzdálenost (0=ihned)
-	short	Colors;					// (2) poèet palet v tabulce
-	short	Format;					// (2) formát dat a parametry
-									//			0 = nekomprimováno (starı formát)
+	char	Ident[4];				// (4) identifikÃ¡tor (= "PSPR")
+	long	Faze;					// (4) poÄet fÃ¡zÃ­ celkem
+	long	Smer;					// (4) poÄet smÄ›rÅ¯
+	long	Klid;					// (4) z toho poÄet klidovÃ½ch fÃ¡zÃ­
+	WORD	Width;					// (2) Å¡Ã­Å™ka obrÃ¡zku (max. 32768)
+	WORD	Height;					// (2) vÃ½Å¡ka obrÃ¡zku (max. 32768)
+	long	Delay;					// (4) prodleva mezi fÃ¡zemi v milisekundÃ¡ch
+	long	Level;					// (4) hladina k vykreslovÃ¡nÃ­ (0=pÅ™edmÄ›ty)
+	double	Kroku;					// (8) poÄet fÃ¡zÃ­ na jednotkovou vzdÃ¡lenost (0=ihned)
+	short	Colors;					// (2) poÄet palet v tabulce
+	short	Format;					// (2) formÃ¡t dat a parametry
+									//			0 = nekomprimovÃ¡no (starÃ½ formÃ¡t)
 									//			1 = komprese
 	RGBQUAD	ColorTab[1];			// (4) tabulka palet
 } SPRITEFILE;
 
-// Za popisovaèem následuje tabulka palet (formát RGBQUAD) a data obrázkù
-// V komprimovaném formátu následuje za tabulkou palet dvojslovo=velikost zkomprimovanıch
-// dat obrázkù (komprimováno vše najednou), následují zkomprimovaná data obrázkù
+// Za popisovaÄem nÃ¡sleduje tabulka palet (formÃ¡t RGBQUAD) a data obrÃ¡zkÅ¯
+// V komprimovanÃ©m formÃ¡tu nÃ¡sleduje za tabulkou palet dvojslovo=velikost zkomprimovanÃ½ch
+// dat obrÃ¡zkÅ¯ (komprimovÃ¡no vÅ¡e najednou), nÃ¡sledujÃ­ zkomprimovanÃ¡ data obrÃ¡zkÅ¯
 
 #define SIZEOFSPRITEFILE (4*sizeof(char) + 5*sizeof(long) + 2*sizeof(short) + 2*sizeof(WORD) + sizeof(double))
 
 /////////////////////////////////////////////////////////////////////////////
-// inicializaèní prázdnı sprajt (modifikuje se poèet referencí!)
+// inicializaÄnÃ­ prÃ¡zdnÃ½ sprajt (modifikuje se poÄet referencÃ­!)
 
-extern SPRITEDATA* EmptySpriteData;				// data prázdného sprajtu
-extern	const CSprite		EmptySprite;		// prázdnı sprajt
+extern SPRITEDATA* EmptySpriteData;				// data prÃ¡zdnÃ©ho sprajtu
+extern	const CSprite		EmptySprite;		// prÃ¡zdnÃ½ sprajt
 
 /////////////////////////////////////////////////////////////////////////////
-// statické funkce
+// statickÃ© funkce
 
-// statická inicializace sprajtù (pøi chybì pamìti vrací FALSE)
+// statickÃ¡ inicializace sprajtÅ¯ (pÅ™i chybÄ› pamÄ›ti vracÃ­ FALSE)
 bool InitSprite();
 
-// vytvoøení dat sprajtu (pøi chybì pamìti vrací NULL)
+// vytvoÅ™enÃ­ dat sprajtu (pÅ™i chybÄ› pamÄ›ti vracÃ­ NULL)
 SPRITEDATA* _fastcall NewSpriteData(int faze, int smer);
 
-// vytvoøení dat sprajtu bez inicializace obrázkù a nastavení parametrù (pøi chybì pamìti vrací NULL)
+// vytvoÅ™enÃ­ dat sprajtu bez inicializace obrÃ¡zkÅ¯ a nastavenÃ­ parametrÅ¯ (pÅ™i chybÄ› pamÄ›ti vracÃ­ NULL)
 SPRITEDATA* _fastcall NewSpriteData0(int faze, int smer);
 
-// zrušení dat sprajtu (oddìleno kvùli lepší optimalizaci)
+// zruÅ¡enÃ­ dat sprajtu (oddÄ›leno kvÅ¯li lepÅ¡Ã­ optimalizaci)
 void _fastcall DelSpriteData(SPRITEDATA* data);
 
 
@@ -90,14 +90,14 @@ void _fastcall DelSpriteData(SPRITEDATA* data);
 class CSprite
 {
 
-// ------------------------- interní promìnné a funkce ----------------------
+// ------------------------- internÃ­ promÄ›nnÃ© a funkce ----------------------
 
 private:
 
-// promìnné
-	SPRITEDATA*		pData;					// ukazatel na záhlaví sprajtu
+// promÄ›nnÃ©
+	SPRITEDATA*		pData;					// ukazatel na zÃ¡hlavÃ­ sprajtu
 
-// pøipojení dat sprajtu
+// pÅ™ipojenÃ­ dat sprajtu
 	inline void attach(SPRITEDATA* data)
 	{
 		ASSERT(data != NULL);
@@ -106,7 +106,7 @@ private:
 		LongIncrement(&(data->Refer));
 	}
 
-// odpojení (a zrušení) dat sprajtu
+// odpojenÃ­ (a zruÅ¡enÃ­) dat sprajtu
 	inline void detach(SPRITEDATA* data)
 	{
 		ASSERT(data != NULL);
@@ -119,75 +119,75 @@ private:
 	}
 
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
 // konstruktor a destruktor
-	CSprite();						// prázdnı sprajt o velikosti 1x1 (prázdnı obrázek ICONSIZE)
+	CSprite();						// prÃ¡zdnÃ½ sprajt o velikosti 1x1 (prÃ¡zdnÃ½ obrÃ¡zek ICONSIZE)
 	CSprite(const CSprite& src);
 	CSprite(SPRITEDATA* data);
 	~CSprite();
 
 // konstruktor a destruktor
-	void Init();					// prázdnı sprajt o velikosti 1x1 (prázdnı obrázek ICONSIZE)
+	void Init();					// prÃ¡zdnÃ½ sprajt o velikosti 1x1 (prÃ¡zdnÃ½ obrÃ¡zek ICONSIZE)
 	void _fastcall Init(const CSprite& src);
 	void _fastcall Init(SPRITEDATA* data);
-	bool _fastcall Init(int faze, int smer); // pøi chybì pamìti vrátí FALSE, sprajt není vytvoøen
+	bool _fastcall Init(int faze, int smer); // pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, sprajt nenÃ­ vytvoÅ™en
 	void Term();
 
-// poskytnutí ukazatele na data sprajtu
+// poskytnutÃ­ ukazatele na data sprajtu
 	inline SPRITEDATA* Data() const { return pData; };
 	inline CPicture* DataData() const { return pData->Data; };
 
-// poskytnutí poètu fází sprajtu
+// poskytnutÃ­ poÄtu fÃ¡zÃ­ sprajtu
 	inline int Faze() const { return pData->Faze; };
 
-// poskytnutí poètu smìrù sprajtu
+// poskytnutÃ­ poÄtu smÄ›rÅ¯ sprajtu
 	inline int Smer() const { return pData->Smer; };
 
-// poskytnutí/nastavení (bez zmìny fází celkem) poètu klidovıch fází sprajtu
+// poskytnutÃ­/nastavenÃ­ (bez zmÄ›ny fÃ¡zÃ­ celkem) poÄtu klidovÃ½ch fÃ¡zÃ­ sprajtu
 	inline int Klid() const { return pData->Klid; };
 	inline void Klid(int klid) { pData->Klid = klid; };
 
-// poskytnutí/nastavení prodlevy mezi dvìma fázemi (v milisekundách)
+// poskytnutÃ­/nastavenÃ­ prodlevy mezi dvÄ›ma fÃ¡zemi (v milisekundÃ¡ch)
 	inline int Delay() const { return pData->Delay; };
 	inline void Delay(int delay) { pData->Delay = delay; };
 
-// poskytnutí/nastavení hladiny zobrazení sprajtu (0=pøedmìty)
+// poskytnutÃ­/nastavenÃ­ hladiny zobrazenÃ­ sprajtu (0=pÅ™edmÄ›ty)
 	inline int Level() const { return pData->Level; };
 	inline void Level(int level) { pData->Level = level; };
 
-// poskytnutí/nastavení poètu krokù na jednotku (0=ihned)
+// poskytnutÃ­/nastavenÃ­ poÄtu krokÅ¯ na jednotku (0=ihned)
 	inline double Kroku() const { return pData->Kroku; };
 	inline void Kroku(double kroku) { pData->Kroku = kroku; };
 
-// poskytnutí šíøky obrázku sprajtu
+// poskytnutÃ­ Å¡Ã­Å™ky obrÃ¡zku sprajtu
 	inline int Width() const { return pData->Data[0].Width(); };
 
-// poskytnutí vıšky obrázku sprajtu
+// poskytnutÃ­ vÃ½Å¡ky obrÃ¡zku sprajtu
 	inline int Height() const { return pData->Data[0].Height(); };
 
-// poskytnutí velikosti dat sprajtu - data obrázkù bez záhlaví
+// poskytnutÃ­ velikosti dat sprajtu - data obrÃ¡zkÅ¯ bez zÃ¡hlavÃ­
 	inline int Size() const { return pData->Faze * pData->Smer * pData->Data[0].Width() * pData->Data[0].Height(); };
 
-// vyprázdnìní (uvolnìní dat) - pøipojí se standardní prázdnı sprajt o velikosti 1x1
+// vyprÃ¡zdnÄ›nÃ­ (uvolnÄ›nÃ­ dat) - pÅ™ipojÃ­ se standardnÃ­ prÃ¡zdnÃ½ sprajt o velikosti 1x1
 	void Empty();
 
-// test, zda je sprajt prázdná (zda ukazuje na standardní prázdnı sprajt 1x1)
+// test, zda je sprajt prÃ¡zdnÃ¡ (zda ukazuje na standardnÃ­ prÃ¡zdnÃ½ sprajt 1x1)
 	inline BOOL IsEmpty() { return ((DWORD)pData == (DWORD)EmptySpriteData); };
 	inline BOOL IsNotEmpty() { return ((DWORD)pData != (DWORD)EmptySpriteData); };
 
-// kopie do vlastního bufferu pøed modifikací (pozor - obrázky tímto nejsou pøivlastnìny!)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// kopie do vlastnÃ­ho bufferu pÅ™ed modifikacÃ­ (pozor - obrÃ¡zky tÃ­mto nejsou pÅ™ivlastnÄ›ny!)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool CopyWrite();
 
-// vytvoøení nového sprajtu (pøipraveno k zápisu, data jsou náhodná)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// vytvoÅ™enÃ­ novÃ©ho sprajtu (pÅ™ipraveno k zÃ¡pisu, data jsou nÃ¡hodnÃ¡)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool _fastcall New(int faze, int smer);
 
-// nastavení novıch rozmìrù sprajtu (poèet fází pro klid a pohyb, poèet smìrù)
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// nastavenÃ­ novÃ½ch rozmÄ›rÅ¯ sprajtu (poÄet fÃ¡zÃ­ pro klid a pohyb, poÄet smÄ›rÅ¯)
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool ReSize(int klid, int pohyb, int smer);
 
 // kontrola platnosti offsetu prvku
@@ -204,8 +204,8 @@ public:
 	inline BOOL IsNotValid(const int faze, const int smer) const
 		{ return (((DWORD)faze >= (DWORD)pData->Faze) || ((DWORD)smer >= (DWORD)pData->Smer)); };
 
-// poskytnutí pøístupu k prvku (bez kontroly offsetu/indexu)
-// v pøípadì zápisu musí bıt zajištìno pøivlastnìní bufferu!
+// poskytnutÃ­ pÅ™Ã­stupu k prvku (bez kontroly offsetu/indexu)
+// v pÅ™Ã­padÄ› zÃ¡pisu musÃ­ bÃ½t zajiÅ¡tÄ›no pÅ™ivlastnÄ›nÃ­ bufferu!
 	inline CPicture& operator[] (const int off) 
 		{ ASSERT(IsValid(off)); return pData->Data[off]; }
 
@@ -224,44 +224,44 @@ public:
 	inline const CPicture& At(const int faze, const int smer) const
 		{ ASSERT(IsValid(faze, smer)); return pData->Data[faze + smer*pData->Faze]; }
 
-// poskytnutí prvku (s kontrolou platnosti offsetu/indexu)
-// pro neplatnı prvek vrací pøístup na prvek prázdného sprajtu
+// poskytnutÃ­ prvku (s kontrolou platnosti offsetu/indexu)
+// pro neplatnÃ½ prvek vracÃ­ pÅ™Ã­stup na prvek prÃ¡zdnÃ©ho sprajtu
 	const CPicture& _fastcall Get(const int off) const;
 	const CPicture& _fastcall Get(const int faze, const int smer) const;
 
-// nastavení prvku (s kontrolou platnosti offsetu/indexu)
-// pøed zápisem je nutno zajistit pøivlastnìní bufferu!
+// nastavenÃ­ prvku (s kontrolou platnosti offsetu/indexu)
+// pÅ™ed zÃ¡pisem je nutno zajistit pÅ™ivlastnÄ›nÃ­ bufferu!
 	void _fastcall Set(const int off, const CPicture& data);
 	void _fastcall Set(const int faze, const int smer, const CPicture& data);
 
-// naètení sprajtu ze souboru
-// pøi chybì pamìti vrátí FALSE, obsah bude nezmìnìn
+// naÄtenÃ­ sprajtu ze souboru
+// pÅ™i chybÄ› pamÄ›ti vrÃ¡tÃ­ FALSE, obsah bude nezmÄ›nÄ›n
 	bool LoadFile(CText jmeno);
 
-// uloení do souboru (FALSE=chyba)
+// uloÅ¾enÃ­ do souboru (FALSE=chyba)
 	bool SaveFile(CText jmeno) const;
 
-// operátor pøiøazení
+// operÃ¡tor pÅ™iÅ™azenÃ­
 	const CSprite& operator= (const CSprite& src);
 	const CSprite& operator= (SPRITEDATA* src);
 };
 
 /***************************************************************************\
 *																			*
-*								Buffer sprajtù								*
+*								Buffer sprajtÅ¯								*
 *																			*
 \***************************************************************************/
 
 class CBufSprite : public CBuffer<CSprite>
 {
 
-// ---------------------------- veøejné funkce ------------------------------
+// ---------------------------- veÅ™ejnÃ© funkce ------------------------------
 
 public:
 
-// vytvoøení nového sprajtu (vrací index poloky, <0 = chyba)
-// provádí záznam do UNDO bufferu
-	inline int New() { return CBuffer<CSprite>::New(); } // prázdnı sprajt o velikosti 1x1
-	int _fastcall New(int faze, int smer);			// data jsou náhodná
+// vytvoÅ™enÃ­ novÃ©ho sprajtu (vracÃ­ index poloÅ¾ky, <0 = chyba)
+// provÃ¡dÃ­ zÃ¡znam do UNDO bufferu
+	inline int New() { return CBuffer<CSprite>::New(); } // prÃ¡zdnÃ½ sprajt o velikosti 1x1
+	int _fastcall New(int faze, int smer);			// data jsou nÃ¡hodnÃ¡
 };
 

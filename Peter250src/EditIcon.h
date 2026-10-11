@@ -1,194 +1,194 @@
 
 /***************************************************************************\
 *																			*
-*							Editor ikon a obrázkù							*
+*							Editor ikon a obrÃ¡zkÅ¯							*
 *																			*
 \***************************************************************************/
 
 namespace EditIcon
 {
-extern	BOOL	NewDimPoint;			// rozmìry zadány v bodech
+extern	BOOL	NewDimPoint;			// rozmÄ›ry zadÃ¡ny v bodech
 
 // ----------- obsluha volby editace -------
 
-// inicializace editoru ikon pøi startu
+// inicializace editoru ikon pÅ™i startu
 	void StartInit();
 
-// zahájení editace
+// zahÃ¡jenÃ­ editace
 	void BegEdit(int bufID, int index);
 
-// nastavení rozmìrù obrázku
+// nastavenÃ­ rozmÄ›rÅ¯ obrÃ¡zku
 	void OnDimen();
 
 
-// ----------- obsluha zobrazení ------------
+// ----------- obsluha zobrazenÃ­ ------------
 
-// pøepoèet rozmìrù editoru ikon a obrázkù
+// pÅ™epoÄet rozmÄ›rÅ¯ editoru ikon a obrÃ¡zkÅ¯
 	void ReCalc();
 
-// zobrazení celého okna editoru
+// zobrazenÃ­ celÃ©ho okna editoru
 	void Disp();
 
-// aktualizaèní pøekreslení obrázku (s pøepoètem rozmìrù)
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ obrÃ¡zku (s pÅ™epoÄtem rozmÄ›rÅ¯)
 	void ReDisp();
 
-// pøekreslení okrajù kolem obrázku
+// pÅ™ekreslenÃ­ okrajÅ¯ kolem obrÃ¡zku
 	void DispRam(HDC dc);
 
-// aktualizaèní pøekreslení obrázku
+// aktualizaÄnÃ­ pÅ™ekreslenÃ­ obrÃ¡zku
 	void DispAkt(HDC dc);
 
-// vykreslení políèka vıbìru barvy
+// vykreslenÃ­ polÃ­Äka vÃ½bÄ›ru barvy
 	void DispCol(int col);
 	void DispCol(HDC dc, int col);
 
-// zvìtšení mìøítka
+// zvÄ›tÅ¡enÃ­ mÄ›Å™Ã­tka
 	void ZoomIn();
 
-// zmenšení mìøítka
+// zmenÅ¡enÃ­ mÄ›Å™Ã­tka
 	void ZoomOut();
 
-// aktualizace tlaèítek pro zvìtšení/zmenšení mìøítka
+// aktualizace tlaÄÃ­tek pro zvÄ›tÅ¡enÃ­/zmenÅ¡enÃ­ mÄ›Å™Ã­tka
 	void UpdateZoomInOut();
 
-// pøekreslení ikon ve stromech
+// pÅ™ekreslenÃ­ ikon ve stromech
 	void UpdateTree();
 
-// zapnutí/vypnutí rastru
+// zapnutÃ­/vypnutÃ­ rastru
 	void OnRastr();
 
-// ---------------- obsluha posuvníkù ---------
+// ---------------- obsluha posuvnÃ­kÅ¯ ---------
 
-// pøesun posuvníkù pøi zmìnì rozmìrù okna
+// pÅ™esun posuvnÃ­kÅ¯ pÅ™i zmÄ›nÄ› rozmÄ›rÅ¯ okna
 	HDWP MoveScroll(HDWP hdwp);
 
-// aktualizace zobrazení posuvníkù
+// aktualizace zobrazenÃ­ posuvnÃ­kÅ¯
 	void SetScroll();
 
-// horizontální posuvník
+// horizontÃ¡lnÃ­ posuvnÃ­k
 	void OnHScroll(int code, int pos);
 
-// vertikální posuvník
+// vertikÃ¡lnÃ­ posuvnÃ­k
 	void OnVScroll(int code, int pos);
 
 // ------------ obsluha editace -------------
 
-// úschova obrázku do pomocného bufferu
+// Ãºschova obrÃ¡zku do pomocnÃ©ho bufferu
 	void Push();
 
-// návrat obrázku z pomocného bufferu
+// nÃ¡vrat obrÃ¡zku z pomocnÃ©ho bufferu
 	void Pop();
 
-// naètení bodu z bufferu
+// naÄtenÃ­ bodu z bufferu
 	inline BYTE _fastcall GetPush(int x, int y);
 
-// nastavení bodu v bufferu
+// nastavenÃ­ bodu v bufferu
 	inline void _fastcall SetPush(int x, int y, BYTE col);
 
-// nastavení indikátoru barvy
+// nastavenÃ­ indikÃ¡toru barvy
 	void SetColInd(BYTE col);
 
-// naètení bodu obrázku
+// naÄtenÃ­ bodu obrÃ¡zku
 	inline BYTE _fastcall GetPoint(int x, int y);
 
-// obsluha zobrazení kurzoru myši (TRUE=obsloueno)
+// obsluha zobrazenÃ­ kurzoru myÅ¡i (TRUE=obslouÅ¾eno)
 	BOOL OnSetCursor(int x, int y);
 
-// stisk tlaèítka myši (TRUE = obsloueno)
+// stisk tlaÄÃ­tka myÅ¡i (TRUE = obslouÅ¾eno)
 	BOOL OnButtonDown(UINT flags, int x, int y, BOOL right, BOOL dclick);
 
-// posun myši
+// posun myÅ¡i
 	void OnMouseMove(UINT flags, int x, int y);
 
-// uvolnìní tlaèítka myši
+// uvolnÄ›nÃ­ tlaÄÃ­tka myÅ¡i
 	void OnButtonUp(UINT keys, BOOL right);
 
-// vstup znaku z klávesnice (TRUE=obsloueno)
+// vstup znaku z klÃ¡vesnice (TRUE=obslouÅ¾eno)
 	BOOL OnChar(TCHAR znak);
 
-// vstup klávesy z klávesnice (TRUE=obsloueno)
+// vstup klÃ¡vesy z klÃ¡vesnice (TRUE=obslouÅ¾eno)
 	BOOL OnKeyDown(int key);
 
-// nastavení editaèního módu
+// nastavenÃ­ editaÄnÃ­ho mÃ³du
 	void SetMode(int mode);
 
-// provedení editace bloku (-1 = zatím neurèeno)
+// provedenÃ­ editace bloku (-1 = zatÃ­m neurÄeno)
 	void EditBlok(int mode);
 
-// aktualizace voleb vıbìru módu
+// aktualizace voleb vÃ½bÄ›ru mÃ³du
 	void UpdateMenu();
 
-// -------------- obsluha kreslení ---------
+// -------------- obsluha kreslenÃ­ ---------
 
-// vykreslení bodu
+// vykreslenÃ­ bodu
 	void _fastcall SetPoint(int x, int y, BYTE col);
 
-// vykreslení bodu štìtce
+// vykreslenÃ­ bodu Å¡tÄ›tce
 	void SetPaint(int x, int y, BYTE col);
 
-// nastavení bodu spreje
+// nastavenÃ­ bodu spreje
 	void SetSpray(int x, int y, BYTE col);
 
-// nastavení èáry štìtcem
+// nastavenÃ­ ÄÃ¡ry Å¡tÄ›tcem
 	void SetLinePaint(int x1, int y1, int x2, int y2, BYTE col);
 
-// vykreslení obdélníku
+// vykreslenÃ­ obdÃ©lnÃ­ku
 	void SetRect(int x1, int y1, int x2, int y2, BYTE col);
 
-// vykreslení obdélníku s vıplní
+// vykreslenÃ­ obdÃ©lnÃ­ku s vÃ½plnÃ­
 	void SetRectFill(int x1, int y1, int x2, int y2, BYTE col);
 
-// vykreslení krunice
+// vykreslenÃ­ kruÅ¾nice
 	void SetRound(int x1, int y1, int x2, int y2, BYTE col);
 
-// kreslení kruhu
+// kreslenÃ­ kruhu
 	void SetRoundFill(int x1, int y1, int x2, int y2, BYTE col);
 
-// kreslení elipsy
+// kreslenÃ­ elipsy
 	void SetElip(int x1, int y1, int x2, int y2, BYTE col);
 
-// kreslení oválu
+// kreslenÃ­ ovÃ¡lu
 	void SetElipFill(int x1, int y1, int x2, int y2, BYTE col);
 
-// kreslení koule
+// kreslenÃ­ koule
 	void SetKoule(int x1, int y1, int x2, int y2, BYTE col0);
 
-// vıplò (col = nová barva, fil = podklad)
+// vÃ½plÅˆ (col = novÃ¡ barva, fil = podklad)
 	void SetFill(int x, int y, BYTE col, BYTE fil);
 
-// zobrazení textu
+// zobrazenÃ­ textu
 	void ReDispText();
 
 // -------------- obsluha bloku -----------
 
-// naètení bodu z bloku
+// naÄtenÃ­ bodu z bloku
 	inline BYTE _fastcall GetBlok(int x, int y);
 
-// nastavení bodu v bloku
+// nastavenÃ­ bodu v bloku
 	inline void _fastcall SetBlok(int x, int y, BYTE col);
 
-// zapnutí/vypnutí vıbìru bloku
+// zapnutÃ­/vypnutÃ­ vÃ½bÄ›ru bloku
 	void DispSelect();
 
-// zobrazení bloku pøi pøesunu
+// zobrazenÃ­ bloku pÅ™i pÅ™esunu
 	void MoveSelect();
 
-// test bodu, zda je uvnitø vybraného bloku
+// test bodu, zda je uvnitÅ™ vybranÃ©ho bloku
 	BOOL TestBlok(int x, int y);
 
-// zrušení bloku
+// zruÅ¡enÃ­ bloku
 	void Delete();
 
 // kopie bloku (TRUE=operace OK)
 	BOOL Copy();
 
-// vystøíení bloku
+// vystÅ™Ã­Å¾enÃ­ bloku
 	void Cut();
 
-// vloení bloku
+// vloÅ¾enÃ­ bloku
 	void Paste();
 
-// vıbìr všeho
+// vÃ½bÄ›r vÅ¡eho
 	void SelectAll();
 
 // aktualizace voleb bloku
@@ -199,16 +199,16 @@ extern	BOOL	NewDimPoint;			// rozmìry zadány v bodech
 
 // -------------- obsluha UNDO -------------
 
-// omezení velikosti UNDO bufferu
+// omezenÃ­ velikosti UNDO bufferu
 //	void LimitUndoSize();
 
-// nastavení nové velikosti UNDO bufferu
+// nastavenÃ­ novÃ© velikosti UNDO bufferu
 //	void SetUndoNum(int num);
 
-// uloení obrázku do undo bufferu
+// uloÅ¾enÃ­ obrÃ¡zku do undo bufferu
 	void PushUndo();
 
-// navrácení ikony z undo bufferu
+// navrÃ¡cenÃ­ ikony z undo bufferu
 //	void PopUndo();
 
 // UNDO

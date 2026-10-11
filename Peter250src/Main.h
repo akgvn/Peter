@@ -1,10 +1,10 @@
 
 //////////////////////////////////////////////////////////////////////////////
-// pøepínaèe preprocesoru:
+// pÅ™epÃ­naÄe preprocesoru:
 //	_DEBUG ............. je debugger
 //	_OPTIM ............. je optimalizace
-//	_MT ................ vícetokovı reim
-//	_UNICODE ........... kódování znakù UNICODE
+//	_MT ................ vÃ­cetokovÃ½ reÅ¾im
+//	_UNICODE ........... kÃ³dovÃ¡nÃ­ znakÅ¯ UNICODE
 //
 //	_M_IX86 ............ procesor Intel 86
 //	_M_ALPHA ........... procesor DEC Alpha
@@ -14,16 +14,16 @@
 
 //#define _MT
 
-// Pro pøekladaè nastavit úroveò varování 4 (pøepínaè /W4)
-// pro inline funkce nepouívat "bool" ale radìji "BOOL" - lépe optimalizováno
+// Pro pÅ™ekladaÄ nastavit ÃºroveÅˆ varovÃ¡nÃ­ 4 (pÅ™epÃ­naÄ /W4)
+// pro inline funkce nepouÅ¾Ã­vat "bool" ale radÄ›ji "BOOL" - lÃ©pe optimalizovÃ¡no
 
 
-#define VerzeMaj		2			// verze - hlavní èíslice (jednotky)
-#define VerzeMin		5			// verze - vedlejší èíslice (desetiny)
-#define VerzeRel		0			// verze - èíslice vydání (setiny)
-#define VerzeCom		0			// verze - èíslice kompilace (tisíciny)
+#define VerzeMaj		2			// verze - hlavnÃ­ ÄÃ­slice (jednotky)
+#define VerzeMin		5			// verze - vedlejÅ¡Ã­ ÄÃ­slice (desetiny)
+#define VerzeRel		0			// verze - ÄÃ­slice vydÃ¡nÃ­ (setiny)
+#define VerzeCom		0			// verze - ÄÃ­slice kompilace (tisÃ­ciny)
 #define VerzeTxt		_T("2.50")	// verze - text
-#define VerzeTxt0		_T("250")	// verze - text zkrácenı (pro clipboard)
+#define VerzeTxt0		_T("250")	// verze - text zkrÃ¡cenÃ½ (pro clipboard)
 
 //////////////////////////////////////////////////////////////////////////////
 // obsluha debuggeru
@@ -58,23 +58,23 @@ void debugBreak(char* file, int line, char* date);
 #endif	// _UNICODE
 
 //////////////////////////////////////////////////////////////////////////////
-// standardní vnoøené sekce
+// standardnÃ­ vnoÅ™enÃ© sekce
 
-#pragma warning ( disable: 4201)		// hlášení - nepojmenovaná struktura
+#pragma warning ( disable: 4201)		// hlÃ¡Å¡enÃ­ - nepojmenovanÃ¡ struktura
 
-#include <windows.h>					// základní definice WINDOWS
-#include <math.h>						// matematické operace
-//#include <alphaops.h>					// matematické konstanty
-#include <tchar.h>						// obsluha znakù UNICODE/MB
-#include <commctrl.h>					// doplòkové ovládací prvky
+#include <windows.h>					// zÃ¡kladnÃ­ definice WINDOWS
+#include <math.h>						// matematickÃ© operace
+//#include <alphaops.h>					// matematickÃ© konstanty
+#include <tchar.h>						// obsluha znakÅ¯ UNICODE/MB
+#include <commctrl.h>					// doplÅˆkovÃ© ovlÃ¡dacÃ­ prvky
 #include <richedit.h>					// RichEdit
-#include <mmreg.h>						// multimediální definice
+#include <mmreg.h>						// multimediÃ¡lnÃ­ definice
 #include "resource.h"
 
-#pragma warning ( default: 4201)		// hlášení - nepojmenovaná struktura
+#pragma warning ( default: 4201)		// hlÃ¡Å¡enÃ­ - nepojmenovanÃ¡ struktura
 
-#pragma warning ( disable: 4100)		// hlášení - nepouitı formální parametr
-#pragma warning ( disable: 4710)		// hlášení - funkce není inline
+#pragma warning ( disable: 4100)		// hlÃ¡Å¡enÃ­ - nepouÅ¾itÃ½ formÃ¡lnÃ­ parametr
+#pragma warning ( disable: 4710)		// hlÃ¡Å¡enÃ­ - funkce nenÃ­ inline
 
 #ifndef SPI_GETLISTBOXSMOOTHSCROLLING
 #define SPI_GETLISTBOXSMOOTHSCROLLING 0x1006
@@ -84,7 +84,7 @@ void debugBreak(char* file, int line, char* date);
 #define DOUBLE_INFINITY_VALUE       ((ULONGLONG)0x7ff0000000000000)
 
 //////////////////////////////////////////////////////////////////////////////
-// pøeddefinice tøíd
+// pÅ™eddefinice tÅ™Ã­d
 
 class CIcon; class CMap; class CMusic; class CPicture; class CSound; class CSprite;
 class CText; class CFont; class CMultiText;
@@ -94,133 +94,133 @@ class CBufProg; class CBufIndex; class CBufUndo;
 class CFileMap; class CBuf;
 
 //////////////////////////////////////////////////////////////////////////////
-// globální promìnné
+// globÃ¡lnÃ­ promÄ›nnÃ©
 
-extern	TCHAR*		CommandLine;		// pøíkazovı øádek
-extern	int			VerzeOS;			// verze systému
+extern	TCHAR*		CommandLine;		// pÅ™Ã­kazovÃ½ Å™Ã¡dek
+extern	int			VerzeOS;			// verze systÃ©mu
 extern	HINSTANCE	hInstance;			// instance programu
-extern	int			ScreenWidth;		// šíøka klientské oblasti displeje
-extern	int			ScreenHeight;		// vıška klientské oblasti displeje
-extern	int			TimerConst;			// konstanta pro èasovaè (pro 55 ms)
+extern	int			ScreenWidth;		// Å¡Ã­Å™ka klientskÃ© oblasti displeje
+extern	int			ScreenHeight;		// vÃ½Å¡ka klientskÃ© oblasti displeje
+extern	int			TimerConst;			// konstanta pro ÄasovaÄ (pro 55 ms)
 
-extern	HACCEL		Accel;				// akceleraèní tabulka
+extern	HACCEL		Accel;				// akceleraÄnÃ­ tabulka
 
 extern	BYTE*		StdPalImport;		// tabulka importu palet
-extern	BITMAPINFO* StdBitmapInfo;		// standardní záhlaví BMP
-extern	HPALETTE	StdPalette;			// vlastní logické palety
-extern	BYTE*		KonvPal;			// konverzní tabulka palet
-extern	bool		KonvPalOK;			// pøíznak shodné konverzní tabulky (lze provést kopii)
+extern	BITMAPINFO* StdBitmapInfo;		// standardnÃ­ zÃ¡hlavÃ­ BMP
+extern	HPALETTE	StdPalette;			// vlastnÃ­ logickÃ© palety
+extern	BYTE*		KonvPal;			// konverznÃ­ tabulka palet
+extern	bool		KonvPalOK;			// pÅ™Ã­znak shodnÃ© konverznÃ­ tabulky (lze provÃ©st kopii)
 
-extern	bool		Dither;				// pouívat dithering
+extern	bool		Dither;				// pouÅ¾Ã­vat dithering
 
-extern	bool		ShortName;			// zkracovat jména souborù
+extern	bool		ShortName;			// zkracovat jmÃ©na souborÅ¯
 
-//extern	bool		Profi;				// profesionální verze programu
+//extern	bool		Profi;				// profesionÃ¡lnÃ­ verze programu
 
 #ifdef _UNICODE
 typedef	BOOL (WINAPI *GETDISKFREESPACEEX) (LPCWSTR, __int64*, __int64*, __int64*);
 #else
 typedef	BOOL (WINAPI *GETDISKFREESPACEEX) (LPCSTR, __int64*, __int64*, __int64*);
 #endif
-extern GETDISKFREESPACEEX	pGetDiskFreeSpaceEx; // funkce GetDiskFreeSpaceEx (NULL=není)
+extern GETDISKFREESPACEEX	pGetDiskFreeSpaceEx; // funkce GetDiskFreeSpaceEx (NULL=nenÃ­)
 extern	__int64	DiskSize;			// velikost disku (z funkce GetDiskSpace)
-extern	__int64	DiskFree;			// volné místo disku (z funkce GetDiskSpace)
-extern	__int64	DiskFreeUser;		// volné místo uivatele (z funkce GetDiskSpace)
+extern	__int64	DiskFree;			// volnÃ© mÃ­sto disku (z funkce GetDiskSpace)
+extern	__int64	DiskFreeUser;		// volnÃ© mÃ­sto uÅ¾ivatele (z funkce GetDiskSpace)
 
-extern	CMultiText	Jmeno;				// jméno editovaného souboru (bez cesty)
-extern	CText		JmenoLoad;			// plné jméno souboru pro ètení (s cestou - vzorovı adresáø)
-extern	CText		JmenoSave;			// plné jméno souboru pro zápis
-extern	CText		Cesta;				// cesta k editovanému souboru (s pøíp. "\" na konci)
-extern	CText		AktDir;				// aktivní adresáø uivatele (s "\" na konci)
-extern	CText		HomeDir;			// cesta do domovského adresáøe s EXE (s "\" na konci)
-extern	CText		ExeFileName;		// jméno programu
-extern	CText		IniFileName;		// jméno konfiguraèního souboru
-//extern	CText		HelpFileName;		// jméno souboru nápovìdy
+extern	CMultiText	Jmeno;				// jmÃ©no editovanÃ©ho souboru (bez cesty)
+extern	CText		JmenoLoad;			// plnÃ© jmÃ©no souboru pro ÄtenÃ­ (s cestou - vzorovÃ½ adresÃ¡Å™)
+extern	CText		JmenoSave;			// plnÃ© jmÃ©no souboru pro zÃ¡pis
+extern	CText		Cesta;				// cesta k editovanÃ©mu souboru (s pÅ™Ã­p. "\" na konci)
+extern	CText		AktDir;				// aktivnÃ­ adresÃ¡Å™ uÅ¾ivatele (s "\" na konci)
+extern	CText		HomeDir;			// cesta do domovskÃ©ho adresÃ¡Å™e s EXE (s "\" na konci)
+extern	CText		ExeFileName;		// jmÃ©no programu
+extern	CText		IniFileName;		// jmÃ©no konfiguraÄnÃ­ho souboru
+//extern	CText		HelpFileName;		// jmÃ©no souboru nÃ¡povÄ›dy
 extern	CText		TextExe;			// text ".exe"
 extern	CText		TextExe2;			// text ".EXE"
-extern	CText		CDRom;				// cesta k CD-ROM (prázdnı = není)
+extern	CText		CDRom;				// cesta k CD-ROM (prÃ¡zdnÃ½ = nenÃ­)
 
-extern	HWND		PrevWindow;			// pøedešlé aktivní okno
+extern	HWND		PrevWindow;			// pÅ™edeÅ¡lÃ© aktivnÃ­ okno
 
-extern	CText		MemErrNadpis;		// nadpis okna chybového hlášení nedostatku pamìti
+extern	CText		MemErrNadpis;		// nadpis okna chybovÃ©ho hlÃ¡Å¡enÃ­ nedostatku pamÄ›ti
 extern	LPCTSTR		MemErrNadpisP;
-extern	CText		MemErrText;			// text okna chybového hlášení nedostatku pamìti
+extern	CText		MemErrText;			// text okna chybovÃ©ho hlÃ¡Å¡enÃ­ nedostatku pamÄ›ti
 extern	LPCTSTR		MemErrTextP;
 
 //////////////////////////////////////////////////////////////////////////////
-// cesty do adresáøù programu (všechny jsou zakonèeny s "\")
+// cesty do adresÃ¡Å™Å¯ programu (vÅ¡echny jsou zakonÄeny s "\")
 
-extern	CText		ProgramPath;		// cesta do adresáøe programù "Program" (*.exe)
+extern	CText		ProgramPath;		// cesta do adresÃ¡Å™e programÅ¯ "Program" (*.exe)
 
-extern	CText		BackupPath;			// cesta do adresáøe záloh "Backup"
+extern	CText		BackupPath;			// cesta do adresÃ¡Å™e zÃ¡loh "Backup"
 
-extern	CText		FunctionPath;		// cesta do adresáøe funkcí "Function" (*.fnc)
-extern	CText		NumberPath;			// cesta do adresáøe èísel "Number" (*.num)
-extern	CText		TextPath;			// cesta do adresáøe textù "Text" (*.txt)
-extern	CText		BoolPath;			// cesta do adresáøe logickıch hodnot "Bool" (*.log)
-extern	CText		IconPath;			// cesta do adresáøe ikon "Icon" (*.ico)
-extern	CText		MapPath;			// cesta do adresáøe ploch "Map" (*.map)
-extern	CText		PicturePath;		// cesta do adresáøe obrázkù "Picture" (*.bmp)
-extern	CText		SpritePath;			// cesta do adresáøe sprajtù "Sprite" (*.spr)
-extern	CText		SoundPath;			// cesta do adresáøe zvukù "Sound" (*.wav)
-extern	CText		MusicPath;			// cesta do adresáøe hudby "Music" (*.mid)
+extern	CText		FunctionPath;		// cesta do adresÃ¡Å™e funkcÃ­ "Function" (*.fnc)
+extern	CText		NumberPath;			// cesta do adresÃ¡Å™e ÄÃ­sel "Number" (*.num)
+extern	CText		TextPath;			// cesta do adresÃ¡Å™e textÅ¯ "Text" (*.txt)
+extern	CText		BoolPath;			// cesta do adresÃ¡Å™e logickÃ½ch hodnot "Bool" (*.log)
+extern	CText		IconPath;			// cesta do adresÃ¡Å™e ikon "Icon" (*.ico)
+extern	CText		MapPath;			// cesta do adresÃ¡Å™e ploch "Map" (*.map)
+extern	CText		PicturePath;		// cesta do adresÃ¡Å™e obrÃ¡zkÅ¯ "Picture" (*.bmp)
+extern	CText		SpritePath;			// cesta do adresÃ¡Å™e sprajtÅ¯ "Sprite" (*.spr)
+extern	CText		SoundPath;			// cesta do adresÃ¡Å™e zvukÅ¯ "Sound" (*.wav)
+extern	CText		MusicPath;			// cesta do adresÃ¡Å™e hudby "Music" (*.mid)
 
-// alternativní knihovny - implicitnì v podadresáøi programu Petr
-extern	CText		ProgramPath2;		// cesta do adresáøe programù "Program" (*.exe)
+// alternativnÃ­ knihovny - implicitnÄ› v podadresÃ¡Å™i programu Petr
+extern	CText		ProgramPath2;		// cesta do adresÃ¡Å™e programÅ¯ "Program" (*.exe)
 
-extern	CText		FunctionPath2;		// cesta do adresáøe funkcí "Function" (*.fnc)
-extern	CText		NumberPath2;		// cesta do adresáøe èísel "Number" (*.num)
-extern	CText		TextPath2;			// cesta do adresáøe textù "Text" (*.txt)
-extern	CText		BoolPath2;			// cesta do adresáøe logickıch hodnot "Bool" (*.log)
-extern	CText		IconPath2;			// cesta do adresáøe ikon "Icon" (*.ico)
-extern	CText		MapPath2;			// cesta do adresáøe ploch "Map" (*.map)
-extern	CText		PicturePath2;		// cesta do adresáøe obrázkù "Picture" (*.bmp)
-extern	CText		SpritePath2;		// cesta do adresáøe sprajtù "Sprite" (*.spr)
-extern	CText		SoundPath2;			// cesta do adresáøe zvukù "Sound" (*.wav)
-extern	CText		MusicPath2;			// cesta do adresáøe hudby "Music" (*.mid)
+extern	CText		FunctionPath2;		// cesta do adresÃ¡Å™e funkcÃ­ "Function" (*.fnc)
+extern	CText		NumberPath2;		// cesta do adresÃ¡Å™e ÄÃ­sel "Number" (*.num)
+extern	CText		TextPath2;			// cesta do adresÃ¡Å™e textÅ¯ "Text" (*.txt)
+extern	CText		BoolPath2;			// cesta do adresÃ¡Å™e logickÃ½ch hodnot "Bool" (*.log)
+extern	CText		IconPath2;			// cesta do adresÃ¡Å™e ikon "Icon" (*.ico)
+extern	CText		MapPath2;			// cesta do adresÃ¡Å™e ploch "Map" (*.map)
+extern	CText		PicturePath2;		// cesta do adresÃ¡Å™e obrÃ¡zkÅ¯ "Picture" (*.bmp)
+extern	CText		SpritePath2;		// cesta do adresÃ¡Å™e sprajtÅ¯ "Sprite" (*.spr)
+extern	CText		SoundPath2;			// cesta do adresÃ¡Å™e zvukÅ¯ "Sound" (*.wav)
+extern	CText		MusicPath2;			// cesta do adresÃ¡Å™e hudby "Music" (*.mid)
 
-// alternativní knihovny - implicitnì v ROOT CD-ROM
-extern	CText		ProgramPath3;		// cesta do adresáøe programù "Program" (*.exe)
+// alternativnÃ­ knihovny - implicitnÄ› v ROOT CD-ROM
+extern	CText		ProgramPath3;		// cesta do adresÃ¡Å™e programÅ¯ "Program" (*.exe)
 
-extern	CText		FunctionPath3;		// cesta do adresáøe funkcí "Function" (*.fnc)
-extern	CText		NumberPath3;		// cesta do adresáøe èísel "Number" (*.num)
-extern	CText		TextPath3;			// cesta do adresáøe textù "Text" (*.txt)
-extern	CText		BoolPath3;			// cesta do adresáøe logickıch hodnot "Bool" (*.log)
-extern	CText		IconPath3;			// cesta do adresáøe ikon "Icon" (*.ico)
-extern	CText		MapPath3;			// cesta do adresáøe ploch "Map" (*.map)
-extern	CText		PicturePath3;		// cesta do adresáøe obrázkù "Picture" (*.bmp)
-extern	CText		SpritePath3;		// cesta do adresáøe sprajtù "Sprite" (*.spr)
-extern	CText		SoundPath3;			// cesta do adresáøe zvukù "Sound" (*.wav)
-extern	CText		MusicPath3;			// cesta do adresáøe hudby "Music" (*.mid)
+extern	CText		FunctionPath3;		// cesta do adresÃ¡Å™e funkcÃ­ "Function" (*.fnc)
+extern	CText		NumberPath3;		// cesta do adresÃ¡Å™e ÄÃ­sel "Number" (*.num)
+extern	CText		TextPath3;			// cesta do adresÃ¡Å™e textÅ¯ "Text" (*.txt)
+extern	CText		BoolPath3;			// cesta do adresÃ¡Å™e logickÃ½ch hodnot "Bool" (*.log)
+extern	CText		IconPath3;			// cesta do adresÃ¡Å™e ikon "Icon" (*.ico)
+extern	CText		MapPath3;			// cesta do adresÃ¡Å™e ploch "Map" (*.map)
+extern	CText		PicturePath3;		// cesta do adresÃ¡Å™e obrÃ¡zkÅ¯ "Picture" (*.bmp)
+extern	CText		SpritePath3;		// cesta do adresÃ¡Å™e sprajtÅ¯ "Sprite" (*.spr)
+extern	CText		SoundPath3;			// cesta do adresÃ¡Å™e zvukÅ¯ "Sound" (*.wav)
+extern	CText		MusicPath3;			// cesta do adresÃ¡Å™e hudby "Music" (*.mid)
 
 //////////////////////////////////////////////////////////////////////////////
 // jazyk
 
-// textové konstanty
+// textovÃ© konstanty
 typedef struct TEXTCONST_
 {
-	short		TextID;					// identifikaèní kód textu
+	short		TextID;					// identifikaÄnÃ­ kÃ³d textu
 	const char*	Text;					// text
 } TEXTCONST;
 
-extern const int TextConstNum;			// poèet textovıch konstant
+extern const int TextConstNum;			// poÄet textovÃ½ch konstant
 
-#define	JAZYKAUT -1						// automatickı jazyk
+#define	JAZYKAUT -1						// automatickÃ½ jazyk
 
-enum JAZYKID {							// (identifikátor jazyku - hledej LANGID)
-		JAZYK000,						// neutrální jazyk (0) - obsahuje jména souborù
+enum JAZYKID {							// (identifikÃ¡tor jazyku - hledej LANGID)
+		JAZYK000,						// neutrÃ¡lnÃ­ jazyk (0) - obsahuje jmÃ©na souborÅ¯
 		JAZYKARA,						// arabsky (1)
 		JAZYKBUL,						// bulharsky (2)
-		JAZYKCZ,						// èesky (5)
-		JAZYKDAN,						// dánsky (6)
-		JAZYKGER,						// nìmecky (7)
-		JAZYKREC,						// øecky (8)
+		JAZYKCZ,						// Äesky (5)
+		JAZYKDAN,						// dÃ¡nsky (6)
+		JAZYKGER,						// nÄ›mecky (7)
+		JAZYKREC,						// Å™ecky (8)
 		JAZYKENG,						// anglicky (9)
-		JAZYKSPA,						// španìlsky (10)
+		JAZYKSPA,						// Å¡panÄ›lsky (10)
 		JAZYKFIN,						// finsky (11)
 		JAZYKFRA,						// francouzsky (12)
 		JAZYKHEB,						// hebrejsky (13)
-		JAZYKMAD,						// maïarsky (14)
+		JAZYKMAD,						// maÄarsky (14)
 		JAZYKISL,						// islandsky (15)
 		JAZYKITA,						// italsky (16)
 		JAZYKHOL,						// holandsky (19)
@@ -231,168 +231,168 @@ enum JAZYKID {							// (identifikátor jazyku - hledej LANGID)
 		JAZYKRUS,						// rusky (25)
 		JAZYKSRB,						// srbochorvatsky (26)
 		JAZYKSLO,						// slovensky (27)
-		JAZYKALB,						// albánsky (28)
-		JAZYKSWE,						// šwédsky (29)
+		JAZYKALB,						// albÃ¡nsky (28)
+		JAZYKSWE,						// Å¡wÃ©dsky (29)
 		JAZYKTUR,						// turecky (31)    = 0x1f
 		JAZYKVIE,						// vietnamsky (42) = 0x2a
 
-		JAZYKNUM						// poèet jazykù
+		JAZYKNUM						// poÄet jazykÅ¯
 };
 
-extern int	JazykUser;					// uivatelem zvolenı jazyk
-extern int	Jazyk;						// skuteènì nastavenı jazyk - musí mít platnı rozsah!
-extern int	JazykDef;					// implicitní jazyk (podle systému)
-extern int	JazykPrev;					// pøedcházející jazyk
+extern int	JazykUser;					// uÅ¾ivatelem zvolenÃ½ jazyk
+extern int	Jazyk;						// skuteÄnÄ› nastavenÃ½ jazyk - musÃ­ mÃ­t platnÃ½ rozsah!
+extern int	JazykDef;					// implicitnÃ­ jazyk (podle systÃ©mu)
+extern int	JazykPrev;					// pÅ™edchÃ¡zejÃ­cÃ­ jazyk
 
-extern	DWORD	CharSet;				// aktuální znaková sada fontù (1=implicitní)
-extern	DWORD	CodePage;				// aktuální kódová stránka (0=implicitní)
-extern	DWORD	LangID;					// identifikátor jazyku LANGID (0=jinı)
-extern	BOOL	MultiJazyk;				// multijazyènost
-extern	char	Carka;					// oddìlovaè desetinné èárky pøi zobrazení èísel
+extern	DWORD	CharSet;				// aktuÃ¡lnÃ­ znakovÃ¡ sada fontÅ¯ (1=implicitnÃ­)
+extern	DWORD	CodePage;				// aktuÃ¡lnÃ­ kÃ³dovÃ¡ strÃ¡nka (0=implicitnÃ­)
+extern	DWORD	LangID;					// identifikÃ¡tor jazyku LANGID (0=jinÃ½)
+extern	BOOL	MultiJazyk;				// multijazyÄnost
+extern	char	Carka;					// oddÄ›lovaÄ desetinnÃ© ÄÃ¡rky pÅ™i zobrazenÃ­ ÄÃ­sel
 
-// jazykové informace
+// jazykovÃ© informace
 typedef struct JAZYKINFO_
 {
-	const TEXTCONST*	TextConst;		// tabulka textù
-	int					LangID;			// identifikátor jazyku
-	LPCTSTR				LangIDini;		// identifikátor jazyku pro ALIASES.INI
-	int					CodePage;		// kódová stránka znakù
-	int					CharSet;		// znaková sada fontù
-	int					Button;			// kód tlaèítka
-	LPCTSTR				Name;			// jméno jazyku pro INI
-	int					MenuID;			// identifikaèní kód pro menu
-	BOOL				InstOK;			// jazyk je instalován
-	LPCTSTR				HelpName;		// jméno souboru nápovìdy (2 písmena: CZ, EN, ..)
-	BOOL				RightToLeft;		// Right-To-Left, píše se zprava doleva
+	const TEXTCONST*	TextConst;		// tabulka textÅ¯
+	int					LangID;			// identifikÃ¡tor jazyku
+	LPCTSTR				LangIDini;		// identifikÃ¡tor jazyku pro ALIASES.INI
+	int					CodePage;		// kÃ³dovÃ¡ strÃ¡nka znakÅ¯
+	int					CharSet;		// znakovÃ¡ sada fontÅ¯
+	int					Button;			// kÃ³d tlaÄÃ­tka
+	LPCTSTR				Name;			// jmÃ©no jazyku pro INI
+	int					MenuID;			// identifikaÄnÃ­ kÃ³d pro menu
+	BOOL				InstOK;			// jazyk je instalovÃ¡n
+	LPCTSTR				HelpName;		// jmÃ©no souboru nÃ¡povÄ›dy (2 pÃ­smena: CZ, EN, ..)
+	BOOL				RightToLeft;		// Right-To-Left, pÃ­Å¡e se zprava doleva
 } JAZYKINFO;
 
-extern const JAZYKINFO JazykInfo[JAZYKNUM]; // tabulka definic jazykù
+extern const JAZYKINFO JazykInfo[JAZYKNUM]; // tabulka definic jazykÅ¯
 
 //////////////////////////////////////////////////////////////////////////////
-// nastavení identifikátoru jazyku do registrù Windows (0=implicitní)
+// nastavenÃ­ identifikÃ¡toru jazyku do registrÅ¯ Windows (0=implicitnÃ­)
 
 void SetJazykReg(int langID);
 
 //////////////////////////////////////////////////////////////////////////////
-// zmìna jazyku
+// zmÄ›na jazyku
 
 void SetJazyk(int jazyk);
 
 //////////////////////////////////////////////////////////////////////////////
-// standardní fonty (pro taení ikon ve stromu)
+// standardnÃ­ fonty (pro taÅ¾enÃ­ ikon ve stromu)
 
-extern CBufIcon StdFonts;			// buffer standardních fontù (indexy 0 a 255)
-extern CBufIndex StdFontsWidth;		// šíøky znakù standardních fontù (indexy 0 a 255)
+extern CBufIcon StdFonts;			// buffer standardnÃ­ch fontÅ¯ (indexy 0 aÅ¾ 255)
+extern CBufIndex StdFontsWidth;		// Å¡Ã­Å™ky znakÅ¯ standardnÃ­ch fontÅ¯ (indexy 0 aÅ¾ 255)
 
 
 //////////////////////////////////////////////////////////////////////////////
-// zásobník objektù
+// zÃ¡sobnÃ­k objektÅ¯
 
-extern	HBRUSH		HalfToneBrush;		// pùltónovı štìtec
+extern	HBRUSH		HalfToneBrush;		// pÅ¯ltÃ³novÃ½ Å¡tÄ›tec
 
 //////////////////////////////////////////////////////////////////////////////
 // konfigurace
 
-extern int Scale;					// mìøítko pro relativní rozmìry okna
+extern int Scale;					// mÄ›Å™Ã­tko pro relativnÃ­ rozmÄ›ry okna
 
-extern int MainLeft;				// relativní pozice hlavního okna vlevo
-extern int MainTop;					// relativní pozice hlavního okna nahoøe
-extern int MainWidth;				// relativní šíøka hlavního okna
-extern int MainHeight;				// relativní vıška hlavního okna
+extern int MainLeft;				// relativnÃ­ pozice hlavnÃ­ho okna vlevo
+extern int MainTop;					// relativnÃ­ pozice hlavnÃ­ho okna nahoÅ™e
+extern int MainWidth;				// relativnÃ­ Å¡Ã­Å™ka hlavnÃ­ho okna
+extern int MainHeight;				// relativnÃ­ vÃ½Å¡ka hlavnÃ­ho okna
 
-extern int LeftWidth;				// relativní šíøka levého pole (objekty)
-extern int LeftHeight;				// relativní vıška levého horního okna (globální objekty)
-extern int RightWidth;				// relativní šíøka pravého pole (tøídy)
-extern int RightHeight;				// relativní vıška pravého horního okna (struktury)
+extern int LeftWidth;				// relativnÃ­ Å¡Ã­Å™ka levÃ©ho pole (objekty)
+extern int LeftHeight;				// relativnÃ­ vÃ½Å¡ka levÃ©ho hornÃ­ho okna (globÃ¡lnÃ­ objekty)
+extern int RightWidth;				// relativnÃ­ Å¡Ã­Å™ka pravÃ©ho pole (tÅ™Ã­dy)
+extern int RightHeight;				// relativnÃ­ vÃ½Å¡ka pravÃ©ho hornÃ­ho okna (struktury)
 
-extern BOOL Maximized;				// pøíznak maximalizace okna
+extern BOOL Maximized;				// pÅ™Ã­znak maximalizace okna
 
-extern CText FindString;			// hledanı text
+extern CText FindString;			// hledanÃ½ text
 
 // velikost ikony
 typedef enum _SMALLICON {
-	SI_SMALL = 0,					// malá, 16x16
-	SI_BIG = 1,						// velká, 32x32
-	SI_MEDIUM = 2,					// støední, 24x24
+	SI_SMALL = 0,					// malÃ¡, 16x16
+	SI_BIG = 1,						// velkÃ¡, 32x32
+	SI_MEDIUM = 2,					// stÅ™ednÃ­, 24x24
 } SMALLICON;
 
-extern SMALLICON BufZoom[];			// pøíznaky zoom oken (TRUE=zvìtšeno)
+extern SMALLICON BufZoom[];			// pÅ™Ã­znaky zoom oken (TRUE=zvÄ›tÅ¡eno)
 
 //////////////////////////////////////////////////////////////////////////////
-// globální konstanty
+// globÃ¡lnÃ­ konstanty
 
-#define BackCol 0					// prùhledná barva (barva pozadí)
-#define ShadCol 1					// poloprùhledná barva (stín)
+#define BackCol 0					// prÅ¯hlednÃ¡ barva (barva pozadÃ­)
+#define ShadCol 1					// poloprÅ¯hlednÃ¡ barva (stÃ­n)
 
-#define ResCols 2					// poèet rezervovanıch barev na poèátku barev (=pozadí a stín)
+#define ResCols 2					// poÄet rezervovanÃ½ch barev na poÄÃ¡tku barev (=pozadÃ­ a stÃ­n)
 
-#define BACKCOLOR_RED	149			// èervená sloka barvy pozadí
-#define BACKCOLOR_GREEN	34			// zelená sloka barvy pozadí
-#define BACKCOLOR_BLUE	140			// modrá sloka barvy pozadí
+#define BACKCOLOR_RED	149			// ÄervenÃ¡ sloÅ¾ka barvy pozadÃ­
+#define BACKCOLOR_GREEN	34			// zelenÃ¡ sloÅ¾ka barvy pozadÃ­
+#define BACKCOLOR_BLUE	140			// modrÃ¡ sloÅ¾ka barvy pozadÃ­
 
-#define SHADCOLOR_RED	97			// èervená sloka barvy stínu
-#define SHADCOLOR_GREEN	30			// zelená sloka barvy stínu
-#define SHADCOLOR_BLUE	111			// modrá sloka barvy stínu
+#define SHADCOLOR_RED	97			// ÄervenÃ¡ sloÅ¾ka barvy stÃ­nu
+#define SHADCOLOR_GREEN	30			// zelenÃ¡ sloÅ¾ka barvy stÃ­nu
+#define SHADCOLOR_BLUE	111			// modrÃ¡ sloÅ¾ka barvy stÃ­nu
 
-extern const int ColLev;			// poèet úrovní standardních palet
-extern const int ColCol;			// poèet barev standardních palet
-extern const int StdColors;			// poèet vlastních palet (zaèínají od 0)
-extern const BYTE WhiteCol;			// bílá barva
-extern const BYTE BlackCol;			// èerná barva
-extern const BYTE BlueCol;			// modrá barva
-extern const BYTE RedCol;			// èervená barva
-extern const BYTE YellowCol;		// lutá barva
-extern const BYTE GreenCol;			// zelená barva
-extern const BYTE LtYellowCol;		// svìtle lutá barva
-extern const BYTE OrangeCol;		// oranová
+extern const int ColLev;			// poÄet ÃºrovnÃ­ standardnÃ­ch palet
+extern const int ColCol;			// poÄet barev standardnÃ­ch palet
+extern const int StdColors;			// poÄet vlastnÃ­ch palet (zaÄÃ­najÃ­ od 0)
+extern const BYTE WhiteCol;			// bÃ­lÃ¡ barva
+extern const BYTE BlackCol;			// ÄernÃ¡ barva
+extern const BYTE BlueCol;			// modrÃ¡ barva
+extern const BYTE RedCol;			// ÄervenÃ¡ barva
+extern const BYTE YellowCol;		// Å¾lutÃ¡ barva
+extern const BYTE GreenCol;			// zelenÃ¡ barva
+extern const BYTE LtYellowCol;		// svÄ›tle Å¾lutÃ¡ barva
+extern const BYTE OrangeCol;		// oranÅ¾ovÃ¡
 
-extern const long double pi;		// Ludolfovo èíslo
-extern const long double pi2;		// Ludolfovo èíslo * 2
-extern const long double eul;		// Eulerovo èíslo
+extern const long double pi;		// Ludolfovo ÄÃ­slo
+extern const long double pi2;		// Ludolfovo ÄÃ­slo * 2
+extern const long double eul;		// Eulerovo ÄÃ­slo
 
-extern const long double uhel22;	// úhel 22.5 stupòù v radiánech
-extern const long double uhel30;	// úhel 30 stupòù v radiánech
-extern const long double uhel45;	// úhel 45 stupòù v radiánech
-extern const long double uhel60;	// úhel 60 stupòù v radiánech
-extern const long double uhel67;	// úhel 67.5 stupòù v radiánech
-extern const long double uhel90;	// úhel 90 stupòù v radiánech
-extern const long double uhel135;	// úhel 135 stupòù v radiánech
-extern const long double uhel180;	// úhel 180 stupòù v radiánech
-extern const long double uhel225;	// úhel 215 stupòù v radiánech
-extern const long double uhel270;	// úhel 270 stupòù v radiánech
-extern const long double uhel315;	// úhel 315 stupòù v radiánech
+extern const long double uhel22;	// Ãºhel 22.5 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel30;	// Ãºhel 30 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel45;	// Ãºhel 45 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel60;	// Ãºhel 60 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel67;	// Ãºhel 67.5 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel90;	// Ãºhel 90 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel135;	// Ãºhel 135 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel180;	// Ãºhel 180 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel225;	// Ãºhel 215 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel270;	// Ãºhel 270 stupÅˆÅ¯ v radiÃ¡nech
+extern const long double uhel315;	// Ãºhel 315 stupÅˆÅ¯ v radiÃ¡nech
 
-extern const long double ln10;		// pøirozenı logaritmus 10
+extern const long double ln10;		// pÅ™irozenÃ½ logaritmus 10
 
-extern const long double degrad;	// konstanta pro pøevod z DEG na RAD (pi/180)
-extern const long double raddeg;	// konstanta pro pøevod z RAD na DEG (180/pi)
+extern const long double degrad;	// konstanta pro pÅ™evod z DEG na RAD (pi/180)
+extern const long double raddeg;	// konstanta pro pÅ™evod z RAD na DEG (180/pi)
 
 
 //////////////////////////////////////////////////////////////////////////////
-// pøíznaky typu ikony a obrázku
+// pÅ™Ã­znaky typu ikony a obrÃ¡zku
 enum PICPARAM {
-	PicParamPic,			// pouze obrázek bez pozadí
-	PicParamMix,			// obrázek mixovanı s pozadím
-	PicParamBack,			// pouze pozadí (prázdnı obrázek)
-	PicParamNone,			// neznámı obsah
-	PicParamComp,			// komprimovaná data
+	PicParamPic,			// pouze obrÃ¡zek bez pozadÃ­
+	PicParamMix,			// obrÃ¡zek mixovanÃ½ s pozadÃ­m
+	PicParamBack,			// pouze pozadÃ­ (prÃ¡zdnÃ½ obrÃ¡zek)
+	PicParamNone,			// neznÃ¡mÃ½ obsah
+	PicParamComp,			// komprimovanÃ¡ data
 };
 
 
 //////////////////////////////////////////////////////////////////////////////
-// ukonèení aplikace
+// ukonÄenÃ­ aplikace
 
-void	Exit(int code);					// ukonèení programu
+void	Exit(int code);					// ukonÄenÃ­ programu
 
-#define	EXITCODE_MEMERRINI	125			// chyba pamìti pøi startu programu
-#define	EXITCODE_MEMINIT	120			// chyba pamìti pøi inicializaci
-#define EXITCODE_MAINFRAME	115			// chyba vytvoøení hlavního okna
-#define EXITCODE_LOADRES	110			// chyba ètení resource
+#define	EXITCODE_MEMERRINI	125			// chyba pamÄ›ti pÅ™i startu programu
+#define	EXITCODE_MEMINIT	120			// chyba pamÄ›ti pÅ™i inicializaci
+#define EXITCODE_MAINFRAME	115			// chyba vytvoÅ™enÃ­ hlavnÃ­ho okna
+#define EXITCODE_LOADRES	110			// chyba ÄtenÃ­ resource
 
-#define EXITCODE_INIT		100			// hranice inicializaèních kódù
+#define EXITCODE_INIT		100			// hranice inicializaÄnÃ­ch kÃ³dÅ¯
 
-#define	EXITCODE_MEMERR		80			// chyba pamìti pøi bìhu programu
-#define EXITCODE_OK			0			// øádné ukonèení programu
+#define	EXITCODE_MEMERR		80			// chyba pamÄ›ti pÅ™i bÄ›hu programu
+#define EXITCODE_OK			0			// Å™Ã¡dnÃ© ukonÄenÃ­ programu
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -402,44 +402,44 @@ BOOL TestLic();
 
 
 //////////////////////////////////////////////////////////////////////////////
-// vystøedìní okna proti jinému oknu
+// vystÅ™edÄ›nÃ­ okna proti jinÃ©mu oknu
 
 void CenterWindow(HWND child, HWND parent = NULL);
 
 
 //////////////////////////////////////////////////////////////////////////////
-// spuštìní programu
+// spuÅ¡tÄ›nÃ­ programu
 
 int Exec(CText command, CText aktdir, BOOL wait);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// generování konverzní tabulky barev obrázku
+// generovÃ¡nÃ­ konverznÃ­ tabulky barev obrÃ¡zku
 
 void GenKonvPal(BITMAPINFO* bmp);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vygenerování støední barvy (ze 4 bodù)
+// vygenerovÃ¡nÃ­ stÅ™ednÃ­ barvy (ze 4 bodÅ¯)
 
 BYTE ColAvrg(BYTE col1, BYTE col2, BYTE col3, BYTE col4);
 BYTE ColAvrgDither(BYTE col1, BYTE col2, BYTE col3, BYTE col4, int x, int y);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní editaèního okna s fokusem (NULL = není)
+// zjiÅ¡tÄ›nÃ­ editaÄnÃ­ho okna s fokusem (NULL = nenÃ­)
 
 HWND GetEditFocus();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení adresáøe (pokud existuje, je vše OK)
+// vytvoÅ™enÃ­ adresÃ¡Å™e (pokud existuje, je vÅ¡e OK)
 
 BOOL CreateDir(CText txt);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení adresáøe (i vícestupòovì - vèetnì cesty)
+// vytvoÅ™enÃ­ adresÃ¡Å™e (i vÃ­cestupÅˆovÄ› - vÄetnÄ› cesty)
 
 BOOL CreatePath(CText txt);
 
@@ -451,7 +451,7 @@ void DeKomp(BYTE* dstBuf, int dstNum, BYTE* srcBuf, int srcNum);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// generátor náhody
+// generÃ¡tor nÃ¡hody
 
 int rand();
 double Rand();
@@ -459,42 +459,42 @@ double Rand();
 inline int sqr(int num) { return num*num; }
 
 /////////////////////////////////////////////////////////////////////////////
-// zaokrouhlení èísel
+// zaokrouhlenÃ­ ÄÃ­sel
 
-// pøevod reálného èísla na celé èíslo se zaokrouhlením k nejbliší hodnotì
+// pÅ™evod reÃ¡lnÃ©ho ÄÃ­sla na celÃ© ÄÃ­slo se zaokrouhlenÃ­m k nejbliÅ¾Å¡Ã­ hodnotÄ›
 int Round(double num);
 
-// pøevod reálného èísla na celé èíslo s oøíznutím k nule
+// pÅ™evod reÃ¡lnÃ©ho ÄÃ­sla na celÃ© ÄÃ­slo s oÅ™Ã­znutÃ­m k nule
 int Round0(double num);
 
-// pøevod reálného èísla na celé èíslo se zaokrouhlením nahoru (ke kladné hodnotì)
+// pÅ™evod reÃ¡lnÃ©ho ÄÃ­sla na celÃ© ÄÃ­slo se zaokrouhlenÃ­m nahoru (ke kladnÃ© hodnotÄ›)
 int RoundP(double num);
 
-// pøevod reálného èísla na celé èíslo se zaokrouhlením dolù (k záporné hodnotì)
+// pÅ™evod reÃ¡lnÃ©ho ÄÃ­sla na celÃ© ÄÃ­slo se zaokrouhlenÃ­m dolÅ¯ (k zÃ¡pornÃ© hodnotÄ›)
 int RoundM(double num);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní informací o velikosti a volném místu disku
+// zjiÅ¡tÄ›nÃ­ informacÃ­ o velikosti a volnÃ©m mÃ­stu disku
 
 void GetDiskSpace(CText path);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// mód editace ikony (* = je v editoru ikony, + = je v editoru obrázku))
+// mÃ³d editace ikony (* = je v editoru ikony, + = je v editoru obrÃ¡zku))
 
 enum EditMode
 { 
 	EditModePen,					// * + pero
-	EditModePaint,					// *   štìtec
+	EditModePaint,					// *   Å¡tÄ›tec
 
-	EditModeLine,					// * + èára
-	EditModeRect,					// * + obdélník
-	EditModeRectFill,				//   + vyplnìnı obdélník
-	EditModeRound,					//   + krunice
+	EditModeLine,					// * + ÄÃ¡ra
+	EditModeRect,					// * + obdÃ©lnÃ­k
+	EditModeRectFill,				//   + vyplnÄ›nÃ½ obdÃ©lnÃ­k
+	EditModeRound,					//   + kruÅ¾nice
 	EditModeRoundFill,				// * + kruh
 	EditModeElip,					//   + elipsa
-	EditModeElipFill,				// * + ovál
+	EditModeElipFill,				// * + ovÃ¡l
 
 	EditModeWidth1,					//   + pero 1
 	EditModeWidth2,					//   + pero 2
@@ -503,110 +503,110 @@ enum EditMode
 	EditModeWidth9,					//   + pero 9
 	EditModeWidth20,				//   + pero 21
 
-	EditModePipe,					// * + kapátko
-	EditModeFill,					// * + vıplò
+	EditModePipe,					// * + kapÃ¡tko
+	EditModeFill,					// * + vÃ½plÅˆ
 	EditModeSpray,					// * + sprej
 	EditModeText,					//   + text
 
-	EditModeZoomIn,					//   + mìøítko zvìtšit
-	EditModeZoomOut,				//   + mìøítko zmenšit
+	EditModeZoomIn,					//   + mÄ›Å™Ã­tko zvÄ›tÅ¡it
+	EditModeZoomOut,				//   + mÄ›Å™Ã­tko zmenÅ¡it
 
 	EditModeSelect,					// * + blok
-	EditModeXFlip,					// * + horizontální pøevrácení
-	EditModeYFlip,					// * + vertikální pøevrácení
-	EditModeRRot,					// * + otoèení R
-	EditModeLRot,					// * + otoèení L
-	EditModeXCol,					// * + zámìna barev
-	EditModeSCol,					// * + nastavení barvy
+	EditModeXFlip,					// * + horizontÃ¡lnÃ­ pÅ™evrÃ¡cenÃ­
+	EditModeYFlip,					// * + vertikÃ¡lnÃ­ pÅ™evrÃ¡cenÃ­
+	EditModeRRot,					// * + otoÄenÃ­ R
+	EditModeLRot,					// * + otoÄenÃ­ L
+	EditModeXCol,					// * + zÃ¡mÄ›na barev
+	EditModeSCol,					// * + nastavenÃ­ barvy
 
-	EditModeMul,					// * + zvìtšení
-	EditModeDiv,					// * + zmenšení
+	EditModeMul,					// * + zvÄ›tÅ¡enÃ­
+	EditModeDiv,					// * + zmenÅ¡enÃ­
 
-	EditMode45,						// * + otoèení o 45 stupòù
-	EditMode30,						// * + otoèení o 30 stupòù
-	EditMode22,						// * + otoèení o 22.5 stupòù
+	EditMode45,						// * + otoÄenÃ­ o 45 stupÅˆÅ¯
+	EditMode30,						// * + otoÄenÃ­ o 30 stupÅˆÅ¯
+	EditMode22,						// * + otoÄenÃ­ o 22.5 stupÅˆÅ¯
 };
 
 
 //////////////////////////////////////////////////////////////////////////////
-// pomocné konstanty
+// pomocnÃ© konstanty
 
-#define ICONWIDTH 32								// šíøka ikon
-#define ICONHEIGHT 32								// vıška ikon
+#define ICONWIDTH 32								// Å¡Ã­Å™ka ikon
+#define ICONHEIGHT 32								// vÃ½Å¡ka ikon
 #define ICONSIZE (ICONWIDTH*ICONHEIGHT)				// velikost ikon v bajtech
 
-#define MOUSEINV -100000							// neplatná souøadnice myši
+#define MOUSEINV -100000							// neplatnÃ¡ souÅ™adnice myÅ¡i
 
 //////////////////////////////////////////////////////////////////////////////
-// vlastní vnoøené sekce
+// vlastnÃ­ vnoÅ™enÃ© sekce
 
-#include "Memory.h"						// obsluha pamìti
+#include "Memory.h"						// obsluha pamÄ›ti
 #include "Bitmap.h"						// obsluha bitmap a ikon
-#include "Select.h"						// vıbìr souboru k editaci
-#include "Buffer.h"						// šablona pro buffery
+#include "Select.h"						// vÃ½bÄ›r souboru k editaci
+#include "Buffer.h"						// Å¡ablona pro buffery
 #include "BufIcon.h"					// buffer ikon, data ikon
-#include "BufInt.h"						// buffer celıch èísel a logickıch promìnnıch
+#include "BufInt.h"						// buffer celÃ½ch ÄÃ­sel a logickÃ½ch promÄ›nnÃ½ch
 #include "BufMap.h"						// buffer mapy plochy
 #include "BufMus.h"						// buffer hudby
-#include "BufPic.h"						// buffer obrázkù (pozadí)
-#include "JPEG.h"						// obsluha JPEG souborù
-#include "BufReal.h"					// buffer reálnıch èísel
+#include "BufPic.h"						// buffer obrÃ¡zkÅ¯ (pozadÃ­)
+#include "JPEG.h"						// obsluha JPEG souborÅ¯
+#include "BufReal.h"					// buffer reÃ¡lnÃ½ch ÄÃ­sel
 #include "BufSnd.h"						// buffer zvuku
-#include "BufSprt.h"					// buffer sprajtù
-#include "BufText.h"					// buffer textù, textové øetìzce
-#include "MainFrm.h"					// hlavní okno aplikace
+#include "BufSprt.h"					// buffer sprajtÅ¯
+#include "BufText.h"					// buffer textÅ¯, textovÃ© Å™etÄ›zce
+#include "MainFrm.h"					// hlavnÃ­ okno aplikace
 
 
 //////////////////////////////////////////////////////////////////////////////
 // fonty
 
-// definice parametrù fontu
+// definice parametrÅ¯ fontu
 class CFont
 {
 public:
-	BOOL	Standard;					// pøíznak standardního fontu
-	BOOL	Bold;						// pøíznak tuèného fontu
-	BOOL	Italic;						// pøíznak kurzívy (pro standardní font se ignoruje)
-	BOOL	Underline;					// pøíznak podtrení (pro standardní font se ignoruje)
-	BOOL	Strikeout;					// pøíznak pøeškrtnutí (pro standardní font se ignoruje)
-	BOOL	Serif;						// pøíznak patièkového písma (pro standardní font se ignoruje)
-	BOOL	Fixed;						// pøíznak písma s pevnou rozteèí
-	int		Height;						// vıška fontù, 0=bìná (pro standardní font se ignoruje)
-	int		Height0;					// skuteèná vıška fontù (vypoètená pøi vytváøení fontu)
-	double	Width;						// relativní šíøka fontù, 0=bìná (pro standardní font se ignoruje)
-	int		Width0;						// skuteèná šíøka fontù (vypoètená pøi vytváøení fontu)
-	CText	User;						// uivatelsky definovanı font (SERIF i FIXED nastaveny)
+	BOOL	Standard;					// pÅ™Ã­znak standardnÃ­ho fontu
+	BOOL	Bold;						// pÅ™Ã­znak tuÄnÃ©ho fontu
+	BOOL	Italic;						// pÅ™Ã­znak kurzÃ­vy (pro standardnÃ­ font se ignoruje)
+	BOOL	Underline;					// pÅ™Ã­znak podtrÅ¾enÃ­ (pro standardnÃ­ font se ignoruje)
+	BOOL	Strikeout;					// pÅ™Ã­znak pÅ™eÅ¡krtnutÃ­ (pro standardnÃ­ font se ignoruje)
+	BOOL	Serif;						// pÅ™Ã­znak patiÄkovÃ©ho pÃ­sma (pro standardnÃ­ font se ignoruje)
+	BOOL	Fixed;						// pÅ™Ã­znak pÃ­sma s pevnou rozteÄÃ­
+	int		Height;						// vÃ½Å¡ka fontÅ¯, 0=bÄ›Å¾nÃ¡ (pro standardnÃ­ font se ignoruje)
+	int		Height0;					// skuteÄnÃ¡ vÃ½Å¡ka fontÅ¯ (vypoÄtenÃ¡ pÅ™i vytvÃ¡Å™enÃ­ fontu)
+	double	Width;						// relativnÃ­ Å¡Ã­Å™ka fontÅ¯, 0=bÄ›Å¾nÃ¡ (pro standardnÃ­ font se ignoruje)
+	int		Width0;						// skuteÄnÃ¡ Å¡Ã­Å™ka fontÅ¯ (vypoÄtenÃ¡ pÅ™i vytvÃ¡Å™enÃ­ fontu)
+	CText	User;						// uÅ¾ivatelsky definovanÃ½ font (SERIF i FIXED nastaveny)
 
 // konstruktor a destruktor
 	inline CFont()
 	{ 
-		Standard = TRUE;				// pøíznak standardního fontu
-		Bold = FALSE;					// pøíznak tuèného fontu
-		Italic = FALSE;					// pøíznak kurzívy
-		Underline = FALSE;				// pøíznak podtrení
-		Strikeout = FALSE;				// pøíznak pøeškrtnutí
-		Serif = FALSE;					// pøíznak patièek
-		Fixed = FALSE;					// pøíznak pevnıch rozteèí
-		Height = 0;						// vıška fontù
-		Height0 = 15;					// skuteèná vıška fontù
-		Width = 0;						// relativní šíøka fontù
-		Width0 = 8;						// skuteèná šíøka fontù
+		Standard = TRUE;				// pÅ™Ã­znak standardnÃ­ho fontu
+		Bold = FALSE;					// pÅ™Ã­znak tuÄnÃ©ho fontu
+		Italic = FALSE;					// pÅ™Ã­znak kurzÃ­vy
+		Underline = FALSE;				// pÅ™Ã­znak podtrÅ¾enÃ­
+		Strikeout = FALSE;				// pÅ™Ã­znak pÅ™eÅ¡krtnutÃ­
+		Serif = FALSE;					// pÅ™Ã­znak patiÄek
+		Fixed = FALSE;					// pÅ™Ã­znak pevnÃ½ch rozteÄÃ­
+		Height = 0;						// vÃ½Å¡ka fontÅ¯
+		Height0 = 15;					// skuteÄnÃ¡ vÃ½Å¡ka fontÅ¯
+		Width = 0;						// relativnÃ­ Å¡Ã­Å™ka fontÅ¯
+		Width0 = 8;						// skuteÄnÃ¡ Å¡Ã­Å™ka fontÅ¯
 	};
 
 	inline void Init()
 	{ 
-		Standard = TRUE;				// pøíznak standardního fontu
-		Bold = FALSE;					// pøíznak tuèného fontu
-		Italic = FALSE;					// pøíznak kurzívy
-		Underline = FALSE;				// pøíznak podtrení
-		Strikeout = FALSE;				// pøíznak pøeškrtnutí
-		Serif = FALSE;					// pøíznak patièek
-		Fixed = FALSE;					// pøíznak pevnıch rozteèí
-		Height = 0;						// vıška fontù
-		Height0 = 15;					// skuteèná vıška fontù
-		Width = 0;						// relativní šíøka fontù
-		Width0 = 8;						// skuteèná šíøka fontù
-		User.Init();					// uivatelskı font
+		Standard = TRUE;				// pÅ™Ã­znak standardnÃ­ho fontu
+		Bold = FALSE;					// pÅ™Ã­znak tuÄnÃ©ho fontu
+		Italic = FALSE;					// pÅ™Ã­znak kurzÃ­vy
+		Underline = FALSE;				// pÅ™Ã­znak podtrÅ¾enÃ­
+		Strikeout = FALSE;				// pÅ™Ã­znak pÅ™eÅ¡krtnutÃ­
+		Serif = FALSE;					// pÅ™Ã­znak patiÄek
+		Fixed = FALSE;					// pÅ™Ã­znak pevnÃ½ch rozteÄÃ­
+		Height = 0;						// vÃ½Å¡ka fontÅ¯
+		Height0 = 15;					// skuteÄnÃ¡ vÃ½Å¡ka fontÅ¯
+		Width = 0;						// relativnÃ­ Å¡Ã­Å™ka fontÅ¯
+		Width0 = 8;						// skuteÄnÃ¡ Å¡Ã­Å™ka fontÅ¯
+		User.Init();					// uÅ¾ivatelskÃ½ font
 	};
 
 	inline void Term() { User.Term(); };
@@ -644,33 +644,33 @@ public:
 	};
 };
 
-extern HFONT	FontBezny;				// bìnı font pro dialogy a stavovı øádek
-extern HFONT	FontBold;				// tuènı font pro dialogy a nadpisy oken
-extern HFONT	FontFixed;				// font s pevnou rozteèí pro dialogy
+extern HFONT	FontBezny;				// bÄ›Å¾nÃ½ font pro dialogy a stavovÃ½ Å™Ã¡dek
+extern HFONT	FontBold;				// tuÄnÃ½ font pro dialogy a nadpisy oken
+extern HFONT	FontFixed;				// font s pevnou rozteÄÃ­ pro dialogy
 
-extern CText	SetupVzor;				// vzor textu pro nastavení písma
+extern CText	SetupVzor;				// vzor textu pro nastavenÃ­ pÃ­sma
 
-extern CFont	SelectFont;				// font vıbìru programu
+extern CFont	SelectFont;				// font vÃ½bÄ›ru programu
 extern CFont	TreeFont;				// font editoru programu
 extern CFont	TextFont;				// font editoru textu
-extern CFont	MenuFont;				// font nabídky
-extern CFont	StatusFont;				// font stavové lišty
-extern CFont	GraphicFont;			// font grafického editoru
+extern CFont	MenuFont;				// font nabÃ­dky
+extern CFont	StatusFont;				// font stavovÃ© liÅ¡ty
+extern CFont	GraphicFont;			// font grafickÃ©ho editoru
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení fontu
+// vytvoÅ™enÃ­ fontu
 
 HFONT GetFont(CFont* fnt);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení fontu
+// zruÅ¡enÃ­ fontu
 
 void DelFont(HFONT font);
 
 
 //////////////////////////////////////////////////////////////////////////////
-// nastavení fontù v oknì
+// nastavenÃ­ fontÅ¯ v oknÄ›
 
 void SetFontBezny(HWND wnd);
 void SetFontBold(HWND wnd);
@@ -679,24 +679,24 @@ void SetFontFixedBold(HWND wnd);
 
 
 #include "BufProg.h"					// buffer programu
-#include "BufInx.h"						// buffer indexù
+#include "BufInx.h"						// buffer indexÅ¯
 #include "BufUndo.h"					// buffer undo a redo
-#include "EditIcon.h"					// editor ikon a obrázkù
-#include "EditLog.h"					// editor logickıch hodnot
+#include "EditIcon.h"					// editor ikon a obrÃ¡zkÅ¯
+#include "EditLog.h"					// editor logickÃ½ch hodnot
 #include "EditMap.h"					// editor ploch
 #include "EditMus.h"					// editor hudby
-#include "EditNum.h"					// editor èísel
-#include "EditSnd.h"					// editor zvukù
-#include "EditSprt.h"					// editor sprajtù
-#include "EditText.h"					// editor textù
-#include "File.h"						// obsluha souborù
+#include "EditNum.h"					// editor ÄÃ­sel
+#include "EditSnd.h"					// editor zvukÅ¯
+#include "EditSprt.h"					// editor sprajtÅ¯
+#include "EditText.h"					// editor textÅ¯
+#include "File.h"						// obsluha souborÅ¯
 #include "Compress.h"					// obsluha komprese dat
 #include "Prog.h"						// obsluha editace souboru
-#include "ProgDrag.h"					// taení ikon programu
-#include "ProgFile.h"					// obsluha souborù
+#include "ProgDrag.h"					// taÅ¾enÃ­ ikon programu
+#include "ProgFile.h"					// obsluha souborÅ¯
 #include "ProgClip.h"					// obsluha clipboardu
 #include "ProgExp.h"					// export a import programu
-#include "ProgCol.h"					// vıbìr barvy
+#include "ProgCol.h"					// vÃ½bÄ›r barvy
 #include "ProgHist.h"					// historie editace
 #include "ProgLib.h"					// knihovny
 
@@ -731,20 +731,20 @@ inline BYTE PalImport(BYTE red, BYTE green, BYTE blue)
 inline BYTE PalImport(int color)
 {
 	return StdPalImport[
-		((color & (63*4))/4) |							// èervená sloka
-		((color & (63*4*256))/(256*4/64)) |				// zelená sloka
-		((color & (63*4*256*256))/(256*256*4/64/64))];	// modrá sloka
+		((color & (63*4))/4) |							// ÄervenÃ¡ sloÅ¾ka
+		((color & (63*4*256))/(256*4/64)) |				// zelenÃ¡ sloÅ¾ka
+		((color & (63*4*256*256))/(256*256*4/64/64))];	// modrÃ¡ sloÅ¾ka
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení registru DWORD (-1 = chyba)
+// naÄtenÃ­ registru DWORD (-1 = chyba)
 
 //int GetRegUserDWORD(CText key, CText name);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení registru DWORD (nevytváøí klíè)
+// nastavenÃ­ registru DWORD (nevytvÃ¡Å™Ã­ klÃ­Ä)
 
 //void SetRegUserDWORD(CText key, CText name, int data);
 

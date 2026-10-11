@@ -1,65 +1,65 @@
 
 /***************************************************************************\
 *																			*
-*							Vıbìr souboru k editaci							*
+*							VÃ½bÄ›r souboru k editaci							*
 *																			*
 \***************************************************************************/
 
 
 /////////////////////////////////////////////////////////////////////////////
-// globální promìnné
+// globÃ¡lnÃ­ promÄ›nnÃ©
 
-extern	BOOL		SelectMode;						// pøíznak módu vıbìru souborù
-extern	HWND		SelectView;						// seznam souborù
-extern	HIMAGELIST	SelectImageList;				// seznam obrázkù
-//extern	CBufIcon	SelectIcon;						// ikony souborù
+extern	BOOL		SelectMode;						// pÅ™Ã­znak mÃ³du vÃ½bÄ›ru souborÅ¯
+extern	HWND		SelectView;						// seznam souborÅ¯
+extern	HIMAGELIST	SelectImageList;				// seznam obrÃ¡zkÅ¯
+//extern	CBufIcon	SelectIcon;						// ikony souborÅ¯
 
-//extern	CBufIcon	IconSel;						// buffer ikon s velikostí 32x32
-//extern	CBufIndex	IconSelList;					// buffer indexù ikon s velikostí 32x32
-//extern	int			IconSelNext;					// pøíští ikona pro zápis
+//extern	CBufIcon	IconSel;						// buffer ikon s velikostÃ­ 32x32
+//extern	CBufIndex	IconSelList;					// buffer indexÅ¯ ikon s velikostÃ­ 32x32
+//extern	int			IconSelNext;					// pÅ™Ã­Å¡tÃ­ ikona pro zÃ¡pis
 
-extern	int			SelectStatusWidth;				// šíøka druhého pole stavového øádku
+extern	int			SelectStatusWidth;				// Å¡Ã­Å™ka druhÃ©ho pole stavovÃ©ho Å™Ã¡dku
 
-extern	int			SelectItemNum;					// poèet poloek v seznamu
+extern	int			SelectItemNum;					// poÄet poloÅ¾ek v seznamu
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení menu programu
+// nastavenÃ­ menu programu
 
 void SelectSetMenu();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// první inicializace pøi startu programu (hlavní okno je ji vytvoøeno)
+// prvnÃ­ inicializace pÅ™i startu programu (hlavnÃ­ okno je jiÅ¾ vytvoÅ™eno)
 
 void SelectStartInit();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení reimu vıbìru souboru k editaci
+// zahÃ¡jenÃ­ reÅ¾imu vÃ½bÄ›ru souboru k editaci
 
 void SelectInit();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení reimu vıbìru souboru k editaci
+// ukonÄenÃ­ reÅ¾imu vÃ½bÄ›ru souboru k editaci
 
 void SelectTerm();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// nastavení fokusu na okno vıbìru
+// nastavenÃ­ fokusu na okno vÃ½bÄ›ru
 
 void SelectSetFocus();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zmìna velikosti okna
+// zmÄ›na velikosti okna
 
 void SelectOnSize();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// naètení seznamu souborù
+// naÄtenÃ­ seznamu souborÅ¯
 
 void SelectLoad();
 
@@ -71,19 +71,19 @@ void UpdateStartOpen();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zmìna aktuální poloky (LVN_ITEMCHANGED)
+// zmÄ›na aktuÃ¡lnÃ­ poloÅ¾ky (LVN_ITEMCHANGED)
 
 void SelectOnChange(HWND hWnd, NM_LISTVIEW* nmlv);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// otevøení souboru k editaci
+// otevÅ™enÃ­ souboru k editaci
 
 void SelectOnOpen();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// dvojklik myší - start programu
+// dvojklik myÅ¡Ã­ - start programu
 
 void SelectOnDblClk(HWND hWnd);
 
@@ -95,77 +95,77 @@ void SelectOnStart();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nového souboru
+// vytvoÅ™enÃ­ novÃ©ho souboru
 
 void SelectOnNew();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení nového souboru kopií
+// vytvoÅ™enÃ­ novÃ©ho souboru kopiÃ­
 
 void SelectOnNewCopy();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operace PASTE pøi editaci jména souboru
+// operace PASTE pÅ™i editaci jmÃ©na souboru
 
 void SelectOnPaste();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operace CUT pøi editaci jména souboru
+// operace CUT pÅ™i editaci jmÃ©na souboru
 
 void SelectOnCut();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// operace UNDO pøi editaci jména souboru
+// operace UNDO pÅ™i editaci jmÃ©na souboru
 
 void SelectOnUndo();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// vytvoøení adresáøe
+// vytvoÅ™enÃ­ adresÃ¡Å™e
 
 void SelectOnPath();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zrušení souboru nebo adresáøe
+// zruÅ¡enÃ­ souboru nebo adresÃ¡Å™e
 
 void SelectOnDelete();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zjištìní informace o ikonì k zobrazení
+// zjiÅ¡tÄ›nÃ­ informace o ikonÄ› k zobrazenÃ­
 
 void SelectOnGetDispInfo(LV_DISPINFO* lvd);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha klávesy (vrací TRUE=zrušení klávesy)
+// obsluha klÃ¡vesy (vracÃ­ TRUE=zruÅ¡enÃ­ klÃ¡vesy)
 
 BOOL SelectOnKeyDown(HWND hWnd, int key, int data);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení/ukonèení editace jména souboru/adresáøe
+// zahÃ¡jenÃ­/ukonÄenÃ­ editace jmÃ©na souboru/adresÃ¡Å™e
 
 void SelectOnRename();
 
 
 /////////////////////////////////////////////////////////////////////////////
-// zahájení editace jména prvku (vrací TRUE=pøerušit editaci)
+// zahÃ¡jenÃ­ editace jmÃ©na prvku (vracÃ­ TRUE=pÅ™eruÅ¡it editaci)
 
 BOOL SelectOnBeginLabelEdit(HWND hWnd, int iItem);
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ukonèení editace jména prvku
+// ukonÄenÃ­ editace jmÃ©na prvku
 
 void SelectOnEndLabelEdit(HWND hWnd, LV_ITEM* lvi);
 
 /////////////////////////////////////////////////////////////////////////////
-// obsluha èasovaèe (TRUE=obsloueno)
+// obsluha ÄasovaÄe (TRUE=obslouÅ¾eno)
 
 BOOL SelectOnTimer(UINT timerID);

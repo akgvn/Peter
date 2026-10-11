@@ -3,11 +3,11 @@
 
 /***************************************************************************\
 *																			*
-*						Provádìní programu - plocha							*
+*						ProvÃ¡dÄ›nÃ­ programu - plocha							*
 *																			*
 \***************************************************************************/
 
-#pragma optimize("t", on)			// optimalizace na maximální rychlost
+#pragma optimize("t", on)			// optimalizace na maximÃ¡lnÃ­ rychlost
 
 
 /***************************************************************************\
@@ -17,82 +17,82 @@
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// funkce s návratem plochy
+// funkce s nÃ¡vratem plochy
 
 void _fastcall FMapFunc(CMap& map)
 {
-// úschova indexu volané funkce
+// Ãºschova indexu volanÃ© funkce
 	int data = ExecItem[-1].Data;
 
-// úschova indexu promìnné s návratovou hodnotou
+// Ãºschova indexu promÄ›nnÃ© s nÃ¡vratovou hodnotou
 	int res = ExecItem[-1].List;
 
-// inicializace lokálních promìnných
+// inicializace lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 	FCommand();
 
-// úschova ukazatele programu
+// Ãºschova ukazatele programu
 	EXECITEM* oldexe = ExecItem;
 
-// nová adresa programu
+// novÃ¡ adresa programu
 	ExecItem = ProgBuf + data;
 
-// kontrola hloubky vnoøení
+// kontrola hloubky vnoÅ™enÃ­
 	Hloubka--;
 	if (Hloubka >= 0)
 	{
 
-// vyvolání funkce
+// vyvolÃ¡nÃ­ funkce
 		FCommand();
 	}
 	Hloubka++;
 
-// návrat adresy programu
+// nÃ¡vrat adresy programu
 	ExecItem = oldexe;
 
-// zrušení požadavku o pøerušení
+// zruÅ¡enÃ­ poÅ¾adavku o pÅ™eruÅ¡enÃ­
 	Break &= ~(BREAKFUNC | BREAKWHILE);
 
-// návrat výsledku operace
+// nÃ¡vrat vÃ½sledku operace
 	map = Map[Map.Num() - res];
 
-// zrušení lokálních promìnných
+// zruÅ¡enÃ­ lokÃ¡lnÃ­ch promÄ›nnÃ½ch
 	FCommand();
 }
 
 
 /***************************************************************************\
 *																			*
-*								promìnné									*
+*								promÄ›nnÃ©									*
 *																			*
 \***************************************************************************/
 
 /////////////////////////////////////////////////////////////////////////////
-// prázdná plocha
+// prÃ¡zdnÃ¡ plocha
 
 void _fastcall FMapEmpty(CMap& map) { map.Empty(); };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// hlavní plocha
+// hlavnÃ­ plocha
 
 void _fastcall FMapMain(CMap& map) { map = Map[0]; };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// globální plocha (Data = index)
+// globÃ¡lnÃ­ plocha (Data = index)
 
 void _fastcall FMapObj(CMap& map)
 {
 // index plochy
 	int inx = ExecItem[-1].Data;
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	map = Map[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// globalní plocha v seznamu (Data = index, List = seznam)
+// globalnÃ­ plocha v seznamu (Data = index, List = seznam)
 
 void _fastcall FMapObjList(CMap& map)
 {
@@ -103,26 +103,26 @@ void _fastcall FMapObjList(CMap& map)
 	int inx = ExecItem[-1].Data;
 	inx += List.AutoIncInx(list);
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	map = Map[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// lokální plocha (Data = index)
+// lokÃ¡lnÃ­ plocha (Data = index)
 
 void _fastcall FMapLoc(CMap& map)
 {
 // index plochy
 	int inx = Map.Num() - ExecItem[-1].Data;
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	map = Map[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// lokální plocha v seznamu (Data = index, List = seznam)
+// lokÃ¡lnÃ­ plocha v seznamu (Data = index, List = seznam)
 
 void _fastcall FMapLocList(CMap& map)
 {
@@ -133,34 +133,34 @@ void _fastcall FMapLocList(CMap& map)
 	int inx = Map.Num() - ExecItem[-1].Data;
 	inx += List.AutoIncInx(list);
 
-// nastavení plochy
+// nastavenÃ­ plochy
 	map = Map[inx];
 }
 
 
 /////////////////////////////////////////////////////////////////////////////
-// kopie výøezu plochy
+// kopie vÃ½Å™ezu plochy
 
 void _fastcall FMapCopy(CMap& map)
 {
-// naètení vstupní plochy
+// naÄtenÃ­ vstupnÃ­ plochy
 	FMap(map);
 
-// cílové souøadnice
+// cÃ­lovÃ© souÅ™adnice
 	int destx = FIntR();
 	int desty = FIntR();
 
-// zdrojová plocha
+// zdrojovÃ¡ plocha
 	CMap srcmap;
 	FMap(srcmap);
 
-// zdrojové souøadnice a rozmìry
+// zdrojovÃ© souÅ™adnice a rozmÄ›ry
 	int srcx = FIntR();
 	int srcy = FIntR();
 	int width = FIntR();
 	int height = FIntR();
 
-// omezení cílových souøadnic
+// omezenÃ­ cÃ­lovÃ½ch souÅ™adnic
 	if ((destx >= map.Width()) || (desty >= map.Height())) return;
 
 	if (destx < 0) 
@@ -179,7 +179,7 @@ void _fastcall FMapCopy(CMap& map)
 	}
 	if (desty + height > map.Height()) height = map.Height() - desty;
 
-// omezení zdrojových souøadnic
+// omezenÃ­ zdrojovÃ½ch souÅ™adnic
 	if ((srcx >= srcmap.Width()) || (srcy >= srcmap.Height())) return;
 
 	if (srcx < 0)
@@ -201,10 +201,10 @@ void _fastcall FMapCopy(CMap& map)
 	if ((destx >= map.Width()) || (desty >= map.Height())) return;
 	if ((width <= 0) || (height <= 0)) return;
 
-// pøíprava cílové plochy pro zápis
+// pÅ™Ã­prava cÃ­lovÃ© plochy pro zÃ¡pis
 	map.CopyWrite();
 
-// pøenesení dat
+// pÅ™enesenÃ­ dat
 	MAPITEM* dstitem = &map.At(destx, desty);
 	MAPITEM* srcitem = &srcmap.At(srcx, srcy);
 	int dstinc = map.Width() - width;
@@ -228,11 +228,11 @@ void _fastcall FMapCopy(CMap& map)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// nová plocha
+// novÃ¡ plocha
 
 void _fastcall FMapNew(CMap& map)
 {
-// rozmìry plochy
+// rozmÄ›ry plochy
 	int width = Round0(FNum());
 	int height = Round0(FNum());
 
