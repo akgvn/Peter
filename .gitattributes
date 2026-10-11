@@ -1,0 +1,26 @@
+# Default line ending handling
+* text=auto
+
+# MSVC6 Source and Resource files: Stored as UTF-8 in Git,
+# checked out as CP-1250 on disk with Windows line endings
+*.c       text working-tree-encoding=CP1250 eol=crlf
+*.cpp     text working-tree-encoding=CP1250 eol=crlf
+*.h       text working-tree-encoding=CP1250 eol=crlf
+*.rc      text working-tree-encoding=CP1250 eol=crlf
+
+# TODO: I don't think we need to keep the files CP1250 for long because
+# I don't particularly care about rendering Czech strings correctly.
+# MSVC6 will probably just treat UTF-8 as ASCII, which _should_ be fine.
+# Need to test though.
+
+# NOTE: .inc files I've specifically avoided touching. Most of them are
+# fine with CP1250, but the internet/LLMs are suggesting at least one
+# file wouldn't survive CP1250 -> UTF-8 in Git -> declared encoding
+# conversion that would happen.
+
+# MSVC project files: keep CRLF line endings
+*.dsp     text eol=crlf
+*.dsw     text eol=crlf
+
+*.txt     text
+*.md      text
