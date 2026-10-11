@@ -1,0 +1,15 @@
+# Build artifacts from MSVC6.
+*.exe
+*.obj
+*.pdb
+*.idb
+*.ncb
+*.plg
+*.res
+*.pch
+
+# Not sure what this is yet but also seems MSVC6 related.
+*.opt
+
+# Peter.exe generates this on startup as far as I can tell.
+Peter.ini
