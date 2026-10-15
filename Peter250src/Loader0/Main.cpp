@@ -1,6 +1,12 @@
 
 #pragma warning ( disable: 4201)		// hlášení - nepojmenovaná struktura
-#include <windows.h>					// základní definice WINDOWS
+#if _MSC_VER >= 1930
+  #pragma pack(push, 8)
+  #include <windows.h>					// základní definice WINDOWS
+  #pragma pack(pop)
+#else
+  #include <windows.h>					// základní definice WINDOWS
+#endif
 #pragma warning ( default: 4201)		// hlášení - nepojmenovaná struktura
 
 #pragma warning ( disable: 4100)		// hlášení - nepoužitý formální parametr

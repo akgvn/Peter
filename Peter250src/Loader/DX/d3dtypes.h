@@ -18,7 +18,13 @@
 #pragma message("should not include d3dtypes.h when compiling for DX8 or newer interfaces")
 #endif
 
-#include <windows.h>
+#if _MSC_VER >= 1930
+  #pragma pack(push, 8)
+  #include <windows.h>
+  #pragma pack(pop)
+#else
+  #include <windows.h>
+#endif
 
 #include <float.h>
 #include "ddraw.h"

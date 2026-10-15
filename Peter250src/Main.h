@@ -62,7 +62,13 @@ void debugBreak(char* file, int line, char* date);
 
 #pragma warning ( disable: 4201)		// hlášení - nepojmenovaná struktura
 
-#include <windows.h>					// základní definice WINDOWS
+#if _MSC_VER >= 1930
+  #pragma pack(push, 8)
+  #include <windows.h>					// základní definice WINDOWS
+  #pragma pack(pop)
+#else
+  #include <windows.h>					// základní definice WINDOWS
+#endif
 #include <math.h>						// matematické operace
 //#include <alphaops.h>					// matematické konstanty
 #include <tchar.h>						// obsluha znaků UNICODE/MB

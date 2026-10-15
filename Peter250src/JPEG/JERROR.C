@@ -25,7 +25,13 @@
 #include "jerror.h"
 
 #ifdef USE_WINDOWS_MESSAGEBOX
-#include <windows.h>
+#if _MSC_VER >= 1930
+  #pragma pack(push, 8)
+  #include <windows.h>
+  #pragma pack(pop)
+#else
+  #include <windows.h>
+#endif
 #endif
 
 #ifndef EXIT_FAILURE		/* define exit() codes if not provided */

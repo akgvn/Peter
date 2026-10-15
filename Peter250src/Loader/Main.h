@@ -65,7 +65,13 @@ typedef unsigned __int64 QWORD;
 //////////////////////////////////////////////////////////////////////////////
 // standardní vnořené sekce
 
-#include <windows.h>					// základní definice WINDOWS
+#if _MSC_VER >= 1930
+  #pragma pack(push, 8)
+  #include <windows.h>					// základní definice WINDOWS
+  #pragma pack(pop)
+#else
+  #include <windows.h>					// základní definice WINDOWS
+#endif
 #pragma warning ( disable: 4201)		// hlášení - nepojmenovaná struktura
 #include <mmsystem.h>					// multimédia
 #include <aviriff.h>					// definice pro AVI

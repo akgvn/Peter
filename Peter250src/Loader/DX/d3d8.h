@@ -32,7 +32,13 @@
 #define COM_NO_WINDOWS_H
 #include <objbase.h>
 
-#include <windows.h>
+#if _MSC_VER >= 1930
+  #pragma pack(push, 8)
+  #include <windows.h>
+  #pragma pack(pop)
+#else
+  #include <windows.h>
+#endif
 
 #if !defined(HMONITOR_DECLARED) && (WINVER < 0x0500)
     #define HMONITOR_DECLARED
