@@ -2,7 +2,7 @@
 
 [OPTIONS]
 COMPRESS=12 Hall Zeck
-LCID=0x409 0x0 0x0 ; Anglicky (SpojenÈ st·ty)
+LCID=0x409 0x0 0x0 ; Anglicky (Spojen√© st√°ty)
 REPORT=Yes
 CHARSET=1
 FTS=3

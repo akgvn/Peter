@@ -2,12 +2,12 @@
 
 [OPTIONS]
 COMPRESS=12 Hall Zeck
-LCID=0x405 0x0 0x0 ; Èesky
+LCID=0x405 0x0 0x0 ; ÄŒesky
 REPORT=Yes
 CHARSET=238
-CONTENTS=Témata nápovìdy
-TITLE=Nápovìda aplikace Petr
-COPYRIGHT=Petr verze 2.50, (c) 1999-2012 Ing. Miroslav Nìmeèek, Gemtree Software, s.r.o.
+CONTENTS=TÃ©mata nÃ¡povÄ›dy
+TITLE=NÃ¡povÄ›da aplikace Petr
+COPYRIGHT=Petr verze 2.50, (c) 1999-2012 Ing. Miroslav NÄ›meÄek, Gemtree Software, s.r.o.
 DEFFONT=,8,238
 BMROOT=C:\VC\PETER\HLP
 BMROOT=IDF
@@ -1087,17 +1087,17 @@ Class_cz.rtf
 21040=21040
 21041=21041
 21042=21042
-Editace èísla=110
+Editace ÄÃ­sla=110
 Editace hudby=170
 Editace plochy=150
 Editace programu=3
-Editace pøedmìtu a obrázku=140
-Editace pøíznaku=120
+Editace pÅ™edmÄ›tu a obrÃ¡zku=140
+Editace pÅ™Ã­znaku=120
 Editace sprajtu=180
 Editace textu=130
 Editace zvuku=160
-Seznam programù=2
-Témata nápovìdy=1
+Seznam programÅ¯=2
+TÃ©mata nÃ¡povÄ›dy=1
 
 [WINDOWS]
 main="",(128,64,768,768),60676,(r15138815),
