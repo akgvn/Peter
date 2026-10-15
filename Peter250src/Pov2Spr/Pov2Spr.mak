@@ -54,7 +54,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /G4 /Zp4 /ML /W4 /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_OPTIM" /Fp"$(INTDIR)\Pov2Spr.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /G4 /Zp4 /GS- /arch:IA32 /ML /W4 /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_OPTIM" /Fp"$(INTDIR)\Pov2Spr.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -142,7 +142,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /G4 /Zp4 /MLd /W4 /Gm /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /Fp"$(INTDIR)\Pov2Spr.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
+CPP_PROJ=/nologo /G4 /Zp4 /GS- /arch:IA32 /MLd /W4 /Gm /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /Fp"$(INTDIR)\Pov2Spr.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
