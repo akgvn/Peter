@@ -1490,6 +1490,7 @@ void Save(BOOL mini, CText name, BOOL rel)
 	int savetexts = 0;
 	int jazyku = 0;
 	int jazyk1 = 0;
+	int jaz = 0;
 
 	for (jaz = 0; jaz < JAZYKNUM; jaz++)
 	{
