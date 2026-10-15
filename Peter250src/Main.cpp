@@ -753,7 +753,8 @@ void ReadIni()
 	CText jazyk			= ReadIniTxt(tGlobGroup, tLanguage,		tLanguageAuto);
 	JazykUser = JAZYKAUT;
 	Jazyk = JazykDef;
-	for (int i = 0; i < JAZYKNUM; i++)
+	int i;
+	for (i = 0; i < JAZYKNUM; i++)
 	{
 		CText txt(JazykInfo[i].Name);
 		if (jazyk == txt)
@@ -883,7 +884,8 @@ void WriteIni()
 void InitPaths()
 {
 // cesta k CD-ROM
-	for (int i = _T('C'); i <= _T('Z'); i++)
+	int i;
+	for (i = _T('C'); i <= _T('Z'); i++)
 	{
 		CDRom = (TCHAR)i;
 		CDRom += _T(":\\");

@@ -584,11 +584,14 @@ int main(int argc, char* argv[])
 // načtení informací pro InstData mód
 	ReadText(_T("0\\Path.txt"));
 	ReadText(_T("0\\Title.txt"));
+#endif
 
 // načtení souborů skupin
-	for (int i = 1; i < GROUPSNUM; i++)
+	int i;
+#ifdef _INSTALL
+	for (i = 1; i < GROUPSNUM; i++)
 #else
-	for (int i = 0; i < GROUPSNUM; i++)
+	for (i = 0; i < GROUPSNUM; i++)
 #endif
 	{
 		ReadGroup(i);

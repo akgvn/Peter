@@ -205,7 +205,8 @@ void D3DT_Del(int index)
 
 void D3DT_Reset()
 {
-	for (int i = 0; i < MAX_STAGES; i++)
+	int i;
+	for (i = 0; i < MAX_STAGES; i++)
 	{
 		pD3TextureOff(i);
 		D3DT_On[i] = false;
@@ -1328,8 +1329,9 @@ void D3DF_AktSector(int index)
 					item2->VertCol = c2;
 					item2->VertColF = cf2;
 
-					float* uv2[MAX_STAGES];
-					for (int j = 0; j < MAX_STAGES; j++)
+				float* uv2[MAX_STAGES];
+				int j;
+				for (j = 0; j < MAX_STAGES; j++)
 					{
 						uv2[j] = NULL;
 						if (item->TextUV[j] != NULL)
@@ -2070,7 +2072,8 @@ int D3DF_Copy1(int index)
 	newitem->AktBound = true;
 
 // duplikace textury (pouze reference na texturu)
-	for (int j = 0; j < MAX_STAGES; j++)
+	int j;
+	for (j = 0; j < MAX_STAGES; j++)
 	{
 		i = newitem->Texture[j];
 		if (i >= 0)
@@ -2281,7 +2284,8 @@ void _fastcall D3DF_Del(const int index)
 		}
 
 // zrušení textury
-		for (int j = 0; j < MAX_STAGES; j++)
+		int j;
+		for (j = 0; j < MAX_STAGES; j++)
 		{
 			D3DT_Del(item->Texture[j]);
 			item->Texture[j] = -1;
@@ -4215,7 +4219,8 @@ void D3DF_Render()
 	D3DF_AktMatrix();
 
 // inicializace bufferu seznamu položek
-	for (int i = 0; i < MAX_RENDGROUP; i++)
+	int i;
+	for (i = 0; i < MAX_RENDGROUP; i++)
 	{
 		RendNum[i] = 0;
 		if (RendMax < D3DF_Max)

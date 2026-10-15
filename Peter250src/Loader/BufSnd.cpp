@@ -260,7 +260,8 @@ void CSound::LoadFile()
 // přeskočení záhlaví ID3
 		if (((*(DWORD*)&hd) & 0xffffff) == '3DI')
 		{
-			for (int ii = 3000; ii > 0; ii--)
+			int ii;
+			for (ii = 3000; ii > 0; ii--)
 			{
 				int off = FileReadOff;
 

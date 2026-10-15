@@ -1017,7 +1017,8 @@ void _fastcall FDialogOpenSave(CString& text, bool save)
 	if (l <= 0) l = 1;
 
 // načtení seznamu masek
-	for (int n = 0; n < l;)
+	int n;
+	for (n = 0; n < l;)
 	{
 
 // název masky

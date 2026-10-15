@@ -3286,7 +3286,8 @@ double FTableNew()
 // příprava jednotlivých titulků
 	CBufText coltit;
 	bool head = false;
-	for (int i = 0; i < cols; i++)
+	int i;
+	for (i = 0; i < cols; i++)
 	{
 		coltit.New();
 		coltit[i] = text.GetLine(i);
@@ -6554,7 +6555,8 @@ double FD3DTerrainMap()
 
 			ICONNEIGH* item = iconneigh;
 
-			for (int k = 0; k < neighN; k++)
+			int k;
+			for (k = 0; k < neighN; k++)
 			{
 				if ((item->icon == icoinx) &&
 					(item->smer == j) &&

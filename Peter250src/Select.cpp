@@ -619,7 +619,8 @@ DRUHYPOKUS:
 // načtení aliases jména adresáře
 					BOOL nameok = FALSE;
 
-					for (int lang = 0; lang < JAZYKNUM; lang++)
+					int lang;
+					for (lang = 0; lang < JAZYKNUM; lang++)
 					{
 						if (lang != JAZYK000)
 						{
@@ -734,7 +735,8 @@ DRUHYPOKUS:
 
 									BOOL nameok = FALSE;
 // načtení aliases
-									for (int lang = 0; lang < JAZYKNUM; lang++)
+									int lang;
+									for (lang = 0; lang < JAZYKNUM; lang++)
 									{
 										if (lang != JAZYK000)
 										{
@@ -854,7 +856,8 @@ DRUHYPOKUS:
 	::SendMessage(SelectView, LVM_SORTITEMS, 0, (LPARAM)(PFNLVCOMPARE)CompareFunc);
 
 // zjištění nových indexů položek
-	for (int i = 0; i < SelectItemNum; i++)
+	int i;
+	for (i = 0; i < SelectItemNum; i++)
 	{
 		SelectItem[i].Index = -1;
 	}

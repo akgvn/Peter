@@ -142,7 +142,8 @@ int Compress(BYTE* dst, BYTE* src, int size, int width)
 // opakování předešlého bajtu
 		BYTE d = SrcAdr[-1];
 
-		for (int j = 0; (j < SrcNum) && (d == SrcAdr[j]); j++) {};
+		int j;
+		for (j = 0; (j < SrcNum) && (d == SrcAdr[j]); j++) {};
 		if (j > 0)
 		{
 			SrcAdr += j;

@@ -1369,7 +1369,8 @@ void Save(BOOL mini, CText name, BOOL rel)
 	SaveReal.DelAll();
 
 	if (!SaveRemapText.NumClear(Text.Max())) SaveOK = FALSE;
-	for (int jaz = 0; jaz < JAZYKNUM; jaz++)
+	int jaz = 0;
+	for (jaz = 0; jaz < JAZYKNUM; jaz++)
 	{
 		SaveText[jaz].DelAll();
 	}
@@ -2243,7 +2244,8 @@ BOOL FileLoadHead()
 	}
 
 // nalezení sekce Petříka
-	for (int i = 0; i < sekce; i++)
+	int i = 0;
+	for (i = 0; i < sekce; i++)
 	{
 		if (MemCompare(sec[i].Name, PetProgHeader.Name, 8)) break;
 	}
@@ -3186,7 +3188,8 @@ void FileLoadImport()
 	char* data = (char*)DatBuf;			// ukazatel dat k načtení
 
 // vynulování bufferu přemapování indexů
-	for (int i = 0; i < num; i++)
+	int i = 0;
+	for (i = 0; i < num; i++)
 	{
 		index[i] = IDF_COMMENT - IDF;
 	}

@@ -7165,7 +7165,8 @@ void FListBoxClear()
 
 				int cols = item->TabCols;
 
-				for (int i = oldrows * cols - 1; i >= cols; i--)
+				int i;
+				for (i = oldrows * cols - 1; i >= cols; i--)
 				{
 					item->TabData[i].Term();
 				}
@@ -8204,7 +8205,8 @@ void FSetMixDevice()
 	if (!MixDevInit()) return;
 
 // vyhledání jména mixeru
-	for (int i = MixDevN-1; i > 0; i--)
+	int i;
+	for (i = MixDevN-1; i > 0; i--)
 	{
 		if (MixDev[i].Name == txt) break;
 	}
@@ -11257,7 +11259,8 @@ void FSetD3DMorphModel()
 			DuplikData((void**)&(item->MorphNorm[i]), v * sizeof(D3DVECTOR));
 
 			item->MorphUV = (float**)MemSize(item->MorphUV, (i + 1) * MAX_STAGES * sizeof(float*));
-			for (int j = 0; j < MAX_STAGES; j++)
+			int j;
+			for (j = 0; j < MAX_STAGES; j++)
 			{
 				int m = i*MAX_STAGES + j;
 				item->MorphUV[m] = item->MorphUV[m - MAX_STAGES];

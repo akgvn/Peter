@@ -705,7 +705,8 @@ void InitVideoModes()
 // test, zda videomód již existuje
 				VIDEOMODEITEM* item = TabVideoModes;
 
-				for (int i = NumVideoModes; i > 0; i--)
+				int i;
+				for (i = NumVideoModes; i > 0; i--)
 				{
 					if ((item->Width == width) &&
 						(item->Height == height) &&

@@ -1585,7 +1585,8 @@ bool DirectPlayEnumPlayers()
 	if (DirectPlayGamesAkt.IsEmpty()) return false;
 
 // zrušení bufferu jmen a identifikace hráčů
-	for (int i = DirectPlayPlayersSize - 1; i >= 0; i--)
+	int i;
+	for (i = DirectPlayPlayersSize - 1; i >= 0; i--)
 	{
 		DirectPlayPlayersNames[i].Term();
 	}

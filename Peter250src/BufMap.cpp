@@ -595,7 +595,8 @@ bool CMap::LoadFile(CText jmeno)
 	CIcon icon;						// ikona, rozměry ICONSIZE
 
 // cyklus přes všechny ikony
-	for (int i = 0; i < refs; i++)
+	int i;
+	for (i = 0; i < refs; i++)
 	{
 		txt.Empty();
 
@@ -874,7 +875,8 @@ bool CMap::SaveFile(CText jmeno) const
 	CText txt0;
 
 // cyklus přes všechny ikony plochy
-	for (int i = 0; i < icons; i++)
+	int i;
+	for (i = 0; i < icons; i++)
 	{
 
 // ikona plochy

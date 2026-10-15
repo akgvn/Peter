@@ -2123,7 +2123,8 @@ HIMAGELIST CPicture::GenerDrag(const CText& text)
 // vytvoření dat barevné bitmapy
 	BYTE* dst = data;
 	BYTE* src = pData->Data;
-	for (int i = pData->Height; i > 0; i--)
+	int i;
+	for (i = pData->Height; i > 0; i--)
 	{
 		MemCopy(dst, src, width);
 		dst += widthbyte;

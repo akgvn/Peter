@@ -297,7 +297,8 @@ bool CSprite::ReSize(int klid, int pohyb, int smer)
 		int oldoff = oldi*oldfaze;
 
 // přenesení dat v klidu (cyklus po nových klidových pozicích)
-		for (int j = 0; j < klid; j++)
+		int j;
+		for (j = 0; j < klid; j++)
 		{
 //			int oldj = (j*oldklid + (klid-1)/2) / klid;
 			int oldj = j - (j/oldklid)*oldklid;

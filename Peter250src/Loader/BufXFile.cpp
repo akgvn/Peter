@@ -1239,7 +1239,8 @@ int ReadTemplateName()
 	if (MeshText.IsEmpty()) return -1;
 
 // vyhledání jména šablony
-	for (int i = 0; i < TEMPNAME_NUM; i++)
+	int i;
+	for (i = 0; i < TEMPNAME_NUM; i++)
 	{
 		if (MeshText == TempNames[i])
 		{
@@ -1645,7 +1646,8 @@ void ReadMeshLevel()
 					int vertices = MeshReadInt64();
 					item->MeshVerticesNum = vertices;
 					MemBuf(item->MeshVertices, vertices);
-					for (int j = 0; j < vertices; j++)
+					int j;
+					for (j = 0; j < vertices; j++)
 					{
 						MeshReadVector(item->MeshVertices + j);
 					}

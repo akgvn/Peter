@@ -1309,7 +1309,8 @@ bool CBufProg::InitTab(const INITTREE* tab, const int num)
 
 // příprava bufferu rodičů
 	int ParBuf[30];							// to snad bude vždy dostačující
-	for (int i = 0; i < 30; i++) ParBuf[i] = -1; // rodič je neplatný
+	int i;
+	for (i = 0; i < 30; i++) ParBuf[i] = -1; // rodič je neplatný
 
 // inicializace neměnných parametrů položky
 	PROGITEM item;							// vytvářená nová položka

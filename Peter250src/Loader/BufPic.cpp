@@ -1414,7 +1414,8 @@ void CPicture::Level(double koef, bool dith)
 		tab[ShadCol] = ShadCol;
 
 // příprava konverzní tabulky
-		for (int i = ResCols; i < StdColors; i++)
+		int i;
+		for (i = ResCols; i < StdColors; i++)
 		{
 			RGBQUAD* rgb = StdBitmapInfo->bmiColors + i;		// definice palet barvy
 			BYTE r = rgb->rgbRed;								// červená složka
@@ -1448,7 +1449,8 @@ void CPicture::Level(double koef, bool dith)
 	{
 
 // příprava konverzní tabulky
-		for (int i = 0; i < 256; i++)
+		int i;
+		for (i = 0; i < 256; i++)
 		{
 			int c = Round(i * koef);
 			if (c > 255) c = 255;

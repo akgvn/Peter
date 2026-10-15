@@ -6271,7 +6271,8 @@ BOOL PreviewPicCache()
 			CText		name[PreviewPicSize];			// jména obrázků pro cachování (prázdný = není)
 			BOOL		load[PreviewPicSize];			// příznaky načítání obrázků (TRUE = byl načítán)
 
-			for (int i = PreviewPicSize - 1; i >= 0; i--)
+			int i;
+			for (i = PreviewPicSize - 1; i >= 0; i--)
 			{
 				pic[i] = PreviewPicPic[i];
 				name[i] = PreviewPicName[i];
