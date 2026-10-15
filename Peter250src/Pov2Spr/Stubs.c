@@ -32,6 +32,99 @@ void _chkesp()
 {
 }
 
+#pragma function(memset, memcpy, memmove)
+
+void* __cdecl memset(void* dst, int c, unsigned count)
+{
+	char* dst2 = (char*)dst;
+	for (; count > 0; count--)
+	{
+		*dst2 = (char)c;
+		dst2++;
+	}
+	return dst;
+}
+
+void* __cdecl memcpy(void* dst, const void* src, unsigned count)
+{
+	char* dst2 = (char*)dst;
+	const char* src2 = (const char*)src;
+	for (; count > 0; count--)
+	{
+		*dst2 = *src2;
+		dst2++;
+		src2++;
+	}
+	return dst;
+}
+
+void* __cdecl memmove(void* dst, const void* src, unsigned count)
+{
+	char* dst2 = (char*)dst;
+	const char* src2 = (const char*)src;
+	if (dst2 < src2)
+	{
+		for (; count > 0; count--) { *dst2 = *src2; dst2++; src2++; }
+	}
+	else
+	{
+		dst2 += count;
+		src2 += count;
+		for (; count > 0; count--) { dst2--; src2--; *dst2 = *src2; }
+	}
+	return dst;
+}
+
+void __cdecl __report_rangecheckfailure(void)
+{
+}
+
+#ifdef _M_IX86
+
+__int64 __cdecl _ftol2(double d)
+{
+	unsigned short	oldstat;
+	unsigned short	newstat;
+	__int64			result;
+
+	_asm {
+		wait
+		fnstcw		oldstat
+		wait
+		mov			ax,oldstat
+		or			ah,0xc
+		mov			newstat,ax
+		fldcw		newstat
+		fld			d
+		fistp		result
+		fldcw		oldstat
+	}
+	return result;
+};
+
+__int64 __cdecl _ftol2_sse(double d)
+{
+	unsigned short	oldstat;
+	unsigned short	newstat;
+	__int64			result;
+
+	_asm {
+		wait
+		fnstcw		oldstat
+		wait
+		mov			ax,oldstat
+		or			ah,0xc
+		mov			newstat,ax
+		fldcw		newstat
+		fld			d
+		fistp		result
+		fldcw		oldstat
+	}
+	return result;
+};
+
+#endif
+
 //int atexit;
 //int atexit() { return 0; };
 
