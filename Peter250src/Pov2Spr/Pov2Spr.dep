@@ -1,0 +1,123 @@
+# Microsoft Developer Studio Generated Dependency File, included by Pov2Spr.mak
+
+.\Bitmap.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\BufPic.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\BufSprt.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\BufText.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+..\Compress.cpp : \
+	"..\Bitmap.h"\
+	"..\BufIcon.h"\
+	"..\BufInt.h"\
+	"..\BufInx.h"\
+	"..\BufMap.h"\
+	"..\BufMus.h"\
+	"..\BufPic.h"\
+	"..\BufProg.h"\
+	"..\BufReal.h"\
+	"..\BufSnd.h"\
+	"..\BufSprt.h"\
+	"..\BufText.h"\
+	"..\BufUndo.h"\
+	"..\Compress.h"\
+	"..\EditIcon.h"\
+	"..\EditLog.h"\
+	"..\EditMap.h"\
+	"..\EditMus.h"\
+	"..\EditNum.h"\
+	"..\EditSnd.h"\
+	"..\EditSprt.h"\
+	"..\EditText.h"\
+	"..\File.h"\
+	"..\JPEG.h"\
+	"..\Main.h"\
+	"..\MainFrm.h"\
+	"..\Memory.h"\
+	"..\Prog.h"\
+	"..\ProgClip.h"\
+	"..\PROGCOL.H"\
+	"..\ProgDrag.h"\
+	"..\ProgExp.h"\
+	"..\ProgFile.h"\
+	"..\ProgHist.h"\
+	"..\ProgLib.h"\
+	"..\Select.h"\
+	
+
+.\File.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Main.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Memory.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufSprt.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Resource.rc : \
+	"..\PalImp.dat"\
+	"..\PalImpD.dat"\
+	".\Pov2Spr.ico"\
+	

@@ -1,0 +1,45 @@
+# Microsoft Developer Studio Generated Dependency File, included by DataInst.mak
+
+.\BufText.cpp : \
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Compress.cpp : \
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\File.cpp : \
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Main.cpp : \
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Memory.cpp : \
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Resource.rc : \
+	".\Res\DataInst.ico"\
+	

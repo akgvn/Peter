@@ -1,0 +1,69 @@
+# Inspired by https://git.mattkc.com/isledecomp/isle-portable/blame/commit/b0ed6d97d168ef4bd65200bf741f527881025173/docker/Dockerfile.
+# I've saw something similar somewhere else but I don't remember the exact place I saw it first.
+
+FROM debian:trixie-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV WINEPREFIX=/root/.wine
+ENV WINEDEBUG=-all
+
+# Only ca-certificates (for HTTPS) and wget (for downloads)
+RUN dpkg --add-architecture i386 && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates wget \
+    procps && \
+    mkdir -pm755 /etc/apt/keyrings && \
+    # Download key directly as .asc (no gnupg/dearmor needed)
+    wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
+    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources && \
+    apt-get update && \
+    apt-get install -y --install-recommends winehq-stable && \
+    # Remove wget and clean cache to minimize final image size
+    apt-get purge -y wget && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN wineboot --init && wineserver -w
+
+WORKDIR /workspace
+
+CMD ["tail", "-f", "/dev/null"]
+
+# 1. Build the image
+# wslc build -t debian-wine-stable -f .\Containerfile.wine .
+
+# 2. Run the container and mount your Windows folder (replace C:\my-project)
+# wslc run -d --name wine-runner -v "C:\my-project:/workspace" debian-wine-stable
+
+# 3. Open the interactive shell
+# wslc exec -it wine-runner bash
+
+# wslc run -d `
+#   --name wine-runner `
+#   -v "C:\Users\xx\MSVC600-master:/msvc600" `
+#   -v "C:\Users\xx\repos\Peter:/workspace" `
+#   debian-wine-stable
+# 
+# wslc run -d --name wine-runner -v # "C:\Users\xx\MSVC600-master:/root/.wine/drive_c/MSVC600" -v # "C:\Users\xx\repos\Peter:/root/.wine/drive_c/Peter" debian-wine-stable
+# 
+# 
+# wslc exec -it wine-runner bash
+# 
+# wine msdev Peter.dsp /MAKE "Peter - Win32 Release"
+# 
+# wine nmake Peter.mak
+# 
+# wine nmake ./Loader/Peter.mak 
+# wine nmake Loader/Peter.mak 
+# 
+# wine nmake /f ./Loader/Peter.mak CFG="Loader - Win32 Release"
+# wine nmake /f ./Loader/Peter.mak CFG="Loader - Win32 Release Mini"
+# 
+# Loader/Release/Peter.exe
+# !IF "$(CFG)" == "Loader - Win32 Release" || "$(CFG)" == "Loader - Win32 Debug" || # "$(CFG)" == "Loader - Win32 Debug Optim" || "$(CFG)" == "Loader - Win32 Release Mini"
+# Loader/ReleaseM/Peter.exe
+# 
+# 
+# 
+# Loader0/Release/Peter.exe

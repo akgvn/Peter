@@ -1,0 +1,78 @@
+# Microsoft Developer Studio Generated Dependency File, included by Setup.mak
+
+.\Bitmap.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\BufPic.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\BufText.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Compress.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\File.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Main.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Memory.cpp : \
+	".\Bitmap.h"\
+	".\BufPic.h"\
+	".\BufText.h"\
+	".\Compress.h"\
+	".\File.h"\
+	".\Main.h"\
+	".\Memory.h"\
+	
+
+.\Resource.rc : \
+	".\Res\checkbox.bmp"\
+	".\Res\DelExe.exe"\
+	".\Res\peter.cur"\
+	".\Res\Setup.ico"\
+	
