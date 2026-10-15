@@ -467,6 +467,7 @@ public:
 
 // čtení zadané položky jazyku
 	inline const CText& _fastcall MultiText(int index) const { return m_Data[index]; }
+	inline const CText& _fastcall MultiText(int index)       { return m_Data[index]; }
 
 // nastavení zadané položky jazyku
 	inline void _fastcall MultiText(int index, const CText& txt) { m_Data[index] = txt; }
