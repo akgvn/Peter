@@ -13,9 +13,6 @@
 //	_UNICODE ........... kódování znaků UNICODE
 //
 //	_M_IX86 ............ procesor Intel 86
-//	_M_MPPC ............ procesor Power Macintosh
-//	_M_MRX000 .......... procesor MIPS
-//	_M_PPC ............. procesor PowerPC
 
 
 extern BOOL MemoryError;		// příznak chyby paměti
