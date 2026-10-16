@@ -13,7 +13,6 @@
 //	_UNICODE ........... kódování znaků UNICODE
 //
 //	_M_IX86 ............ procesor Intel 86
-//	_M_ALPHA ........... procesor DEC Alpha
 //	_M_MPPC ............ procesor Power Macintosh
 //	_M_MRX000 .......... procesor MIPS
 //	_M_PPC ............. procesor PowerPC

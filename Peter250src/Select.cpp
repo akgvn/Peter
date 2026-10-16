@@ -1493,13 +1493,8 @@ BOOL CALLBACK SelectDialogProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lPara
 // vytvoření nového souboru
 
 // velikost stránky zarovnávání paměti
-#ifndef _M_ALPHA
-#define	PAGESIZE		0x1000			// velikost alokační stránky pro ostatní procesory (4096)
+#define	PAGESIZE		0x1000			// velikost alokační stránky (4096)
 #define PAGEFILE		0x1000			// velikost stránky v souboru
-#else
-#define	PAGESIZE		0x2000			// velikost alokační stránky pro procesor Alpha (8192)
-#define PAGEFILE		0x2000			// velikost stránky v souboru
-#endif
 
 void SelectOnNew()
 {

@@ -85,11 +85,7 @@ static	CRITICAL_SECTION	MemoryCriticalSection;	// kritická sekce pro správce p
 /////////////////////////////////////////////////////////////////////////////
 // konstanty - velikosti musí být mocnina 2 !
 
-#ifndef _M_ALPHA
-#define	PAGESIZE		0x1000			// velikost alokační stránky pro ostatní procesory (4096)
-#else
-#define	PAGESIZE		0x2000			// velikost alokační stránky pro procesor Alpha (8192)
-#endif
+#define	PAGESIZE		0x1000			// velikost alokační stránky (4096)
 
 #define PAGEITEMS		(PAGESIZE/sizeof(ITEM))	// počet prvků na stránku (512 popř. 1024)
 #define	REGPAGES		(PAGESIZE/sizeof(PAGE)) // počet stránek na region (256 popř. 512)
