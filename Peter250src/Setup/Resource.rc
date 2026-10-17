@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "RESOURCE.H"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -54,14 +54,14 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDN_MAINFRAME           ICON    DISCARDABLE     "RES\\Setup.ico"
+IDN_MAINFRAME           ICON    DISCARDABLE     "Res\\Setup.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDN_CHECKBOX            BITMAP  DISCARDABLE     "res\\checkbox.bmp"
+IDN_CHECKBOX            BITMAP  DISCARDABLE     "Res\\CHECKBOX.BMP"
 IDN_INSOK               BITMAP  DISCARDABLE     "Res\\Insok.bmp"
 IDN_DINOK               BITMAP  DISCARDABLE     "Res\\DInok.bmp"
 IDN_DINST               BITMAP  DISCARDABLE     "Res\\Dinst.bmp"
@@ -133,7 +133,7 @@ IDN_DINOK_CZ            BITMAP  DISCARDABLE     "Res\\Dinok_cz.bmp"
 // Cursor
 //
 
-IDC_PETER               CURSOR  DISCARDABLE     "res\\peter.cur"
+IDC_PETER               CURSOR  DISCARDABLE     "Res\\PETER.CUR"
 
 /////////////////////////////////////////////////////////////////////////////
 //

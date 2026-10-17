@@ -54,13 +54,13 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDN_MAINFRAME           ICON    DISCARDABLE     "RES\\Peter.ico"
+IDN_MAINFRAME           ICON    DISCARDABLE     "Res\\Peter.ico"
 IDN_MAINFRAME2          ICON    DISCARDABLE     "Res\\Lucka.ico"
 IDN_MAINFRAME3          ICON    DISCARDABLE     "Res\\Petr 2.ico"
 IDN_MAINFRAME4          ICON    DISCARDABLE     "Res\\Lucka 2.ico"
 IDN_MAINFRAME5          ICON    DISCARDABLE     "Res\\Petr 3.ico"
 IDN_MAINFRAME6          ICON    DISCARDABLE     "Res\\Lucka 3.ico"
-IDI_MAINFRAME7          ICON    DISCARDABLE     "res\\Peter4.ico"
+IDI_MAINFRAME7          ICON    DISCARDABLE     "Res\\Peter4.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -77,7 +77,7 @@ IDN_SPRITE_ICON         BITMAP  DISCARDABLE     "Res\\Sprite.bmp"
 IDN_SELECT              BITMAP  DISCARDABLE     "Res\\Select.bmp"
 IDN_DOTAZ               BITMAP  DISCARDABLE     "Res\\Dotaz.bmp"
 IDN_MODI                BITMAP  DISCARDABLE     "Res\\Modi.bmp"
-IDN_STDFONTY            BITMAP  DISCARDABLE     "res\\stdfonty.bmp"
+IDN_STDFONTY            BITMAP  DISCARDABLE     "Res\\STDFONTY.BMP"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -695,29 +695,29 @@ IDN_LOADERS             LOADER  DISCARDABLE     "..\\Loader\\ReleaseM\\Peter.exe
 // Cursor
 //
 
-IDC_SPRAY               CURSOR  DISCARDABLE     "RES\\Spray.cur"
-IDC_SPLITV              CURSOR  DISCARDABLE     "RES\\SplitV.cur"
-IDC_SPLITH              CURSOR  DISCARDABLE     "RES\\SplitH.cur"
-IDC_SELECTMOVE          CURSOR  DISCARDABLE     "RES\\SelMove.cur"
-IDC_SELECT              CURSOR  DISCARDABLE     "RES\\Select.cur"
-IDC_RUKA                CURSOR  DISCARDABLE     "RES\\Ruka.cur"
-IDC_ROUND               CURSOR  DISCARDABLE     "RES\\Round.cur"
-IDC_RECT                CURSOR  DISCARDABLE     "RES\\Rect.cur"
-IDC_PEN                 CURSOR  DISCARDABLE     "RES\\Pen.cur"
-IDC_PAINT               CURSOR  DISCARDABLE     "RES\\Paint.cur"
-IDC_NODRAG              CURSOR  DISCARDABLE     "RES\\NoDrag.cur"
-IDC_MOVE                CURSOR  DISCARDABLE     "RES\\Move.cur"
-IDC_LINE                CURSOR  DISCARDABLE     "RES\\Line.cur"
-IDC_KAPATKO             CURSOR  DISCARDABLE     "RES\\Kapatko.cur"
-IDC_FILL                CURSOR  DISCARDABLE     "RES\\Fill.cur"
-IDC_ELIP                CURSOR  DISCARDABLE     "RES\\Elip.cur"
-IDC_DELETE              CURSOR  DISCARDABLE     "RES\\Delete.cur"
-IDC_COPY                CURSOR  DISCARDABLE     "RES\\Copy.cur"
-IDC_CIL                 CURSOR  DISCARDABLE     "RES\\Cil.cur"
-IDC_FILLELIP            CURSOR  DISCARDABLE     "RES\\FillElip.cur"
-IDC_FILLRECT            CURSOR  DISCARDABLE     "RES\\FillRect.cur"
-IDC_FILLROUND           CURSOR  DISCARDABLE     "RES\\FillRoun.cur"
-IDC_KOULE               CURSOR  DISCARDABLE     "RES\\Koule.cur"
+IDC_SPRAY               CURSOR  DISCARDABLE     "Res\\Spray.cur"
+IDC_SPLITV              CURSOR  DISCARDABLE     "Res\\SplitV.cur"
+IDC_SPLITH              CURSOR  DISCARDABLE     "Res\\SplitH.CUR"
+IDC_SELECTMOVE          CURSOR  DISCARDABLE     "Res\\SelMove.cur"
+IDC_SELECT              CURSOR  DISCARDABLE     "Res\\Select.cur"
+IDC_RUKA                CURSOR  DISCARDABLE     "Res\\Ruka.cur"
+IDC_ROUND               CURSOR  DISCARDABLE     "Res\\Round.cur"
+IDC_RECT                CURSOR  DISCARDABLE     "Res\\Rect.cur"
+IDC_PEN                 CURSOR  DISCARDABLE     "Res\\Pen.cur"
+IDC_PAINT               CURSOR  DISCARDABLE     "Res\\Paint.cur"
+IDC_NODRAG              CURSOR  DISCARDABLE     "Res\\NoDrag.cur"
+IDC_MOVE                CURSOR  DISCARDABLE     "Res\\Move.cur"
+IDC_LINE                CURSOR  DISCARDABLE     "Res\\Line.cur"
+IDC_KAPATKO             CURSOR  DISCARDABLE     "Res\\Kapatko.cur"
+IDC_FILL                CURSOR  DISCARDABLE     "Res\\Fill.cur"
+IDC_ELIP                CURSOR  DISCARDABLE     "Res\\Elip.cur"
+IDC_DELETE              CURSOR  DISCARDABLE     "Res\\Delete.cur"
+IDC_COPY                CURSOR  DISCARDABLE     "Res\\Copy.cur"
+IDC_CIL                 CURSOR  DISCARDABLE     "Res\\Cil.cur"
+IDC_FILLELIP            CURSOR  DISCARDABLE     "Res\\FillElip.cur"
+IDC_FILLRECT            CURSOR  DISCARDABLE     "Res\\FillRect.cur"
+IDC_FILLROUND           CURSOR  DISCARDABLE     "Res\\FillRoun.cur"
+IDC_KOULE               CURSOR  DISCARDABLE     "Res\\Koule.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //

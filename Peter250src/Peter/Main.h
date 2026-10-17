@@ -551,7 +551,7 @@ enum EditMode
 #include "BufMap.h"						// buffer mapy plochy
 #include "BufMus.h"						// buffer hudby
 #include "BufPic.h"						// buffer obrázků (pozadí)
-#include "JPEG.h"						// obsluha JPEG souborů
+#include "JPEG.H"						// obsluha JPEG souborů
 #include "BufReal.h"					// buffer reálných čísel
 #include "BufSnd.h"						// buffer zvuku
 #include "BufSprt.h"					// buffer sprajtů
@@ -698,7 +698,7 @@ void SetFontFixedBold(HWND wnd);
 #include "ProgFile.h"					// obsluha souborů
 #include "ProgClip.h"					// obsluha clipboardu
 #include "ProgExp.h"					// export a import programu
-#include "ProgCol.h"					// výběr barvy
+#include "Progcol.h"					// výběr barvy
 #include "ProgHist.h"					// historie editace
 #include "ProgLib.h"					// knihovny
 

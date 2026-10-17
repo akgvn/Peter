@@ -70,7 +70,7 @@
 #include <richedit.h>					// RichEdit
 #include <shlobj.h>
 #include <objbase.h>
-#include "resource.h"
+#include "RESOURCE.H"
 
 #define DOUBLE_INFINITY_VALUE       ((ULONGLONG)0x7ff0000000000000)
 

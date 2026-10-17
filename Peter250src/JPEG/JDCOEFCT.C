@@ -15,8 +15,8 @@
  */
 
 #define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#include "JINCLUDE.H"
+#include "JPEGLIB.H"
 
 /* Block smoothing is only applicable for progressive JPEG, so: */
 #ifndef D_PROGRESSIVE_SUPPORTED

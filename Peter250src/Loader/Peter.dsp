@@ -56,7 +56,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /machine:I386 /nodefaultlib
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\Lib\Tran.lib /nologo /subsystem:windows /machine:I386 /nodefaultlib
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "Loader - Win32 Debug"
@@ -84,7 +84,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /incremental:no /debug /machine:I386 /nodefaultlib /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\Lib\Tran.lib /nologo /subsystem:windows /incremental:no /debug /machine:I386 /nodefaultlib /pdbtype:sept
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "Loader - Win32 Debug Optim"
@@ -113,9 +113,9 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ..\lib\tran.lib /nologo /subsystem:windows /debug /machine:I386 /nodefaultlib /pdbtype:sept /stub:"../lib/stubcz.exe"
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ..\Lib\Tran.lib /nologo /subsystem:windows /debug /machine:I386 /nodefaultlib /pdbtype:sept /stub:"../lib/stubcz.exe"
 # SUBTRACT BASE LINK32 /pdb:none
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /incremental:no /debug /machine:I386 /nodefaultlib /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\Lib\Tran.lib /nologo /subsystem:windows /incremental:no /debug /machine:I386 /nodefaultlib /pdbtype:sept
 # SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "Loader - Win32 Release Mini"
@@ -144,9 +144,9 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /machine:I386 /nodefaultlib /stub:"../lib/stubcz.exe"
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\Lib\Tran.lib /nologo /subsystem:windows /machine:I386 /nodefaultlib /stub:"../lib/stubcz.exe"
 # SUBTRACT BASE LINK32 /pdb:none
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /machine:I386 /nodefaultlib
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib msacm32.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib ole32.lib uuid.lib ..\Lib\Tran.lib /nologo /subsystem:windows /machine:I386 /nodefaultlib
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -209,7 +209,7 @@ SOURCE=.\BufText.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\BUFWIN.H
+SOURCE=.\Bufwin.h
 # End Source File
 # Begin Source File
 
@@ -217,7 +217,7 @@ SOURCE=.\BufXFile.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\JPEG.h
+SOURCE=.\JPEG.H
 # End Source File
 # End Group
 # Begin Source File
@@ -266,7 +266,7 @@ SOURCE=.\BufText.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\BUFWIN.CPP
+SOURCE=.\Bufwin.cpp
 # End Source File
 # Begin Source File
 
@@ -274,7 +274,7 @@ SOURCE=.\BufXFile.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\JPEG.cpp
+SOURCE=.\JPEG.CPP
 # End Source File
 # End Group
 # Begin Group "Main"
@@ -293,39 +293,39 @@ SOURCE=.\Compress.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX4.h
+SOURCE=.\D3DX4.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX5.h
+SOURCE=.\D3DX5.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX6.h
+SOURCE=.\D3DX6.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX7.h
+SOURCE=.\D3DX7.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX8.h
+SOURCE=.\D3DX8.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3GL0.h
+SOURCE=.\D3GL0.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3GL1.h
+SOURCE=.\D3GL1.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3GL2.h
+SOURCE=.\D3GL2.H
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3NO.h
+SOURCE=.\D3NO.H
 # End Source File
 # Begin Source File
 
@@ -354,39 +354,39 @@ SOURCE=.\Compress.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX4.cpp
+SOURCE=.\D3DX4.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX5.cpp
+SOURCE=.\D3DX5.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX6.cpp
+SOURCE=.\D3DX6.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX7.cpp
+SOURCE=.\D3DX7.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3DX8.cpp
+SOURCE=.\D3DX8.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3GL0.cpp
+SOURCE=.\D3GL0.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3GL1.cpp
+SOURCE=.\D3GL1.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3GL2.cpp
+SOURCE=.\D3GL2.CPP
 # End Source File
 # Begin Source File
 
-SOURCE=.\D3NO.cpp
+SOURCE=.\D3NO.CPP
 # End Source File
 # Begin Source File
 
@@ -510,11 +510,11 @@ SOURCE=.\CompTxt.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\Res\cursor1.cur
+SOURCE=..\Res\CURSOR1.CUR
 # End Source File
 # Begin Source File
 
-SOURCE=..\Peter\PalImp.dat
+SOURCE=..\Peter\PALIMP.DAT
 # End Source File
 # Begin Source File
 

@@ -1,5 +1,5 @@
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "BufText.h"
 #include "File.h"
 

@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "RESOURCE.H"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDN_MAINFRAME           ICON    DISCARDABLE     "RES\\DataInst.ico"
+IDN_MAINFRAME           ICON    DISCARDABLE     "Res\\DataInst.ico"
 #endif    // Czech resources
 /////////////////////////////////////////////////////////////////////////////
 

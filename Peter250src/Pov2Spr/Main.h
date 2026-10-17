@@ -55,7 +55,7 @@
 #include <tchar.h>						// obsluha znaků UNICODE/MB
 #include <commctrl.h>					// doplňkové ovládací prvky
 //#include <mmreg.h>						// multimediální definice
-#include "resource.h"
+#include "RESOURCE.H"
 
 #define DOUBLE_INFINITY_VALUE       ((ULONGLONG)0x7ff0000000000000)
 
