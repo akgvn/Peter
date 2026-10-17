@@ -63,7 +63,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Peter"=.\Peter.dsp - Package Owner=<4>
+Project: "Peter"=.\Peter\Peter.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

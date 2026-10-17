@@ -97,7 +97,7 @@ SOURCE=.\Main.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\Res\Peter.ico
+SOURCE=..\Peter\Res\Peter.ico
 # End Source File
 # Begin Source File
 

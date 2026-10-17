@@ -35,8 +35,8 @@ IDN_MAINFRAME           ICON    DISCARDABLE     ".\\Pov2Spr.ico"
 // LOADER
 //
 
-IDN_PALIMP              LOADER  DISCARDABLE     "..\\PalImp.dat"
-IDN_PALIMPD             LOADER  DISCARDABLE     "..\\PalImpD.dat"
+IDN_PALIMP              LOADER  DISCARDABLE     "..\\Peter\\PalImp.dat"
+IDN_PALIMPD             LOADER  DISCARDABLE     "..\\Peter\\PalImpD.dat"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

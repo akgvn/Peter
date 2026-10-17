@@ -54,14 +54,14 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDN_MAINFRAME           ICON    DISCARDABLE     "..\\Res\\Peter.ico"
+IDN_MAINFRAME           ICON    DISCARDABLE     "..\\Peter\\Res\\Peter.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // LOADER
 //
 
-IDN_PALIMP              LOADER  DISCARDABLE     "..\\PalImp.dat"
+IDN_PALIMP              LOADER  DISCARDABLE     "..\\Peter\\PalImp.dat"
 
 /////////////////////////////////////////////////////////////////////////////
 //

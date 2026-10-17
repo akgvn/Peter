@@ -514,11 +514,11 @@ SOURCE=..\Res\cursor1.cur
 # End Source File
 # Begin Source File
 
-SOURCE=..\PalImp.dat
+SOURCE=..\Peter\PalImp.dat
 # End Source File
 # Begin Source File
 
-SOURCE=..\Res\Peter.ico
+SOURCE=..\Peter\Res\Peter.ico
 # End Source File
 # Begin Source File
 

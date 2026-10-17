@@ -118,11 +118,11 @@ SOURCE=.\BufText.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Compress.cpp
+SOURCE=..\Peter\Compress.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\Compress.h
+SOURCE=..\Peter\Compress.h
 # End Source File
 # Begin Source File
 
@@ -150,11 +150,11 @@ SOURCE=.\Memory.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\PalImp.dat
+SOURCE=..\Peter\PalImp.dat
 # End Source File
 # Begin Source File
 
-SOURCE=..\PalImpD.dat
+SOURCE=..\Peter\PalImpD.dat
 # End Source File
 # Begin Source File
 

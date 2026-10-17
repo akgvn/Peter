@@ -685,10 +685,10 @@ END
 // LOADER
 //
 
-IDN_LOADER              LOADER  DISCARDABLE     "Loader\\Release\\Peter.exe"
-IDN_LOADERM             LOADER  DISCARDABLE     "Loader0\\Release\\Peter.exe"
+IDN_LOADER              LOADER  DISCARDABLE     "..\\Loader\\Release\\Peter.exe"
+IDN_LOADERM             LOADER  DISCARDABLE     "..\\Loader0\\Release\\Peter.exe"
 IDN_PALIMP              LOADER  DISCARDABLE     "PalImp.dat"
-IDN_LOADERS             LOADER  DISCARDABLE     "Loader\\ReleaseM\\Peter.exe"
+IDN_LOADERS             LOADER  DISCARDABLE     "..\\Loader\\ReleaseM\\Peter.exe"
 
 /////////////////////////////////////////////////////////////////////////////
 //
