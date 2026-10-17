@@ -1,7 +1,7 @@
 
 #include "colors.inc"
 
-#include "Model.inc"
+#include "Model.INC"
 
 object { Model
     rotate -30*z

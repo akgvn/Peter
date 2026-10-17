@@ -116,7 +116,7 @@ int __cdecl _isctype(int c, int mask)
 
 // Importy z knihoven:
 // -------------------
-// "..\lib\tran.lib" (obsadí 12 KB):
+// "..\Lib\Tran.lib" (obsadí 12 KB):
 // __int64 _ftol(double n) { n; return 0; };
 // double _CIfmod(double n) { return n; };
 // double _CIasin(double n) { return n; };

@@ -61,7 +61,7 @@ IDN_MAINFRAME           ICON    DISCARDABLE     "..\\Peter\\Res\\Peter.ico"
 // LOADER
 //
 
-IDN_PALIMP              LOADER  DISCARDABLE     "..\\Peter\\PalImp.dat"
+IDN_PALIMP              LOADER  DISCARDABLE     "..\\Peter\\PALIMP.DAT"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -105,7 +105,7 @@ END
 // Cursor
 //
 
-IDC_ARROW2              CURSOR  DISCARDABLE     "..\\res\\cursor1.cur"
+IDC_ARROW2              CURSOR  DISCARDABLE     "..\\Res\\CURSOR1.CUR"
 #endif    // Czech resources
 /////////////////////////////////////////////////////////////////////////////
 

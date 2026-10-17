@@ -1,6 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
+#include "RESOURCE.H"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -35,8 +35,8 @@ IDN_MAINFRAME           ICON    DISCARDABLE     ".\\Pov2Spr.ico"
 // LOADER
 //
 
-IDN_PALIMP              LOADER  DISCARDABLE     "..\\Peter\\PalImp.dat"
-IDN_PALIMPD             LOADER  DISCARDABLE     "..\\Peter\\PalImpD.dat"
+IDN_PALIMP              LOADER  DISCARDABLE     "..\\Peter\\PALIMP.DAT"
+IDN_PALIMPD             LOADER  DISCARDABLE     "..\\Peter\\PALIMPD.DAT"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

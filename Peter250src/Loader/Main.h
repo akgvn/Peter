@@ -78,26 +78,26 @@ typedef unsigned __int64 QWORD;
 #include <tchar.h>						// obsluha znaků UNICODE/MB
 #include <commctrl.h>					// doplňkové ovládací prvky
 #include <mmreg.h>						// multimediální definice
-#include "dx\ddraw.h"					// DirectDraw
+#include "DX\ddraw.h"					// DirectDraw
 
 #if (DIRECT3D_VERSION < 0x0500)
 typedef DWORD D3DCOLORMODEL;
 #endif
 
 #if (DIRECT3D_VERSION >= 0x0800)
-#include "dx\d3d8.h"					// Direct3D
+#include "DX\d3d8.h"					// Direct3D
 #else
-#include "dx\d3d.h"						// Direct3D
+#include "DX\d3d.h"						// Direct3D
 #endif
 
 //#include <d3dx8.h>
-#include "dx\dplay.h"					// DirectPlay
-#include "dx\dsound.h"					// DirectSound
-#include "dx\gl.h"						// obsluha OpenGL
+#include "DX\dplay.h"					// DirectPlay
+#include "DX\dsound.h"					// DirectSound
+#include "DX\GL.H"						// obsluha OpenGL
 //#include <glu.h>						// utility OpenGL
 #include <richedit.h>					// RichEdit
 #include <msacm.h>						// konverze zvuku ACM
-#include "resource.h"
+#include "Resource.h"
 
 #define DOUBLE_INFINITY_VALUE       ((ULONGLONG)0x7ff0000000000000)
 
@@ -572,13 +572,13 @@ enum PICPARAM {
 #include "BufText.h"					// buffer textů, textové řetězce
 #include "BufIcon.h"					// buffer ikon, data ikon
 #include "BufPic.h"						// buffer obrázků (pozadí)
-#include "BufWin.h"						// buffer prvků oken
+#include "Bufwin.h"						// buffer prvků oken
 #include "MainFrm.h"					// hlavní okno aplikace
 #include "BufInt.h"						// buffer celých čísel a logických proměnných
 #include "BufList.h"					// buffer seznamů
 #include "BufMap.h"						// buffer mapy plochy
 #include "BufMus.h"						// buffer hudby
-#include "JPEG.h"						// obsluha JPEG
+#include "JPEG.H"						// obsluha JPEG
 #include "BufReal.h"					// buffer reálných čísel
 #include "BufSnd.h"						// buffer zvuku
 #include "BufSprt.h"					// buffer sprajtů
@@ -588,15 +588,15 @@ enum PICPARAM {
 #include "Compress.h"					// obsluha komprese dat
 #include "Load.h"						// načítání programu
 
-#include "D3NO.h"						// ovladač 3D - není
-#include "D3GL0.h"						// ovladač 3D - OpenGL 1.0
-#include "D3GL1.h"						// ovladač 3D - OpenGL 1.1
-#include "D3GL2.h"						// ovladač 3D - OpenGL 2.0
-#include "D3DX4.h"						// ovladač 3D - DirectX 4
-#include "D3DX5.h"						// ovladač 3D - DirectX 5
-#include "D3DX6.h"						// ovladač 3D - DirectX 6
-#include "D3DX7.h"						// ovladač 3D - DirectX 7
-#include "D3DX8.h"						// ovladač 3D - DirectX 8
+#include "D3NO.H"						// ovladač 3D - není
+#include "D3GL0.H"						// ovladač 3D - OpenGL 1.0
+#include "D3GL1.H"						// ovladač 3D - OpenGL 1.1
+#include "D3GL2.H"						// ovladač 3D - OpenGL 2.0
+#include "D3DX4.H"						// ovladač 3D - DirectX 4
+#include "D3DX5.H"						// ovladač 3D - DirectX 5
+#include "D3DX6.H"						// ovladač 3D - DirectX 6
+#include "D3DX7.H"						// ovladač 3D - DirectX 7
+#include "D3DX8.H"						// ovladač 3D - DirectX 8
 
 //////////////////////////////////////////////////////////////////////////////
 // modely funkcí

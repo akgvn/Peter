@@ -182,7 +182,7 @@ SOURCE=.\BufUndo.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\JPEG.h
+SOURCE=.\JPEG.H
 # End Source File
 # End Group
 # Begin Source File
@@ -235,7 +235,7 @@ SOURCE=.\BufUndo.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\JPEG.cpp
+SOURCE=.\JPEG.CPP
 # End Source File
 # End Group
 # Begin Group "Editory"
@@ -402,7 +402,7 @@ SOURCE=.\ProgClip.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\PROGCOL.H
+SOURCE=.\Progcol.h
 # End Source File
 # Begin Source File
 
@@ -455,7 +455,7 @@ SOURCE=.\ProgClip.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\PROGCOL.CPP
+SOURCE=.\Progcol.cpp
 # End Source File
 # Begin Source File
 
@@ -566,7 +566,7 @@ SOURCE=.\Res\SelMove.cur
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\SplitH.cur
+SOURCE=.\Res\SplitH.CUR
 # End Source File
 # Begin Source File
 
@@ -654,11 +654,11 @@ SOURCE=.\Res\Icon.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\ita1.bmp
+SOURCE=.\Res\ITA1.BMP
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\ita2.bmp
+SOURCE=.\Res\ITA2.BMP
 # End Source File
 # Begin Source File
 
@@ -678,19 +678,19 @@ SOURCE=.\Res\Modi.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\pol1.bmp
+SOURCE=.\Res\POL1.BMP
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\pol2.bmp
+SOURCE=.\Res\POL2.BMP
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\rus1.bmp
+SOURCE=.\Res\RUS1.BMP
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\rus2.bmp
+SOURCE=.\Res\RUS2.BMP
 # End Source File
 # Begin Source File
 
@@ -722,7 +722,7 @@ SOURCE=.\Res\State.bmp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Res\stdfonty.bmp
+SOURCE=.\Res\STDFONTY.BMP
 # End Source File
 # Begin Source File
 
@@ -738,11 +738,11 @@ SOURCE=.\Res\wizard_256.bmp
 # PROP Default_Filter "dat"
 # Begin Source File
 
-SOURCE=.\PalImp.dat
+SOURCE=.\PALIMP.DAT
 # End Source File
 # Begin Source File
 
-SOURCE=.\PalImpD.dat
+SOURCE=.\PALIMPD.DAT
 # End Source File
 # End Group
 # Begin Group "exe"
@@ -891,7 +891,7 @@ SOURCE=.\TextVie.inc
 # End Group
 # Begin Source File
 
-SOURCE=.\Resource.h
+SOURCE=.\resource.h
 # End Source File
 # Begin Source File
 

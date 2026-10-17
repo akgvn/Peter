@@ -11,8 +11,8 @@
  */
 
 #define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#include "JINCLUDE.H"
+#include "JPEGLIB.H"
 
 #ifdef QUANT_1PASS_SUPPORTED
 
