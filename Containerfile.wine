@@ -55,16 +55,19 @@ WORKDIR /workspace
 
 CMD ["tail", "-f", "/dev/null"]
 
-# 1. Build the image (Wine + portable MSVC 6.0; it does not build the repo):
-# wslc build -t peter-wine -f .\Containerfile.wine .
+# 0. podman on Windows needs its VM running first: `podman machine start`.
 
-# 2. Build the repo in CI. Mount it at /workspace and run build-wine.sh, which
-#    compiles every project (except the Setup installer) in every configuration:
-# wslc run --rm -v "C:\Users\xx\repos\Peter:/workspace" peter-wine bash /workspace/build-wine.sh
+# 1. Build the image (Wine + portable MSVC 6.0; it does not build the repo):
+# podman build -t peter-wine -f .\Containerfile.wine .
+
+# 2. Build the repo. Mount it at /workspace and run build-wine.sh, which
+#    compiles every project (except the Setup installer) in every configuration
+#    (or just run .\build-wine.ps1, which does this and reuses the image):
+# podman run --rm -v "C:\Users\xx\repos\Peter:/workspace" peter-wine bash /workspace/build-wine.sh
 
 # 3. Interactive shell for manual builds:
-# wslc run -d --name wine-runner -v "C:\Users\xx\repos\Peter:/workspace" peter-wine
-# wslc exec -it wine-runner bash
+# podman run -d --name wine-runner -v "C:\Users\xx\repos\Peter:/workspace" peter-wine
+# podman exec -it wine-runner bash
 # cd Peter250src/Loader && wine nmake /f Peter.mak "CFG=Loader - Win32 Release"
 
 # MSVC 6.0 lives in C:\msvc600 (wine `msdev` and `nmake` both work out of the box).
