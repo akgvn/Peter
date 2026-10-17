@@ -51,6 +51,8 @@ ENV LIB="C:\\msvc600\\VC98\\Lib;C:\\msvc600\\VC98\\MFC\\Lib"
 # Xvfb readiness signaling also needs a normal parent process during image builds.
 RUN tini -g -- timeout 90s xvfb-run -a sh -c 'wine msdev /? && wine nmake /? && wineserver -w'
 
+COPY --chmod=755 export-mak.sh build-project.sh /usr/local/bin/
+
 WORKDIR /workspace
 
 # Keep the display available to both podman run and later podman exec commands.
@@ -62,6 +64,9 @@ CMD ["tail", "-f", "/dev/null"]
 
 # Build this image under its own tag:
 # podman build -t peter-wine-alpine -f .\Containerfile.wine-alpine .
+# Host-invoked automation (see CONTAINER-BUILDS.md):
+# podman run --rm -v "${PWD}:/workspace" peter-wine-alpine export-mak.sh Peter250src/Peter.dsw
+# podman run --rm -v "${PWD}:/workspace" peter-wine-alpine build-project.sh --config Debug Peter250src/DelExe/DelExe.dsp
 # Build the repo using the existing wrapper and the new image:
 # .\build-wine.ps1 -Image peter-wine-alpine
 # Build the image explicitly first: the wrapper's image rebuild uses Containerfile.wine.
