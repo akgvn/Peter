@@ -23,13 +23,33 @@ RUN wget -O /tmp/msvc600.tar.gz "https://github.com/itsmattkc/MSVC600/archive/${
     tar -xzf /tmp/msvc600.tar.gz --strip-components=1 -C /root/.wine/drive_c/msvc600 && \
     rm /tmp/msvc600.tar.gz
 
+# msdev /MAKE loads the IDE's MFC runtime and requires an X display.
+# Use the same Microsoft redistributable and checksum as Containerfile.wine.
+RUN apk add --no-cache xvfb-run xauth tini && \
+    apk add --no-cache --virtual .msdev-runtime-download cabextract && \
+    wget -O /tmp/VC6RedistSetup_deu.exe https://download.microsoft.com/download/vc60pro/Update/2/W9XNT4/EN-US/VC6RedistSetup_deu.exe && \
+    echo "c2eb91d9c4448d50e46a32fecbcc3b418706d002beab9b5f4981de552098cee7  /tmp/VC6RedistSetup_deu.exe" | sha256sum -c - && \
+    cabextract -q -d /tmp -F vcredist.exe /tmp/VC6RedistSetup_deu.exe && \
+    cabextract -q -d /root/.wine/drive_c/msvc600/Common/MSDev98/Bin -F mfc42.dll /tmp/vcredist.exe && \
+    rm /tmp/VC6RedistSetup_deu.exe /tmp/vcredist.exe && \
+    apk del .msdev-runtime-download
+
+# Pass /USEENV to msdev /MAKE to use these INCLUDE/LIB paths.
 ENV MSVCDir="C:\\msvc600\\VC98"
 ENV WINEPATH="C:\\msvc600\\VC98\\Bin;C:\\msvc600\\Common\\MSDev98\\Bin;C:\\msvc600\\Common\\Tools"
 ENV INCLUDE="C:\\msvc600\\VC98\\Include;C:\\msvc600\\VC98\\MFC\\Include;C:\\msvc600\\VC98\\ATL\\Include"
 ENV LIB="C:\\msvc600\\VC98\\Lib;C:\\msvc600\\VC98\\MFC\\Lib"
 
+# Xvfb readiness signaling also needs a normal parent process during image builds.
+RUN tini -g -- timeout 90s xvfb-run -a sh -c 'wine msdev /? && wine nmake /? && wineserver -w'
+
 WORKDIR /workspace
 
+# Keep the display available to both podman run and later podman exec commands.
+# tini keeps xvfb-run off PID 1 so Xvfb can signal readiness.
+ENV DISPLAY=:99
+ENV XAUTHORITY=/tmp/.Xauthority
+ENTRYPOINT ["tini", "-g", "--", "xvfb-run", "--server-num=99", "--auth-file=/tmp/.Xauthority", "--server-args=-screen 0 1024x768x24 -nolisten tcp"]
 CMD ["tail", "-f", "/dev/null"]
 
 # Build this image under its own tag:
@@ -37,3 +57,5 @@ CMD ["tail", "-f", "/dev/null"]
 # Build the repo using the existing wrapper and the new image:
 # .\build-wine.ps1 -Image peter-wine-alpine
 # Build the image explicitly first: the wrapper's image rebuild uses Containerfile.wine.
+# Manual IDE-driven build, from /workspace/Peter250src/DelExe inside the container:
+# wine msdev DelExe.dsp /MAKE "DelExe - Win32 Release" /REBUILD /USEENV /OUT build.log
