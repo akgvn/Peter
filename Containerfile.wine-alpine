@@ -1,0 +1,39 @@
+# Alpine alternative to Containerfile.wine: packaged Wine has stripped DLLs and
+# uses WoW64 to run 32-bit MSVC 6.0 without 32-bit Linux libraries.
+# This image provides the toolchain; mount the repo at /workspace to build it.
+FROM alpine:3.24
+
+ENV WINEPREFIX=/root/.wine
+ENV WINEDEBUG=-all
+ENV WINEDLLOVERRIDES="mscoree,mshtml="
+# Alpine's WoW64 build requires a 64-bit prefix, even for 32-bit Windows tools.
+ENV WINEARCH=win64
+
+ARG WINE_VERSION=11.0-r0
+# Portable MSVC 6.0 command line tools: https://github.com/itsmattkc/MSVC600
+ARG MSVC600_COMMIT=001c4bafdcf2ef4b474d693acccd35a91e848f40
+
+RUN apk add --no-cache bash ca-certificates "wine=${WINE_VERSION}"
+
+RUN wineboot --init && wineserver -w
+
+# Download, extract, and delete the archive in one layer so it adds no image size.
+RUN wget -O /tmp/msvc600.tar.gz "https://github.com/itsmattkc/MSVC600/archive/${MSVC600_COMMIT}.tar.gz" && \
+    mkdir -p /root/.wine/drive_c/msvc600 && \
+    tar -xzf /tmp/msvc600.tar.gz --strip-components=1 -C /root/.wine/drive_c/msvc600 && \
+    rm /tmp/msvc600.tar.gz
+
+ENV MSVCDir="C:\\msvc600\\VC98"
+ENV WINEPATH="C:\\msvc600\\VC98\\Bin;C:\\msvc600\\Common\\MSDev98\\Bin;C:\\msvc600\\Common\\Tools"
+ENV INCLUDE="C:\\msvc600\\VC98\\Include;C:\\msvc600\\VC98\\MFC\\Include;C:\\msvc600\\VC98\\ATL\\Include"
+ENV LIB="C:\\msvc600\\VC98\\Lib;C:\\msvc600\\VC98\\MFC\\Lib"
+
+WORKDIR /workspace
+
+CMD ["tail", "-f", "/dev/null"]
+
+# Build this image under its own tag:
+# podman build -t peter-wine-alpine -f .\Containerfile.wine-alpine .
+# Build the repo using the existing wrapper and the new image:
+# .\build-wine.ps1 -Image peter-wine-alpine
+# Build the image explicitly first: the wrapper's image rebuild uses Containerfile.wine.
