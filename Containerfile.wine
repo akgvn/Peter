@@ -39,6 +39,8 @@ CMD ["tail", "-f", "/dev/null"]
 # 3. Open the interactive shell
 # wslc exec -it wine-runner bash
 
+# MSVC6 is here: https://github.com/itsmattkc/MSVC600
+
 # wslc run -d `
 #   --name wine-runner `
 #   -v "C:\Users\xx\MSVC600-master:/msvc600" `
