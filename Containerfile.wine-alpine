@@ -25,7 +25,7 @@ RUN wget -O /tmp/msvc600.tar.gz "https://github.com/itsmattkc/MSVC600/archive/${
 
 # msdev /MAKE loads the IDE's MFC runtime and requires an X display.
 # Use the same Microsoft redistributable and checksum as Containerfile.wine.
-RUN apk add --no-cache xvfb-run xauth tini && \
+RUN apk add --no-cache xvfb-run xauth xdotool tini && \
     apk add --no-cache --virtual .msdev-runtime-download cabextract && \
     wget -O /tmp/VC6RedistSetup_deu.exe https://download.microsoft.com/download/vc60pro/Update/2/W9XNT4/EN-US/VC6RedistSetup_deu.exe && \
     echo "c2eb91d9c4448d50e46a32fecbcc3b418706d002beab9b5f4981de552098cee7  /tmp/VC6RedistSetup_deu.exe" | sha256sum -c - && \
@@ -59,3 +59,13 @@ CMD ["tail", "-f", "/dev/null"]
 # Build the image explicitly first: the wrapper's image rebuild uses Containerfile.wine.
 # Manual IDE-driven build, from /workspace/Peter250src/DelExe inside the container:
 # wine msdev DelExe.dsp /MAKE "DelExe - Win32 Release" /REBUILD /USEENV /OUT build.log
+#
+# Export .mak files from /workspace/Peter250src:
+# wine msdev Peter.dsw /EX BuildProjectExport
+# wine msdev DelExe/DelExe.dsp /EX BuildProjectExport
+# BuildProjectExport is case-sensitive and waits at the Export Makefile(s) dialog.
+# For unattended confirmation, use the xdotool recipe in Containerfile.wine.
+# xdotool is already installed; skip that recipe's apt-get prerequisite command.
+# Keep this image's normal entrypoint: it supplies DISPLAY and XAUTHORITY.
+# Verified on Alpine: fresh exports of all eight workspace projects, a separate
+# single-project export, and NMAKE builds of exported DelExe/DataInst makefiles.
