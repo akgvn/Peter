@@ -44,15 +44,38 @@ RUN mkdir -p /root/.wine/drive_c/msvc600 && \
     tar -xzf /tmp/msvc600.tar.gz --strip-components=1 -C /root/.wine/drive_c/msvc600 && \
     rm /tmp/msvc600.tar.gz
 
+# msdev /MAKE still loads the IDE's MFC runtime and needs an X display.
+# Use the Microsoft VC6 redistributable and checksum used by Winetricks' mfc42 verb.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends wget cabextract xvfb xauth tini && \
+    wget -O /tmp/VC6RedistSetup_deu.exe https://download.microsoft.com/download/vc60pro/Update/2/W9XNT4/EN-US/VC6RedistSetup_deu.exe && \
+    echo "c2eb91d9c4448d50e46a32fecbcc3b418706d002beab9b5f4981de552098cee7  /tmp/VC6RedistSetup_deu.exe" | sha256sum -c - && \
+    cabextract -q -d /tmp -F vcredist.exe /tmp/VC6RedistSetup_deu.exe && \
+    cabextract -q -d /root/.wine/drive_c/msvc600/Common/MSDev98/Bin -F mfc42.dll /tmp/vcredist.exe && \
+    rm /tmp/VC6RedistSetup_deu.exe /tmp/vcredist.exe && \
+    apt-get purge -y wget cabextract && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # MSVC 6.0 environment for every wine process: WINEPATH makes nmake/cl/link/rc
 # findable, INCLUDE/LIB are read by the compiler itself (same as VCVARS32.bat)
+# Pass /USEENV to msdev /MAKE to use these INCLUDE/LIB paths as well.
 ENV MSVCDir="C:\\msvc600\\VC98"
 ENV WINEPATH="C:\\msvc600\\VC98\\Bin;C:\\msvc600\\Common\\MSDev98\\Bin;C:\\msvc600\\Common\\Tools"
 ENV INCLUDE="C:\\msvc600\\VC98\\Include;C:\\msvc600\\VC98\\MFC\\Include;C:\\msvc600\\VC98\\ATL\\Include"
 ENV LIB="C:\\msvc600\\VC98\\Lib;C:\\msvc600\\VC98\\MFC\\Lib"
 
+# Fail the image build if either command cannot load its runtime dependencies.
+RUN xvfb-run -a sh -c 'wine msdev /? && wine nmake /? && wineserver -w'
+
 WORKDIR /workspace
 
+# A fixed display and authority file also let `podman exec ... wine msdev` work.
+# tini forwards stop signals and keeps xvfb-run off PID 1 so Xvfb signals readiness.
+ENV DISPLAY=:99
+ENV XAUTHORITY=/tmp/.Xauthority
+ENTRYPOINT ["tini", "-g", "--", "xvfb-run", "--server-num=99", "--auth-file=/tmp/.Xauthority", "--server-args=-screen 0 1024x768x24 -nolisten tcp"]
 CMD ["tail", "-f", "/dev/null"]
 
 # 0. podman on Windows needs its VM running first: `podman machine start`.
@@ -69,5 +92,55 @@ CMD ["tail", "-f", "/dev/null"]
 # podman run -d --name wine-runner -v "C:\Users\xx\repos\Peter:/workspace" peter-wine
 # podman exec -it wine-runner bash
 # cd Peter250src/Loader && wine nmake /f Peter.mak "CFG=Loader - Win32 Release"
+# cd ../DelExe && wine msdev DelExe.dsp /MAKE "DelExe - Win32 Release" /REBUILD /USEENV /OUT build.log
 
-# MSVC 6.0 lives in C:\msvc600 (wine `msdev` and `nmake` both work out of the box).
+# 4. Generate NMAKE .mak files from a workspace or project (from Peter250src):
+# wine msdev Peter.dsw /EX BuildProjectExport
+# wine msdev DelExe/DelExe.dsp /EX BuildProjectExport
+# BuildProjectExport is case-sensitive and opens the IDE's Export Makefile(s)
+# dialog. Select the projects and confirm to write .mak files beside their .dsp
+# files. The bare command waits at that dialog, including under Xvfb. CI can
+# confirm it with xdotool; no visible desktop or window manager is required.
+#
+# Tested unattended export of all eight projects in Peter.dsw (Bash commands
+# inside a fresh container with the repo mounted at /workspace). Keep the normal
+# entrypoint: it supplies DISPLAY/XAUTHORITY. xdotool is an extra CI prerequisite,
+# not installed in this image. Use one IDE instance and a dedicated container;
+# the cleanup below stops all Wine processes in its prefix.
+#
+# apt-get update && apt-get install -y --no-install-recommends xdotool
+# cd /workspace/Peter250src
+# timeout 60s bash -euo pipefail <<'EXPORT'
+# marker=$(mktemp)
+# trap 'rm -f "$marker"; wineserver -k' EXIT
+# trap 'exit 124' TERM
+# wine msdev Peter.dsw /EX BuildProjectExport &
+# ide=$!
+# dialog=$(xdotool search --sync --onlyvisible --limit 1 --name '^Export Makefile\(s\)$')
+# xdotool windowfocus --sync "$dialog"
+# xdotool key --clearmodifiers Return
+# for mak in DataInst/DataInst.mak DelExe/DelExe.mak Gener/Gener.mak \
+#            Loader/Peter.mak Loader0/Peter.mak Peter/Peter.mak \
+#            Pov2Spr/Pov2Spr.mak Setup/Setup.mak; do
+#     until test -s "$mak" && test "$mak" -nt "$marker"; do sleep 0.2; done
+# done
+# window=$(xdotool search --sync --onlyvisible --limit 1 --name 'Microsoft Visual C\+\+$')
+# xdotool windowfocus --sync "$window"
+# xdotool key --clearmodifiers alt+F4
+# wait "$ide"
+# EXPORT
+#
+# --sync waits for the dialog rather than guessing a startup delay. Return
+# accepts its default selection (all workspace projects). The loop requires
+# fresh, nonempty outputs so checked-in .mak files cannot mask a failed export.
+# Alt+F4 closes the IDE; timeout fails the job (exit 124) if any dialog or output
+# never appears. The window-title patterns above target this English VC6 IDE.
+# To export just one .dsp, change the msdev argument to DelExe/DelExe.dsp and the
+# for-loop's expected output list to DelExe/DelExe.mak.
+#
+# After exporting, for example:
+# cd DelExe && wine nmake /f DelExe.mak NO_EXTERNAL_DEPS=1 "CFG=DelExe - Win32 Release"
+# For unattended builds directly from .dsp/.dsw, use msdev /MAKE as above.
+# Reference: https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-6.0/aa260829(v=vs.60)
+
+# MSVC 6.0 lives in C:\msvc600; wine msdev and wine nmake work headlessly.
