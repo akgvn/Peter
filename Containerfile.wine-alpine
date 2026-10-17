@@ -13,15 +13,23 @@ ARG WINE_VERSION=11.0-r0
 # Portable MSVC 6.0 command line tools: https://github.com/itsmattkc/MSVC600
 ARG MSVC600_COMMIT=001c4bafdcf2ef4b474d693acccd35a91e848f40
 
-RUN apk add --no-cache bash ca-certificates "wine=${WINE_VERSION}"
+# Wine copies its packaged Windows files into the prefix. Replace identical
+# copies with hard links, keeping installation and initialization in one layer
+# so the image stores their contents only once. Do this before adding MSVC.
+RUN apk add --no-cache bash ca-certificates "wine=${WINE_VERSION}" && \
+    apk add --no-cache --virtual .wine-prefix-dedup rdfind && \
+    wineboot --init && wineserver -w && \
+    rdfind -makeresultsfile false -makehardlinks true /usr/lib/wine /usr/share/wine /root/.wine && \
+    apk del .wine-prefix-dedup
 
-RUN wineboot --init && wineserver -w
-
-# Download, extract, and delete the archive in one layer so it adds no image size.
-RUN wget -O /tmp/msvc600.tar.gz "https://github.com/itsmattkc/MSVC600/archive/${MSVC600_COMMIT}.tar.gz" && \
+# Download, extract, and delete the archive and download helper in one layer.
+# GNU wget retries interrupted transfers of this relatively large archive.
+RUN apk add --no-cache --virtual .msvc-download wget && \
+    wget --no-verbose --tries=3 --timeout=60 -O /tmp/msvc600.tar.gz "https://codeload.github.com/itsmattkc/MSVC600/tar.gz/${MSVC600_COMMIT}" && \
     mkdir -p /root/.wine/drive_c/msvc600 && \
     tar -xzf /tmp/msvc600.tar.gz --strip-components=1 -C /root/.wine/drive_c/msvc600 && \
-    rm /tmp/msvc600.tar.gz
+    rm /tmp/msvc600.tar.gz && \
+    apk del .msvc-download
 
 # msdev /MAKE loads the IDE's MFC runtime and requires an X display.
 # Use the same Microsoft redistributable and checksum as Containerfile.wine.
