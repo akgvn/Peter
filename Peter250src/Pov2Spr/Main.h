@@ -227,4 +227,4 @@ int RoundM(double num);
 #include "BufSprt.h"					// buffer sprajtů
 #include "BufText.h"					// buffer textů, textové řetězce
 #include "File.h"						// obsluha souborů
-#include "Compress.h"					// obsluha komprese dat
+#include "..\Peter\Compress.h"			// obsluha komprese dat
