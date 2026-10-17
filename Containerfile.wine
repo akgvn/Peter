@@ -1,11 +1,21 @@
 # Inspired by https://git.mattkc.com/isledecomp/isle-portable/blame/commit/b0ed6d97d168ef4bd65200bf741f527881025173/docker/Dockerfile.
 # I've saw something similar somewhere else but I don't remember the exact place I saw it first.
+# MSVC 6.0 setup follows https://github.com/TheSuperHackers/GeneralsGameCode/wiki/build_with_msvc6_on_docker
+#
+# This image only provides the Wine + portable MSVC 6.0 toolchain. The repo is
+# built at CI time by mounting it at /workspace and running build-wine.sh.
 
 FROM debian:trixie-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV WINEPREFIX=/root/.wine
 ENV WINEDEBUG=-all
+# No first-run mono/gecko dialogs during a headless build
+ENV WINEDLLOVERRIDES="mscoree,mshtml="
+
+# Portable MSVC 6.0 command line tools, pinned for reproducibility.
+# Source: https://github.com/itsmattkc/MSVC600
+ARG MSVC600_COMMIT=001c4bafdcf2ef4b474d693acccd35a91e848f40
 
 # Only ca-certificates (for HTTPS) and wget (for downloads)
 RUN dpkg --add-architecture i386 && \
@@ -18,54 +28,43 @@ RUN dpkg --add-architecture i386 && \
     wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources && \
     apt-get update && \
     apt-get install -y --install-recommends winehq-stable && \
+    # Download MSVC 6.0 at build time, while wget is still installed
+    wget -O /tmp/msvc600.tar.gz "https://github.com/itsmattkc/MSVC600/archive/${MSVC600_COMMIT}.tar.gz" && \
     # Remove wget and clean cache to minimize final image size
     apt-get purge -y wget && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Set up the wineprefix
 RUN wineboot --init && wineserver -w
+
+# Install MSVC 6.0 into the wineprefix (C:\msvc600)
+RUN mkdir -p /root/.wine/drive_c/msvc600 && \
+    tar -xzf /tmp/msvc600.tar.gz --strip-components=1 -C /root/.wine/drive_c/msvc600 && \
+    rm /tmp/msvc600.tar.gz
+
+# MSVC 6.0 environment for every wine process: WINEPATH makes nmake/cl/link/rc
+# findable, INCLUDE/LIB are read by the compiler itself (same as VCVARS32.bat)
+ENV MSVCDir="C:\\msvc600\\VC98"
+ENV WINEPATH="C:\\msvc600\\VC98\\Bin;C:\\msvc600\\Common\\MSDev98\\Bin;C:\\msvc600\\Common\\Tools"
+ENV INCLUDE="C:\\msvc600\\VC98\\Include;C:\\msvc600\\VC98\\MFC\\Include;C:\\msvc600\\VC98\\ATL\\Include"
+ENV LIB="C:\\msvc600\\VC98\\Lib;C:\\msvc600\\VC98\\MFC\\Lib"
 
 WORKDIR /workspace
 
 CMD ["tail", "-f", "/dev/null"]
 
-# 1. Build the image
-# wslc build -t debian-wine-stable -f .\Containerfile.wine .
+# 1. Build the image (Wine + portable MSVC 6.0; it does not build the repo):
+# wslc build -t peter-wine -f .\Containerfile.wine .
 
-# 2. Run the container and mount your Windows folder (replace C:\my-project)
-# wslc run -d --name wine-runner -v "C:\my-project:/workspace" debian-wine-stable
+# 2. Build the repo in CI. Mount it at /workspace and run build-wine.sh, which
+#    compiles every project (except the Setup installer) in every configuration:
+# wslc run --rm -v "C:\Users\xx\repos\Peter:/workspace" peter-wine bash /workspace/build-wine.sh
 
-# 3. Open the interactive shell
+# 3. Interactive shell for manual builds:
+# wslc run -d --name wine-runner -v "C:\Users\xx\repos\Peter:/workspace" peter-wine
 # wslc exec -it wine-runner bash
+# cd Peter250src/Loader && wine nmake /f Peter.mak "CFG=Loader - Win32 Release"
 
-# MSVC6 is here: https://github.com/itsmattkc/MSVC600
-
-# wslc run -d `
-#   --name wine-runner `
-#   -v "C:\Users\xx\MSVC600-master:/msvc600" `
-#   -v "C:\Users\xx\repos\Peter:/workspace" `
-#   debian-wine-stable
-# 
-# wslc run -d --name wine-runner -v # "C:\Users\xx\MSVC600-master:/root/.wine/drive_c/MSVC600" -v # "C:\Users\xx\repos\Peter:/root/.wine/drive_c/Peter" debian-wine-stable
-# 
-# 
-# wslc exec -it wine-runner bash
-# 
-# wine msdev Peter.dsp /MAKE "Peter - Win32 Release"
-# 
-# wine nmake Peter.mak
-# 
-# wine nmake ./Loader/Peter.mak 
-# wine nmake Loader/Peter.mak 
-# 
-# wine nmake /f ./Loader/Peter.mak CFG="Loader - Win32 Release"
-# wine nmake /f ./Loader/Peter.mak CFG="Loader - Win32 Release Mini"
-# 
-# Loader/Release/Peter.exe
-# !IF "$(CFG)" == "Loader - Win32 Release" || "$(CFG)" == "Loader - Win32 Debug" || # "$(CFG)" == "Loader - Win32 Debug Optim" || "$(CFG)" == "Loader - Win32 Release Mini"
-# Loader/ReleaseM/Peter.exe
-# 
-# 
-# 
-# Loader0/Release/Peter.exe
+# MSVC 6.0 lives in C:\msvc600 (wine `msdev` and `nmake` both work out of the box).

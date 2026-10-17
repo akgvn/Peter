@@ -124,7 +124,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\Peter.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib uuid.lib lib\tran.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\Peter.pdb" /machine:I386 /nodefaultlib /out:"$(OUTDIR)\Peter.exe" 
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\Peter.pdb" /machine:I386 /nodefaultlib /out:"$(OUTDIR)\Peter.exe" 
 LINK32_OBJS= \
 	"$(INTDIR)\BufIcon.obj" \
 	"$(INTDIR)\BufInt.obj" \
@@ -270,7 +270,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\Peter.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib uuid.lib lib\tran.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\Peter.pdb" /debug /machine:I386 /nodefaultlib /out:"$(OUTDIR)\Peter.exe" /pdbtype:sept 
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\Peter.pdb" /debug /machine:I386 /nodefaultlib /out:"$(OUTDIR)\Peter.exe" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\BufIcon.obj" \
 	"$(INTDIR)\BufInt.obj" \
@@ -416,7 +416,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\Peter.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib uuid.lib lib\tran.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\Peter.pdb" /debug /machine:I386 /nodefaultlib /out:"$(OUTDIR)\Peter.exe" /pdbtype:sept 
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib winmm.lib comdlg32.lib comctl32.lib advapi32.lib shell32.lib uuid.lib ..\lib\tran.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\Peter.pdb" /debug /machine:I386 /nodefaultlib /out:"$(OUTDIR)\Peter.exe" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\BufIcon.obj" \
 	"$(INTDIR)\BufInt.obj" \

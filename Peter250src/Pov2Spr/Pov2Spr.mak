@@ -232,7 +232,7 @@ SOURCE=.\BufText.cpp
 "$(INTDIR)\BufText.obj" : $(SOURCE) "$(INTDIR)"
 
 
-SOURCE=..\Compress.cpp
+SOURCE=..\Peter\Compress.cpp
 
 "$(INTDIR)\Compress.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)

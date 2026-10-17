@@ -17,5 +17,8 @@
 *.dsp     text eol=crlf
 *.dsw     text eol=crlf
 
+# Shell scripts run inside the Linux container: force LF line endings
+*.sh      text eol=lf
+
 *.txt     text
 *.md      text
