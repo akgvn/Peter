@@ -1,0 +1,34 @@
+<#
+.SYNOPSIS
+    Builds Loader, Loader0 and Peter with the installed Visual Studio C++ tools.
+
+.DESCRIPTION
+    Run from the repository root on Windows. Uses vswhere to find the latest
+    Visual Studio installation with x86/x64 C++ tools and loads its x86 shell.
+    Builds Loader Release/Release Mini, Loader0 Release and Peter Release.
+    Generate the NMAKE makefiles first with export-mak.ps1.
+
+.EXAMPLE
+    .\export-mak.ps1
+    .\build-vs.ps1
+#>
+
+$vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+$vsPath = & $vswhere -latest -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+
+$devShell = Join-Path $vsPath "Common7\Tools\Launch-VsDevShell.ps1"
+
+& $devShell -Arch x86 -HostArch amd64 -SkipAutomaticLocation
+
+Push-Location ./Peter250src/Loader
+nmake /f Peter.mak NO_EXTERNAL_DEPS=1 CFG="Loader - Win32 Release"
+nmake /f Peter.mak NO_EXTERNAL_DEPS=1 CFG="Loader - Win32 Release Mini"
+Pop-Location
+
+Push-Location ./Peter250src/Loader0
+nmake /f Peter.mak NO_EXTERNAL_DEPS=1 CFG="Loader0 - Win32 Release"
+Pop-Location
+
+Push-Location ./Peter250src/Peter
+nmake /f Peter.mak NO_EXTERNAL_DEPS=1 CFG="Peter - Win32 Release"
+Pop-Location
