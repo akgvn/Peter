@@ -41,3 +41,6 @@ omitted, NMAKE uses the makefile's default and MSDEV uses `ALL - Release`.
 
 Use a separate container per job; the helpers stop Wine processes on exit.
 Both commands accept `--help` for options.
+
+GitHub Actions runs the Wine build on pushes and pull requests. Successful runs
+publish the executables as the `peter-msvc6` artifact (retained for 14 days).

@@ -1,0 +1,34 @@
+name: Wine build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Build Wine image and all configurations
+        shell: pwsh
+        run: ./build-wine.ps1 -RebuildImage
+
+      - name: Upload executables
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: peter-msvc6
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            Peter250src/*/Release/*.exe
+            Peter250src/*/ReleaseM/*.exe
+            Peter250src/*/Release_MINI/*.exe
+            Peter250src/*/Install/*.exe
+            Peter250src/*/Debug/*.exe
+            Peter250src/*/DebugO/*.exe

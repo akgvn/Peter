@@ -4,7 +4,7 @@
 
 # packaged Wine has stripped DLLs and uses WoW64 to run 32-bit MSVC 6.0 without 32-bit Linux libraries.
 # This image provides the toolchain; mount the repo at /workspace to build it.
-FROM alpine:3.24
+FROM docker.io/library/alpine:3.24
 
 ENV WINEPREFIX=/root/.wine
 ENV WINEDEBUG=-all

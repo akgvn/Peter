@@ -73,7 +73,7 @@ function Invoke-ProjectBuild {
 
     $projectFile = "$Project.$projectExtension"
     Write-Host "==> $projectFile [$Configuration]"
-    podman run -t --rm -v "${repo}:/workspace" $Image build-project.py --config $Configuration "Peter250src/$projectFile"
+    podman run --rm -v "${repo}:/workspace" $Image build-project.py --config $Configuration "Peter250src/$projectFile"
     $code = $LASTEXITCODE
     if ($code -ne 0) {
         Write-Host "==> Build failed (exit $code)." -ForegroundColor Red

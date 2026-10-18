@@ -17,5 +17,8 @@
 *.dsp     text eol=crlf
 *.dsw     text eol=crlf
 
+# Python entrypoints run directly inside Linux containers.
+build-tooling-msvc6/*.py text eol=lf
+
 *.txt     text
 *.md      text
