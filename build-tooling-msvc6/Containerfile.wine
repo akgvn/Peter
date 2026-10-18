@@ -1,0 +1,66 @@
+# Inspired by https://git.mattkc.com/isledecomp/isle-portable/blame/commit/b0ed6d97d168ef4bd65200bf741f527881025173/docker/Dockerfile.
+# I've saw something similar somewhere else but I don't remember the exact place I saw it first.
+# MSVC 6.0 setup based on https://github.com/TheSuperHackers/GeneralsGameCode/wiki/build_with_msvc6_on_docker
+
+# packaged Wine has stripped DLLs and uses WoW64 to run 32-bit MSVC 6.0 without 32-bit Linux libraries.
+# This image provides the toolchain; mount the repo at /workspace to build it.
+FROM alpine:3.24
+
+ENV WINEPREFIX=/root/.wine
+ENV WINEDEBUG=-all
+ENV WINEDLLOVERRIDES="mscoree,mshtml="
+# Alpine's WoW64 build requires a 64-bit prefix, even for 32-bit Windows tools.
+ENV WINEARCH=win64
+
+ARG WINE_VERSION=11.0-r0
+# Portable MSVC 6.0 command line tools: https://github.com/itsmattkc/MSVC600
+ARG MSVC600_COMMIT=001c4bafdcf2ef4b474d693acccd35a91e848f40
+
+# Install and deduplicate in one layer so hard links save image space.
+RUN apk add --no-cache bash ca-certificates "wine=${WINE_VERSION}" && \
+    apk add --no-cache --virtual .wine-prefix-dedup rdfind && \
+    wineboot --init && wineserver -w && \
+    rdfind -makeresultsfile false -makehardlinks true /usr/lib/wine /usr/share/wine /root/.wine && \
+    apk del .wine-prefix-dedup
+
+# Download, extract, and delete the archive and download helper in one layer.
+# GNU wget retries interrupted transfers of this relatively large archive.
+RUN apk add --no-cache --virtual .msvc-download wget && \
+    wget --no-verbose --tries=3 --timeout=60 -O /tmp/msvc600.tar.gz "https://codeload.github.com/itsmattkc/MSVC600/tar.gz/${MSVC600_COMMIT}" && \
+    mkdir -p /root/.wine/drive_c/msvc600 && \
+    tar -xzf /tmp/msvc600.tar.gz --strip-components=1 -C /root/.wine/drive_c/msvc600 && \
+    rm /tmp/msvc600.tar.gz && \
+    apk del .msvc-download
+
+# msdev /MAKE loads the IDE's MFC runtime and requires an X display.
+# Use the Microsoft redistributable and checksum from Winetricks' mfc42 verb.
+RUN apk add --no-cache xvfb-run xauth xdotool tini && \
+    apk add --no-cache --virtual .msdev-runtime-download cabextract && \
+    wget -O /tmp/VC6RedistSetup_deu.exe https://download.microsoft.com/download/vc60pro/Update/2/W9XNT4/EN-US/VC6RedistSetup_deu.exe && \
+    echo "c2eb91d9c4448d50e46a32fecbcc3b418706d002beab9b5f4981de552098cee7  /tmp/VC6RedistSetup_deu.exe" | sha256sum -c - && \
+    cabextract -q -d /tmp -F vcredist.exe /tmp/VC6RedistSetup_deu.exe && \
+    cabextract -q -d /root/.wine/drive_c/msvc600/Common/MSDev98/Bin -F mfc42.dll /tmp/vcredist.exe && \
+    rm /tmp/VC6RedistSetup_deu.exe /tmp/vcredist.exe && \
+    apk del .msdev-runtime-download
+
+# Pass /USEENV to msdev /MAKE to use these INCLUDE/LIB paths.
+ENV MSVCDir="C:\\msvc600\\VC98"
+ENV WINEPATH="C:\\msvc600\\VC98\\Bin;C:\\msvc600\\Common\\MSDev98\\Bin;C:\\msvc600\\Common\\Tools"
+ENV INCLUDE="C:\\msvc600\\VC98\\Include;C:\\msvc600\\VC98\\MFC\\Include;C:\\msvc600\\VC98\\ATL\\Include"
+ENV LIB="C:\\msvc600\\VC98\\Lib;C:\\msvc600\\VC98\\MFC\\Lib"
+
+# Xvfb's readiness handshake hangs if its launcher is PID 1.
+RUN tini -g -- timeout 90s xvfb-run -a sh -c 'wine msdev /? && wine nmake /? && wineserver -w'
+
+RUN apk add --no-cache python3
+COPY --chmod=644 wine_common.py /usr/local/bin/
+COPY --chmod=755 export-mak.py build-project.py /usr/local/bin/
+
+WORKDIR /workspace
+
+# Keep the display available to both podman run and later podman exec commands.
+# tini keeps xvfb-run off PID 1 so Xvfb can signal readiness.
+ENV DISPLAY=:99
+ENV XAUTHORITY=/tmp/.Xauthority
+ENTRYPOINT ["tini", "-g", "--", "xvfb-run", "--server-num=99", "--auth-file=/tmp/.Xauthority", "--server-args=-screen 0 1024x768x24 -nolisten tcp"]
+CMD ["tail", "-f", "/dev/null"]
