@@ -1,0 +1,303 @@
+Microsoft (R) COFF/PE Dumper Version 14.51.36243.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file .\Tran.lib
+
+File Type: LIBRARY
+
+Archive member name at 202A: /0              ..\build\intel\st_obj\util.obj
+31C22678 time/date Sat Jun 15 03:56:56 1996
+         uid
+         gid
+  100666 mode
+     877 size
+correct header end
+
+Archive member name at 28DE: /31             ..\build\intel\st_obj\matherr.obj
+31C22677 time/date Sat Jun 15 03:56:55 1996
+         uid
+         gid
+  100666 mode
+     17E size
+correct header end
+
+Archive member name at 2A98: /65             ..\build\intel\st_obj\ldexp.obj
+31C22677 time/date Sat Jun 15 03:56:55 1996
+         uid
+         gid
+  100666 mode
+     583 size
+correct header end
+
+Archive member name at 3058: /97             ..\build\intel\st_obj\ieeemisc.obj
+31C22676 time/date Sat Jun 15 03:56:54 1996
+         uid
+         gid
+  100666 mode
+     E51 size
+correct header end
+
+Archive member name at 3EE6: /132            ..\build\intel\st_obj\frexp.obj
+31C22676 time/date Sat Jun 15 03:56:54 1996
+         uid
+         gid
+  100666 mode
+     350 size
+correct header end
+
+Archive member name at 4272: /164            ..\build\intel\st_obj\fpexcept.obj
+31C22675 time/date Sat Jun 15 03:56:53 1996
+         uid
+         gid
+  100666 mode
+    2583 size
+correct header end
+
+Archive member name at 6832: /199            ..\build\intel\st_obj\bessel.obj
+31C22673 time/date Sat Jun 15 03:56:51 1996
+         uid
+         gid
+  100666 mode
+    1902 size
+correct header end
+
+Archive member name at 8170: /232            ..\build\intel\st_obj\testfdiv.obj
+31C22672 time/date Sat Jun 15 03:56:50 1996
+         uid
+         gid
+  100666 mode
+     4C9 size
+correct header end
+
+Archive member name at 8676: /267            ..\build\intel\st_obj\powhlp.obj
+31C22670 time/date Sat Jun 15 03:56:48 1996
+         uid
+         gid
+  100666 mode
+     683 size
+correct header end
+
+Archive member name at 8D36: /300            ..\build\intel\st_obj\modf.obj
+31C22670 time/date Sat Jun 15 03:56:48 1996
+         uid
+         gid
+  100666 mode
+     476 size
+correct header end
+
+Archive member name at 91E8: /331            ..\build\intel\st_obj\ieee87.obj
+31C22670 time/date Sat Jun 15 03:56:48 1996
+         uid
+         gid
+  100666 mode
+     95F size
+correct header end
+
+Archive member name at 9B84: /364            ..\build\intel\st_obj\hypot.obj
+31C2266E time/date Sat Jun 15 03:56:46 1996
+         uid
+         gid
+  100666 mode
+     7C2 size
+correct header end
+
+Archive member name at A382: /396            ..\build\intel\st_obj\huge.obj
+31C2266D time/date Sat Jun 15 03:56:45 1996
+         uid
+         gid
+  100666 mode
+      EE size
+correct header end
+
+Archive member name at A4AC: /427            ..\build\intel\st_obj\ftol.obj
+31C2266D time/date Sat Jun 15 03:56:45 1996
+         uid
+         gid
+  100666 mode
+     10E size
+correct header end
+
+Archive member name at A5F6: /458            ..\build\intel\st_obj\fsqrt.obj
+31C2266D time/date Sat Jun 15 03:56:45 1996
+         uid
+         gid
+  100666 mode
+     131 size
+correct header end
+
+Archive member name at A764: /490            ..\build\intel\st_obj\frnd.obj
+31C2266C time/date Sat Jun 15 03:56:44 1996
+         uid
+         gid
+  100666 mode
+     131 size
+correct header end
+
+Archive member name at A8D2: /521            ..\build\intel\st_obj\fpctrl.obj
+31C2266C time/date Sat Jun 15 03:56:44 1996
+         uid
+         gid
+  100666 mode
+     4CA size
+correct header end
+
+Archive member name at ADD8: /554            ..\build\intel\st_obj\floor.obj
+31C2266B time/date Sat Jun 15 03:56:43 1996
+         uid
+         gid
+  100666 mode
+     3DC size
+correct header end
+
+Archive member name at B1F0: /586            ..\build\intel\st_obj\filter.obj
+31C2266B time/date Sat Jun 15 03:56:43 1996
+         uid
+         gid
+  100666 mode
+    1E6B size
+correct header end
+
+Archive member name at D098: /619            ..\build\intel\st_obj\fabs.obj
+31C22668 time/date Sat Jun 15 03:56:40 1996
+         uid
+         gid
+  100666 mode
+     30E size
+correct header end
+
+Archive member name at D3E2: /650            ..\build\intel\st_obj\ceil.obj
+31C22668 time/date Sat Jun 15 03:56:40 1996
+         uid
+         gid
+  100666 mode
+     3DC size
+correct header end
+
+Archive member name at D7FA: /681            ..\build\intel\st_obj\adj_fdiv.obj
+31C22668 time/date Sat Jun 15 03:56:40 1996
+         uid
+         gid
+  100666 mode
+    1B8C size
+correct header end
+
+Archive member name at F3C2: /716            ..\build\intel\st_obj\87trigh.obj
+31C22667 time/date Sat Jun 15 03:56:39 1996
+         uid
+         gid
+  100666 mode
+     5A1 size
+correct header end
+
+Archive member name at F9A0: /750            ..\build\intel\st_obj\87triga.obj
+31C22667 time/date Sat Jun 15 03:56:39 1996
+         uid
+         gid
+  100666 mode
+     673 size
+correct header end
+
+Archive member name at 10050: /784            ..\build\intel\st_obj\87trig.obj
+31C22667 time/date Sat Jun 15 03:56:39 1996
+         uid
+         gid
+  100666 mode
+     37A size
+correct header end
+
+Archive member name at 10406: /817            ..\build\intel\st_obj\87tran.obj
+31C22666 time/date Sat Jun 15 03:56:38 1996
+         uid
+         gid
+  100666 mode
+     A4F size
+correct header end
+
+Archive member name at 10E92: /850            ..\build\intel\st_obj\87sqrt.obj
+31C22666 time/date Sat Jun 15 03:56:38 1996
+         uid
+         gid
+  100666 mode
+     231 size
+correct header end
+
+Archive member name at 11100: /883            ..\build\intel\st_obj\87fmod.obj
+31C22666 time/date Sat Jun 15 03:56:38 1996
+         uid
+         gid
+  100666 mode
+     3AB size
+correct header end
+
+Archive member name at 114E8: /916            ..\build\intel\st_obj\87except.obj
+31C22666 time/date Sat Jun 15 03:56:38 1996
+         uid
+         gid
+  100666 mode
+     417 size
+correct header end
+
+Archive member name at 1193C: /951            ..\build\intel\st_obj\87disp.obj
+31C22665 time/date Sat Jun 15 03:56:37 1996
+         uid
+         gid
+  100666 mode
+     593 size
+correct header end
+
+Archive member name at 11F0C: /984            ..\build\intel\st_obj\87ctrigh.obj
+31C22665 time/date Sat Jun 15 03:56:37 1996
+         uid
+         gid
+  100666 mode
+     2A6 size
+correct header end
+
+Archive member name at 121EE: /1019           ..\build\intel\st_obj\87ctriga.obj
+31C22665 time/date Sat Jun 15 03:56:37 1996
+         uid
+         gid
+  100666 mode
+     333 size
+correct header end
+
+Archive member name at 1255E: /1054           ..\build\intel\st_obj\87ctrig.obj
+31C22664 time/date Sat Jun 15 03:56:36 1996
+         uid
+         gid
+  100666 mode
+     2A3 size
+correct header end
+
+Archive member name at 1283E: /1088           ..\build\intel\st_obj\87ctran.obj
+31C22664 time/date Sat Jun 15 03:56:36 1996
+         uid
+         gid
+  100666 mode
+     330 size
+correct header end
+
+Archive member name at 12BAA: /1122           ..\build\intel\st_obj\87csqrt.obj
+31C22664 time/date Sat Jun 15 03:56:36 1996
+         uid
+         gid
+  100666 mode
+     196 size
+correct header end
+
+Archive member name at 12D7C: /1156           ..\build\intel\st_obj\87cdisp.obj
+31C22664 time/date Sat Jun 15 03:56:36 1996
+         uid
+         gid
+  100666 mode
+     681 size
+correct header end
+
+  Summary
+
+           9 .bss
+         B61 .data
+         470 .debug$F
+         1C1 .rdata
+        4F39 .text
