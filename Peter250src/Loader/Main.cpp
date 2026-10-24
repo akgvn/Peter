@@ -802,7 +802,7 @@ ACPSET:
 	CommandLine = ::GetCommandLine();
 
 // inicializace bufferu dat
-	PetAdr = (PETHEAD*)((DWORD)hInstance + *(DWORD*)DATAsize);
+	PetAdr = (PETHEAD*)((DWORD)hInstance + *(DWORD*)DATAsize); // TODO(Kerim): What's this doing?
 	PetSize = *((long*)DATAsize + 1);
 
 #if defined(_DEBUG)

@@ -21,6 +21,10 @@
     Force the image to be rebuilt before running the build.
 
 .EXAMPLE
+    ./build-wine.ps1 -Rebuild
+    Clean and rebuild the selected project configurations.
+
+.EXAMPLE
     ./build-wine.ps1 -NoImageCheck
     Skip the image existence query and just run against the existing image.
 
@@ -33,6 +37,7 @@
 param(
     [string]$Image = "peter-wine",
     [switch]$RebuildImage,
+    [switch]$Rebuild,
     [switch]$NoImageCheck,
     [switch]$UseNMake
 )
@@ -73,7 +78,9 @@ function Invoke-ProjectBuild {
 
     $projectFile = "$Project.$projectExtension"
     Write-Host "==> $projectFile [$Configuration]"
-    podman run --rm -v "${repo}:/workspace" $Image build-project.py --config $Configuration "Peter250src/$projectFile"
+    $buildArguments = @("--config", $Configuration)
+    if ($Rebuild) { $buildArguments += "--rebuild" }
+    podman run --rm -v "${repo}:/workspace" $Image build-project.py @buildArguments "Peter250src/$projectFile"
     $code = $LASTEXITCODE
     if ($code -ne 0) {
         Write-Host "==> Build failed (exit $code)." -ForegroundColor Red
@@ -82,32 +89,31 @@ function Invoke-ProjectBuild {
 }
 
 # Build DelExe first, then alphabetically, with Loader before Peter.
-Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Release"
-Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Debug"
+# Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Release"
+# Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Debug"
 
-Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Release"
-Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Debug"
+# Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Release"
+# Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Debug"
 
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release"
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release MINI"
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Install"
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Debug"
+# Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release"
+# Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release MINI"
+# Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Install"
+# Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Debug"
 
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release"
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release Mini"
+# Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release"
+# Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release Mini"
 Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug"
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug Optim"
+# Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug Optim"
 
-Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Release"
-Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Debug"
+# Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Release"
+# Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Debug"
 
-Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Release"
-Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug"
-Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug Optim"
+# Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Release"
+# Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug"
+# Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug Optim"
 
-Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Release"
-Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Debug"
+# Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Release"
+# Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Debug"
 
 # Setup needs generated bitmap resources from a DOS tool and is excluded.
 Write-Host "==> All builds succeeded." -ForegroundColor Green
-exit 0

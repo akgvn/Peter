@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Loader (Wine build, Windows debug)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Peter250src/Loader/Debug/Peter-vscode.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "stopAtEntry": false,
+            "console": "integratedTerminal",
+            "symbolSearchPath": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "sourceFileMap": {
+                "Z:\\workspace": "${workspaceFolder}"
+            },
+            "preLaunchTask": "Build Loader (Wine + debug symbols)"
+        }
+    ]
+}
