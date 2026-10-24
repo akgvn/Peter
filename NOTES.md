@@ -14,7 +14,7 @@
 # TODO
 
 * [ ] Decide whether to strip `_UNICODE`/`UNICODE` conditional branches from the code, because we know they're never defined.
-* [ ] Read through compile parameters used in this project, then look up the alternative options for completeness.
+* [ ] Read through compile parameters used in this project, then look up the alternative options for completeness (see `./docs/*-options-msvc6.txt` files).
 * [ ] Find some Peter-built programs to compare behaviour
   * [ ] Edit the Loader project to be able to load from arbitrary Peter samples
 * [ ] Start linking CRT _without_ going through CRT's initialisation.
