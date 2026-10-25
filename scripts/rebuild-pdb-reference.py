@@ -5,36 +5,110 @@
 # ///
 r"""Rebuild a PE's NB10 PDB reference as RSDS using LIEF.
 
-Examples (uv reads the dependency declaration above):
-    uv run --no-project scripts/rebuild-pdb-reference.py input.exe -o output.exe
-    uv run --no-project scripts/rebuild-pdb-reference.py input.exe -o output.exe \
+USAGE AND DEPENDENCIES
+----------------------
+Requires Python 3.10+ and LIEF 1.0.0. Run this file directly through uv to install
+the dependency declared above; no project configuration or other files are
+needed. Examples from the directory containing this file:
+    uv run --no-project rebuild-pdb-reference.py input.exe -o output.exe
+    uv run --no-project rebuild-pdb-reference.py input.exe -o output.exe \
         --pdb-reference 'C:\symbols\original-name.pdb'
 
 WHY THIS EXISTS
 ---------------
-The original set-vc6-pdb-reference.py helper edits an existing allocation without
-moving anything. This experimental companion lets LIEF rebuild the debug data,
-usually adding a .debug section. A longer filename/path therefore need not fit
-in the old record. It always writes a separate output; it is not wired into the
-current build or launch configurations.
+Some Microsoft native debugger versions reject an executable's legacy NB10 PDB
+reference even though their symbol reader can read the matching PDB 2.00 file.
+Replacing the reference with an equivalent RSDS record enables symbol discovery
+in the tested debugger, while the original PDB supplies lines, types and locals.
+
+This utility lets LIEF rebuild the PE debug data, usually adding a .debug
+section. A longer filename/path therefore need not fit in the old record. It
+always writes a separate output and assumes an already-matched input EXE/PDB
+pair; it does not open or independently validate the external PDB.
 
 There are three separate responsibilities:
   * LIEF parses the PE and builds the new layout.
-  * Our compatibility rule converts the legacy PDB identity.
+  * Microsoft's legacy-identity convention supplies the equivalent GUID.
   * CLI policy chooses the embedded PDB reference and destination file.
 
-THE COMPATIBILITY RULE IS STILL SPECIFIC
---------------------------------------
-NB10 and RSDS are reference records in the executable, not PDB storage formats:
-    NB10: 'NB10', unused DWORD, PDB timestamp DWORD, age DWORD, path + NUL
-    RSDS: 'RSDS', 16-byte GUID, age DWORD, UTF-8 path + NUL
+RECORD LAYOUTS AND IDENTITY MAPPING
+-----------------------------------
+NB10 and RSDS are CodeView reference records in the PE executable, not PDB
+storage formats. All integer fields below are little-endian; paths end in NUL:
+    NB10: offset  0: 'NB10'             (4 bytes)
+          offset  4: legacy offset      (4 bytes, unused for this external PDB)
+          offset  8: PDB signature      (4 bytes)
+          offset 12: PDB age            (4 bytes)
+          offset 16: legacy PDB path
+    RSDS: offset  0: 'RSDS'             (4 bytes)
+          offset  4: PDB GUID           (16 bytes)
+          offset 20: PDB age            (4 bytes)
+          offset 24: UTF-8 PDB path
 
-The tested DIA/vsdbg readers expose a VC6 PDB 2.00 identity as a GUID with the
-timestamp in Data1 and twelve zero bytes. Copy the original age. LIEF identifies
-an NB10 record, but its GUID property was zero in our sample: we must read the
-timestamp from the raw NB10 bytes instead of copying that property. This does
-not open, validate, consolidate, or convert the external PDB. It cannot repair
-the /Zi /PDBTYPE:SEPT type-pool limitation or change source paths inside a PDB.
+The legacy PDB signature is an opaque 32-bit identifier, often called a timestamp
+signature. It is NOT the PE timestamp, debug-directory timestamp, filesystem
+modification time, or a value to regenerate. The age identifies a database
+revision, not a duration. Preserve both original values:
+    GUID.Data1 = original PDB signature
+    GUID.Data2 = 0
+    GUID.Data3 = 0
+    GUID.Data4 = eight zero bytes
+    age        = original PDB age
+
+For example, signature 0x12345678 and age 7 become the GUID
+{12345678-0000-0000-0000-000000000000}, still with age 7. On disk, the GUID is
+78 56 34 12 followed by twelve zero bytes. This is an alternate encoding of the
+original identity, not a random GUID or a bypass of PDB identity/age matching.
+
+WHY THIS MAPPING IS JUSTIFIED
+-----------------------------
+Microsoft documents the first-DWORD convention in DbgHelp's SYMSRV_INDEX_INFO
+description [1]: "If there is no GUID available, the signature of the .pdb file
+is copied into first DWORD of the GUID." That establishes Data1, but does not
+specify the remaining twelve bytes or promise that rewriting NB10 as RSDS works.
+
+Microsoft's published PDB implementation supplies the remaining evidence:
+  * Sig70FromSig zero-initializes the GUID and sets Data1 to the legacy signature.
+    IsRealSig70 distinguishes a full GUID from this representation by checking
+    whether any of the remaining twelve bytes are nonzero [2].
+  * PDB1::QuerySignature2 returns the stored GUID for newer PDBs and synthesizes
+    this representation from the legacy signature for older PDBs [3].
+  * PDB1::OpenValidate4 recognizes the synthetic representation, recovers Data1
+    as the legacy signature when no separate 32-bit signature was supplied, and
+    validates the age separately [4].
+
+DIA (Microsoft's Debug Interface Access API) explicitly supports both NB10 and
+RSDS in loadDataFromCodeViewInfo [5], and its loadAndValidateDataFromPdb API
+accepts GUID, 32-bit signature and age inputs [6]. DIA's acceptance of NB10 does
+not establish that a debugger's executable-side symbol discovery accepts it.
+
+Thus the identity convention is intentional Microsoft compatibility behavior.
+The complete NB10-to-RSDS rewrite with an unchanged PDB 2.00 is verified with
+VC6 x86 inputs in DIA and Microsoft's native VS Code debugger (vsdbg); it is not
+a documented guarantee for every RSDS consumer. Symbol-server indexing/caching,
+remote debugging, dumps and other reader versions require their own validation.
+RSDS does not imply a PDB 7.0 conversion, a modern compiler, or a 64-bit image.
+
+LIEF recognizes NB10, but its parsed GUID was zero in the tested legacy inputs.
+Read the signature and age from the raw NB10 bytes instead of copying that GUID.
+This utility does not convert PDB contents, consolidate compiler type pools, or
+change source paths inside a PDB. In particular, it cannot repair the legacy
+/Zi /PDBTYPE:SEPT separate-type-pool limitation observed in modern readers.
+
+PRIMARY SOURCES (no local documentation is required)
+----------------------------------------------------
+[1] DbgHelp SYMSRV_INDEX_INFO, guid/sig/age members:
+    https://learn.microsoft.com/en-us/windows/win32/api/dbghelp/ns-dbghelp-symsrv_index_info
+[2] Sig70FromSig, IsRealSig70 and SigFromSig70:
+    https://github.com/microsoft/microsoft-pdb/blob/master/PDB/dbi/pdb1.h#L10-L39
+[3] PDB1::QuerySignature2:
+    https://github.com/microsoft/microsoft-pdb/blob/master/PDB/dbi/pdb.cpp#L1371-L1384
+[4] PDB1::OpenValidate4:
+    https://github.com/microsoft/microsoft-pdb/blob/master/PDB/dbi/pdb.cpp#L806-L859
+[5] DIA IDiaDataSource::loadDataFromCodeViewInfo:
+    https://learn.microsoft.com/en-us/visualstudio/debugger/debug-interface-access/idiadatasource-loaddatafromcodeviewinfo
+[6] DIA IDiaDataSource::loadAndValidateDataFromPdb:
+    https://learn.microsoft.com/en-us/visualstudio/debugger/debug-interface-access/idiadatasource-loadandvalidatedatafrompdb
 
 POLICY AND LIMITS
 -----------------
@@ -49,11 +123,11 @@ PE32 and PE32+ layouts are accepted; live legacy-PDB interoperability is verifie
 on VC6 x86, not every possible producer/architecture. Exactly one CodeView entry
 is required; ambiguous multiple references and embedded NB09/NB11 formats fail.
 An existing RSDS reference is copied unchanged (reference overrides only apply
-to NB10). Signed images and images with COFF symbol tables are outside this
-rebuild experiment.
+to NB10); copying it does not validate its PDB identity or contents. Signed images
+and images with COFF symbol tables are rejected.
 
-REBUILDING HAS A DIFFERENT PRESERVATION CONTRACT
-----------------------------------------------
+REBUILD VALIDATION AND FILE LAYOUT
+----------------------------------
 File length, header space, debug-data placement and overlay offset can change.
 Before writing, we reparse the result and require existing section order/RVAs,
 virtual sizes, flags and non-debug section bytes to stay intact. Executable
@@ -244,8 +318,11 @@ def rebuild_pdb_reference(image: bytes, pdb_reference: str | None = None, nb10_e
     if not pdb_reference or "\0" in pdb_reference:
         raise ValueError("Expected a nonempty PDB reference without null bytes")
 
-    timestamp, age = struct.unpack_from("<II", raw, 8)
-    guid = struct.pack("<I", timestamp) + bytes(12)
+    # Microsoft's Sig70FromSig convention: retain the legacy PDB signature in
+    # little-endian GUID.Data1 and zero the other twelve bytes. Preserve age.
+    # Neither the PE timestamp nor the debug-directory timestamp is this ID.
+    pdb_signature, age = struct.unpack_from("<II", raw, 8)
+    guid = struct.pack("<I", pdb_signature) + bytes(12)
     expected = b"RSDS" + guid + struct.pack("<I", age) + pdb_reference.encode("utf-8") + b"\0"
     replacement = lief.PE.CodeViewPDB(pdb_reference)
     replacement.signature = list(guid)
