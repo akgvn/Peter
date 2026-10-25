@@ -29,6 +29,9 @@ so it can be found beside the executable.
 `Z:\workspace` source paths back to this checkout and searches the Debug directory
 for symbols.
 
+For the investigation history, format details, debugger architecture, alternative
+backends, and fresh-agent context, see [the debugging handoff](DEBUGGING-HANDOFF.md).
+
 ## VC6 vs modern MSVC linker defaults (Loader)
 
 For reference, linking VC6-compiled objects with a modern Windows linker gives
