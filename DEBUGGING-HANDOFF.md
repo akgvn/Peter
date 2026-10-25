@@ -80,6 +80,8 @@ VC6 program, debugger release, or debugging feature.
 | [`build-wine.ps1`](build-wine.ps1) | Runs builds through Podman. Currently selects `Loader - Win32 Debug`; most other configurations are commented out. Supports `-Rebuild`. |
 | [`Peter250src/Loader/Peter.dsp`](Peter250src/Loader/Peter.dsp) | VC6 project. Its effective Debug compiler options contain `/Z7 /Od`; `/Gm` was removed when switching from `/Zi`. |
 | [`scripts/set-vc6-pdb-reference.py`](scripts/set-vc6-pdb-reference.py) | Dependency-free Python PE32 metadata adjustment, explained below. |
+| [`scripts/rebuild-pdb-reference.py`](scripts/rebuild-pdb-reference.py) | Experimental LIEF companion that rebuilds debug data into a separate output. |
+| [`scripts/test_rebuild_pdb_reference.py`](scripts/test_rebuild_pdb_reference.py) | Rebuild preservation, layout, path-policy, rejection, and CLI regression tests. |
 | [`.vscode/launch.json`](.vscode/launch.json) | Uses `cppvsdbg`, launches `Debug/Peter.exe`, searches `Debug` for symbols, maps `Z:\workspace` to the checkout. |
 | [`.vscode/tasks.json`](.vscode/tasks.json) | Runs the debug-build wrapper with PowerShell 7 before launch. |
 | [`devenv-32.ps1`](devenv-32.ps1) | Existing helper for local modern MSVC tools. Not used by the current debug workflow. |
@@ -252,6 +254,79 @@ and unchanged PDBs. The updated wrapper and Python helper were also verified
 with the actual installed vsdbg: symbols loaded, `Main.cpp:483` was hit, and
 typed locals were displayed. The historical temporary diagnostics that invoked
 the old PowerShell filename need their invocation updated before reuse.
+
+### Experimental LIEF rebuild companion
+
+[`scripts/rebuild-pdb-reference.py`](scripts/rebuild-pdb-reference.py) implements
+the same identity translation through LIEF's PE model and builder. It is a
+side-by-side experiment; the F5 pipeline above uses the in-place helper.
+
+```powershell
+./build-wine.ps1 -Rebuild
+uv run --no-project scripts/rebuild-pdb-reference.py `
+    Peter250src/Loader/Debug/Peter.exe `
+    -o Peter250src/Loader/Debug/Peter-lief.exe
+```
+
+Run this script directly through uv: its PEP 723 metadata declares Python 3.10+
+and pins `lief==1.0.0`. The converter requires different input/output files and
+validates the rebuilt image before atomically replacing the destination. Failed
+validation preserves an existing destination. The PDB is never opened or written.
+
+| Contract | Existing in-place helper | LIEF rebuild companion |
+| --- | --- | --- |
+| Embedded PDB name | Derived from the EXE basename | Original NB10 PDB basename; optional `--pdb-reference` override |
+| Space requirement | RSDS must fit in the existing allocation | Builder allocates new debug storage |
+| Layout | Preserves file length, sections, and offsets | Can add a section, move raw data/overlay, and grow headers/file |
+| Preservation | Only reference allocation and its size field change | Checks existing section order/RVAs/sizes/flags, executable bytes, non-debug section bytes, other directories, and key loader properties |
+| Checksum | Not recomputed | Recomputed and checked on conversion |
+| Output | Updates the input | Separate file; original input stays intact |
+
+The rebuild default deliberately retains the original PDB basename when the
+output EXE is renamed. For another symbol location, use
+`--pdb-reference 'C:\symbols\Peter.pdb'`; this sets the embedded reference, not a
+PDB file to convert. Without an override, the legacy name must decode as ASCII
+or through an explicit `--nb10-encoding cp1250` (or another selected encoding).
+New references are UTF-8. Tests cover storing references longer than 260
+characters, but do not establish Windows/debugger lookup support for those paths.
+
+Exactly one CodeView entry is required. Embedded NB09/NB11 records, certificate-
+bearing images, and COFF-symbol-table images are rejected. Already-RSDS input is
+copied byte-for-byte; a reference override on it fails. PE32 and PE32+ layouts
+are tested, with live legacy-PDB compatibility verified only on VC6 x86.
+
+LIEF-specific details matter: the parsed NB10 GUID was all zero, so the converter
+reads the PDB signature and age from the original raw record. Removing all debug
+entries with `clear_debug()` also erased unrelated backing payload bytes in
+LIEF 1.0.0. The implementation therefore removes only the selected CodeView
+entry and appends its replacement, preserving other entries' relative order,
+metadata, and payloads. Reparse-and-compare checks run after serialization and
+checksum update, before any destination write.
+
+**Verified on 2026-10-25:** all 13 tests across both helpers passed. Rebuilt
+`/Zi CON` and `/Z7 CON` matrix probes loaded their original PDBs in the actual
+installed vsdbg, hit `probe.cpp:19`, and exposed `Sample`, `Sample *`, integer
+locals, and members `x=10`, `y=20`. Both also ran to exit code 0 outside the
+debugger; SHA-256 checks confirmed unchanged original EXEs and PDBs. Each rebuilt
+probe was 69,682 bytes, with its 50-byte overlay moved from `0x10000` to `0x11000`.
+Freshly rebuilt Loader produced a 680,000-byte `Peter-lief.exe`, kept its 64-byte
+overlay at the new offset `0xa6000` (originally `0xa5000`), and loaded adjacent
+`Peter.pdb` through the default basename. Actual vsdbg hit `Main.cpp:483` with
+`WinMainCRTStartup()` and typed `CFileMap`, `_SYSTEMTIME`, and integer locals.
+
+These checks establish the tested debug behavior, not full Peter application or
+generated-program runtime compatibility. Loader and the generator inspect PE
+sections/data; offset-dependent payloads require an application-specific test.
+Overlay bytes are preserved, but their offset can change and they can retain the
+old NB10 path. The converter is not a path-redaction tool. It also does not
+convert PDB 2.00, repair `/Zi SEPT` type pools, or change PDB source paths.
+
+Run the rebuild tests alone with
+`uv run --no-project scripts/test_rebuild_pdb_reference.py -v`, or both suites:
+
+```powershell
+uv run --no-project --with lief==1.0.0 python -m unittest discover -s scripts -p 'test_*pdb_reference.py' -v
+```
 
 ## 6. What /Z7 changes, and why modern link.exe also worked
 
@@ -808,6 +883,14 @@ Useful files there, if still present:
   accessible on the host. These diagnostics are not the polished standalone repro;
   the sharing requirements and matrix are in `VC6-DEBUG-FORMAT-MATRIX.md` and
   `VSDBG-NB10-REPRO-PROMPT.md`.
+* `verify-lief-rebuild-live.py`: rebuilds the matrix's original `/Zi CON` and
+  `/Z7 CON` images, asserts actual vsdbg symbols/breakpoints/types/member values,
+  runs each output to completion, and checks original EXE/PDB hashes.
+  `probe-lief-zi-con-vsdbg.json` / `probe-lief-z7-con-vsdbg.json` contain reports;
+  matching `*-vsdbg-transcript.json` files contain the DAP sessions.
+* `Peter-lief-vsdbg-transcript.json` / `Peter-lief-vsdbg-engine.log`: actual
+  Loader rebuild debug evidence from `probe-loader-vsdbg.py` with an explicit
+  `Peter-lief.exe` argument.
 
 These are temporary diagnostics, not checked-in project requirements. Paths,
 extension versions, VS Code runtime directories, and probe line numbers are

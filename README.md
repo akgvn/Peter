@@ -56,6 +56,42 @@ VC6's `/PDBTYPE:CON` consolidates compiler type information into the final linke
 PDB; `/PDBTYPE:SEPT` keeps separate compiler type pools. This is independent of
 the EXE's NB10/RSDS PDB-reference format.
 
+### Experimental LIEF rebuild converter
+
+[`scripts/rebuild-pdb-reference.py`](scripts/rebuild-pdb-reference.py) provides a
+separate-output NB10 → RSDS converter. LIEF rebuilds the debug data so a larger
+PDB reference can fit without relying on space in the original record. Run the
+script directly through uv to install its declared `lief==1.0.0` dependency:
+
+```powershell
+# Produce original NB10 input and its matching PDB.
+./build-wine.ps1 -Rebuild
+uv run --no-project scripts/rebuild-pdb-reference.py `
+    Peter250src/Loader/Debug/Peter.exe `
+    -o Peter250src/Loader/Debug/Peter-lief.exe
+```
+
+The default reference preserves the **original PDB basename**, here `Peter.pdb`,
+even when the output EXE is renamed. Keep that matching PDB beside the output,
+or set an explicit filename/path with `--pdb-reference 'C:\symbols\Peter.pdb'`.
+The converter writes a separate output and leaves the input and PDB intact.
+Already-RSDS input is copied unchanged; reference overrides apply only to NB10.
+For non-ASCII legacy names, supply `--nb10-encoding`, such as `cp1250`, or an
+explicit reference. New references use UTF-8.
+
+Rebuilding can add a section, grow the file, and move the overlay. The converter
+checks code/section-RVA preservation and recomputes the PE checksum, but a
+program that depends on physical file offsets still needs its own runtime test.
+The overlay can retain the old NB10 path. Actual vsdbg checks passed for rebuilt
+Loader and `/Zi CON` and `/Z7 CON` probes; PE32+ coverage is structural only.
+See the [rebuild details and limits](DEBUGGING-HANDOFF.md#experimental-lief-rebuild-companion).
+
+Run both helpers' regression tests with:
+
+```powershell
+uv run --no-project --with lief==1.0.0 python -m unittest discover -s scripts -p 'test_*pdb_reference.py' -v
+```
+
 ### DbgEng extension and a local adapter build
 
 The **Loader (Wine build, DbgEng)** launch option uses the
