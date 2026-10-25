@@ -240,6 +240,16 @@ separately disables compiler optimization. `/Z7` does not itself choose the
 final PDB version or the EXE's reference format; the linker does that. The name
 "C7 Compatible" does not mean "PDB 7.0".
 
+VC6's linker `/PDBTYPE:CON` (consolidate) copies type information from available
+compiler PDBs into the final linker PDB. `/PDBTYPE:SEPT` (separate types) leaves
+those pools separate, requiring the additional compiler PDBs and a reader that
+supports that older organization. The EXE still identifies the final linker PDB.
+With `/Z7` inputs the linker can read embedded OBJ types directly; mixed inputs
+or libraries compiled with `/Zi` can still introduce compiler-PDB dependencies.
+See [the detailed CON/SEPT explanation](VC6-DEBUG-FORMAT-MATRIX.md#what-con-and-sept-mean)
+for the artifact lifecycle and why this does not change NB10/RSDS or the PDB
+container version.
+
 The modern Microsoft linker accepted the VC6 `/Z7` objects and produced a modern
 PDB and an ordinary RSDS reference. That provides the symbol discovery path
 expected by `cppvsdbg` while making the symbols available through the modern
@@ -251,6 +261,34 @@ patch achieves our goal using the original compiler and linker. Modern relinking
 also changes more than debug metadata: ASLR/relocations, DEP compatibility,
 Terminal Server awareness, file alignment, subsystem version, and code layout
 differed in the observed outputs. See the [README comparison](README.md#vc6-vs-modern-msvc-linker-defaults-loader).
+
+### Follow-up: /Zi is also usable with consolidated types
+
+The compiler-storage question was later tested with a separate 21-line,
+static-CRT console program using VC6 compiler `12.00.8804` and linker `6.00.8447`.
+See [the full measured matrix](VC6-DEBUG-FORMAT-MATRIX.md) for commands, controls,
+and evidence locations.
+
+* `/Z7 CON`, `/Z7 SEPT`, and `/Zi CON` all produced NB10 outputs rejected by
+  actual vsdbg. The equivalent RSDS-reference copies loaded, hit source
+  breakpoints, and exposed `Sample`, `Sample *`, integer locals, and struct members.
+* `/Zi CON` retained those types when only the EXE and final PDB were copied
+  into an isolated directory without the compiler PDB or an accessible Wine
+  compiler-PDB path. Thus `/Z7` is not inherently required for this workaround.
+* `/Zi SEPT` also produced NB10 rejected by vsdbg. Its RSDS-reference copy loaded
+  and hit the line breakpoint, but the struct/pointer locals failed evaluation;
+  integers remained readable. DIA and CDB independently showed the missing types.
+* Supplying the compiler PDB beside the separate-types executable, or in a
+  supplementary build at its actual recorded host-visible path, did not repair
+  those user-defined types in the tested readers. This matches the historical
+  separate-type-pool limitation in archived Microsoft KB318135, not merely a
+  wrong-path problem.
+
+The primary Microsoft reproduction must therefore include both `/Zi CON` and
+`/Z7 CON`. Keep `SEPT` as a secondary diagnostic; do not let its type-pool
+compatibility issue obscure the NB10 discovery failure. The DbgEng source-path
+contribution should likewise use a consolidated original-NB10 case as its
+primary fixture. All four original test images had identical `.text` bytes.
 
 ## 7. Experiments, failures, and corrected conclusions
 
@@ -634,10 +672,12 @@ debuggability but does not cause recognition of a PDB-reference format.
 
 ### Is /Z7 strictly necessary for the reference patch?
 
-The byte transformation itself does not depend on a compiler switch. `/Z7` is
-our tested way to put full debug information into the final PDB without relying
-on a separate old compiler PDB. We did not establish that every original `/Zi`
-and `/PDBTYPE:SEPT` arrangement would be self-contained or equally usable.
+No. The byte transformation itself does not depend on a compiler switch, and
+the follow-up matrix verified full typed locals for `/Zi /PDBTYPE:CON` after the
+reference patch, including without the compiler PDB. `/Z7` remains the configured
+application build, but it is not the only usable input. `/Zi /PDBTYPE:SEPT` is a
+different case: line breakpoints and integer locals worked after patching, while
+struct/pointer types remained unreadable in the tested modern readers.
 
 ### Why can dumpbin say "Symbols stripped" when a valid PDB exists?
 
@@ -739,6 +779,13 @@ Useful files there, if still present:
   checks allowed byte differences and unchanged PDB, then checks idempotence.
 * `test-loader-gnu.ps1`, `loader-zig-objects.rsp`, and `Loader-resource.o`:
   alternative-linker inputs. `windres` converted the `.res` to a COFF object for GNU.
+* `vc6-debug-switch-matrix/`: later isolated `/Zi` versus `/Z7` investigation.
+  Contains `src/probe.cpp`, build scripts/results, original and RSDS-reference
+  variants, DIA reports, actual vsdbg transcripts/results, and CDB logs. The
+  supplementary `zi-sept-hostpath` case made the compiler PDB's recorded path
+  accessible on the host. These diagnostics are not the polished standalone repro;
+  the sharing requirements and matrix are in `VC6-DEBUG-FORMAT-MATRIX.md` and
+  `VSDBG-NB10-REPRO-PROMPT.md`.
 
 These are temporary diagnostics, not checked-in project requirements. Paths,
 extension versions, VS Code runtime directories, and probe line numbers are
@@ -790,3 +837,4 @@ real adapter, but this was not UI automation of the F5 session itself.
 * [dap-dbgeng source and contribution entry point](https://github.com/svnscha/dap-dbgeng)
 * [Adapter source lookup at v0.3.0](https://github.com/svnscha/dap-dbgeng/blob/v0.3.0/src/debugger/debugger_session_inspection.cpp)
 * [IDebugSymbols::FindSourceFile](https://learn.microsoft.com/windows-hardware/drivers/ddi/dbgeng/nf-dbgeng-idebugsymbols-findsourcefile)
+* [Archived Microsoft KB318135: VC6 separate-type-pool incompatibility](https://ftp.zx.net.nz/pub/archive/ftp.microsoft.com/MISC/KB/en-us/318/135.HTM)

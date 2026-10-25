@@ -20,7 +20,7 @@ The tiny program should remove Peter/Loader's custom runtime, libraries, large
 application, and resources from the report. The key controlled comparison is:
 
 ```text
-Original VC6-linked EXE + matching PDB 2.00 + NB10 reference
+Original VC6-linked EXE (/Z7 or /Zi, /PDBTYPE:CON) + matching PDB 2.00 + NB10 reference
     -> actual vsdbg reports no debug information / no bound source breakpoint
 
 Same EXE code/layout + same PDB bytes + equivalent RSDS reference
@@ -37,6 +37,7 @@ earlier conclusion.
 The current application workspace is the Peter repository. Read:
 
 * `DEBUGGING-HANDOFF.md` for the experiments, environment, and existing evidence.
+* `VC6-DEBUG-FORMAT-MATRIX.md` for the subsequent `/Zi` versus `/Z7` tests.
 * `scripts/set-vc6-pdb-reference.ps1`, including its extensive comment-based help.
 * `build-tooling-msvc6/Containerfile.wine` and the Wine tooling README.
 * `.vscode/launch.json` for the Microsoft `cppvsdbg` configuration and source mapping.
@@ -74,6 +75,30 @@ Observed versions, to be rechecked and reported for the new reproduction:
 These observations do not imply every old PDB or every debugger version behaves
 the same way. Record exactly which versions reproduce the tiny case.
 
+### Follow-up /Zi versus /Z7 findings to incorporate
+
+A 21-line static-CRT console program was subsequently built with VC6 compiler
+`12.00.8804` and linker `6.00.8447`. The independent compiler/linker matrix was:
+
+| Compiler | Linker | Original NB10 in actual vsdbg | Equivalent RSDS in actual vsdbg |
+| --- | --- | --- | --- |
+| `/Z7` | `/PDBTYPE:CON` | Rejected as having no debug information | Source breakpoint hit; struct, pointer, and integer locals typed; struct members readable |
+| `/Z7` | `/PDBTYPE:SEPT` | Same rejection | Same successful typed-local result |
+| `/Zi` | `/PDBTYPE:CON` | Same rejection | Same successful typed-local result, including without the compiler PDB beside the EXE |
+| `/Zi` | `/PDBTYPE:SEPT` | Same rejection | Symbols loaded and breakpoint hit, but struct/pointer types unavailable; integer locals remained readable |
+
+DIA and CDB also failed to read those user-defined types for `/Zi SEPT`, even
+when the compiler PDB was supplied beside the EXE or at its recorded host-visible
+path. This matches the historical separate-type-pool limitation in
+[Microsoft KB318135 (archived)](https://ftp.zx.net.nz/pub/archive/ftp.microsoft.com/MISC/KB/en-us/318/135.HTM).
+Do not confuse that secondary limitation with NB10 symbol discovery. The RSDS
+patch repairs discovery; it does not consolidate separate type information.
+
+All four tiny-probe builds produced PDB 2.00/NB10 outputs and identical `.text`
+bytes. This supports using both compiler switches in the portable repro rather
+than assuming the discovery bug is specific to `/Z7`. Verify these results again
+in the recipient-ready package rather than copying the earlier conclusions.
+
 ## Minimal test program
 
 Prefer one small C++ source file, roughly 20-40 lines, compatible with VC6:
@@ -95,9 +120,28 @@ Loader's old line 483.
 
 Prefer conventional VC6 static CRT linkage (`/MT`) so recipients do not need an
 old debug CRT DLL. Debug information and optimization settings are independent
-of that runtime choice. For the linker use `/DEBUG /INCREMENTAL:NO` and consider
-`/PDBTYPE:CON` to produce a self-contained final PDB. Avoid relying on a separate
-compiler `vc60.pdb`, which would add a second symbol-discovery problem.
+of that runtime choice. Keep `/Od` and all non-debug-storage settings identical
+across the compiler-switch comparisons; do not add `/Gm` or PCH to only one case.
+
+The choices are independent: compiler `/Z7` embeds debug information in the OBJ,
+whereas `/Zi` uses a compiler PDB referenced by the OBJ. VC6 linker
+`/PDBTYPE:CON` consolidates the required compiler type information into the final
+linker PDB; `/PDBTYPE:SEPT` leaves separate type pools. Neither compiler option
+selects NB10 versus RSDS or upgrades the PDB container. `/Zi` is also distinct
+from uppercase `/ZI` (Edit and Continue), which is outside this matrix.
+
+Build all four combinations of `/Z7` versus `/Zi` and `/PDBTYPE:CON` versus
+`/PDBTYPE:SEPT`, in clean, distinct output directories. The primary NB10 report
+must include both consolidated cases. Keep the separate-types cases explicitly
+labeled as secondary diagnostics. Use `/DEBUG /INCREMENTAL:NO` throughout.
+
+Give the compiler PDB a different name from the linker PDB, such as
+`/Fdcompiler.pdb` and `/PDB:nb10-repro.pdb`. Retain the compiler PDB as a recorded
+build product for `/Zi`. For each consolidated case, verify that a copied
+EXE/final-PDB pair still gives full typed locals without the compiler PDB and
+without access to its original build path. For separate-types diagnostics,
+record compiler-PDB availability and exact type-access failures rather than
+assuming that copying the compiler PDB makes the format supported.
 
 ## Build with the actual VC6 toolchain
 
@@ -111,9 +155,10 @@ rather than private host account paths. This also simplifies the source mapping
 when Microsoft extracts the archive elsewhere.
 
 Build using Wine's VC6 `cl.exe` and `link.exe`, not an unqualified host `cl` that
-might resolve to modern MSVC. A suitable starting point is compiling with
-`/Z7 /Od /MT` and linking the resulting OBJ with VC6's `/DEBUG` options. Verify
-the commands and actual outputs rather than merely relying on their names.
+might resolve to modern MSVC. Compile the same source with `/Z7 /Od /MT` and
+`/Zi /Od /MT`, explicitly selecting `/PDBTYPE:CON` and `/PDBTYPE:SEPT` at link
+time. Verify the commands and actual outputs rather than merely relying on their
+names. The switch names and final EXE/PDB reference format are separate facts.
 
 The build helper should:
 
@@ -133,15 +178,24 @@ Use the same basename in each variant, for example:
 
 ```text
 src/main.cpp
-artifacts/original/nb10-repro.exe
-artifacts/original/nb10-repro.pdb
-artifacts/rsds-reference/nb10-repro.exe
-artifacts/rsds-reference/nb10-repro.pdb
+artifacts/z7-con/original/nb10-repro.exe
+artifacts/z7-con/original/nb10-repro.pdb
+artifacts/z7-con/rsds-reference/nb10-repro.exe
+artifacts/z7-con/rsds-reference/nb10-repro.pdb
+artifacts/zi-con/original/nb10-repro.exe
+artifacts/zi-con/original/nb10-repro.pdb
+artifacts/zi-con/rsds-reference/nb10-repro.exe
+artifacts/zi-con/rsds-reference/nb10-repro.pdb
+artifacts/z7-sept/...
+artifacts/zi-sept/...
 ```
 
-Build the original once, then copy the EXE and PDB to the second directory and
-patch only that EXE. Do not rebuild each variant separately: then differing
-symbols, ages, timestamps, or code could confound the comparison.
+For each compiler/linker combination, build the original once, then copy the EXE
+and PDB to its RSDS-reference directory and patch only that EXE. Do not rebuild
+the original and RSDS versions of the same case separately: differing symbols,
+ages, timestamps, or code could confound the reference-only comparison. Preserve
+separate manifests for the four independent builds and compare code sections
+across them where useful.
 
 The existing `scripts/set-vc6-pdb-reference.ps1` implements the reference-only
 transformation. Include an appropriately attributed standalone copy in the repro
@@ -171,7 +225,10 @@ to grow this into a PE editing toolkit.
 ## VS Code launch configurations for the recipient
 
 Provide standalone `.vscode/launch.json` configurations using **`cppvsdbg`** for
-the original, RSDS-reference, and any negative-control variants.
+both compiler switches' consolidated original and RSDS-reference variants.
+Include clearly named secondary configurations for the separate-types builds
+and any path-only negative controls. Make it easy to run the primary comparison
+without confusing a separate-type-pool failure with missing symbols.
 
 * Use `${workspaceFolder}` paths and explicit variant-specific `symbolSearchPath`.
 * Map the generic Wine build source root to the extracted local repro root with
@@ -189,6 +246,11 @@ is correct rather than relying only on the embedded Wine path.
 ## Verification matrix: actual debugger, not only DIA
 
 Run and record the behavior on the installed backend:
+
+Apply the main rows below to both `/Z7 CON` and `/Zi CON`. Repeat with `SEPT`
+as a separate diagnostic and report symbol discovery, breakpoint hits, basic
+types, user-defined types, and struct member access as distinct outcomes. Missing
+types in `/Zi SEPT` are not evidence that the NB10 reference patch failed.
 
 | Variant/tool | Result to investigate and verify |
 | --- | --- |
@@ -234,6 +296,8 @@ Include:
   CDB lives under the SDK's `Debuggers/x86/cdb.exe`; use `-lines`, symbol paths,
   source paths, a marked source breakpoint, and `dv /t`.
 * Header summaries of the PE reference and PDB magic, with their identifier/age.
+* The complete compiler-switch/PDB-type matrix, keeping `/Zi CON` versus `/Z7 CON`
+  as the primary discovery report and `SEPT` limitations as secondary context.
 * SHA-256 hashes proving the variant PDB files are identical, and a byte-diff
   report proving the EXEs differ only in the reference allocation and its size.
 * Sanitized debugger logs showing module status, breakpoint verification/hits,

@@ -74,10 +74,31 @@ actual paths on this machine. An example standalone repro layout is:
 <repro-root>/artifacts/rsds-reference/nb10-repro.pdb
 ```
 
-The relevant target is an x86 VC6 application built with `/Z7 /Od`. Its original
-linker emits a PDB 2.00 and an NB10 reference. DbgEng has been verified to read
-these formats in the original investigation. Confirm behavior on the supplied
-small repro rather than assuming every test outcome transfers automatically.
+The relevant target is an x86 VC6 application built with `/Z7 /Od` or `/Zi /Od`.
+Its original linker emits a PDB 2.00 and an NB10 reference. Select a consolidated
+`/PDBTYPE:CON` artifact from the supplied repro as the primary integration case.
+The original example paths below are schematic; a matrix package may instead
+use `artifacts/z7-con/original` or `artifacts/zi-con/original`.
+
+Follow-up testing established the same NB10 discovery rejection in Microsoft's
+`vsdbg` for both compiler switches, and successful typed locals after the
+reference-only RSDS fix for both consolidated cases. CDB reads the consolidated
+original NB10 cases directly. `/Zi /PDBTYPE:SEPT` adds a separate compatibility
+problem: struct/pointer types were unreadable in DIA, vsdbg, and CDB even when
+the compiler PDB was available; line breakpoints and basic integer types could
+still work. `/Z7 SEPT` did not show that type failure in the tiny test.
+
+Do not make the adapter's source-path fix depend on `/Z7`, and do not confuse
+the separate-type-pool limitation with a source-file lookup regression. Confirm
+behavior on the supplied repro rather than assuming every test result transfers.
+
+For clarity, VC6's linker `/PDBTYPE:CON` consolidates type information from
+compiler PDBs into the final linker PDB; `/PDBTYPE:SEPT` leaves it in separate
+compiler type pools. The latter historically needs those additional PDBs and a
+compatible reader. With `/Z7`, application types are embedded in the OBJ instead.
+Neither linker choice selects NB10 versus RSDS or upgrades the PDB container.
+The source-path fix should work independently of these type-storage choices;
+use `CON` to avoid a separate type-inspection failure in the primary fixture.
 
 A DbgEng launch configuration in the standalone repro could be:
 

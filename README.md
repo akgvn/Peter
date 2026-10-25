@@ -31,6 +31,13 @@ for symbols.
 
 For the investigation history, format details, debugger architecture, alternative
 backends, and fresh-agent context, see [the debugging handoff](DEBUGGING-HANDOFF.md).
+The [VC6 debug-format matrix](VC6-DEBUG-FORMAT-MATRIX.md) records the measured
+behavior and explains [compiler `/Zi` versus `/Z7`](VC6-DEBUG-FORMAT-MATRIX.md#what-zi-and-z7-mean)
+as well as
+[consolidated versus separate-type PDBs](VC6-DEBUG-FORMAT-MATRIX.md#what-con-and-sept-mean).
+VC6's `/PDBTYPE:CON` consolidates compiler type information into the final linker
+PDB; `/PDBTYPE:SEPT` keeps separate compiler type pools. This is independent of
+the EXE's NB10/RSDS PDB-reference format.
 
 ### DbgEng extension and a local adapter build
 
