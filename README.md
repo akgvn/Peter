@@ -61,7 +61,23 @@ the EXE's NB10/RSDS PDB-reference format.
 [`scripts/rebuild-pdb-reference.py`](scripts/rebuild-pdb-reference.py) provides a
 separate-output NB10 → RSDS converter. LIEF rebuilds the debug data so a larger
 PDB reference can fit without relying on space in the original record. Run the
-script directly through uv to install its declared `lief==1.0.0` dependency:
+converter with **Loader (Wine build, LIEF rebuild)** in VS Code:
+
+1. Ensure the Podman machine is running (`podman machine start` if needed).
+2. Set a breakpoint on `VerzeOS = (int)::GetVersion();` in
+   `Peter250src/Loader/Main.cpp` (currently line 483).
+3. Select **Loader (Wine build, LIEF rebuild)** in Run and Debug and press **F5**.
+   The tasks clean-build the original NB10 EXE/PDB, then use uv to run the LIEF
+   converter and create `Debug/Peter-lief.exe`.
+4. The debugger stops at entry. Continue with **F5** to reach the source
+   breakpoint, then use **F10** to step. Check that the call stack shows
+   `WinMainCRTStartup()` and Locals displays types such as `CFileMap` and
+   `_SYSTEMTIME`. Values for locals not yet initialized are not meaningful.
+
+The session launches `Peter-lief.exe` and loads its symbols from `Peter.pdb`.
+The task forces a clean build so an earlier in-place RSDS patch cannot turn the
+rebuild test into an unchanged copy. To build and convert manually, run the
+script directly through uv, which installs its declared `lief==1.0.0` dependency:
 
 ```powershell
 # Produce original NB10 input and its matching PDB.

@@ -37,6 +37,24 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Build Loader (Wine, LIEF)",
+            "type": "process",
+            "command": "uv",
+            "args": [
+                "run",
+                "--no-project",
+                "${workspaceFolder}/scripts/rebuild-pdb-reference.py",
+                "${workspaceFolder}/Peter250src/Loader/Debug/Peter.exe",
+                "-o",
+                "${workspaceFolder}/Peter250src/Loader/Debug/Peter-lief.exe"
+            ],
+            "dependsOn": "Build Loader (Wine, VC6 symbols)",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }

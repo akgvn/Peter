@@ -259,7 +259,16 @@ the old PowerShell filename need their invocation updated before reuse.
 
 [`scripts/rebuild-pdb-reference.py`](scripts/rebuild-pdb-reference.py) implements
 the same identity translation through LIEF's PE model and builder. It is a
-side-by-side experiment; the F5 pipeline above uses the in-place helper.
+side-by-side experiment. Select **Loader (Wine build, LIEF rebuild)** for its F5
+test path: `Build Loader (Wine, LIEF)` depends on the existing clean-build task
+`Build Loader (Wine, VC6 symbols)`, then runs uv to convert the fresh NB10 input
+to `Debug/Peter-lief.exe`. The clean build ensures the converter is exercised
+even after using the in-place helper. The launch configuration uses `cppvsdbg`,
+the adjacent `Peter.pdb`, and the Wine-to-checkout source mapping, and stops at
+entry. Set the `Main.cpp:483` breakpoint and continue to check the source stack
+and typed locals; see the [README procedure](README.md#experimental-lief-rebuild-converter).
+
+The manual equivalent is:
 
 ```powershell
 ./build-wine.ps1 -Rebuild

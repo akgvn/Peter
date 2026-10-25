@@ -32,6 +32,21 @@
             "preLaunchTask": "Build Loader (Wine)"
         },
         {
+            "name": "Loader (Wine build, LIEF rebuild)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Peter250src/Loader/Debug/Peter-lief.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "stopAtEntry": true,
+            "console": "integratedTerminal",
+            "symbolSearchPath": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "sourceFileMap": {
+                "Z:\\workspace": "${workspaceFolder}"
+            },
+            "preLaunchTask": "Build Loader (Wine, LIEF)"
+        },
+        {
             "name": "Loader (Wine build, DbgEng)",
             "type": "dbgeng",
             "request": "launch",
