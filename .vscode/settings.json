@@ -1,0 +1,3 @@
+{
+    "dap-dbgeng.adapterPath": "${workspaceFolder}/.vscode/debuggers/dap-dbgeng.exe"
+}

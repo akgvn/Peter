@@ -2,6 +2,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Loader (patched DbgEng, prebuilt)",
+            "type": "dbgeng",
+            "request": "launch",
+            "program": "${workspaceFolder}/Peter250src/Loader/Debug/Peter.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "stopAtEntry": true,
+            "sources": [
+                "${workspaceFolder}/Peter250src/Loader"
+            ],
+            "symbolPath": [
+                "${workspaceFolder}/Peter250src/Loader/Debug"
+            ]
+        },
+        {
             "name": "Loader (Wine build, Windows debug)",
             "type": "cppvsdbg",
             "request": "launch",
