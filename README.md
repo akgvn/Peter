@@ -6,32 +6,40 @@ I'm working on getting this thing to compile on modern compilers. May go for fun
 
 ## Debugging Loader in VS Code
 
-On Windows, install the Microsoft C/C++ VS Code extension and Visual Studio or
-Build Tools with the **Desktop development with C++** workload. The Wine build
-also requires PowerShell 7, Podman, and a running Podman machine
-(`podman machine start`).
+On Windows, install VS Code with the Microsoft C/C++ extension, PowerShell 7,
+and Podman. Start the Podman machine with `podman machine start`.
+The Wine image supplies the VC6 compiler, linker, and libraries; the C/C++
+extension supplies the Windows debugger.
 
 Select **Loader (Wine build, Windows debug)** in Run and Debug, then press **F5**.
 The pre-launch task runs `build-loader-debug.ps1`, which calls `build-wine.ps1`
-to compile with VC6 under Wine, then uses the installed Windows MSVC linker to
-produce `Peter250src/Loader/Debug/Peter-vscode.exe` and a matching modern PDB.
+to compile and link with VC6 under Wine, producing
+`Peter250src/Loader/Debug/Peter.exe` and its matching `Peter.pdb`.
 You can also run `./build-loader-debug.ps1` from PowerShell.
 
 Loader's Debug configuration uses `/Z7` to embed full debug information in the
-object files, allowing the modern linker to read it without a VC6-format compiler
-PDB. `/Od` keeps optimization disabled. The VS Code launch configuration maps
-Wine's `Z:\workspace` source paths back to this checkout.
+object files. The VC6 linker collects those symbols into the final PDB.
+`build-loader-debug.ps1` then updates the executable's CodeView PDB reference
+from `NB10` to `RSDS`, using the PDB's timestamp-derived GUID and age. This lets
+VS Code's debugger discover the VC6 PDB. The PDB contents, executable code,
+section layout, and file size are preserved. The PDB is referenced by filename
+so it can be found beside the executable.
+
+`/Od` keeps optimization disabled. The VS Code launch configuration maps Wine's
+`Z:\workspace` source paths back to this checkout and searches the Debug directory
+for symbols.
 
 ## VC6 vs modern MSVC linker defaults (Loader)
 
-`build-loader-debug.ps1` links VC6-compiled objects with the installed modern
-Windows linker. Using the same objects and explicit linker switches still gives
+For reference, linking VC6-compiled objects with a modern Windows linker gives
 different PE headers and image layouts because the linker defaults have changed.
+The debug workflow above uses the VC6 linker in the Wine image.
 
 The following comparison was checked with `dumpbin /headers` on
 `Peter250src/Loader/Debug/Peter.exe` (linker 6.00) and `Peter-vscode.exe`
-(linker 14.51, Visual Studio 2026). These are the observed settings for our x86
-GUI Debug builds; defaults can depend on the target and toolset version.
+(linker 14.51, Visual Studio 2026), before the PDB-reference adjustment above.
+These are the observed settings for our x86 GUI Debug builds; defaults can depend
+on the target and toolset version.
 
 | Setting | VC6 output | Modern output | Effect / controlling option |
 | --- | --- | --- | --- |
@@ -43,7 +51,7 @@ GUI Debug builds; defaults can depend on the target and toolset version.
 | Minimum subsystem version | `4.00` | `6.00` | Both commands specify `/SUBSYSTEM:WINDOWS` without a version. Modern [`/SUBSYSTEM`](https://learn.microsoft.com/en-us/cpp/build/reference/subsystem-specify-subsystem) defaults to `6.00` for x86 Windows applications. An explicit version, such as `/SUBSYSTEM:WINDOWS,5.01`, changes the declared minimum, subject to toolset support; it does not establish compatibility of the code and imported APIs. The OS-version header field also changed from `4.00` to `6.00` in these outputs. |
 | Debug-symbol format | PDB 2.00, referenced by an `NB10` record | Modern PDB, referenced by an `RSDS` GUID/age record | Modern [`/DEBUG`](https://learn.microsoft.com/en-us/cpp/build/reference/debug-generate-debug-info) means `/DEBUG:FULL` and collects the `/Z7` object symbols into the final PDB. The VC6 project's `/PDBTYPE:SEPT` is an explicit legacy project setting, not a modern default. |
 
-### Options already controlled by the debug build
+### Options used in the comparison
 
 * Both linker commands explicitly use `/DEBUG`, `/INCREMENTAL:NO`,
   `/MACHINE:I386`, `/SUBSYSTEM:WINDOWS`, and `/NODEFAULTLIB`.
