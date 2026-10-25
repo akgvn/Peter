@@ -34,7 +34,8 @@ param(
     [string]$Image = "peter-wine",
     [switch]$RebuildImage,
     [switch]$NoImageCheck,
-    [switch]$UseNMake
+    [switch]$UseNMake,
+    [switch]$LoaderDebug
 )
 
 $ErrorActionPreference = "Stop"
@@ -81,32 +82,37 @@ function Invoke-ProjectBuild {
     }
 }
 
-# Build DelExe first, then alphabetically, with Loader before Peter.
-Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Release"
-Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Debug"
 
-Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Release"
-Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Debug"
+if ($LoaderDebug) {
+    Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug"
+} else {
+    # Build DelExe first, then alphabetically, with Loader before Peter.
+    Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Release"
+    Invoke-ProjectBuild "DelExe/DelExe" "DelExe - Win32 Debug"
 
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release"
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release MINI"
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Install"
-Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Debug"
+    Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Release"
+    Invoke-ProjectBuild "DataInst/DataInst" "DataInst - Win32 Debug"
 
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release"
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release Mini"
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug"
-Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug Optim"
+    Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release"
+    Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Release MINI"
+    Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Install"
+    Invoke-ProjectBuild "Gener/Gener" "Gener - Win32 Debug"
 
-Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Release"
-Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Debug"
+    Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release"
+    Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Release Mini"
+    Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug"
+    Invoke-ProjectBuild "Loader/Peter" "Loader - Win32 Debug Optim"
 
-Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Release"
-Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug"
-Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug Optim"
+    Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Release"
+    Invoke-ProjectBuild "Loader0/Peter" "Loader0 - Win32 Debug"
 
-Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Release"
-Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Debug"
+    Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Release"
+    Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug"
+    Invoke-ProjectBuild "Peter/Peter" "Peter - Win32 Debug Optim"
+
+    Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Release"
+    Invoke-ProjectBuild "Pov2Spr/Pov2Spr" "Pov2Spr - Win32 Debug"    
+}
 
 # Setup needs generated bitmap resources from a DOS tool and is excluded.
 Write-Host "==> All builds succeeded." -ForegroundColor Green

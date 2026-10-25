@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Loader (Wine)",
+            "type": "process",
+            "command": "pwsh",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/build-wine.ps1",
+                "-LoaderDebug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Prepare Loader (RSDS)",
+            "dependsOn": "Build Loader (Wine)",
+            "type": "process",
+            "command": "uv",
+            "args": [
+                "run",
+                "--no-project",
+                "${workspaceFolder}/scripts/rebuild-pdb-reference.py",
+                "${workspaceFolder}/Peter250src/Loader/Debug/Peter.exe",
+                "-o",
+                "${workspaceFolder}/Peter250src/Loader/Debug/Peter-RSDS.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

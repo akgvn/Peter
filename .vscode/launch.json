@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Loader (Wine build, RSDS-patched)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Peter250src/Loader/Debug/Peter-RSDS.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "stopAtEntry": true,
+            "console": "integratedTerminal",
+            "symbolSearchPath": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "sourceFileMap": {
+                "Z:\\workspace": "${workspaceFolder}"
+            },
+            "preLaunchTask": "Prepare Loader (RSDS)"
+        }
+    ]
+}
