@@ -336,6 +336,54 @@ symbol-discovery step**. No such plug-in was implemented or tested. The fact
 that `vsdbg` is closed source does not make all extension-based solutions
 impossible; neither does the existence of a plug-in system prove this one is easy.
 
+### Follow-up API investigation: what is actually exposed
+
+The public documentation and the public API of the installed adapter's
+`Microsoft.VisualStudio.Debugger.Engine.dll` were inspected. This was API
+inspection using .NET reflection, not a working plug-in experiment.
+
+| API | Relevance and limitation |
+| --- | --- |
+| `IDkmModuleInstanceLoadNotification.OnModuleInstanceLoad` | Runs even when symbols are missing and the process is suspended. A plug-in can inspect the module and parse its on-disk NB10 record. The callback receives an already-created module instance; it does not return a replacement symbol identity. |
+| `DkmPdbFileId.Create(SymbolProviderId, Mvid, Age, PdbName)` | Can represent the timestamp-derived GUID, age, and PDB path that we need. Creating this object does not attach it to an existing native module or open a PDB. |
+| `DkmModuleInstance.SymbolFileId` | Read-only in both the documentation and the installed assembly (`CanWrite == false`). No public setter or native PE/CodeView parser-override interface was found in the inspected surface. This is the obstacle to a small identity-translation plug-in that reuses the built-in PDB provider. |
+| `IDkmSymbolLocator.TryLoadSymbols` and its newer variants | Can participate in symbol loading, but operate on the module instance with its existing identity. They do not take an alternative `DkmPdbFileId`. Merely requesting another load does not repair an absent/unrecognized identity. |
+| `DkmModule.Create` and `DkmModuleInstance.SetModule` | Let a symbol provider create and associate its own symbol module. `Create` does not load a native PDB or initialize the built-in PDB provider simply because a filename is supplied. `SetModule` associates a provider-owned module and raises the symbols-loaded event. |
+| `DkmImageDebugDirectoryFormat` | Maps an `IMAGE_DEBUG_DIRECTORY.Type` integer to a symbol provider. Both NB10 and RSDS are type 2, so this is not a per-signature compatibility switch. |
+
+There are two larger possible directions, neither established as an immediate fix:
+
+1. **A DIA-backed custom symbol provider:** parse NB10, open and validate the
+   original PDB through DIA, create a provider-owned `DkmModule`, and attach it
+   with `SetModule`. Relevant interfaces include `IDkmSymbolQuery` (source
+   positions and raw symbol-store interfaces), `IDkmSymbolDocumentCollectionQuery`
+   and `IDkmSymbolDocumentSpanQuery` (breakpoint binding),
+   `IDkmSymbolProviderCallback` (line/stepping information), and native symbol
+   callbacks. Reusing the existing C++ evaluator and x86 PDB stack walker would
+   also require their expected DIA interfaces and metadata to work. Showing a
+   source name in a stack is not equivalent to complete native debugging.
+2. **Replace or interpose on native module creation:**
+   `DkmNativeModuleInstance.Create` accepts a symbol identity, but creates a new
+   module instance and sends another load event; it is monitor-side API. It is
+   not an identity setter for the Windows monitor's existing module. Handling
+   suppression, address ownership, unload/reload events, and runtime integration
+   would require further investigation. Do not treat cloning a module as a
+   verified or low-risk substitute for a parser hook.
+
+Concord supports method chaining and ordered components. That allows a plug-in
+to handle a narrow case and defer others, but only at an API boundary actually
+exposed by the dispatcher; it does not expose arbitrary private parser calls.
+Reflection/private-field mutation would bypass this API model rather than
+provide a supported compatibility fix.
+
+**Assessment:** no small, documented "accept NB10 and feed this identity to the
+existing PDB loader" hook was found in this debugger version. A custom provider
+is a credible development project, not a proven immediate solution. For the
+goal of debugging the untouched executable with the least custom machinery,
+test WinDbg/CDB before building a Concord provider. The narrow next Concord
+prototype, if pursued, should only log module-load identity and callback order;
+it should establish the interception point before attempting symbol replacement.
+
 ## 10. Could another debugger backend solve it?
 
 Potentially. Distinguish a debugger backend, its symbol reader, its DAP/MI
@@ -345,7 +393,8 @@ must be tested end-to-end for that particular version.
 
 | Backend | Assessment for this project |
 | --- | --- |
-| WinDbg / CDB, using DbgEng and its symbol-handling stack | Strong alternative to investigate. This family has historically debugged VC6 NB10/PDB programs. No `cdb.exe` or `windbg.exe` was found on PATH or under the inspected Windows Kits tree here, so a current version has not been tested against this EXE. Integration into VS Code would need an appropriate adapter; it is not a `cppvsdbg` setting. |
+| WinDbg / CDB, using DbgEng and its symbol-handling stack | Initially unavailable; subsequently installed by the user. Agent verified x86 CDB `10.0.28000.2957` on the unpatched NB10 executable: private PDB symbols loaded, `Main.cpp:483` breakpoint hit, and typed locals displayed. The user then confirmed that WinDbg automatically finds source files on Step Into after configuring the source path. Integration into VS Code would need an appropriate adapter; it is not a `cppvsdbg` setting. |
+| Native Windows Debugging (dbgeng) extension / `dap-dbgeng` | Installed by the user at version 0.3.0. The `Loader (Wine build, DbgEng)` configuration starts successfully, but tries to open the original `Z:\workspace\...\Main.cpp` path. Source inspection identified missing local source-path resolution in the adapter. A local adapter build and upstream contribution are the chosen next direction; the fix is not implemented yet. |
 | VC6's own debugger, or an older Visual Studio native debug engine | Historically appropriate for this compiler and format. Not tested in this investigation. Running an old IDE/debugger on a current host is a separate concern. Modern Visual Studio can share Concord components, so simply installing the latest full IDE is not proof of different behavior. Do not assume a current IDE still offers an old "native compatibility mode". |
 | GDB / MI through `cppdbg` | The installed GDB did not provide usable source debugging for the tested GNU-linked output; loading the current VC6-built output also did not expose usable source symbols. Not a verified replacement for these PDBs. GDB with a modern GCC/DWARF rebuild is a different, plausible toolchain. |
 | LLDB / a suitable VS Code adapter | Not tested locally; `lldb` was not on PATH. PDB support depends on the build and reader. LLVM switched the Windows default toward its native reader, and DIA-reader availability is version-dependent. A DIA-capable reader is interesting because DIA reads our PDB, but discovery, x86 process control, breakpoints, and expressions still require verification. CodeLLDB's name alone does not guarantee VC6 compatibility. |
@@ -353,6 +402,190 @@ must be tested end-to-end for that particular version.
 | A custom DIA-backed debugger/adapter | Technically possible, but DIA only supplies symbol information. Process control, stepping, breakpoints, stack walking, expressions, and DAP integration still need implementation. Much more work than the reference patch. |
 
 None of these untested alternatives should be recorded as a confirmed solution.
+
+### Installing WinDbg/CDB
+
+Install the current WinDbg using Microsoft's documented package:
+
+```powershell
+winget install --id Microsoft.WinDbg -e
+```
+
+The [official WinDbg installation page](https://learn.microsoft.com/windows-hardware/drivers/debugger/)
+also provides direct-install and Microsoft Store routes. Modern WinDbg uses
+the DbgEng family of debugging engines, distinct from Concord.
+
+For **CDB**, run the [Windows SDK installer](https://developer.microsoft.com/windows/downloads/windows-sdk/)
+and select **Debugging Tools for Windows**. Microsoft documents installing only
+that component, without the other SDK features or Visual Studio. Typical paths:
+
+```text
+C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\cdb.exe
+C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\cdb.exe
+```
+
+For this x86 executable, start with x86 CDB. Produce a fresh original NB10 image
+with `./build-wine.ps1 -Rebuild`, rather than the debug wrapper that patches it.
+Enable source-line support (`-lines`), set the symbol path to the Debug output
+directory and the source path to Loader, then check symbol loading, an actual
+source breakpoint, and typed locals. Merely attaching successfully or resolving
+an exported/public name does not complete this test. Run
+`./build-loader-debug.ps1` afterward to restore the currently supported F5 output.
+
+### Confirmed CDB launch and source-path follow-up
+
+After the Windows SDK debugger component was installed, these CDB binaries were
+found under `C:\Program Files (x86)\Windows Kits\10\Debuggers`: `x86`, `x64`,
+and `arm64`. The x86 version was tested against `Debug/Peter.exe`, whose
+CodeView record was independently checked as `NB10` with a 64-byte allocation.
+The executable was not rewritten for the CDB test.
+
+Launch from the repository root:
+
+```powershell
+& "${env:ProgramFiles(x86)}\Windows Kits\10\Debuggers\x86\cdb.exe" -lines `
+    -y "$PWD\Peter250src\Loader\Debug" `
+    -srcpath "$PWD\Peter250src\Loader" `
+    "$PWD\Peter250src\Loader\Debug\Peter.exe"
+```
+
+Commands used for the successful breakpoint/locals check:
+
+```text
+.reload /f Peter.exe
+lmv m Peter
+bp `Main.cpp:483`
+g
+.frame 0
+dv /t
+```
+
+Observed: `C (private pdb symbols)` for Peter; `Breakpoint 0 hit`; the frame
+resolved to `Peter!WinMainCRTStartup+0xc` at the Wine source path and line 483;
+locals included `CFileMap`, `_SYSTEMTIME`, and integer variables.
+
+The user's initial WinDbg session required manually opening source files. After
+configuring the source path, the user confirmed that **Step Into automatically
+finds and opens the correct local source files**. The PDB's `Z:\workspace` paths
+do not exist on the Windows host. Configure a local source
+search path separately from the symbol path. For a local session, the standard
+command is `.srcpath C:\Users\<user>\repos\Peter\Peter250src\Loader`; append
+additional source directories with `.srcpath+`. WinDbg also has `.lsrcpath` for
+the client's local source path, relevant when debugging through a debugger
+server. `.srcnoisy 1` enables source-loading diagnostics.
+
+The confirmed modern WinDbg launch from the repository root is:
+
+```powershell
+WinDbgX.exe -lines `
+    -y "$PWD\Peter250src\Loader\Debug" `
+    -srcpath "$PWD\Peter250src\Loader" `
+    "$PWD\Peter250src\Loader\Debug\Peter.exe"
+```
+
+Evidence provenance: the CDB checks were agent-run and established line-based
+breakpoints and typed locals; the successful automatic source-file loading on
+Step Into was confirmed by the user in WinDbg. The earlier unsuccessful `ls`/`lsa`
+batch experiments in CDB do not negate the subsequently confirmed WinDbg UI behavior.
+
+### VS Code DbgEng adapter: source-path bug and supported executable override
+
+The installed extension is `svnscha.vscode-dap-dbgeng`, version 0.3.0, from
+[svnscha/dap-dbgeng](https://github.com/svnscha/dap-dbgeng). It bundles a native
+`dap-dbgeng.exe` DAP adapter that uses the installed SDK's DbgEng APIs.
+
+The workspace now has two launch options:
+
+* **Loader (Wine build, Windows debug)**: `cppvsdbg`, using the PDB-reference patch.
+* **Loader (Wine build, DbgEng)**: `dbgeng`, using `Build Loader (Wine, VC6 symbols)`.
+  This task calls `build-wine.ps1 -Rebuild` directly. The clean rebuild ensures
+  the original NB10 output is restored when switching from the patched option.
+
+The DbgEng launch specifies `sources` and `symbolPath`. These attributes are
+supported, but **`sources` does not rewrite the paths in the adapter's DAP
+responses** in version 0.3.0. There is no documented `sourceFileMap` option for
+this adapter; copying the `cppvsdbg` setting into its launch configuration would
+not implement the missing behavior.
+
+Source inspection at the `v0.3.0` tag found:
+
+* `src/service/dap_server_launch.cpp` reads `sources` and `symbolPath`.
+* `src/debugger/debugger_session_symbols.cpp::set_source_path` sets `.srcpath`.
+* `src/debugger/debugger_session_inspection.cpp::try_get_frame_source` calls
+  `GetLineByOffset` and returns its original PDB path unchanged.
+* `src/util/debugger_session_dap_factory.cpp::create_source` copies that path to
+  DAP `Source.path`; VS Code then attempts to open the nonexistent Wine path.
+* `src/service/dap_server_source.cpp` also attempts to read the supplied path
+  directly, so its source-content handler does not compensate for that path.
+
+This is separate from the NB10 discovery issue in Microsoft's debugger. DbgEng
+can read the symbols; this adapter must resolve a source path for the IDE.
+
+The installed extension already provides a supported custom-executable setting.
+After building the patched adapter, a workspace `.vscode/settings.json` could use:
+
+```json
+{
+    "dap-dbgeng.adapterPath": "${workspaceFolder}/.vscode/debuggers/dap-dbgeng.exe"
+}
+```
+
+This is an example deployment location, not a file currently supplied by this
+repository. Place the executable and any necessary runtime dependencies there
+before enabling the override. The installed extension's `out/adapter.js`
+(`resolveAdapterPath`) explicitly expands `${workspaceFolder}` in this setting
+and selects an existing configured executable before its bundled one. A missing
+configured file currently falls back to the bundled adapter with an Output
+message, so verify the **dap-dbgeng** Output channel's `Starting adapter:` path.
+
+The extension remains installed normally and still launches the adapter as a
+separate process. The existing `dbgeng` launch configuration continues to work,
+and the adapter loads the installed SDK `dbgeng.dll`. The TypeScript extension
+does not need to be rebuilt or repackaged into a VSIX for this test. Start a new
+debug session after changing the setting. Remove the setting to return to the
+bundled adapter; ordinary extension updates can continue.
+
+### Planned local fix and upstream contribution
+
+The user intends to pursue this route and contribute the source-resolution fix
+to **svnscha/dap-dbgeng**, not to Microsoft's `vscode-cpptools`. No adapter patch,
+local binary build, executable override, upstream issue, or PR has been created
+as part of this plan yet.
+
+Proposed next steps for the implementing agent:
+
+1. Read the adapter repository's contribution/build instructions and applicable
+   repository instructions. Use a separate source checkout; build against the
+   installed engine. Its documented build uses MSVC, CMake/Ninja, and vcpkg;
+   this is adapter-development tooling, not a change to Loader's toolchain.
+2. Fix source resolution centrally before emitting DAP sources. After obtaining
+   the compile-time path from `GetLineByOffset`, call
+   `IDebugSymbols::FindSourceFile` using the configured source search path and
+   request a full canonical path (`DEBUG_FIND_SOURCE_FULL_PATH`). Use the resolved
+   local path on success and retain the original path if no source is found.
+   Handle the API's buffer sizing and failure results correctly. Avoid hardcoding
+   `Z:\workspace`, a Windows username, or this project's directory structure.
+3. Check all callers that emit source paths, including stack frames, disassembly,
+   and source-content requests, so navigation and displayed content agree.
+4. Add focused regression coverage: an existing direct path, a missing Wine-style
+   absolute path resolved through `sources`, and a genuinely missing file that
+   falls back without losing the frame/line. Include search-path ordering and
+   duplicate basenames where relevant; use DbgEng's documented search behavior
+   rather than an ad hoc basename-only replacement.
+5. Build and select the local executable through `dap-dbgeng.adapterPath`. Keep
+   Loader's original NB10/PDB 2.00 output. Verify the actual DAP `stackTrace`
+   response names an existing local `Main.cpp`, a local source breakpoint binds
+   and is hit, typed locals remain usable, and Step Into opens local source in
+   VS Code. The earlier WinDbg UI success is not proof that this adapter fix works.
+6. Follow upstream contribution conventions, run its required checks, and submit
+   the narrowly scoped source-resolution fix with a reproducible test case when
+   requested. Keep this project on the local build until a released adapter
+   includes the fix, then remove the workspace override.
+
+`FindSourceFile` searches directories and path suffixes in the source path and
+can return the canonical local path; it does not require changing the EXE/PDB.
+That is the intended reuse of the engine's existing source lookup, rather than
+introducing another symbol conversion or modifying installed extension files.
 
 ## 11. Other implementation options
 
@@ -540,5 +773,20 @@ real adapter, but this was not UI automation of the F5 session itself.
 * [MIEngine: the cppdbg/GDB/LLDB adapter route](https://github.com/microsoft/MIEngine)
 * [Concord samples and architecture](https://github.com/microsoft/ConcordExtensibilitySamples)
 * [Concord plug-ins in VS Code cppvsdbg](https://github.com/microsoft/ConcordExtensibilitySamples/wiki/Support-for-VS-Code-cppvsdbg-Scenarios)
+* [Concord component discovery, filtering, and chaining](https://github.com/microsoft/ConcordExtensibilitySamples/wiki/Component-discovery-and-configuration)
+* [DkmModuleInstance.SymbolFileId (read-only)](https://learn.microsoft.com/dotnet/api/microsoft.visualstudio.debugger.dkmmoduleinstance.symbolfileid)
+* [DkmPdbFileId.Create](https://learn.microsoft.com/dotnet/api/microsoft.visualstudio.debugger.symbols.dkmpdbfileid.create)
+* [Module-load notification API](https://learn.microsoft.com/dotnet/api/microsoft.visualstudio.debugger.componentinterfaces.idkmmoduleinstanceloadnotification)
+* [DkmModuleInstance.SetModule](https://learn.microsoft.com/dotnet/api/microsoft.visualstudio.debugger.dkmmoduleinstance.setmodule)
+* [DkmImageDebugDirectoryFormat](https://learn.microsoft.com/dotnet/api/microsoft.visualstudio.debugger.symbols.dkmimagedebugdirectoryformat)
+* [Custom symbol-provider discussion](https://github.com/microsoft/ConcordExtensibilitySamples/issues/59)
+* [Install WinDbg](https://learn.microsoft.com/windows-hardware/drivers/debugger/)
+* [Install Debugging Tools for Windows, including CDB](https://learn.microsoft.com/windows-hardware/drivers/debugger/debugger-download-tools)
+* [WinDbg/CDB source paths](https://learn.microsoft.com/windows-hardware/drivers/debugger/source-path)
+* [.srcpath and .lsrcpath](https://learn.microsoft.com/windows-hardware/drivers/debuggercmds/-srcpath---lsrcpath--set-source-path-)
 * [DbgHelp symbol-file capabilities](https://learn.microsoft.com/windows/win32/debug/symbol-files)
 * [LLDB's change to the native PDB reader](https://github.com/llvm/llvm-project/pull/165363)
+* [Native Windows Debugging (dbgeng) extension](https://marketplace.visualstudio.com/items?itemName=svnscha.vscode-dap-dbgeng)
+* [dap-dbgeng source and contribution entry point](https://github.com/svnscha/dap-dbgeng)
+* [Adapter source lookup at v0.3.0](https://github.com/svnscha/dap-dbgeng/blob/v0.3.0/src/debugger/debugger_session_inspection.cpp)
+* [IDebugSymbols::FindSourceFile](https://learn.microsoft.com/windows-hardware/drivers/ddi/dbgeng/nf-dbgeng-idebugsymbols-findsourcefile)

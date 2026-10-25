@@ -15,6 +15,36 @@
                 "Z:\\workspace": "${workspaceFolder}"
             },
             "preLaunchTask": "Build Loader (Wine)"
+        },
+        {
+            "name": "Loader (Wine build, DbgEng)",
+            "type": "dbgeng",
+            "request": "launch",
+            "program": "${workspaceFolder}/Peter250src/Loader/Debug/Peter.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "stopAtEntry": true,
+            "sources": [
+                "${workspaceFolder}/Peter250src/Loader"
+            ],
+            "symbolPath": [
+                "${workspaceFolder}/Peter250src/Loader/Debug"
+            ],
+            "preLaunchTask": "Build Loader (Wine, VC6 symbols)"
+        },
+        {
+            "name": "Loader (Wine build, WinDbg extension)",
+            "type": "windbg",
+            "request": "launch",
+            "target": "${workspaceFolder}/Peter250src/Loader/Debug/Peter.exe",
+            "args": "",
+            "workingDir": "${workspaceFolder}/Peter250src/Loader/Debug",
+            "windbgpath": "${env:ProgramFiles(x86)}/Windows Kits/10/Debuggers/x64/dbgeng.dll",
+            "sources": [
+                "${workspaceFolder}/Peter250src/Loader"
+            ],
+            "verbosity": "info",
+            "preLaunchTask": "Build Loader (Wine, VC6 symbols)"
         }
     ]
 }

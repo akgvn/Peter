@@ -32,6 +32,80 @@ for symbols.
 For the investigation history, format details, debugger architecture, alternative
 backends, and fresh-agent context, see [the debugging handoff](DEBUGGING-HANDOFF.md).
 
+### DbgEng extension and a local adapter build
+
+The **Loader (Wine build, DbgEng)** launch option uses the
+[Native Windows Debugging (dbgeng) extension](https://marketplace.visualstudio.com/items?itemName=svnscha.vscode-dap-dbgeng)
+and a clean Wine build with the original VC6 symbols. Its installed version 0.3.0
+starts the debugger, but returns the PDB's `Z:\workspace` source paths to VS Code
+instead of resolving them through the configured source directories.
+
+The planned fix is in the open-source
+[`dap-dbgeng` adapter](https://github.com/svnscha/dap-dbgeng): use DbgEng's
+`FindSourceFile` API to resolve the local source path before returning it to
+VS Code, then contribute the fix upstream.
+
+The installed extension supports selecting a custom adapter executable. Once a
+patched adapter has been built and placed at the path below, add this to
+`.vscode/settings.json`:
+
+```json
+{
+    "dap-dbgeng.adapterPath": "${workspaceFolder}/.vscode/debuggers/dap-dbgeng.exe"
+}
+```
+
+Keep any required runtime dependencies beside that executable. The existing
+`"type": "dbgeng"` launch configuration and installed SDK `dbgeng.dll` continue
+to be used; repackaging the extension is unnecessary. Confirm the selected
+executable in the **dap-dbgeng** Output channel when starting a new session.
+Removing the setting restores the bundled adapter. Building the adapter follows
+its upstream MSVC/CMake/Ninja/vcpkg instructions; Loader itself still builds with
+VC6 under Wine.
+
+The local build and its source-resolution fix are planned, not yet implemented
+or verified. See the [handoff's contribution plan](DEBUGGING-HANDOFF.md#planned-local-fix-and-upstream-contribution)
+for the source locations and acceptance checks.
+
+## Debugging Loader in WinDbg
+
+WinDbg can debug the original VC6 executable and PDB directly, including source
+breakpoints and typed locals. Build with the Wine script to produce the original
+`NB10` PDB reference:
+
+```powershell
+./build-wine.ps1 -Rebuild
+```
+
+Install modern WinDbg with `winget install --id Microsoft.WinDbg -e`, then launch
+it from the repository root with symbol and source search paths configured:
+
+```powershell
+WinDbgX.exe -lines `
+    -y "$PWD\Peter250src\Loader\Debug" `
+    -srcpath "$PWD\Peter250src\Loader" `
+    "$PWD\Peter250src\Loader\Debug\Peter.exe"
+```
+
+`-y` locates the PDB; `-srcpath` locates the local source files despite the
+`Z:\workspace` build paths stored in the PDB. With that source path configured,
+**Step Into automatically finds and opens the source files**; opening each file
+manually is unnecessary. This behavior has been confirmed in WinDbg.
+
+For an already-open session, set the source directory in WinDbg's command window
+(replace `<user>` with your Windows account name):
+
+```text
+.srcpath C:\Users\<user>\repos\Peter\Peter250src\Loader
+```
+
+Append additional source directories with `.srcpath+`. For source-loading
+diagnostics, use `.srcnoisy 1`.
+
+The Windows SDK's **Debugging Tools for Windows** component also supplies classic
+WinDbg and CDB. The x86 executables are normally under
+`C:\Program Files (x86)\Windows Kits\10\Debuggers\x86`.
+
 ## VC6 vs modern MSVC linker defaults (Loader)
 
 For reference, linking VC6-compiled objects with a modern Windows linker gives

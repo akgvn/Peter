@@ -20,6 +20,23 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Build Loader (Wine, VC6 symbols)",
+            "type": "process",
+            "command": "pwsh",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/build-wine.ps1",
+                "-Rebuild"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }
