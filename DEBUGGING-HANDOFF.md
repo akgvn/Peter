@@ -3,7 +3,7 @@
 Recorded 2026-10-25. This document captures the investigation, including failed
 experiments and corrections to earlier conclusions. The [README](README.md)
 describes the supported workflow. Implementation details are also documented in
-[`scripts/set-vc6-pdb-reference.ps1`](scripts/set-vc6-pdb-reference.ps1).
+[`scripts/set-vc6-pdb-reference.py`](scripts/set-vc6-pdb-reference.py).
 
 ## Contents
 
@@ -41,15 +41,16 @@ F5: Loader (Wine build, Windows debug)
         -> Podman / Wine / MSVC6 compiler with /Z7 and /Od
         -> MSVC6 linker with /DEBUG
         -> Peter250src/Loader/Debug/Peter.exe + Peter.pdb
-     -> scripts/set-vc6-pdb-reference.ps1
+     -> uv run --no-project python scripts/set-vc6-pdb-reference.py
         -> replace the EXE's NB10 reference with RSDS, keeping the PDB intact
   -> cppvsdbg / vsdbg on the Windows host
 ```
 
-Local prerequisites: PowerShell 7, Podman with its machine running, and Microsoft
-VS Code with the Microsoft C/C++ extension. The Wine image supplies the compiler,
-linker, and libraries. Python and DIA test scripts are investigation tools, not
-build dependencies.
+Local prerequisites: PowerShell 7, uv for the Python reference helper, Podman
+with its machine running, and Microsoft VS Code with the Microsoft C/C++
+extension. The Wine image supplies the compiler, linker, and libraries. The
+patcher uses only Python's standard library; DIA is still an investigation tool,
+not a build dependency.
 
 ```powershell
 podman machine start
@@ -78,7 +79,7 @@ VC6 program, debugger release, or debugging feature.
 | [`build-loader-debug.ps1`](build-loader-debug.ps1) | Calls the Wine build, then patches the PDB reference. Detects OBJ files older than the DSP and requests a rebuild so changed compiler options take effect. |
 | [`build-wine.ps1`](build-wine.ps1) | Runs builds through Podman. Currently selects `Loader - Win32 Debug`; most other configurations are commented out. Supports `-Rebuild`. |
 | [`Peter250src/Loader/Peter.dsp`](Peter250src/Loader/Peter.dsp) | VC6 project. Its effective Debug compiler options contain `/Z7 /Od`; `/Gm` was removed when switching from `/Zi`. |
-| [`scripts/set-vc6-pdb-reference.ps1`](scripts/set-vc6-pdb-reference.ps1) | PE32 metadata adjustment, explained below. |
+| [`scripts/set-vc6-pdb-reference.py`](scripts/set-vc6-pdb-reference.py) | Dependency-free Python PE32 metadata adjustment, explained below. |
 | [`.vscode/launch.json`](.vscode/launch.json) | Uses `cppvsdbg`, launches `Debug/Peter.exe`, searches `Debug` for symbols, maps `Z:\workspace` to the checkout. |
 | [`.vscode/tasks.json`](.vscode/tasks.json) | Runs the debug-build wrapper with PowerShell 7 before launch. |
 | [`devenv-32.ps1`](devenv-32.ps1) | Existing helper for local modern MSVC tools. Not used by the current debug workflow. |
@@ -230,6 +231,27 @@ wrapper runs the script after every successful build.
 PDB lookup and source lookup are separate: `symbolSearchPath` helps locate the
 PDB; `sourceFileMap` translates `Z:\workspace` paths stored in that PDB. The path
 shortening is useful, but correcting a path alone did not fix the NB10 rejection.
+
+### Python port
+
+The helper was originally implemented in PowerShell and has been replaced by
+the Python script linked above. `build-loader-debug.ps1` now invokes it with uv
+and propagates a nonzero exit code. Direct usage:
+
+```powershell
+uv run --no-project python scripts/set-vc6-pdb-reference.py path/to/program.exe
+```
+
+The Python port validates file ranges and PE32 headers before modifying bytes.
+It returns already-RSDS images without rewriting the file. Its tests cover
+payloads outside mapped sections, identity/age preservation, all unrelated bytes,
+UTF-8 names, malformed input, insufficient space, and a no-write second run.
+Before removing the PowerShell implementation, byte-for-byte comparisons on
+fresh Loader `/Z7` and tiny `/Zi CON` outputs confirmed identical patched EXEs
+and unchanged PDBs. The updated wrapper and Python helper were also verified
+with the actual installed vsdbg: symbols loaded, `Main.cpp:483` was hit, and
+typed locals were displayed. The historical temporary diagnostics that invoked
+the old PowerShell filename need their invocation updated before reuse.
 
 ## 6. What /Z7 changes, and why modern link.exe also worked
 

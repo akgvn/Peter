@@ -13,3 +13,6 @@
 
 # Peter.exe generates this on startup as far as I can tell.
 Peter.ini
+
+# Python helper/test bytecode.
+__pycache__/

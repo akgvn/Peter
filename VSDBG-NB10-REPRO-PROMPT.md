@@ -38,7 +38,7 @@ The current application workspace is the Peter repository. Read:
 
 * `DEBUGGING-HANDOFF.md` for the experiments, environment, and existing evidence.
 * `VC6-DEBUG-FORMAT-MATRIX.md` for the subsequent `/Zi` versus `/Z7` tests.
-* `scripts/set-vc6-pdb-reference.ps1`, including its extensive comment-based help.
+* `scripts/set-vc6-pdb-reference.py`, including its extensive module documentation.
 * `build-tooling-msvc6/Containerfile.wine` and the Wine tooling README.
 * `.vscode/launch.json` for the Microsoft `cppvsdbg` configuration and source mapping.
 
@@ -197,10 +197,12 @@ ages, timestamps, or code could confound the reference-only comparison. Preserve
 separate manifests for the four independent builds and compare code sections
 across them where useful.
 
-The existing `scripts/set-vc6-pdb-reference.ps1` implements the reference-only
+The existing `scripts/set-vc6-pdb-reference.py` implements the reference-only
 transformation. Include an appropriately attributed standalone copy in the repro
 or an equivalent narrowly scoped helper so the extracted package does not depend
-on its parent repository. Keep its behavior consistent with the tested logic:
+on its parent repository. It uses only Python's standard library and accepts the
+executable as a positional CLI argument. Keep its behavior consistent with the
+tested logic:
 
 * NB10 layout: magic at 0, legacy offset at 4, PDB timestamp at 8, age at 12,
   null-terminated PDB name/path at 16.

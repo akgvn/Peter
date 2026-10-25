@@ -7,7 +7,8 @@ I'm working on getting this thing to compile on modern compilers. May go for fun
 ## Debugging Loader in VS Code
 
 On Windows, install VS Code with the Microsoft C/C++ extension, PowerShell 7,
-and Podman. Start the Podman machine with `podman machine start`.
+uv (to run the Python helper), and Podman. Start the Podman machine with
+`podman machine start`.
 The Wine image supplies the VC6 compiler, linker, and libraries; the C/C++
 extension supplies the Windows debugger.
 
@@ -24,6 +25,22 @@ from `NB10` to `RSDS`, using the PDB's timestamp-derived GUID and age. This lets
 VS Code's debugger discover the VC6 PDB. The PDB contents, executable code,
 section layout, and file size are preserved. The PDB is referenced by filename
 so it can be found beside the executable.
+
+The reference patch is implemented in
+[`scripts/set-vc6-pdb-reference.py`](scripts/set-vc6-pdb-reference.py), using only
+Python's standard library. The build wrapper invokes it through uv. To apply it
+to an existing VC6 build directly:
+
+```powershell
+uv run --no-project python scripts/set-vc6-pdb-reference.py Peter250src/Loader/Debug/Peter.exe
+```
+
+An already-RSDS executable is left unchanged. Run the helper's preservation and
+validation tests with:
+
+```powershell
+uv run --no-project python -m unittest discover -s scripts -p test_set_vc6_pdb_reference.py
+```
 
 `/Od` keeps optimization disabled. The VS Code launch configuration maps Wine's
 `Z:\workspace` source paths back to this checkout and searches the Debug directory

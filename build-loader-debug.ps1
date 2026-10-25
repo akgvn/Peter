@@ -3,7 +3,7 @@
     Builds Loader with VC6 under Wine for VS Code debugging on Windows.
 
 .DESCRIPTION
-    Requires PowerShell 7 and the build-wine.ps1 prerequisites.
+    Requires PowerShell 7, uv (for Python), and the build-wine.ps1 prerequisites.
     Loader's Debug configuration uses /Z7 to embed debug information in its
     objects, which the VC6 linker collects into the executable's PDB.
     Updates the executable's PDB-reference record for the VS Code debugger.
@@ -27,6 +27,7 @@ $oldObjects = Get-ChildItem -LiteralPath $output -Filter "*.obj" -ErrorAction Si
 & (Join-Path $PSScriptRoot "build-wine.ps1") -Image $Image -Rebuild:($Rebuild -or [bool]$oldObjects)
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-& (Join-Path $PSScriptRoot "scripts/set-vc6-pdb-reference.ps1") -Executable (Join-Path $output "Peter.exe")
+uv run --no-project python (Join-Path $PSScriptRoot "scripts/set-vc6-pdb-reference.py") (Join-Path $output "Peter.exe")
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "==> Loader is ready for VS Code debugging." -ForegroundColor Green

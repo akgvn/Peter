@@ -202,8 +202,12 @@ byte-identical. Their SHA-256 was:
 ```
 
 For each build, original and RSDS-reference variants were copied from the same
-EXE/PDB pair. Only the RSDS variant's EXE reference was adjusted with
-`scripts/set-vc6-pdb-reference.ps1`; its PDB bytes were verified unchanged.
+EXE/PDB pair. Only the RSDS variant's EXE reference was adjusted with the
+reference-patching helper; its PDB bytes were verified unchanged. That helper
+was originally PowerShell and is now
+[`scripts/set-vc6-pdb-reference.py`](scripts/set-vc6-pdb-reference.py). Its Python
+port was separately checked to produce byte-identical output on the `/Zi CON`
+fixture and Loader's `/Z7` build.
 
 ## Results
 
