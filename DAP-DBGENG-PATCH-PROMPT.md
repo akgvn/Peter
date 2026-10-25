@@ -29,9 +29,12 @@ You need two independent locations:
 * **`<repro-root>`:** the tiny standalone reproduction supplied by the user. The
   user plans to build it first and use it as the integration test case here.
 
-The repro is expected to contain a small C++ source file, prebuilt x86 VC6
-EXE/PDB pairs, build/verification instructions, and original-NB10 versus
-RSDS-reference variants. Read its README and discover the actual artifact paths
+The minimum integration input is a small C++ source file, its prebuilt original
+x86 VC6 EXE and matching PDB, and the source/breakpoint instructions. The fuller
+Microsoft-debugger repro may also include original-NB10 versus RSDS-reference
+variants and build/verification scripts; those additional variants are not a
+prerequisite for this source-resolution fix. Read its README and discover the
+actual artifact paths
 and source breakpoint markers; the layout below is an example, not a requirement
 that those names already exist. Use the **original, unpatched NB10** variant for
 this task. Do not assume that configurations intended for Microsoft's debugger
@@ -267,6 +270,16 @@ NB10 executable/PDB. Follow the repro's README and source markers. A standalone
 DIA enumeration is not sufficient verification. First reproduce the unresolved
 source path using the bundled/unpatched adapter, then repeat with the patched
 adapter and the same target artifacts/configuration.
+
+Confirm that the recorded build-machine path is genuinely unavailable on the
+test machine and that the corresponding file exists in a configured local
+`sources` directory. Otherwise an already-accessible source path could conceal
+the bug and create a false-positive verification result.
+
+If the supplied package contains both `/Zi /PDBTYPE:CON` and
+`/Z7 /PDBTYPE:CON` originals, run the acceptance checks against both. Treat any
+known `/Zi SEPT` type-inspection failure as a separate compatibility result,
+not a reason to change the PDB or weaken the source-path assertions.
 
 Verify and record:
 
